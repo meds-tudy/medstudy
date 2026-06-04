@@ -1,0 +1,1629 @@
+<!DOCTYPE html>
+<html lang="ro">
+<head>
+<meta charset="UTF-8">
+
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>MedStudy — Capitol 9: Sistemul Muscular</title>
+<link href="https://fonts.googleapis.com/css2?family=Outfit:wght@300;400;500;600;700;800;900&family=Lora:ital,wght@0,400;0,600;1,400&display=swap" rel="stylesheet">
+<style>
+:root {
+  --bg-main: #f0f4ff;
+  --bg-sidebar: rgba(255,255,255,0.85);
+  --surface: rgba(255,255,255,0.75);
+  --surface2: rgba(255,255,255,0.92);
+  --border: rgba(180,160,220,0.25);
+  --blue: #5b8dee; --blue-light: #e8eeff;
+  --violet: #8b5cf6; --violet-light: #ede9fe;
+  --cyan: #06b6d4; --cyan-light: #e0f7fb;
+  --pink: #ec4899; --pink-light: #fce7f3;
+  --green: #10b981; --green-light: #d1fae5;
+  --orange: #f59e0b; --orange-light: #fef3c7;
+  --teal: #14b8a6; --teal-light: #ccfbf1;
+  --rose: #f43f5e;
+  --red: #ef4444; --red-light: #fee2e2;
+  --text: #1e1b4b; --text2: #6b7280; --text3: #9ca3af;
+  --accent: #7c3aed;
+  --muscle: #e05a00;
+  --muscle-light: #fff4ed;
+  --sidebar-w: 268px;
+  --radius: 16px;
+  --shadow: 0 4px 24px rgba(200,100,0,0.09);
+  --shadow2: 0 8px 40px rgba(200,100,0,0.14);
+}
+*{margin:0;padding:0;box-sizing:border-box;}
+body{font-family:'Outfit',sans-serif;background:var(--bg-main);color:var(--text);min-height:100vh;display:flex;overflow-x:hidden;}
+body::before{content:'';position:fixed;inset:0;background:
+  radial-gradient(ellipse 800px 600px at 20% 10%,rgba(255,180,100,.38) 0%,transparent 70%),
+  radial-gradient(ellipse 600px 500px at 80% 5%,rgba(255,210,180,.3) 0%,transparent 65%),
+  radial-gradient(ellipse 700px 400px at 60% 90%,rgba(255,200,150,.28) 0%,transparent 70%),
+  radial-gradient(ellipse 500px 500px at 5% 80%,rgba(200,220,255,.22) 0%,transparent 65%),
+  #f7f0e8;z-index:-1;pointer-events:none;}
+
+/* ── SIDEBAR ── */
+#sidebar{width:var(--sidebar-w);min-height:100vh;background:var(--bg-sidebar);backdrop-filter:blur(24px);-webkit-backdrop-filter:blur(24px);border-right:1px solid var(--border);position:fixed;top:0;left:0;z-index:100;display:flex;flex-direction:column;box-shadow:4px 0 30px rgba(200,100,0,.07);}
+.sidebar-logo{padding:26px 22px 20px;border-bottom:1px solid var(--border);display:flex;align-items:center;gap:12px;}
+.logo-icon{width:42px;height:42px;background:linear-gradient(135deg,#e05a00,#f59e0b);border-radius:12px;display:flex;align-items:center;justify-content:center;font-size:20px;box-shadow:0 4px 14px rgba(224,90,0,.35);}
+.logo-text{font-size:17px;font-weight:800;color:var(--text);line-height:1.2;}
+.logo-sub{font-size:10px;color:var(--text3);font-weight:400;letter-spacing:.08em;text-transform:uppercase;margin-top:2px;}
+.sidebar-section-label{padding:18px 20px 8px;font-size:9.5px;letter-spacing:.14em;text-transform:uppercase;color:var(--text3);font-weight:600;}
+.nav-scroll { 
+  flex: 1; 
+  overflow-y: auto; 
+  padding-bottom: 16px; 
+  max-height: calc(100vh - 140px);
+  
+  /* 💡 TRUCUL PENTRU MUTAREA BAREI PE STÂNGA: */
+  direction: rtl; /* Muta scrollbar-ul pe stânga (Right-to-Left) */
+  
+  scrollbar-width: thin;
+  scrollbar-color: rgba(124,58,237,0.3) transparent;
+}
+
+/* 💡 RECONVERTIREA TEXTULUI: Întoarcem textul la normal (Left-to-Right) ca să nu fie inversat */
+.nav-scroll > * {
+  direction: ltr;
+}
+
+/* Stil pentru browserele bazate pe Chromium (Chrome, Edge, Opera) */
+.nav-scroll::-webkit-scrollbar { 
+  width: 5px; 
+}
+.nav-scroll::-webkit-scrollbar-track {
+  background: transparent;
+}
+.nav-scroll::-webkit-scrollbar-thumb { 
+  background: rgba(124,58,237,0.3); 
+  border-radius: 4px; 
+}
+.nav-scroll::-webkit-scrollbar-thumb:hover {
+  background: rgba(124,58,237,0.5); 
+}
+
+.nav-item{display:flex;align-items:center;gap:10px;padding:9px 14px 9px 16px;margin:1px 10px;border-radius:10px;font-size:12.5px;font-weight:500;color:var(--text2);cursor:pointer;transition:all .2s;text-decoration:none;position:relative;}
+.nav-item:hover{background:rgba(224,90,0,.07);color:var(--muscle);}
+.nav-item.active{background:linear-gradient(90deg,rgba(224,90,0,.12),rgba(245,158,11,.07));color:var(--muscle);font-weight:600;box-shadow:inset 2px 0 0 var(--muscle);}
+.nav-num{min-width:22px;height:22px;background:rgba(224,90,0,.08);border-radius:6px;display:flex;align-items:center;justify-content:center;font-size:10.5px;font-weight:700;color:var(--text3);}
+.nav-item.active .nav-num{background:rgba(224,90,0,.18);color:var(--muscle);}
+.nav-item.locked{opacity:.4;pointer-events:none;}
+.sidebar-footer{padding:16px 20px;border-top:1px solid var(--border);}
+.prog-label{display:flex;justify-content:space-between;font-size:11.5px;color:var(--text2);margin-bottom:7px;font-weight:500;}
+.prog-label span:last-child{color:var(--muscle);font-weight:700;}
+.prog-track{height:5px;background:rgba(224,90,0,.1);border-radius:3px;overflow:hidden;}
+.prog-fill{height:100%;width:39.13%;background:linear-gradient(90deg,#e05a00,#f59e0b);border-radius:3px;transition:width 1.2s ease;}
+
+/* ── MAIN ── */
+#main{margin-left:var(--sidebar-w);flex:1;min-height:100vh;}
+.topbar{height:60px;background:rgba(255,255,255,.7);backdrop-filter:blur(20px);border-bottom:1px solid var(--border);display:flex;align-items:center;justify-content:space-between;padding:0 40px;position:sticky;top:0;z-index:50;}
+.breadcrumb{display:flex;align-items:center;gap:8px;font-size:13px;font-weight:500;color:var(--text2);}
+.breadcrumb .current{color:var(--muscle);}
+.bc-sep{color:var(--text3);}
+.badge-pill{padding:5px 14px;border-radius:30px;font-size:12px;font-weight:600;background:linear-gradient(90deg,rgba(224,90,0,.1),rgba(245,158,11,.08));color:var(--muscle);border:1px solid rgba(224,90,0,.2);}
+
+/* ── HERO ── */
+.hero{position:relative;overflow:hidden;padding:64px 56px 54px;border-bottom:1px solid rgba(255,200,150,.3);min-height:330px;display:flex;flex-direction:column;justify-content:center;}
+.hero::before{content:'';position:absolute;inset:0;background:
+  radial-gradient(ellipse 70% 80% at 10% 20%,rgba(255,200,140,.6) 0%,transparent 60%),
+  radial-gradient(ellipse 55% 65% at 85% 10%,rgba(255,220,160,.5) 0%,transparent 55%),
+  radial-gradient(ellipse 60% 70% at 70% 85%,rgba(255,180,120,.45) 0%,transparent 58%),
+  #fff8f0;z-index:0;}
+.hero>*{position:relative;z-index:2;}
+.hero-eyebrow{display:inline-flex;align-items:center;gap:7px;padding:6px 18px;border-radius:40px;background:rgba(255,255,255,.6);border:1px solid rgba(255,255,255,.9);font-size:11px;font-weight:600;color:rgba(180,60,0,.8);letter-spacing:.12em;text-transform:uppercase;margin-bottom:22px;backdrop-filter:blur(16px);width:fit-content;font-family:'Lora',serif;font-style:italic;}
+.hero-eyebrow::before{content:'◆';font-size:7px;font-style:normal;}
+.hero h1{font-family:'Lora',serif;font-size:clamp(34px,4vw,54px);font-weight:400;font-style:italic;line-height:1.08;color:rgba(80,30,0,.82);margin-bottom:18px;}
+.hero h1 span{font-weight:600;color:transparent;background:linear-gradient(135deg,rgba(224,90,0,.95) 0%,rgba(245,158,11,.9) 60%,rgba(220,60,0,.85) 100%);-webkit-background-clip:text;-webkit-text-fill-color:transparent;background-clip:text;}
+.hero-sub{font-family:'Lora',serif;font-size:15px;font-style:italic;color:rgba(120,60,0,.6);max-width:600px;line-height:1.7;margin-bottom:34px;}
+.hero-chips{display:flex;flex-wrap:wrap;gap:10px;}
+.hero-chip{display:flex;align-items:center;gap:9px;background:rgba(255,255,255,.55);border:1px solid rgba(255,255,255,.85);border-radius:14px;padding:9px 18px;font-size:13px;font-weight:500;color:rgba(120,50,0,.75);backdrop-filter:blur(14px);box-shadow:0 2px 16px rgba(224,90,0,.1);font-family:'Lora',serif;font-style:italic;transition:all .25s;}
+.hero-chip:hover{background:rgba(255,255,255,.75);transform:translateY(-1px);}
+.hero-chip strong{font-family:'Outfit',sans-serif;font-style:normal;font-weight:800;font-size:21px;background:linear-gradient(135deg,#e05a00,#f59e0b);-webkit-background-clip:text;-webkit-text-fill-color:transparent;background-clip:text;line-height:1;}
+
+/* ── TABS ── */
+.tab-bar{display:flex;gap:2px;padding:0 40px;background:rgba(255,255,255,.6);backdrop-filter:blur(16px);border-bottom:1px solid var(--border);position:sticky;top:60px;z-index:40;overflow-x:auto;}
+.tab-btn{display:flex;align-items:center;gap:7px;padding:14px 18px;background:none;border:none;font-family:'Outfit',sans-serif;font-size:13px;font-weight:600;color:var(--text2);cursor:pointer;border-bottom:2.5px solid transparent;margin-bottom:-1px;transition:all .2s;white-space:nowrap;}
+.tab-btn:hover{color:var(--muscle);background:rgba(224,90,0,.04);border-radius:10px 10px 0 0;}
+.tab-btn.active{color:var(--muscle);border-bottom-color:var(--muscle);}
+
+/* ── CONTENT ── */
+.content{padding:36px 40px 60px;max-width:1200px;}
+.panel{display:none;}.panel.active{display:block;}
+
+/* ── CARDS ── */
+.gcard{background:var(--surface);backdrop-filter:blur(20px);border:1px solid var(--border);border-radius:var(--radius);padding:28px;margin-bottom:24px;box-shadow:var(--shadow);transition:box-shadow .3s;}
+.gcard:hover{box-shadow:var(--shadow2);}
+.gcard-title{display:flex;align-items:center;gap:12px;font-size:16px;font-weight:700;color:var(--text);margin-bottom:18px;}
+.ct-icon{width:34px;height:34px;border-radius:10px;display:flex;align-items:center;justify-content:center;font-size:16px;flex-shrink:0;}
+.g2{display:grid;grid-template-columns:1fr 1fr;gap:20px;}
+.g3{display:grid;grid-template-columns:1fr 1fr 1fr;gap:16px;}
+.g4{display:grid;grid-template-columns:repeat(4,1fr);gap:14px;}
+
+/* ── ANIMATIONS (STIL PREMIUM) ── */
+@keyframes fadeUp { 
+  from { opacity: 0; transform: translateY(6px); } 
+  to { opacity: 1; transform: translateY(0); } 
+}
+.fu { animation: fadeUp 0.5s ease both; }
+.fu-1 { animation-delay: .08s; }
+.fu-2 { animation-delay: .16s; }
+.fu-3 { animation-delay: .24s; }
+.fu-4 { animation-delay: .32s; }
+
+/* ── HBOXES ── */
+.hbox{border-radius:12px;padding:14px 16px;font-size:13.5px;line-height:1.65;margin-bottom:12px;display:flex;flex-direction:column;gap:6px;}
+.hbox-blue{background:var(--blue-light);border-left:3px solid var(--blue);}
+.hbox-violet{background:var(--violet-light);border-left:3px solid var(--violet);}
+.hbox-green{background:var(--green-light);border-left:3px solid var(--green);}
+.hbox-orange{background:var(--orange-light);border-left:3px solid var(--orange);}
+.hbox-cyan{background:var(--cyan-light);border-left:3px solid var(--cyan);}
+.hbox-pink{background:var(--pink-light);border-left:3px solid var(--pink);}
+.hbox-red{background:var(--red-light);border-left:3px solid var(--red);}
+.hbox-muscle{background:var(--muscle-light);border-left:3px solid var(--muscle);}
+.hbox strong{font-weight:700;}
+
+/* ── TAGS ── */
+.tag{display:inline-flex;align-items:center;padding:3px 10px;border-radius:20px;font-size:11.5px;font-weight:600;margin:2px;}
+.tag-blue{background:var(--blue-light);color:var(--blue);}
+.tag-green{background:var(--green-light);color:var(--green);}
+.tag-violet{background:var(--violet-light);color:var(--violet);}
+.tag-orange{background:var(--orange-light);color:var(--orange);}
+.tag-cyan{background:var(--cyan-light);color:var(--cyan);}
+.tag-pink{background:var(--pink-light);color:var(--pink);}
+.tag-red{background:var(--red-light);color:var(--red);}
+.tag-muscle{background:var(--muscle-light);color:var(--muscle);}
+
+/* ── MNEMONIC ── */
+.mnemonic{background:linear-gradient(135deg,rgba(224,90,0,.08),rgba(245,158,11,.07));border:1px solid rgba(224,90,0,.2);border-radius:14px;padding:16px 20px;margin-top:14px;}
+.mnemonic-title{font-size:12px;font-weight:700;color:var(--muscle);letter-spacing:.08em;text-transform:uppercase;margin-bottom:8px;}
+.mnemonic-text{font-size:14px;color:var(--text);line-height:1.6;}
+.mnemonic-text .em{font-weight:800;color:var(--muscle);font-size:16px;}
+.mnemonic-text .sub{display:block;font-size:12px;color:var(--text2);margin-top:4px;}
+
+/* ── ACCORDION ── */
+.level-row{background:var(--surface2);border:1px solid var(--border);border-radius:12px;margin-bottom:10px;overflow:hidden;cursor:pointer;transition:all .2s;}
+.level-row:hover{border-color:rgba(224,90,0,.35);}
+.level-head{display:flex;align-items:center;gap:12px;padding:14px 16px;}
+.level-num{min-width:28px;height:28px;border-radius:8px;display:flex;align-items:center;justify-content:center;font-size:13px;font-weight:800;flex-shrink:0;}
+.level-info{flex:1;}
+.level-name{font-size:14px;font-weight:700;color:var(--text);}
+.level-short{font-size:12px;color:var(--text2);margin-top:2px;}
+.level-chevron{font-size:18px;color:var(--text3);transition:transform .3s;margin-left:auto;}
+.level-row.open .level-chevron{transform:rotate(90deg);}
+.level-detail-panel{max-height:0;overflow:hidden;transition:max-height .4s ease,padding .3s;font-size:13px;color:var(--text2);line-height:1.7;padding:0 16px;}
+.level-row.open .level-detail-panel{max-height:900px;padding:0 16px 16px;}
+
+/* ── TABLES ── */
+.med-table{width:100%;border-collapse:collapse;font-size:13px;margin-top:8px;}
+.med-table th{background:linear-gradient(90deg,rgba(224,90,0,.1),rgba(245,158,11,.07));color:var(--text);font-weight:700;padding:11px 14px;text-align:left;border-bottom:2px solid rgba(224,90,0,.2);}
+.med-table td{padding:10px 14px;border-bottom:1px solid var(--border);color:var(--text2);vertical-align:top;}
+.med-table tr:hover td{background:rgba(224,90,0,.04);}
+.med-table tr:last-child td{border-bottom:none;}
+
+/* ── FLOW ── */
+.flow-arrow-v{width:3px;height:26px;background:linear-gradient(to bottom,rgba(224,90,0,.35),rgba(245,158,11,.3));margin-left:22px;border-radius:2px;}
+.flow-node{padding:10px 20px;border-radius:10px;font-size:13px;font-weight:600;color:white;display:inline-block;transition:all .2s;cursor:default;}
+.flow-node:hover{filter:brightness(1.1);transform:translateX(4px);}
+.flow-row{display:flex;align-items:center;gap:14px;margin-bottom:6px;}
+.flow-desc{font-size:12px;color:var(--text2);}
+
+/* ── QUIZ ── */
+.quiz-q{background:var(--surface2);border:1px solid var(--border);border-radius:14px;padding:20px;margin-bottom:18px;}
+.quiz-q-text{font-size:14.5px;font-weight:700;color:var(--text);margin-bottom:14px;line-height:1.5;}
+.quiz-opts{display:flex;flex-direction:column;gap:8px;}
+.quiz-opt{padding:10px 16px;border-radius:10px;border:1.5px solid var(--border);background:rgba(255,255,255,.7);font-size:13.5px;cursor:pointer;transition:all .2s;text-align:left;font-family:'Outfit',sans-serif;}
+.quiz-opt:hover:not(:disabled){border-color:var(--muscle);background:var(--muscle-light);}
+.quiz-opt.correct{border-color:var(--green);background:var(--green-light);color:#065f46;font-weight:700;}
+.quiz-opt.wrong{border-color:#ef4444;background:#fee2e2;color:#991b1b;}
+.quiz-explain{font-size:13px;color:var(--text2);margin-top:12px;padding:12px;background:rgba(224,90,0,.06);border-radius:10px;border-left:3px solid var(--muscle);display:none;line-height:1.6;}
+.quiz-explain.show{display:block;}
+#quiz-score{font-size:18px;font-weight:800;color:var(--muscle);text-align:center;padding:18px;background:var(--muscle-light);border-radius:12px;margin-bottom:20px;}
+
+/* ── MUSCLE REGION CARDS ── */
+.region-card{border-radius:14px;padding:16px;cursor:pointer;border:2px solid var(--border);transition:all .25s;background:var(--surface2);}
+.region-card:hover,.region-card.selected{border-color:var(--muscle);box-shadow:0 6px 20px rgba(224,90,0,.12);}
+.region-icon{font-size:26px;margin-bottom:8px;}
+.region-name{font-size:14px;font-weight:800;color:var(--text);margin-bottom:4px;}
+.region-sub{font-size:11.5px;color:var(--text2);line-height:1.4;}
+.region-detail{display:none;margin-top:12px;padding-top:12px;border-top:1px solid var(--border);font-size:12.5px;color:var(--text2);line-height:1.6;}
+.region-card.selected .region-detail{display:block;}
+
+@media(max-width:960px){
+  #sidebar{transform:translateX(-100%);transition:transform .3s;}
+  #main{margin-left:0;}
+  .g2,.g3,.g4{grid-template-columns:1fr;}
+  .hero{padding:40px 24px 32px;}
+  .content{padding:20px 16px 40px;}
+  .tab-bar{padding:0 16px;}
+}
+</style>
+</head>
+<body>
+
+<!-- SIDEBAR -->
+<aside id="sidebar">
+  <div class="sidebar-logo">
+    <img src="medStudy.png" alt="Logo MedStudy" style="width: 42px; height: 42px; object-fit: contain; filter: drop-shadow(0 4px 14px rgba(124,58,237,0.35));">
+    <div>
+      <div class="logo-text">MedStudy</div>
+      <div class="logo-sub">Anatomy Made Easy</div>
+    </div>
+  </div>
+  
+  <div class="nav-scroll" id="chapters-menu">
+  <div class="sidebar-section-label">Capitole</div>
+
+  <a class="nav-item" href="cap1.html"><span class="nav-num">1</span>Introducere în A&B</a>
+  <a class="nav-item" href="cap2.html"><span class="nav-num">2</span>Bazele Chimice</a>
+  <a class="nav-item" href="cap3.html"><span class="nav-num">3</span>Fiziologia celulară</a>
+  <a class="nav-item" href="cap4.html"><span class="nav-num">4</span>Țesuturile</a>
+  <a class="nav-item" href="cap5.html"><span class="nav-num">5</span>Sistemul Tegumentar</a>
+  <a class="nav-item" href="cap6.html"><span class="nav-num">6</span>Oasele și Articulațiile</a>
+  <a class="nav-item" href="cap7.html"><span class="nav-num">7</span>Sistemul Osos</a>
+  <a class="nav-item" href="cap8.html"><span class="nav-num">8</span>Țesutul Muscular</a>
+  <a class="nav-item" href="cap9.html"><span class="nav-num">9</span>Sistemul Muscular</a>
+  <a class="nav-item" href="cap10.html"><span class="nav-num">10</span>Țesutul Nervos</a>
+  <a class="nav-item" href="cap11.html"><span class="nav-num">11</span>Organizarea Sistemului Nervos</a>
+  <a class="nav-item" href="cap12.html"><span class="nav-num">12</span>Organele de Simț</a>
+  <a class="nav-item" href="cap13.html"><span class="nav-num">13</span>Sistemul Endocrin</a>
+  <a class="nav-item" href="cap14.html"><span class="nav-num">14</span>Sângele</a>
+  <a class="nav-item" href="cap15.html"><span class="nav-num">15</span>Sistemul Cardiovascular</a>
+  <a class="nav-item" href="cap16.html"><span class="nav-num">16</span>Sistemul Limfatic</a>
+  <a class="nav-item" href="cap17.html"><span class="nav-num">17</span>Sistemul Respirator</a>
+  <a class="nav-item" href="cap18.html"><span class="nav-num">18</span>Sistemul Digestiv</a>
+  <a class="nav-item" href="cap19.html"><span class="nav-num">19</span>Metabolism & Nutriție</a>
+  <a class="nav-item" href="cap20.html"><span class="nav-num">20</span>Sistemul Urinar</a>
+  <a class="nav-item" href="cap21.html"><span class="nav-num">21</span>Echilibrul Hidro-Electrolitic</a>
+  <a class="nav-item" href="cap22.html"><span class="nav-num">22</span>Sistemul Reproducător Masculin</a>
+  <a class="nav-item" href="cap23.html"><span class="nav-num">23</span>Sistemul Reproducător Feminin</a>
+</div>
+  
+  <div class="sidebar-footer">
+    <div class="prog-label"><span>Progres curs</span><span>9 / 23</span></div>
+    <div class="prog-track"><div class="prog-fill"></div></div>
+  </div>
+</aside>
+
+<!-- MAIN -->
+<main id="main">
+  <nav class="topbar">
+    <div class="breadcrumb">
+      <span>A&F Umană</span><span class="bc-sep">›</span>
+      <span>Capitol 9</span><span class="bc-sep">›</span>
+      <span class="current">Sistemul Muscular</span>
+    </div>
+    <span class="badge-pill">🎓 Pregătire Admitere Medicină</span>
+  </nav>
+
+  <header class="hero">
+    <div class="hero-eyebrow fu fu-1">Capitol 9 — Anatomie Musculară Aplicată</div>
+    <h1 class="fu fu-2">Sistemul <span>Muscular</span></h1>
+    <p class="hero-sub fu fu-3">Originile, inserțiile, inervația și funcțiile mușchilor corpului: membre superioare & inferioare, trunchi, cap și gât — esențial pentru admiterea la medicină.</p>
+    <div class="hero-chips fu fu-4">
+      <div class="hero-chip"><strong>600+</strong> Mușchi în corp</div>
+      <div class="hero-chip"><strong>2</strong> Tipuri inserție</div>
+      <div class="hero-chip"><strong>4</strong> Grupe principale</div>
+      <div class="hero-chip"><strong>8</strong> Regiuni anatomice</div>
+    </div>
+  </header>
+
+  <!-- TABS -->
+  <div class="tab-bar">
+    <button class="tab-btn active" onclick="showPanel('infografice',this)">🔬 Infografice SVG</button>
+    <button class="tab-btn" onclick="showPanel('scheme',this)">🔀 Scheme Logice</button>
+    <button class="tab-btn" onclick="showPanel('tabele',this)">📊 Tabele Comparative</button>
+    <button class="tab-btn" onclick="showPanel('regiuni',this)">🗺️ Regiuni Anatomice</button>
+    <button class="tab-btn" onclick="showPanel('quiz',this)">✏️ Test (14 Q)</button>
+  </div>
+
+  <div class="content">
+
+  <!-- ═══════════════════════════ PANEL 1 — INFOGRAFICE ═══════════════════════════ -->
+  <div class="panel active" id="panel-infografice">
+
+    <!-- CONCEPT: Origine vs Insertie -->
+    <div class="gcard fu fu-1">
+      <div class="gcard-title">
+        <div class="ct-icon" style="background:var(--muscle-light)">🦴</div>
+        Concepte Fundamentale: Origine, Inserție, Agonist / Antagonist — SVG Interactiv
+      </div>
+      <div class="g2">
+        <div>
+          <!-- SVG ORIGINE vs INSERTIE -->
+          <svg width="100%" height="260" viewBox="0 0 440 260" style="background:rgba(255,255,255,.65);border-radius:14px;border:1px solid var(--border);">
+            <defs>
+              <marker id="arrowO" markerWidth="8" markerHeight="8" refX="6" refY="3" orient="auto"><path d="M0,0 L0,6 L8,3 z" fill="#e05a00"/></marker>
+              <marker id="arrowB" markerWidth="8" markerHeight="8" refX="6" refY="3" orient="auto"><path d="M0,0 L0,6 L8,3 z" fill="#5b8dee"/></marker>
+            </defs>
+            <!-- Os fix (origine) -->
+            <rect x="20" y="80" width="80" height="120" rx="14" fill="rgba(224,90,0,.15)" stroke="#e05a00" stroke-width="2.5"/>
+            <text x="60" y="115" text-anchor="middle" font-family="Outfit,sans-serif" font-size="11" font-weight="800" fill="#e05a00">OS FIX</text>
+            <text x="60" y="132" text-anchor="middle" font-family="Outfit,sans-serif" font-size="10" fill="#92400e">ORIGINE</text>
+            <text x="60" y="148" text-anchor="middle" font-family="Outfit,sans-serif" font-size="9" fill="#9ca3af">aproape de</text>
+            <text x="60" y="162" text-anchor="middle" font-family="Outfit,sans-serif" font-size="9" fill="#9ca3af">linia mediană</text>
+            <!-- Tendon origine -->
+            <rect x="100" y="128" width="40" height="12" rx="4" fill="rgba(224,90,0,.4)" id="t1"/>
+            <!-- Muschi (corp) -->
+            <rect x="140" y="100" width="120" height="70" rx="16" fill="rgba(239,68,68,.18)" stroke="#ef4444" stroke-width="2" id="muscle-body" style="cursor:pointer;" onclick="showMInfo('muschi')"/>
+            <text x="200" y="138" text-anchor="middle" font-family="Outfit,sans-serif" font-size="12" font-weight="800" fill="#dc2626" style="pointer-events:none;">MUȘCHI</text>
+            <text x="200" y="156" text-anchor="middle" font-family="Outfit,sans-serif" font-size="9.5" fill="#9ca3af" style="pointer-events:none;">(corp muscular)</text>
+            <!-- Tendon insertie -->
+            <rect x="260" y="128" width="40" height="12" rx="4" fill="rgba(91,141,238,.4)"/>
+            <!-- Os mobil (insertie) -->
+            <rect x="300" y="60" width="90" height="160" rx="14" fill="rgba(91,141,238,.15)" stroke="#5b8dee" stroke-width="2.5"/>
+            <text x="345" y="105" text-anchor="middle" font-family="Outfit,sans-serif" font-size="11" font-weight="800" fill="#5b8dee">OS MOBIL</text>
+            <text x="345" y="122" text-anchor="middle" font-family="Outfit,sans-serif" font-size="10" fill="#1d4ed8">INSERȚIE</text>
+            <text x="345" y="140" text-anchor="middle" font-family="Outfit,sans-serif" font-size="9" fill="#9ca3af">departe de</text>
+            <text x="345" y="156" text-anchor="middle" font-family="Outfit,sans-serif" font-size="9" fill="#9ca3af">linia mediană</text>
+            <text x="345" y="172" text-anchor="middle" font-family="Outfit,sans-serif" font-size="9" fill="#9ca3af">→ se MIȘCĂ</text>
+            <!-- Săgeată mișcare os mobil -->
+            <path d="M395 135 Q415 135 415 160 Q415 200 380 210" stroke="#5b8dee" stroke-width="2" fill="none" stroke-dasharray="5,3" marker-end="url(#arrowB)"/>
+            <text x="420" y="195" font-family="Outfit,sans-serif" font-size="9" fill="#5b8dee" font-weight="700">mișcare</text>
+            <!-- Tendon labels -->
+            <text x="120" y="120" text-anchor="middle" font-family="Outfit,sans-serif" font-size="9" fill="#92400e" font-weight="700">Tendon</text>
+            <text x="280" y="120" text-anchor="middle" font-family="Outfit,sans-serif" font-size="9" fill="#1d4ed8" font-weight="700">Tendon</text>
+            <!-- Legend box -->
+            <rect x="20" y="220" width="400" height="30" rx="6" fill="rgba(224,90,0,.06)" stroke="rgba(224,90,0,.2)" stroke-width="1"/>
+            <text x="30" y="240" font-family="Outfit,sans-serif" font-size="10.5" fill="#92400e" font-weight="700">💡 Regula generală: ORIGINEA = mai aproape de linia mediană | INSERȚIA = mai departe, pe osul mobil</text>
+          </svg>
+          <div id="m-info" style="margin-top:10px;padding:12px;background:var(--muscle-light);border-radius:10px;font-size:12.5px;color:var(--text2);border-left:3px solid var(--muscle);">
+            👆 Click pe corpul muscular pentru detalii suplimentare
+          </div>
+        </div>
+        <div>
+          <div class="hbox hbox-muscle">
+            <strong>📌 Origine vs Inserție — Cheie Admitere</strong>
+            <strong>Originea</strong> = capătul fix al mușchiului, ataşat pe osul care rămâne staționar. Se află, în general, <em>mai aproape de linia mediană</em>.<br>
+            <strong>Inserția</strong> = capătul mobil, ataşat pe osul care se mișcă. Se află <em>mai departe de linia mediană</em>.<br>
+            <strong>Aponevrozele</strong> = tendoane plate (foi de ţesut conjunctiv) — frecvente la mușchii trunchiului.
+          </div>
+          <div class="hbox hbox-red">
+            <strong>⚡ Agonist (prim motor)</strong>
+            Mușchiul cu acțiunea cea mai directă și puternică într-o anumită mișcare.<br>
+            Ex: <strong>Biceps brahial</strong> = agonistul flexiei cotului.
+          </div>
+          <div class="hbox hbox-blue">
+            <strong>🔄 Antagonist</strong>
+            Mușchiul care se opune agonistului (se relaxează când agonistul se contractă).<br>
+            Ex: <strong>Triceps brahial</strong> = antagonistul bicepsului.
+          </div>
+          <div class="mnemonic">
+            <div class="mnemonic-title">🧠 Mnemonic Cheie</div>
+            <div class="mnemonic-text">
+              <span class="em">O</span>rigine = <span class="em">O</span>s fix, mai <span class="em">O</span>central<br>
+              <span class="em">I</span>nserție = <span class="em">I</span>nițiază mișcarea, pe osul <span class="em">I</span>mobil<br>
+              <span class="sub">Antagonistul se RELAXEAZĂ când agonistul se contractă — lucru coordonat!</span>
+            </div>
+          </div>
+        </div>
+      </div>
+    </div>
+
+    <!-- SVG CORP UMAN - Vedere Anterioară (Interactiv) -->
+    <div class="gcard fu fu-2">
+      <div class="gcard-title">
+        <div class="ct-icon" style="background:var(--orange-light)">🫀</div>
+        Mușchii Superficiali — Vedere Anterioară (Click pe zone)
+      </div>
+      <div class="g2">
+        <div style="display:flex;justify-content:center;">
+          <svg width="320" height="520" viewBox="0 0 320 520" style="background:rgba(255,255,255,.55);border-radius:14px;border:1px solid var(--border);">
+            <!-- Body silhouette -->
+            <!-- HEAD -->
+            <ellipse cx="160" cy="45" rx="38" ry="44" fill="rgba(255,220,180,.6)" stroke="rgba(224,90,0,.3)" stroke-width="1.5"/>
+            <!-- NECK -->
+            <rect x="145" y="82" width="30" height="30" rx="4" fill="rgba(255,200,150,.5)" stroke="rgba(224,90,0,.2)" stroke-width="1"/>
+            <!-- STERNOCLEIDOMASTOID zone -->
+            <path d="M148 88 L130 115" stroke="#e05a00" stroke-width="5" stroke-linecap="round" style="cursor:pointer;opacity:.8;" onclick="showMuscle('scm')" id="scm-l"/>
+            <path d="M172 88 L190 115" stroke="#e05a00" stroke-width="5" stroke-linecap="round" style="cursor:pointer;opacity:.8;" onclick="showMuscle('scm')"/>
+            <!-- TRAPEZ (clavicle area) -->
+            <path d="M100 112 Q160 102 220 112" stroke="#f59e0b" stroke-width="7" stroke-linecap="round" fill="none" style="cursor:pointer;" onclick="showMuscle('trapez')"/>
+            <!-- PECTORAL MARE -->
+            <ellipse cx="135" cy="155" rx="40" ry="30" fill="rgba(239,68,68,.2)" stroke="#ef4444" stroke-width="2" style="cursor:pointer;" onclick="showMuscle('pectoral')"/>
+            <ellipse cx="185" cy="155" rx="40" ry="30" fill="rgba(239,68,68,.2)" stroke="#ef4444" stroke-width="2" style="cursor:pointer;" onclick="showMuscle('pectoral')"/>
+            <text x="160" y="158" text-anchor="middle" font-family="Outfit,sans-serif" font-size="9" font-weight="700" fill="#dc2626" style="pointer-events:none;">Pectoral mare</text>
+            <!-- DELTOID -->
+            <ellipse cx="95" cy="145" rx="22" ry="28" fill="rgba(245,158,11,.25)" stroke="#f59e0b" stroke-width="2" style="cursor:pointer;" onclick="showMuscle('deltoid')"/>
+            <ellipse cx="225" cy="145" rx="22" ry="28" fill="rgba(245,158,11,.25)" stroke="#f59e0b" stroke-width="2" style="cursor:pointer;" onclick="showMuscle('deltoid')"/>
+            <!-- BICEP -->
+            <rect x="68" y="180" width="24" height="65" rx="12" fill="rgba(91,141,238,.3)" stroke="#5b8dee" stroke-width="2" style="cursor:pointer;" onclick="showMuscle('biceps')"/>
+            <rect x="228" y="180" width="24" height="65" rx="12" fill="rgba(91,141,238,.3)" stroke="#5b8dee" stroke-width="2" style="cursor:pointer;" onclick="showMuscle('biceps')"/>
+            <text x="80" y="217" text-anchor="middle" font-family="Outfit,sans-serif" font-size="8" fill="#1d4ed8" font-weight="700" style="pointer-events:none;">Biceps</text>
+            <!-- DREPT ABDOMINAL -->
+            <rect x="143" y="195" width="20" height="80" rx="6" fill="rgba(16,185,129,.25)" stroke="#10b981" stroke-width="2" style="cursor:pointer;" onclick="showMuscle('drept-abdom')"/>
+            <rect x="167" y="195" width="20" height="80" rx="6" fill="rgba(16,185,129,.25)" stroke="#10b981" stroke-width="2" style="cursor:pointer;" onclick="showMuscle('drept-abdom')"/>
+            <text x="160" y="240" text-anchor="middle" font-family="Outfit,sans-serif" font-size="8" fill="#065f46" font-weight="700" style="pointer-events:none;">Dr. Abdom.</text>
+            <!-- OBLIC EXTERN -->
+            <path d="M125 195 Q108 240 115 275" stroke="#8b5cf6" stroke-width="6" stroke-linecap="round" fill="none" style="cursor:pointer;" onclick="showMuscle('oblic')"/>
+            <path d="M195 195 Q212 240 205 275" stroke="#8b5cf6" stroke-width="6" stroke-linecap="round" fill="none" style="cursor:pointer;" onclick="showMuscle('oblic')"/>
+            <!-- TENSOR FASCIA LATA -->
+            <rect x="96" y="285" width="18" height="50" rx="7" fill="rgba(236,72,153,.25)" stroke="#ec4899" stroke-width="2" style="cursor:pointer;" onclick="showMuscle('tensor-fl')"/>
+            <!-- VAST LATERAL / MEDIAL -->
+            <ellipse cx="120" cy="365" rx="22" ry="50" fill="rgba(245,158,11,.22)" stroke="#f59e0b" stroke-width="2" style="cursor:pointer;" onclick="showMuscle('cvadriceps')"/>
+            <ellipse cx="200" cy="365" rx="22" ry="50" fill="rgba(245,158,11,.22)" stroke="#f59e0b" stroke-width="2" style="cursor:pointer;" onclick="showMuscle('cvadriceps')"/>
+            <text x="120" y="370" text-anchor="middle" font-family="Outfit,sans-serif" font-size="8" fill="#b45309" font-weight="700" style="pointer-events:none;">Cvadriceps</text>
+            <text x="200" y="370" text-anchor="middle" font-family="Outfit,sans-serif" font-size="8" fill="#b45309" font-weight="700" style="pointer-events:none;">Cvadriceps</text>
+            <!-- GASTROCNEMIAN -->
+            <ellipse cx="118" cy="455" rx="16" ry="35" fill="rgba(224,90,0,.2)" stroke="#e05a00" stroke-width="2" style="cursor:pointer;" onclick="showMuscle('gastrocnemian')"/>
+            <ellipse cx="202" cy="455" rx="16" ry="35" fill="rgba(224,90,0,.2)" stroke="#e05a00" stroke-width="2" style="cursor:pointer;" onclick="showMuscle('gastrocnemian')"/>
+            <!-- Tendon ahilian hint -->
+            <line x1="118" y1="488" x2="118" y2="510" stroke="#e05a00" stroke-width="3" stroke-dasharray="4,2"/>
+            <line x1="202" y1="488" x2="202" y2="510" stroke="#e05a00" stroke-width="3" stroke-dasharray="4,2"/>
+            <!-- Labels floating -->
+            <text x="58" y="133" text-anchor="middle" font-family="Outfit,sans-serif" font-size="9" fill="#d97706" font-weight="700">Deltoid</text>
+            <text x="262" y="133" text-anchor="middle" font-family="Outfit,sans-serif" font-size="9" fill="#d97706" font-weight="700">Deltoid</text>
+            <text x="56" y="340" text-anchor="middle" font-family="Outfit,sans-serif" font-size="8" fill="#db2777" font-weight="700">T.F.L.</text>
+            <text x="112" y="452" text-anchor="middle" font-family="Outfit,sans-serif" font-size="7.5" fill="#e05a00" font-weight="700">Gastro-</text>
+            <text x="112" y="463" text-anchor="middle" font-family="Outfit,sans-serif" font-size="7.5" fill="#e05a00" font-weight="700">cnemian</text>
+          </svg>
+        </div>
+        <div>
+          <div id="muscle-info-box" style="padding:16px;background:var(--muscle-light);border-radius:12px;border-left:3px solid var(--muscle);font-size:13px;line-height:1.7;color:var(--text2);min-height:200px;">
+            👆 <strong>Click pe oricare mușchi</strong> din diagram pentru a vedea:<br>
+            • Origine & Inserție<br>
+            • Funcție principală<br>
+            • Agonist / Antagonist<br>
+            • Inervație<br><br>
+            <span style="font-size:11.5px;color:var(--text3);">Mușchii colorați: portocaliu=deltoid, roșu=pectoral, albastru=biceps, verde=drept abdominal, violet=oblic, roz=tensor fasciei late, galben=cvadriceps</span>
+          </div>
+          <div class="level-row" onclick="toggleLevel(this)" style="margin-top:14px;">
+            <div class="level-head">
+              <div class="level-num" style="background:var(--orange-light);color:#d97706;">🔑</div>
+              <div class="level-info"><div class="level-name">Toți mușchii importanți — vedere anterioară</div><div class="level-short">Listă completă cu funcții</div></div>
+              <span class="level-chevron">›</span>
+            </div>
+            <div class="level-detail-panel">
+              <strong style="color:var(--muscle);">Față:</strong> Frontal, Orbicular ochi, Zigomatic, Orbicular guri, Maseter, Platisma<br>
+              <strong style="color:var(--muscle);">Gât:</strong> Sternocleidomastoid<br>
+              <strong style="color:var(--muscle);">Umăr:</strong> Deltoid, Pectoral mare, Dintat anterior<br>
+              <strong style="color:var(--muscle);">Braț:</strong> Biceps brahial, Brahioradial<br>
+              <strong style="color:var(--muscle);">Abdomen:</strong> Oblic extern, Drept abdominal<br>
+              <strong style="color:var(--muscle);">Șold:</strong> Tensor fasciei late, Iliopsoas, Croitor<br>
+              <strong style="color:var(--muscle);">Coapsă ant.:</strong> Drept femural, Vast lateral, Vast medial, Gracilis, Adductor lung<br>
+              <strong style="color:var(--muscle);">Gambă:</strong> Gastrocnemian, Solear, Tibial anterior, Peronier lung, Extensor lung degete
+            </div>
+          </div>
+        </div>
+      </div>
+    </div>
+
+    <!-- SVG CORP — Vedere Posterioară -->
+    <div class="gcard fu fu-3">
+      <div class="gcard-title">
+        <div class="ct-icon" style="background:var(--green-light)">🔙</div>
+        Mușchii Superficiali — Vedere Posterioară (Infografic SVG)
+      </div>
+      <div class="g2">
+        <div style="display:flex;justify-content:center;">
+          <svg width="320" height="520" viewBox="0 0 320 520" style="background:rgba(255,255,255,.55);border-radius:14px;border:1px solid var(--border);">
+            <!-- HEAD back -->
+            <ellipse cx="160" cy="45" rx="38" ry="44" fill="rgba(255,220,180,.5)" stroke="rgba(224,90,0,.25)" stroke-width="1.5"/>
+            <!-- OCCIPITAL -->
+            <ellipse cx="160" cy="38" rx="20" ry="14" fill="rgba(139,92,246,.2)" stroke="#8b5cf6" stroke-width="1.5" style="cursor:pointer;" onclick="showMuscle('occipital')"/>
+            <text x="160" y="42" text-anchor="middle" font-family="Outfit,sans-serif" font-size="8" fill="#7c3aed" font-weight="700" style="pointer-events:none;">Occipital</text>
+            <!-- TRAPEZ (large back) -->
+            <path d="M95 115 Q160 95 225 115 L220 200 Q160 215 100 200 Z" fill="rgba(245,158,11,.22)" stroke="#f59e0b" stroke-width="2" style="cursor:pointer;" onclick="showMuscle('trapez-post')"/>
+            <text x="160" y="160" text-anchor="middle" font-family="Outfit,sans-serif" font-size="11" font-weight="800" fill="#b45309" style="pointer-events:none;">Trapez</text>
+            <!-- DELTOID posterior -->
+            <ellipse cx="90" cy="148" rx="22" ry="30" fill="rgba(224,90,0,.25)" stroke="#e05a00" stroke-width="2" style="cursor:pointer;" onclick="showMuscle('deltoid')"/>
+            <ellipse cx="230" cy="148" rx="22" ry="30" fill="rgba(224,90,0,.25)" stroke="#e05a00" stroke-width="2" style="cursor:pointer;" onclick="showMuscle('deltoid')"/>
+            <!-- DORSAL MARE -->
+            <path d="M100 200 Q90 240 110 280 L150 270 L160 215 Z" fill="rgba(16,185,129,.22)" stroke="#10b981" stroke-width="2" style="cursor:pointer;" onclick="showMuscle('dorsal-mare')"/>
+            <path d="M220 200 Q230 240 210 280 L170 270 L160 215 Z" fill="rgba(16,185,129,.22)" stroke="#10b981" stroke-width="2" style="cursor:pointer;" onclick="showMuscle('dorsal-mare')"/>
+            <text x="100" y="252" text-anchor="middle" font-family="Outfit,sans-serif" font-size="8" fill="#065f46" font-weight="700" style="pointer-events:none;">Dorsal</text>
+            <text x="220" y="252" text-anchor="middle" font-family="Outfit,sans-serif" font-size="8" fill="#065f46" font-weight="700" style="pointer-events:none;">mare</text>
+            <!-- TRICEPS -->
+            <rect x="68" y="180" width="22" height="60" rx="10" fill="rgba(91,141,238,.3)" stroke="#5b8dee" stroke-width="2" style="cursor:pointer;" onclick="showMuscle('triceps')"/>
+            <rect x="230" y="180" width="22" height="60" rx="10" fill="rgba(91,141,238,.3)" stroke="#5b8dee" stroke-width="2" style="cursor:pointer;" onclick="showMuscle('triceps')"/>
+            <text x="79" y="215" text-anchor="middle" font-family="Outfit,sans-serif" font-size="7.5" fill="#1d4ed8" font-weight="700" style="pointer-events:none;">Triceps</text>
+            <!-- FESIER MARE -->
+            <ellipse cx="130" cy="308" rx="38" ry="35" fill="rgba(236,72,153,.22)" stroke="#ec4899" stroke-width="2" style="cursor:pointer;" onclick="showMuscle('fesier-mare')"/>
+            <ellipse cx="190" cy="308" rx="38" ry="35" fill="rgba(236,72,153,.22)" stroke="#ec4899" stroke-width="2" style="cursor:pointer;" onclick="showMuscle('fesier-mare')"/>
+            <text x="160" y="312" text-anchor="middle" font-family="Outfit,sans-serif" font-size="9" font-weight="800" fill="#9d174d" style="pointer-events:none;">Fesier mare</text>
+            <!-- ISCHIOGAMBIERI -->
+            <rect x="105" y="348" width="30" height="80" rx="10" fill="rgba(139,92,246,.25)" stroke="#8b5cf6" stroke-width="2" style="cursor:pointer;" onclick="showMuscle('ischiogambieri')"/>
+            <rect x="185" y="348" width="30" height="80" rx="10" fill="rgba(139,92,246,.25)" stroke="#8b5cf6" stroke-width="2" style="cursor:pointer;" onclick="showMuscle('ischiogambieri')"/>
+            <text x="120" y="392" text-anchor="middle" font-family="Outfit,sans-serif" font-size="7.5" fill="#7c3aed" font-weight="700" style="pointer-events:none;">Ischiogang.</text>
+            <!-- GASTROCNEMIAN posterior -->
+            <ellipse cx="118" cy="455" rx="17" ry="38" fill="rgba(224,90,0,.22)" stroke="#e05a00" stroke-width="2" style="cursor:pointer;" onclick="showMuscle('gastrocnemian')"/>
+            <ellipse cx="202" cy="455" rx="17" ry="38" fill="rgba(224,90,0,.22)" stroke="#e05a00" stroke-width="2" style="cursor:pointer;" onclick="showMuscle('gastrocnemian')"/>
+            <!-- TENDON AHILIAN -->
+            <line x1="118" y1="490" x2="118" y2="512" stroke="#e05a00" stroke-width="4" stroke-linecap="round"/>
+            <line x1="202" y1="490" x2="202" y2="512" stroke="#e05a00" stroke-width="4" stroke-linecap="round"/>
+            <text x="118" y="520" text-anchor="middle" font-family="Outfit,sans-serif" font-size="7.5" fill="#e05a00" font-weight="700">T.Ahilian</text>
+            <text x="202" y="520" text-anchor="middle" font-family="Outfit,sans-serif" font-size="7.5" fill="#e05a00" font-weight="700">T.Ahilian</text>
+            <!-- OBLIC EXTERN labels -->
+            <text x="92" y="195" text-anchor="middle" font-family="Outfit,sans-serif" font-size="8" fill="#d97706" font-weight="700">Deltoid</text>
+            <text x="228" y="195" text-anchor="middle" font-family="Outfit,sans-serif" font-size="8" fill="#d97706" font-weight="700">Deltoid</text>
+          </svg>
+        </div>
+        <div>
+          <div class="hbox hbox-orange">
+            <strong>Trapezul</strong> — Cel mai mare mușchi superficial al spatelui. Origine: os occipital + vertebre cervicale & toracice. Inserție: claviculă + scapulă. Funcție: extensia & rotația membrului superior.
+          </div>
+          <div class="hbox hbox-green">
+            <strong>Dorsalul Mare (Latissimus Dorsi)</strong> — Origine: apofizele vertebrelor toracice + creasta iliacă + fascia lombodorsală. Inserție: șanțul intertubercular al humerusului. Funcție: extensia & adducția brațului. Antagonist al pectoralului mare.
+          </div>
+          <div class="hbox hbox-pink">
+            <strong>Fesierul Mare (Gluteus Maximus)</strong> — Cel mai voluminos mușchi al fesei. Origine: sacru, coccis, suprafața posterioară a ilionului. Inserție: femur + tract iliotibial. Funcție: extensia coapsei la nivelul șoldului.
+          </div>
+          <div class="hbox hbox-violet">
+            <strong>Mușchii Ischiogambieri</strong> — Biceps femural + Semitendinos + Semimembranos. Origine: tuberozitatea ischiatică. Funcție: flexia gambei + extensia coapsei. Antagoniști ai cvadricepsului.
+          </div>
+          <div class="mnemonic">
+            <div class="mnemonic-title">🧠 Mnemonic Ischiogambieri</div>
+            <div class="mnemonic-text">
+              <span class="em">B</span>iceps femural + <span class="em">S</span>emitendinos + <span class="em">S</span>emimembranos = <span class="em">BSS</span><br>
+              <span class="sub">„Biceps Sus-Sus" — toți pornesc de la ischion și flectează gamba</span>
+            </div>
+          </div>
+        </div>
+      </div>
+    </div>
+
+  </div><!-- end panel-infografice -->
+
+  <!-- ═══════════════════════════ PANEL 2 — SCHEME LOGICE ═══════════════════════════ -->
+  <div class="panel" id="panel-scheme">
+
+    <!-- FLOWCHART AGONIST/ANTAGONIST -->
+    <div class="gcard fu fu-1">
+      <div class="gcard-title">
+        <div class="ct-icon" style="background:var(--violet-light)">🔀</div>
+        Schema Logică — Agonist ↔ Antagonist (Mișcarea Cotului)
+      </div>
+      <div class="g2">
+        <div>
+          <div style="padding:20px;background:rgba(255,255,255,.55);border-radius:14px;border:1px solid var(--border);">
+            <!-- FLOWCHART SVG -->
+            <svg width="100%" height="380" viewBox="0 0 360 380">
+              <!-- START -->
+              <rect x="110" y="10" width="140" height="40" rx="20" fill="#e05a00"/>
+              <text x="180" y="35" text-anchor="middle" font-family="Outfit,sans-serif" font-size="12" font-weight="700" fill="white">IMPULS NERVOS</text>
+              <!-- Arrow down -->
+              <line x1="180" y1="50" x2="180" y2="75" stroke="#9ca3af" stroke-width="2" marker-end="url(#arrG)"/>
+              <!-- Decizional: Flexie sau Extensie? -->
+              <polygon points="180,80 290,115 180,150 70,115" fill="rgba(245,158,11,.15)" stroke="#f59e0b" stroke-width="2"/>
+              <text x="180" y="110" text-anchor="middle" font-family="Outfit,sans-serif" font-size="11" font-weight="700" fill="#92400e">MIȘCARE?</text>
+              <text x="180" y="125" text-anchor="middle" font-family="Outfit,sans-serif" font-size="10" fill="#92400e">Flexie / Extensie?</text>
+              <!-- Da Flexie -->
+              <line x1="70" y1="115" x2="20" y2="180" stroke="#10b981" stroke-width="2" marker-end="url(#arrG)"/>
+              <text x="22" y="160" font-family="Outfit,sans-serif" font-size="10" fill="#10b981" font-weight="700">FLEXIE</text>
+              <!-- Biceps box -->
+              <rect x="5" y="185" width="110" height="50" rx="10" fill="rgba(91,141,238,.2)" stroke="#5b8dee" stroke-width="2"/>
+              <text x="60" y="205" text-anchor="middle" font-family="Outfit,sans-serif" font-size="11" font-weight="700" fill="#5b8dee">BICEPS</text>
+              <text x="60" y="222" text-anchor="middle" font-family="Outfit,sans-serif" font-size="10" fill="#1d4ed8">BRAHIAL</text>
+              <text x="60" y="237" text-anchor="middle" font-family="Outfit,sans-serif" font-size="9" fill="#6b7280">(AGONIST)</text>
+              <!-- Triceps relaxat -->
+              <rect x="5" y="255" width="110" height="45" rx="10" fill="rgba(156,163,175,.15)" stroke="#9ca3af" stroke-width="1.5"/>
+              <text x="60" y="275" text-anchor="middle" font-family="Outfit,sans-serif" font-size="11" font-weight="600" fill="#9ca3af">TRICEPS</text>
+              <text x="60" y="292" text-anchor="middle" font-family="Outfit,sans-serif" font-size="10" fill="#9ca3af">brahial relaxat</text>
+              <text x="60" y="307" text-anchor="middle" font-family="Outfit,sans-serif" font-size="9" fill="#9ca3af">(ANTAGONIST)</text>
+              <!-- Rezultat flexie -->
+              <rect x="5" y="320" width="110" height="40" rx="10" fill="rgba(16,185,129,.15)" stroke="#10b981" stroke-width="1.5"/>
+              <text x="60" y="345" text-anchor="middle" font-family="Outfit,sans-serif" font-size="11" font-weight="700" fill="#065f46">✅ Cotul FLECTEAZĂ</text>
+              <!-- Arrows in flexie branch -->
+              <line x1="60" y1="235" x2="60" y2="255" stroke="#5b8dee" stroke-width="1.5"/>
+              <line x1="60" y1="300" x2="60" y2="320" stroke="#9ca3af" stroke-width="1.5"/>
+              <!-- Da Extensie -->
+              <line x1="290" y1="115" x2="340" y2="180" stroke="#e05a00" stroke-width="2" marker-end="url(#arrG)"/>
+              <text x="306" y="160" font-family="Outfit,sans-serif" font-size="10" fill="#e05a00" font-weight="700">EXTENSIE</text>
+              <!-- Triceps box -->
+              <rect x="245" y="185" width="110" height="50" rx="10" fill="rgba(224,90,0,.2)" stroke="#e05a00" stroke-width="2"/>
+              <text x="300" y="205" text-anchor="middle" font-family="Outfit,sans-serif" font-size="11" font-weight="700" fill="#e05a00">TRICEPS</text>
+              <text x="300" y="222" text-anchor="middle" font-family="Outfit,sans-serif" font-size="10" fill="#c2410c">BRAHIAL</text>
+              <text x="300" y="237" text-anchor="middle" font-family="Outfit,sans-serif" font-size="9" fill="#6b7280">(AGONIST)</text>
+              <!-- Biceps relaxat -->
+              <rect x="245" y="255" width="110" height="45" rx="10" fill="rgba(156,163,175,.15)" stroke="#9ca3af" stroke-width="1.5"/>
+              <text x="300" y="275" text-anchor="middle" font-family="Outfit,sans-serif" font-size="11" font-weight="600" fill="#9ca3af">BICEPS</text>
+              <text x="300" y="292" text-anchor="middle" font-family="Outfit,sans-serif" font-size="10" fill="#9ca3af">brahial relaxat</text>
+              <text x="300" y="307" text-anchor="middle" font-family="Outfit,sans-serif" font-size="9" fill="#9ca3af">(ANTAGONIST)</text>
+              <!-- Rezultat extensie -->
+              <rect x="245" y="320" width="110" height="40" rx="10" fill="rgba(224,90,0,.15)" stroke="#e05a00" stroke-width="1.5"/>
+              <text x="300" y="345" text-anchor="middle" font-family="Outfit,sans-serif" font-size="11" font-weight="700" fill="#c2410c">✅ Cotul EXTINDE</text>
+              <!-- Arrows in extensie branch -->
+              <line x1="300" y1="235" x2="300" y2="255" stroke="#e05a00" stroke-width="1.5"/>
+              <line x1="300" y1="300" x2="300" y2="320" stroke="#9ca3af" stroke-width="1.5"/>
+              <defs>
+                <marker id="arrG" markerWidth="7" markerHeight="7" refX="5" refY="3" orient="auto"><path d="M0,0 L0,6 L7,3 z" fill="#9ca3af"/></marker>
+              </defs>
+            </svg>
+          </div>
+        </div>
+        <div>
+          <div class="hbox hbox-muscle">
+            <strong>🔑 Regula Agonist-Antagonist</strong>
+            Când agonistul se <strong>contractă</strong> pentru a produce mișcarea, antagonistul se <strong>relaxează</strong> pentru a permite mișcarea. Ele lucrează în perechi coordonate.<br><br>
+            <span class="tag tag-blue">Agonist</span> = mușchiul activ<br>
+            <span class="tag tag-orange">Antagonist</span> = mușchiul opus, relaxat
+          </div>
+          <div class="hbox hbox-green">
+            <strong>Exemple clasice la admitere:</strong><br>
+            • Biceps brahial (flexie cot) ↔ Triceps brahial (extensie cot)<br>
+            • Cvadriceps (extensie gambă) ↔ Ischiogambieri (flexie gambă)<br>
+            • Deltoid (abducție braț) ↔ Pectoral mare + Dorsal mare (adducție)<br>
+            • Tibial anterior (flexie dorsală) ↔ Gastrocnemian (flexie plantară)
+          </div>
+          <div class="level-row" onclick="toggleLevel(this)">
+            <div class="level-head">
+              <div class="level-num" style="background:var(--cyan-light);color:var(--cyan);">📝</div>
+              <div class="level-info"><div class="level-name">Tipuri de mișcări musculare</div><div class="level-short">Flexie, extensie, abducție, adducție...</div></div>
+              <span class="level-chevron">›</span>
+            </div>
+            <div class="level-detail-panel">
+              <strong>Flexie</strong> = scurtarea unghiului articulației (biceps → flexie cot)<br>
+              <strong>Extensie</strong> = mărirea unghiului (triceps → extensie cot)<br>
+              <strong>Abducție</strong> = depărtarea de linia mediană (deltoid → abducție braț)<br>
+              <strong>Adducție</strong> = apropierea de linia mediană (adductori → adducție coapsă)<br>
+              <strong>Rotație</strong> = mișcare în jurul axului longitudinal (piriformis → rotație șold)<br>
+              <strong>Pronație / Supinație</strong> = rotația antebrațului (pronator rotund / supinator)<br>
+              <strong>Inversie / Eversie</strong> = rotația piciorului (tibial anterior / peronier lung)<br>
+              <strong>Flexie plantară</strong> = coborârea piciorului (gastrocnemian, solear)<br>
+              <strong>Flexie dorsală</strong> = ridicarea piciorului (tibial anterior)
+            </div>
+          </div>
+          <div class="level-row" onclick="toggleLevel(this)">
+            <div class="level-head">
+              <div class="level-num" style="background:var(--pink-light);color:var(--pink);">🦵</div>
+              <div class="level-info"><div class="level-name">Schema Logică: Mușchii Gambei</div><div class="level-short">Triceps sural + tibial anterior</div></div>
+              <span class="level-chevron">›</span>
+            </div>
+            <div class="level-detail-panel">
+              <strong>Triceps Sural</strong> = Gastrocnemian + Solear → se inseră pe calcaneu prin <strong>tendonul ahilian</strong> → flexie plantară<br><br>
+              <strong>Gastrocnemian</strong>: origine femur (condili medial+lateral) → trece peste genunchi și gleznă → flexie plantară + flexie gambă<br>
+              <strong>Solear</strong>: origine tibie + fibulă → DOAR flexie plantară (nu trece genunchiul!)<br><br>
+              <strong>Tibial anterior</strong>: față anterioară gambei → inversie picior + flexie dorsală (antagonist al gastrocnemianului)
+            </div>
+          </div>
+        </div>
+      </div>
+    </div>
+
+    <!-- FLOWCHART CLASIFICARE MUSCHI -->
+    <div class="gcard fu fu-2">
+      <div class="gcard-title">
+        <div class="ct-icon" style="background:var(--orange-light)">🗺️</div>
+        Clasificarea Mușchilor Corpului — Flowchart Ierarhic
+      </div>
+      <svg width="100%" height="340" viewBox="0 0 900 340" style="background:rgba(255,255,255,.55);border-radius:14px;border:1px solid var(--border);">
+        <defs>
+          <marker id="arrH" markerWidth="8" markerHeight="8" refX="6" refY="3" orient="auto"><path d="M0,0 L0,6 L8,3 z" fill="#d1d5db"/></marker>
+        </defs>
+        <!-- ROOT -->
+        <rect x="350" y="10" width="200" height="45" rx="12" fill="#e05a00"/>
+        <text x="450" y="37" text-anchor="middle" font-family="Outfit,sans-serif" font-size="13" font-weight="800" fill="white">SISTEMUL MUSCULAR</text>
+        <!-- Lines to main groups -->
+        <line x1="450" y1="55" x2="450" y2="75" stroke="#d1d5db" stroke-width="2"/>
+        <line x1="130" y1="75" x2="770" y2="75" stroke="#d1d5db" stroke-width="2"/>
+        <line x1="130" y1="75" x2="130" y2="95" stroke="#d1d5db" stroke-width="2"/>
+        <line x1="320" y1="75" x2="320" y2="95" stroke="#d1d5db" stroke-width="2"/>
+        <line x1="580" y1="75" x2="580" y2="95" stroke="#d1d5db" stroke-width="2"/>
+        <line x1="770" y1="75" x2="770" y2="95" stroke="#d1d5db" stroke-width="2"/>
+        <!-- MEMBER SUPERIOR -->
+        <rect x="30" y="95" width="200" height="40" rx="10" fill="rgba(91,141,238,.2)" stroke="#5b8dee" stroke-width="2"/>
+        <text x="130" y="120" text-anchor="middle" font-family="Outfit,sans-serif" font-size="11" font-weight="700" fill="#5b8dee">MEMBRE SUPERIOARE</text>
+        <!-- TRUNCHI -->
+        <rect x="220" y="95" width="200" height="40" rx="10" fill="rgba(16,185,129,.2)" stroke="#10b981" stroke-width="2"/>
+        <text x="320" y="120" text-anchor="middle" font-family="Outfit,sans-serif" font-size="11" font-weight="700" fill="#10b981">TRUNCHI & ABDOMEN</text>
+        <!-- CAP & GAT -->
+        <rect x="480" y="95" width="200" height="40" rx="10" fill="rgba(139,92,246,.2)" stroke="#8b5cf6" stroke-width="2"/>
+        <text x="580" y="120" text-anchor="middle" font-family="Outfit,sans-serif" font-size="11" font-weight="700" fill="#8b5cf6">CAP & GÂT</text>
+        <!-- MEMBRE INFERIOARE -->
+        <rect x="670" y="95" width="200" height="40" rx="10" fill="rgba(236,72,153,.2)" stroke="#ec4899" stroke-width="2"/>
+        <text x="770" y="120" text-anchor="middle" font-family="Outfit,sans-serif" font-size="11" font-weight="700" fill="#ec4899">MEMBRE INFERIOARE</text>
+        <!-- MEMBER SUP subgroups -->
+        <line x1="130" y1="135" x2="130" y2="155" stroke="#5b8dee" stroke-width="1.5"/>
+        <line x1="50" y1="155" x2="210" y2="155" stroke="#5b8dee" stroke-width="1.5"/>
+        <line x1="50" y1="155" x2="50" y2="170" stroke="#5b8dee" stroke-width="1.5"/>
+        <line x1="130" y1="155" x2="130" y2="170" stroke="#5b8dee" stroke-width="1.5"/>
+        <line x1="210" y1="155" x2="210" y2="170" stroke="#5b8dee" stroke-width="1.5"/>
+        <rect x="10" y="170" width="80" height="35" rx="8" fill="rgba(91,141,238,.1)" stroke="#5b8dee" stroke-width="1.5"/>
+        <text x="50" y="192" text-anchor="middle" font-family="Outfit,sans-serif" font-size="9.5" fill="#1d4ed8" font-weight="600">M. Umărului</text>
+        <rect x="90" y="170" width="80" height="35" rx="8" fill="rgba(91,141,238,.1)" stroke="#5b8dee" stroke-width="1.5"/>
+        <text x="130" y="192" text-anchor="middle" font-family="Outfit,sans-serif" font-size="9.5" fill="#1d4ed8" font-weight="600">M. Brațului</text>
+        <rect x="170" y="170" width="80" height="35" rx="8" fill="rgba(91,141,238,.1)" stroke="#5b8dee" stroke-width="1.5"/>
+        <text x="210" y="188" text-anchor="middle" font-family="Outfit,sans-serif" font-size="9.5" fill="#1d4ed8" font-weight="600">M. Antebrat</text>
+        <text x="210" y="200" text-anchor="middle" font-family="Outfit,sans-serif" font-size="9.5" fill="#1d4ed8" font-weight="600">& Mână</text>
+        <!-- Details member sup -->
+        <text x="50" y="225" text-anchor="middle" font-family="Outfit,sans-serif" font-size="8.5" fill="#6b7280">Deltoid, Pectoral</text>
+        <text x="50" y="237" text-anchor="middle" font-family="Outfit,sans-serif" font-size="8.5" fill="#6b7280">Trapez, Dintat ant.</text>
+        <text x="130" y="225" text-anchor="middle" font-family="Outfit,sans-serif" font-size="8.5" fill="#6b7280">Biceps, Triceps</text>
+        <text x="130" y="237" text-anchor="middle" font-family="Outfit,sans-serif" font-size="8.5" fill="#6b7280">Brahial</text>
+        <text x="210" y="225" text-anchor="middle" font-family="Outfit,sans-serif" font-size="8.5" fill="#6b7280">Brahioradial</text>
+        <text x="210" y="237" text-anchor="middle" font-family="Outfit,sans-serif" font-size="8.5" fill="#6b7280">Flexori/Extensori</text>
+        <!-- TRUNCHI subgroups -->
+        <line x1="320" y1="135" x2="320" y2="155" stroke="#10b981" stroke-width="1.5"/>
+        <line x1="265" y1="155" x2="375" y2="155" stroke="#10b981" stroke-width="1.5"/>
+        <line x1="265" y1="155" x2="265" y2="170" stroke="#10b981" stroke-width="1.5"/>
+        <line x1="375" y1="155" x2="375" y2="170" stroke="#10b981" stroke-width="1.5"/>
+        <rect x="225" y="170" width="80" height="35" rx="8" fill="rgba(16,185,129,.1)" stroke="#10b981" stroke-width="1.5"/>
+        <text x="265" y="190" text-anchor="middle" font-family="Outfit,sans-serif" font-size="9.5" fill="#065f46" font-weight="600">M. Abdomen</text>
+        <rect x="335" y="170" width="80" height="35" rx="8" fill="rgba(16,185,129,.1)" stroke="#10b981" stroke-width="1.5"/>
+        <text x="375" y="188" text-anchor="middle" font-family="Outfit,sans-serif" font-size="9.5" fill="#065f46" font-weight="600">M. Respiratori</text>
+        <text x="375" y="200" text-anchor="middle" font-family="Outfit,sans-serif" font-size="9.5" fill="#065f46" font-weight="600">& Pelvis</text>
+        <text x="265" y="225" text-anchor="middle" font-family="Outfit,sans-serif" font-size="8.5" fill="#6b7280">Dr.Abdom, Oblic ext</text>
+        <text x="265" y="237" text-anchor="middle" font-family="Outfit,sans-serif" font-size="8.5" fill="#6b7280">Oblic int, Transvers</text>
+        <text x="375" y="225" text-anchor="middle" font-family="Outfit,sans-serif" font-size="8.5" fill="#6b7280">Diafragmă</text>
+        <text x="375" y="237" text-anchor="middle" font-family="Outfit,sans-serif" font-size="8.5" fill="#6b7280">Ridic. anal</text>
+        <!-- CAP & GAT subgroups -->
+        <line x1="580" y1="135" x2="580" y2="155" stroke="#8b5cf6" stroke-width="1.5"/>
+        <line x1="520" y1="155" x2="640" y2="155" stroke="#8b5cf6" stroke-width="1.5"/>
+        <line x1="520" y1="155" x2="520" y2="170" stroke="#8b5cf6" stroke-width="1.5"/>
+        <line x1="640" y1="155" x2="640" y2="170" stroke="#8b5cf6" stroke-width="1.5"/>
+        <rect x="480" y="170" width="80" height="35" rx="8" fill="rgba(139,92,246,.1)" stroke="#8b5cf6" stroke-width="1.5"/>
+        <text x="520" y="190" text-anchor="middle" font-family="Outfit,sans-serif" font-size="9.5" fill="#7c3aed" font-weight="600">M. Feței</text>
+        <rect x="600" y="170" width="80" height="35" rx="8" fill="rgba(139,92,246,.1)" stroke="#8b5cf6" stroke-width="1.5"/>
+        <text x="640" y="190" text-anchor="middle" font-family="Outfit,sans-serif" font-size="9.5" fill="#7c3aed" font-weight="600">M. Gâtului</text>
+        <text x="520" y="225" text-anchor="middle" font-family="Outfit,sans-serif" font-size="8.5" fill="#6b7280">Temporal, Maseter</text>
+        <text x="520" y="237" text-anchor="middle" font-family="Outfit,sans-serif" font-size="8.5" fill="#6b7280">Zigomatic, Orbicular</text>
+        <text x="640" y="225" text-anchor="middle" font-family="Outfit,sans-serif" font-size="8.5" fill="#6b7280">Sternocleidmast.</text>
+        <text x="640" y="237" text-anchor="middle" font-family="Outfit,sans-serif" font-size="8.5" fill="#6b7280">Infrahioidieni</text>
+        <!-- MEMBRE INF subgroups -->
+        <line x1="770" y1="135" x2="770" y2="155" stroke="#ec4899" stroke-width="1.5"/>
+        <line x1="700" y1="155" x2="840" y2="155" stroke="#ec4899" stroke-width="1.5"/>
+        <line x1="700" y1="155" x2="700" y2="170" stroke="#ec4899" stroke-width="1.5"/>
+        <line x1="770" y1="155" x2="770" y2="170" stroke="#ec4899" stroke-width="1.5"/>
+        <line x1="840" y1="155" x2="840" y2="170" stroke="#ec4899" stroke-width="1.5"/>
+        <rect x="658" y="170" width="84" height="35" rx="8" fill="rgba(236,72,153,.1)" stroke="#ec4899" stroke-width="1.5"/>
+        <text x="700" y="192" text-anchor="middle" font-family="Outfit,sans-serif" font-size="9.5" fill="#9d174d" font-weight="600">M. Coapsei</text>
+        <rect x="730" y="170" width="80" height="35" rx="8" fill="rgba(236,72,153,.1)" stroke="#ec4899" stroke-width="1.5"/>
+        <text x="770" y="190" text-anchor="middle" font-family="Outfit,sans-serif" font-size="9.5" fill="#9d174d" font-weight="600">M. Fesieri</text>
+        <rect x="800" y="170" width="80" height="35" rx="8" fill="rgba(236,72,153,.1)" stroke="#ec4899" stroke-width="1.5"/>
+        <text x="840" y="192" text-anchor="middle" font-family="Outfit,sans-serif" font-size="9.5" fill="#9d174d" font-weight="600">M. Gambei</text>
+        <text x="700" y="225" text-anchor="middle" font-family="Outfit,sans-serif" font-size="8.5" fill="#6b7280">Cvadriceps, Croitor</text>
+        <text x="700" y="237" text-anchor="middle" font-family="Outfit,sans-serif" font-size="8.5" fill="#6b7280">Adductori, Ischiogang.</text>
+        <text x="770" y="225" text-anchor="middle" font-family="Outfit,sans-serif" font-size="8.5" fill="#6b7280">Fesier mare</text>
+        <text x="770" y="237" text-anchor="middle" font-family="Outfit,sans-serif" font-size="8.5" fill="#6b7280">Fesier mic & mijlociu</text>
+        <text x="840" y="225" text-anchor="middle" font-family="Outfit,sans-serif" font-size="8.5" fill="#6b7280">Gastrocnemian</text>
+        <text x="840" y="237" text-anchor="middle" font-family="Outfit,sans-serif" font-size="8.5" fill="#6b7280">Solear, Tibial ant.</text>
+      </svg>
+    </div>
+
+    <!-- FLOWCHART MUSCHI RESPIRATIE -->
+    <div class="gcard fu fu-3">
+      <div class="gcard-title">
+        <div class="ct-icon" style="background:var(--cyan-light)">🌬️</div>
+        Schema Logică — Mușchii Respirației
+      </div>
+      <div class="g2">
+        <div>
+          <div style="padding:18px;background:rgba(255,255,255,.55);border-radius:14px;border:1px solid var(--border);">
+            <div style="text-align:center;margin-bottom:16px;">
+              <span style="background:#06b6d4;color:white;padding:6px 20px;border-radius:20px;font-weight:700;font-size:13px;">CICLUL RESPIRATOR</span>
+            </div>
+            <!-- INSPIRATIE -->
+            <div style="background:rgba(6,182,212,.08);border:1.5px solid var(--cyan);border-radius:12px;padding:14px;margin-bottom:12px;">
+              <div style="font-weight:800;color:var(--cyan);font-size:13px;margin-bottom:10px;">⬇️ INSPIRAȚIE (activ)</div>
+              <div class="flow-row">
+                <div class="flow-node" style="background:#06b6d4;font-size:12px;">Diafragmă se contractă ↓</div>
+                <div class="flow-desc">Coboară → crește volumul toracelui</div>
+              </div>
+              <div class="flow-arrow-v"></div>
+              <div class="flow-row">
+                <div class="flow-node" style="background:#0891b2;font-size:12px;">Intercostali externi</div>
+                <div class="flow-desc">Ridică coastele → cresc diametrele</div>
+              </div>
+              <div class="flow-arrow-v"></div>
+              <div class="flow-row">
+                <div class="flow-node" style="background:#0e7490;font-size:12px;">Presiune ↓ → Aer intră</div>
+                <div class="flow-desc">Inspirație profundă: + pectoral mare, trapez</div>
+              </div>
+            </div>
+            <!-- EXPIRATIE -->
+            <div style="background:rgba(224,90,0,.07);border:1.5px solid var(--muscle);border-radius:12px;padding:14px;">
+              <div style="font-weight:800;color:var(--muscle);font-size:13px;margin-bottom:10px;">⬆️ EXPIRAȚIE (pasiv / activ)</div>
+              <div class="flow-row">
+                <div class="flow-node" style="background:#e05a00;font-size:12px;">Relaxare mușchi inspiratori</div>
+                <div class="flow-desc">Expirație normală = PASIVĂ</div>
+              </div>
+              <div class="flow-arrow-v"></div>
+              <div class="flow-row">
+                <div class="flow-node" style="background:#c2410c;font-size:12px;">Forțat: Oblic int. + ext.</div>
+                <div class="flow-desc">+ Transvers + Drept abdominal</div>
+              </div>
+              <div class="flow-arrow-v"></div>
+              <div class="flow-row">
+                <div class="flow-node" style="background:#9a3412;font-size:12px;">Diafragma urcă → Aer iese</div>
+                <div class="flow-desc">Comprimarea cavității abdominale</div>
+              </div>
+            </div>
+          </div>
+        </div>
+        <div>
+          <div class="hbox hbox-cyan">
+            <strong>Diafragma</strong> — principalul mușchi inspirator. Se contractă și coboară în inspirație, crescând volumul toracelui. Inervată de nervul frenic (C3-C5).<br>
+            <span style="font-size:11.5px;">📌 Mnemonic: C3, 4, 5 keep the diaphragm alive</span>
+          </div>
+          <div class="hbox hbox-blue">
+            <strong>Intercostalii Externi</strong> — ridică coastele în inspirație, mărind diametrele toracice anterior-posterior și transversal. Acționează împreună cu diafragma.
+          </div>
+          <div class="hbox hbox-orange">
+            <strong>Expirație forțată</strong> — Oblicul intern + extern + Transversul abdominal + Dreptul abdominal împing diafragma în sus. Importanți la tuse, strănut, efort.
+          </div>
+          <div class="mnemonic">
+            <div class="mnemonic-title">🧠 Mnemonic Respirație</div>
+            <div class="mnemonic-text">
+              <span class="em">I</span>nspirație = <span class="em">I</span>ntercostali externi + <span class="em">I</span>nterior diafragmă coboară<br>
+              <span class="em">E</span>xpirație forțată = <span class="em">E</span>i Oblicii + <span class="em">E</span>xpulzează aerul<br>
+              <span class="sub">Expirația relaxată = PASIVĂ (fără mușchi activi!)</span>
+            </div>
+          </div>
+        </div>
+      </div>
+    </div>
+
+  </div><!-- end panel-scheme -->
+
+  <!-- ═══════════════════════════ PANEL 3 — TABELE ═══════════════════════════ -->
+  <div class="panel" id="panel-tabele">
+
+    <!-- TABEL MUSCHII UMARULUI SI BRATULUI -->
+    <div class="gcard fu fu-1">
+      <div class="gcard-title">
+        <div class="ct-icon" style="background:var(--blue-light)">💪</div>
+        Tabel Complet — Mușchii Umărului & Brațului (Tabelul 9.2)
+      </div>
+      <div style="overflow-x:auto;">
+        <table class="med-table">
+          <thead>
+            <tr><th>Mușchi</th><th>Origine</th><th>Inserție</th><th>Funcție</th><th>Inervație</th></tr>
+          </thead>
+          <tbody>
+            <tr><td><strong>Trapezul</strong></td><td>Os occipital + vertebre cervicale & toracice</td><td>Claviculă + spina & acromion scapulei</td><td>Extensia & rotația membrului superior; elevaţie scapulă</td><td>Nervul accesor + nervi cervicali</td></tr>
+            <tr><td><strong>Pectoralul mic</strong></td><td>Coaste III-V</td><td>Apofiza coracoidă a scapulei</td><td>Coboară umărul</td><td>Nervii pectorali medial & lateral</td></tr>
+            <tr><td><strong>Dinţatul anterior</strong></td><td>Primele 8-9 coaste (suprafaţa externă)</td><td>Suprafaţa anterioară, marginea medială a scapulei</td><td>Trage scapula spre exterior; abducţia umărului</td><td>Nervul toracic lung</td></tr>
+            <tr><td><strong>Pectoralul mare</strong></td><td>Claviculă (jum. medială) + stern + cartilaje costale</td><td>Humerus (creasta tuberculului mare)</td><td>Adducţia brațului; formează peretele anterior al axilei</td><td>Nervii pectorali medial & lateral</td></tr>
+            <tr><td><strong>Marele dorsal</strong></td><td>Apofizele vertebrelor toracice + creasta iliacă + fascia lombodorsală</td><td>Humerus (şanţul intertubercular)</td><td>Extensia & adducţia brațului; antagonist pectoral mare</td><td>Nervul toracodorsal</td></tr>
+            <tr><td><strong>Deltoidul</strong></td><td>Claviculă + spina & acromion scapulei</td><td>Humerus (tuberozitatea deltoidă)</td><td>Abducţia brațului; flexie & extensie braţ</td><td>Nervul axilar</td></tr>
+            <tr><td><strong>Bicepsul brahial</strong></td><td>Scapulă (tuberculul supraglenoidal + apofiza coracoidă)</td><td>Radius (tuberozitatea proximală)</td><td>Flexia & supinaţia antebraţului; flexia la umăr</td><td>Nervul musculocutanat</td></tr>
+            <tr><td><strong>Brahialul</strong></td><td>Humerus (jum. distală, suprafaţa anterioară)</td><td>Ulnă (tuberozitate proximală)</td><td>Flexia antebraţului la cot</td><td>Nervul musculocutanat</td></tr>
+            <tr><td><strong>Tricepsul brahial</strong></td><td>Scapulă (tuberculul infraglenoidal) + humerus (suprafaţa posterioară) — 3 capete</td><td>Ulnă (olecranon)</td><td>Extensia antebraţului la cot</td><td>Nervul radial</td></tr>
+            <tr><td><strong>Coracobrahialul</strong></td><td>Scapulă (apofiza coracoidă)</td><td>Humerus</td><td>Flexia & adducţia brațului</td><td>Nervul musculocutanat</td></tr>
+          </tbody>
+        </table>
+      </div>
+      <div class="mnemonic" style="margin-top:16px;">
+        <div class="mnemonic-title">🧠 Mnemonic Umăr</div>
+        <div class="mnemonic-text">
+          <span class="em">D</span>eltoid = <span class="em">D</span>epărtează brațul (abducție) | <span class="em">P</span>ectoral + <span class="em">D</span>orsal = <span class="em">A</span>dducție<br>
+          <span class="sub">Deltoidul realizează abducţia brațului, în timp ce pectoralul mare și dorsalul mare realizează adducţia brațului.</span>
+        </div>
+      </div>
+    </div>
+
+    <!-- TABEL MUSCHI PELVIS SI COAPSA -->
+    <div class="gcard fu fu-2">
+      <div class="gcard-title">
+        <div class="ct-icon" style="background:var(--pink-light)">🦵</div>
+        Tabel Complet — Mușchii Pelvisului & Coapsei (Tabelul 9.3)
+      </div>
+      <div style="overflow-x:auto;">
+        <table class="med-table">
+          <thead>
+            <tr><th>Mușchi</th><th>Origine</th><th>Inserție</th><th>Funcție</th><th>Inervație</th></tr>
+          </thead>
+          <tbody>
+            <tr>
+              <td><strong>Iliopsoas</strong><br><small style="color:var(--text3)">(Iliac + Psoas mare)</small></td>
+              <td>Ilion (fosa iliacă) + vertebre T12-L5</td>
+              <td>Femur (trohanterul mic)</td>
+              <td>Flexia coapsei; flexia trunchiului</td>
+              <td>Nervul femural</td>
+            </tr>
+            <tr><td><strong>Croitorul (Sartorius)</strong></td><td>Spina iliacă antero-superioară</td><td>Tibie (suprafaţa medială)</td><td>Flexia coapsei + rotaţia gambei medial; încrucișarea picioarelor</td><td>Nervul femural</td></tr>
+            <tr>
+              <td><strong>Cvadriceps femural</strong><br><small style="color:var(--text3)">4 mușchi</small></td>
+              <td>Drept femural: ilion | Vast lateral, medial, intermediar: femur</td>
+              <td>Tibie (prin tendonul patelar)</td>
+              <td>Extensia gambei; dreptul femural flectează și coapsa</td>
+              <td>Nervul femural</td>
+            </tr>
+            <tr><td><strong>Fesierul Mare</strong></td><td>Ilion (creasta & suprafaţa post.) + sacru + coccis</td><td>Femur (tuberozitate gluteală) + tract iliotibial</td><td>Extensia membrului inferior la șold</td><td>Nervul fesier inferior</td></tr>
+            <tr><td><strong>Fesierul Mijlociu</strong></td><td>Ilion (suprafaţa laterală)</td><td>Femur (trohanterul mare)</td><td>Abducţia coapsei + rotaţia medială</td><td>Nervul fesier superior</td></tr>
+            <tr><td><strong>Fesierul Mic</strong></td><td>Ilion (suprafaţa laterală)</td><td>Femur (trohanterul mare)</td><td>Abducţia coapsei</td><td>Nervul fesier superior</td></tr>
+            <tr><td><strong>Adductorul scurt / lung / mare</strong></td><td>Osul pubis</td><td>Femur</td><td>Adducţia coapsei</td><td>Nervul obturator</td></tr>
+            <tr><td><strong>Gracilis</strong></td><td>Osul pubis (sub simfiză)</td><td>Tibie (suprafaţa medială)</td><td>Adducţia coapsei</td><td>Nervul obturator</td></tr>
+            <tr><td><strong>Bicepsul femural</strong></td><td>Ischion (tuberozitate) + femur (linia aspră)</td><td>Fibulă (cap)</td><td>Flexia gambei + extensia coapsei + rotaţia laterală a gambei</td><td>Nervul tibial + fibular comun</td></tr>
+            <tr><td><strong>Semitendinosul</strong></td><td>Ischion (tuberozitate)</td><td>Tibie (capăt proximal, suprafaţa medială)</td><td>Flexia gambei + extensia coapsei + rotaţia medială</td><td>Nervul tibial</td></tr>
+            <tr><td><strong>Semimembranosul</strong></td><td>Ischion (tuberozitate)</td><td>Tibie (condilul medial)</td><td>Flexia gambei + extensia coapsei</td><td>Nervul tibial</td></tr>
+          </tbody>
+        </table>
+      </div>
+    </div>
+
+    <!-- TABEL MUSCHI GAMBEI -->
+    <div class="gcard fu fu-3">
+      <div class="gcard-title">
+        <div class="ct-icon" style="background:var(--orange-light)">🦶</div>
+        Tabel — Mușchii Gambei & Piciorului (Tabelul 9.4)
+      </div>
+      <div style="overflow-x:auto;">
+        <table class="med-table">
+          <thead>
+            <tr><th>Mușchi</th><th>Origine</th><th>Inserție</th><th>Funcție</th><th>Inervație</th></tr>
+          </thead>
+          <tbody>
+            <tr><td><strong>Tibial anterior</strong></td><td>Tibie (condilul lateral, porţiunea superioară)</td><td>Tars (primul cuneiform) + metatarsiene</td><td>Inversia piciorului + flexie dorsală (ridică piciorul)</td><td>Nervul fibular profund</td></tr>
+            <tr><td><strong>Gastrocnemian</strong></td><td>Femur (condilii medial & lateral)</td><td>Tars (calcaneu) prin tendonul ahilian</td><td>Flexie plantară + flexia gambei; trece peste genunchi & gleznă</td><td>Nervul tibial</td></tr>
+            <tr><td><strong>Solear</strong></td><td>Tibie (sub gastrocnemian) + fibulă</td><td>Calcaneu prin tendonul ahilian</td><td>Flexie plantară (NU trece genunchiul)</td><td>Nervul tibial</td></tr>
+            <tr><td><strong>Peronier lung</strong></td><td>Fibulă (porţiunea superioară)</td><td>Cuneiform medial + primul metatarsian</td><td>Eversia piciorului + flexie plantară</td><td>Nervul fibular superficial</td></tr>
+            <tr><td><strong>Peronier scurt</strong></td><td>Fibulă</td><td>Al 5-lea metatarsian</td><td>Eversia piciorului</td><td>Nervul fibular superficial</td></tr>
+          </tbody>
+        </table>
+      </div>
+      <div style="margin-top:16px;padding:14px;background:rgba(224,90,0,.07);border-radius:12px;border:1px solid rgba(224,90,0,.2);">
+        <strong style="color:var(--muscle);">📌 Triceps Sural = Gastrocnemian + Solear</strong><br>
+        <span style="font-size:13px;color:var(--text2);">Ambii se inseră pe calcaneu prin tendonul ahilian. Gastrocnemianul trece peste articulaţia genunchiului → flectează gamba. Solearul NU trece genunchiul → DOAR flexie plantară.</span>
+      </div>
+    </div>
+
+    <!-- TABEL COMPARATIV AGONIST-ANTAGONIST -->
+    <div class="gcard fu fu-4">
+      <div class="gcard-title">
+        <div class="ct-icon" style="background:var(--green-light)">⚖️</div>
+        Tabel Comparativ — Perechi Agonist ↔ Antagonist (Esențiale la Admitere)
+      </div>
+      <div style="overflow-x:auto;">
+        <table class="med-table">
+          <thead>
+            <tr><th>Mișcare</th><th>Agonist (contractă)</th><th>Antagonist (relaxat)</th><th>Articulație</th></tr>
+          </thead>
+          <tbody>
+            <tr><td><span class="tag tag-blue">Flexie cot</span></td><td>Biceps brahial + Brahial</td><td>Triceps brahial</td><td>Cot</td></tr>
+            <tr><td><span class="tag tag-orange">Extensie cot</span></td><td>Triceps brahial</td><td>Biceps brahial</td><td>Cot</td></tr>
+            <tr><td><span class="tag tag-green">Abducție braț</span></td><td>Deltoid</td><td>Pectoral mare + Dorsal mare</td><td>Umăr</td></tr>
+            <tr><td><span class="tag tag-red">Adducție braț</span></td><td>Pectoral mare + Dorsal mare</td><td>Deltoid</td><td>Umăr</td></tr>
+            <tr><td><span class="tag tag-blue">Extensie gambă</span></td><td>Cvadriceps femural (4 mușchi)</td><td>Ischiogambieri</td><td>Genunchi</td></tr>
+            <tr><td><span class="tag tag-violet">Flexie gambă</span></td><td>Ischiogambieri (biceps fem. + semitend. + semimemb.)</td><td>Cvadriceps femural</td><td>Genunchi</td></tr>
+            <tr><td><span class="tag tag-orange">Flexie plantară</span></td><td>Gastrocnemian + Solear</td><td>Tibial anterior</td><td>Gleznă</td></tr>
+            <tr><td><span class="tag tag-green">Flexie dorsală</span></td><td>Tibial anterior</td><td>Gastrocnemian + Solear</td><td>Gleznă</td></tr>
+            <tr><td><span class="tag tag-pink">Extensie coapsă</span></td><td>Fesier mare + ischiogambieri</td><td>Iliopsoas + Cvadriceps</td><td>Șold</td></tr>
+            <tr><td><span class="tag tag-cyan">Flexie cap</span></td><td>Sternocleidomastoid (bilateral)</td><td>Trapez + Extensori posteriori</td><td>Coloana cerv.</td></tr>
+          </tbody>
+        </table>
+      </div>
+    </div>
+
+    <!-- TABEL MUSCHI CAP & GÂT -->
+    <div class="gcard fu fu-1">
+      <div class="gcard-title">
+        <div class="ct-icon" style="background:var(--violet-light)">🗣️</div>
+        Tabel — Mușchii Capului & Gâtului
+      </div>
+      <div style="overflow-x:auto;">
+        <table class="med-table">
+          <thead>
+            <tr><th>Mușchi</th><th>Origine</th><th>Inserție</th><th>Funcție</th></tr>
+          </thead>
+          <tbody>
+            <tr><td><strong>Sternocleidomastoid</strong></td><td>Stern + suprafaţa sup. a claviculei</td><td>Apofiza mastoidă a osului temporal</td><td>Înclină capul lateral + spre torace; bilateral = flexia capului</td></tr>
+            <tr><td><strong>Temporalul</strong></td><td>Os temporal (zona temporală)</td><td>Mandibulă (procesul coronoid)</td><td>Închiderea gurii (masticaţie)</td></tr>
+            <tr><td><strong>Maseterul</strong></td><td>Arc zigomatic al temporalului + os zigomatic</td><td>Mandibulă (faţa externă a ramurei)</td><td>Închiderea gurii (masticaţie)</td></tr>
+            <tr><td><strong>Pterigoid medial</strong></td><td>Apofiza pterigoidă a sfenoidului</td><td>Suprafaţa internă a ramurei mandibulei</td><td>Masticaţie (similar temporalului)</td></tr>
+            <tr><td><strong>Pterigoid lateral</strong></td><td>Sfenoid (placa pterigoidă laterală)</td><td>Gâtul apofizei condiloide a mandibulei</td><td>Mișcarea laterală a mandibulei + protruzie; deschiderea gurii</td></tr>
+            <tr><td><strong>Orbicular ochi</strong></td><td>Margine orbitei + os lacrimal</td><td>Pielea pleoapei</td><td>Închide pleoapa</td></tr>
+            <tr><td><strong>Orbicular guri</strong></td><td>Maxilă + mandibulă</td><td>Pielea buzelor</td><td>Ţuguierea buzelor; închide gura</td></tr>
+            <tr><td><strong>Zigomaticul</strong></td><td>Os zigomatic</td><td>Colţul gurii</td><td>Trage colţul gurii în sus = zâmbet</td></tr>
+            <tr><td><strong>Platisma</strong></td><td>Fascia pectorală & deltoidă</td><td>Mandibulă + piele gurii</td><td>Trage unghiul gurii în jos</td></tr>
+          </tbody>
+        </table>
+      </div>
+      <div class="mnemonic" style="margin-top:14px;">
+        <div class="mnemonic-title">🧠 Mușchii Mimicii — De Reținut</div>
+        <div class="mnemonic-text">
+          <span class="em">Z</span>igomatic = <span class="em">Z</span>âmbet (sus) | <span class="em">P</span>latisma = <span class="em">P</span>lânge (jos)<br>
+          <span class="em">T</span>emporal + <span class="em">M</span>aseter + <span class="em">P</span>terigoid medial = <span class="em">TMP</span> = mușchii <strong>masticatori care ÎNCHID</strong> gura<br>
+          <span class="sub">Pterigoid LATERAL = singurul care DESCHIDE gura și produce mișcări laterale</span>
+        </div>
+      </div>
+    </div>
+
+  </div><!-- end panel-tabele -->
+
+  <!-- ═══════════════════════════ PANEL 4 — REGIUNI ANATOMICE ═══════════════════════════ -->
+  <div class="panel" id="panel-regiuni">
+
+    <div class="gcard fu fu-1">
+      <div class="gcard-title">
+        <div class="ct-icon" style="background:var(--muscle-light)">🗺️</div>
+        Explorare Interactivă pe Regiuni Anatomice — Click pentru detalii complete
+      </div>
+      <div class="g4">
+        <div class="region-card" onclick="toggleRegion(this)" data-region="umar">
+          <div class="region-icon">💪</div>
+          <div class="region-name">Umărul</div>
+          <div class="region-sub">Deltoid, Pectoral, Trapez, Dintat anterior</div>
+          <div class="region-detail">
+            <strong style="color:var(--muscle);">Mușchii principali:</strong><br>
+            • <strong>Deltoid</strong> → abducție braț (agonist), inervat de n. axilar<br>
+            • <strong>Pectoral mare</strong> → adducție braț, formează peretele axilei<br>
+            • <strong>Dintat anterior</strong> → trage scapula lateral, abducție umăr<br>
+            • <strong>Trapez</strong> → extensia membrului superior, elevaţia scapulei<br>
+            • <strong>Dorsal mare</strong> → extensia & adducția brațului<br><br>
+            <span class="tag tag-muscle">📌 Cheia: Deltoid = abducție | Pectoral + Dorsal = adducție</span>
+          </div>
+        </div>
+        <div class="region-card" onclick="toggleRegion(this)" data-region="brat">
+          <div class="region-icon">🦾</div>
+          <div class="region-name">Brațul</div>
+          <div class="region-sub">Biceps, Triceps, Brahial, Coracobrahial</div>
+          <div class="region-detail">
+            <strong style="color:var(--muscle);">Mușchii principali:</strong><br>
+            • <strong>Biceps brahial</strong> → flexie + supinație antebraț (2 capete de origine!)<br>
+            • <strong>Triceps brahial</strong> → extensie antebraț (3 capete de origine!)<br>
+            • <strong>Brahial</strong> → flexia brațului la cot (sub biceps)<br>
+            • <strong>Coracobrahial</strong> → flexia & adducția brațului<br><br>
+            <span class="tag tag-blue">Biceps flectează ↔ Triceps extinde</span>
+          </div>
+        </div>
+        <div class="region-card" onclick="toggleRegion(this)" data-region="antebrat">
+          <div class="region-icon">🖐️</div>
+          <div class="region-name">Antebrațul & Mâna</div>
+          <div class="region-sub">Brahioradial, Pronator, Supinator, Flexori/Extensori</div>
+          <div class="region-detail">
+            <strong style="color:var(--muscle);">Mușchii principali:</strong><br>
+            • <strong>Brahioradial</strong> → flexia antebrațului la cot<br>
+            • <strong>Supinator</strong> → supinația (palma spre anterior)<br>
+            • <strong>Pronator rotund + pătrat</strong> → pronația (palma spre posterior)<br>
+            • <strong>Flexori carpului</strong> → Flexor radial + ulnar al carpului<br>
+            • <strong>Extensori carpului</strong> → Extensor radial lung & scurt + ulnar<br>
+            • <strong>Opozabilitate</strong> = proprietate unică umană (muschi scurți ai policelui)
+          </div>
+        </div>
+        <div class="region-card" onclick="toggleRegion(this)" data-region="abdomen">
+          <div class="region-icon">🫁</div>
+          <div class="region-name">Abdomenul</div>
+          <div class="region-sub">Drept abdominal, Oblici, Transvers</div>
+          <div class="region-detail">
+            <strong style="color:var(--muscle);">Cele 4 straturi:</strong><br>
+            1. <strong>Oblic extern</strong> (superficial) → pornește de la ultimele 8 coaste, comprimă abdomenul<br>
+            2. <strong>Oblic intern</strong> (mijloc) → fibre perpendiculare pe oblicul extern<br>
+            3. <strong>Transvers abdominal</strong> (profund) → contractă peretele + expirație forțată<br>
+            4. <strong>Drept abdominal</strong> → leagă pubisul de coaste, flexia coloanei<br><br>
+            <strong>Linia albă</strong> = structură de ţesut conjunctiv pe linia mediană (fără mușchi)
+          </div>
+        </div>
+        <div class="region-card" onclick="toggleRegion(this)" data-region="coapsa">
+          <div class="region-icon">🦵</div>
+          <div class="region-name">Coapsa</div>
+          <div class="region-sub">Cvadriceps, Ischiogambieri, Adductori, Croitor</div>
+          <div class="region-detail">
+            <strong style="color:var(--muscle);">Compartimentele coapsei:</strong><br>
+            <strong>Anterior:</strong> Cvadriceps (4 mușchi) → extensie gambă + iliopsoas + croitor<br>
+            <strong>Medial:</strong> Adductori (scurt, lung, mare) + gracilis → adducție coapsă<br>
+            <strong>Posterior (ischiogambieri):</strong><br>
+            • Biceps femural (capul lung + scurt)<br>
+            • Semitendinos<br>
+            • Semimembranos<br>
+            Toți: flexia gambei + extensia coapsei. Origine: tuberozitatea ischiatică.
+          </div>
+        </div>
+        <div class="region-card" onclick="toggleRegion(this)" data-region="fese">
+          <div class="region-icon">🍑</div>
+          <div class="region-name">Fesele</div>
+          <div class="region-sub">Fesier mare, mijlociu, mic</div>
+          <div class="region-detail">
+            <strong style="color:var(--muscle);">Cei 3 mușchi fesieri:</strong><br>
+            • <strong>Fesier mare</strong> (Gluteus maximus) = cel mai voluminos → extensia coapsei la șold<br>
+            • <strong>Fesier mijlociu</strong> (Gluteus medius) → abducția coapsei + rotație medială<br>
+            • <strong>Fesier mic</strong> (Gluteus minimus) → aceeași origine & inserție ca fesierul mijlociu → abducția coapsei<br><br>
+            <span class="tag tag-pink">📌 Fesier MARE = Extensie | Fesier MIC & MIJLOCIU = Abducție</span>
+          </div>
+        </div>
+        <div class="region-card" onclick="toggleRegion(this)" data-region="gamba">
+          <div class="region-icon">🦶</div>
+          <div class="region-name">Gamba</div>
+          <div class="region-sub">Gastrocnemian, Solear, Tibial anterior, Peronieri</div>
+          <div class="region-detail">
+            <strong style="color:var(--muscle);">Compartimentele gambei:</strong><br>
+            <strong>Anterior:</strong> Tibial anterior → inversie + flexie dorsală<br>
+            <strong>Posterior:</strong> Gastrocnemian + Solear (triceps sural) → flexie plantară; tendon ahilian → calcaneu<br>
+            <strong>Lateral:</strong> Peronier lung + scurt → eversie picior<br><br>
+            <strong>Gastrocnemian vs Solear:</strong><br>
+            Gastrocnemian trece PESTE genunchi → flexie gambă + plantară<br>
+            Solear NU trece genunchiul → DOAR flexie plantară
+          </div>
+        </div>
+        <div class="region-card" onclick="toggleRegion(this)" data-region="cap">
+          <div class="region-icon">🗣️</div>
+          <div class="region-name">Capul & Gâtul</div>
+          <div class="region-sub">Sternocleidomastoid, Maseter, Temporal, Mimică</div>
+          <div class="region-detail">
+            <strong style="color:var(--muscle);">Gât:</strong><br>
+            • <strong>Sternocleidomastoid</strong> → înclină capul + flexia capului (bilateral)<br>
+            • <strong>Infrahioidieni</strong> → coboară laringele & hioidul la deglutiție<br><br>
+            <strong>Masticație (4 perechi):</strong> Temporal + Maseter + Pterigoid medial (închid gura) + Pterigoid lateral (deschide + mișcare laterală)<br><br>
+            <strong>Mimică (6 mușchi):</strong> Platisma, Orbicular ochi, Orbicular guri, Zigomatic, Buccinator, Epicranian
+          </div>
+        </div>
+      </div>
+    </div>
+
+    <!-- REZUMAT CLINIC -->
+    <div class="gcard fu fu-2">
+      <div class="gcard-title">
+        <div class="ct-icon" style="background:var(--red-light)">🏥</div>
+        Aplicații Clinice & Puncte Cheie pentru Admitere
+      </div>
+      <div class="g2">
+        <div>
+          <div class="level-row" onclick="toggleLevel(this)">
+            <div class="level-head">
+              <div class="level-num" style="background:var(--red-light);color:var(--red);">⚕️</div>
+              <div class="level-info"><div class="level-name">Tendonul Ahilian — importanță clinică</div><div class="level-short">Cel mai gros tendon din corp</div></div>
+              <span class="level-chevron">›</span>
+            </div>
+            <div class="level-detail-panel">
+              Tendonul ahilian este tendonul comun al gastrocnemianului și solearului, care se inseră pe osul calcaneu. Este cel mai gros tendon din corpul uman. Ruptura tendonului ahilian apare frecvent la sportivi și se manifestă prin imposibilitatea flexiei plantare active. Test clinic: semnul Thompson (comprimarea gambei nu produce flexie plantară = ruptură).
+            </div>
+          </div>
+          <div class="level-row" onclick="toggleLevel(this)">
+            <div class="level-head">
+              <div class="level-num" style="background:var(--orange-light);color:var(--orange);">📌</div>
+              <div class="level-info"><div class="level-name">Opozabilitatea Policelui</div><div class="level-short">Caracteristică unică umană</div></div>
+              <span class="level-chevron">›</span>
+            </div>
+            <div class="level-detail-panel">
+              La baza policelui există mușchi scurți ce permit atingerea vârfurilor fiecărui deget. Această proprietate — opozabilitatea — este caracteristică omului și permite prehensiunea fină. Mușchii intersoși dorsali permit abducția degetelor.
+            </div>
+          </div>
+          <div class="level-row" onclick="toggleLevel(this)">
+            <div class="level-head">
+              <div class="level-num" style="background:var(--violet-light);color:var(--violet);">🧠</div>
+              <div class="level-info"><div class="level-name">Sartorius — cel mai lung mușchi</div><div class="level-short">„Mușchiul croitorului"</div></div>
+              <span class="level-chevron">›</span>
+            </div>
+            <div class="level-detail-panel">
+              Croitorul (sartorius) este cel mai lung mușchi din corp. Porneste de la spina iliacă antero-superioară și se inseră pe tibie. Trece peste articulațiile șoldului și genunchiului. Permite încrucișarea picioarelor — „sartor" = croitor în latină. Funcție: flexia + rotația medială a coapsei.
+            </div>
+          </div>
+          <div class="level-row" onclick="toggleLevel(this)">
+            <div class="level-head">
+              <div class="level-num" style="background:var(--cyan-light);color:var(--cyan);">💡</div>
+              <div class="level-info"><div class="level-name">Linia Albă (Linea Alba)</div><div class="level-short">Fără mușchi, nervi sau vase mari</div></div>
+              <span class="level-chevron">›</span>
+            </div>
+            <div class="level-detail-panel">
+              Linia albă este o bandă de țesut conjunctiv pe linia mediană a abdomenului, de la apofiza xifoidă la simfiza pubiană. Este lipsită de mușchi, nervi și vase mari de sânge. Este locul inciziei clasice la laparotomie mediană. Pe ea convergesc aponevrozele mușchilor abdominali.
+            </div>
+          </div>
+        </div>
+        <div>
+          <div class="level-row" onclick="toggleLevel(this)">
+            <div class="level-head">
+              <div class="level-num" style="background:var(--pink-light);color:var(--pink);">🦴</div>
+              <div class="level-info"><div class="level-name">Mușchii Planșeului Pelvian</div><div class="level-short">Ridicător anal + Coccigian</div></div>
+              <span class="level-chevron">›</span>
+            </div>
+            <div class="level-detail-panel">
+              <strong>Ridicătorul anal</strong> = mușchi pereche, cu origine pe pereții pelvisului (pubis + ilion), se inseră pe coccis prin rafeu. Susține organele pelviene.<br>
+              <strong>Coccigianul</strong> = mușchi mic în formă de evantai, origine spina ischionului, inserție coccis. Asistă ridicătorul anal.
+            </div>
+          </div>
+          <div class="level-row" onclick="toggleLevel(this)">
+            <div class="level-head">
+              <div class="level-num" style="background:var(--green-light);color:var(--green);">👁️</div>
+              <div class="level-info"><div class="level-name">Mușchii Ochiului</div><div class="level-short">Extrinseci vs Intrinseci</div></div>
+              <span class="level-chevron">›</span>
+            </div>
+            <div class="level-detail-panel">
+              <strong>Mușchii extrinseci</strong> = mișcă globul ocular (4 mușchi drepți: elevație, coborâre, adducție, abducție + 2 oblici: rotații)<br>
+              <strong>Mușchii intrinseci</strong> = modifică forma cristalinului (mușchiul ciliar) + dilatarea/constricția pupilei (mușchii irisului)
+            </div>
+          </div>
+          <div class="level-row" onclick="toggleLevel(this)">
+            <div class="level-head">
+              <div class="level-num" style="background:var(--orange-light);color:var(--orange);">🔗</div>
+              <div class="level-info"><div class="level-name">Tendoane vs Aponevroze</div><div class="level-short">Diferența structurală</div></div>
+              <span class="level-chevron">›</span>
+            </div>
+            <div class="level-detail-panel">
+              <strong>Tendoanele</strong> = extensii cilindrice sau în bandă ale țesutului conjunctiv ce învelesc fibrele musculare. Lungime: 2-30 cm.<br>
+              <strong>Aponevrozele</strong> = tendoane plate, subțiri, sub formă de teci. Frecvente la mușchii trunchiului. Uneori se atașează la fasciile altor mușchi (nu la oase).
+            </div>
+          </div>
+          <div class="hbox hbox-muscle" style="margin-top:14px;">
+            <strong>🏆 Top 10 mușchi la admitere:</strong><br>
+            1. Biceps/Triceps brahial — flexie/extensie cot<br>
+            2. Deltoid — abducție braț<br>
+            3. Pectoral mare — adducție braț<br>
+            4. Cvadriceps — extensie gambă<br>
+            5. Ischiogambieri — flexie gambă<br>
+            6. Gastrocnemian + Solear — flexie plantară<br>
+            7. Fesier mare — extensie coapsă la șold<br>
+            8. Sternocleidomastoid — flexia capului<br>
+            9. Diafragmă — inspirație<br>
+            10. Iliopsoas — flexia coapsei
+          </div>
+        </div>
+      </div>
+    </div>
+
+  </div><!-- end panel-regiuni -->
+
+  <!-- ═══════════════════════════ PANEL 5 — QUIZ ═══════════════════════════ -->
+  <div class="panel" id="panel-quiz">
+    <div class="gcard fu fu-1">
+      <div class="gcard-title">
+        <div class="ct-icon" style="background:var(--muscle-light)">✏️</div>
+        Test de Autoevaluare — Capitol 9: Sistemul Muscular (14 întrebări)
+      </div>
+      <div id="quiz-score" style="display:none;"></div>
+      <div id="quiz-container"></div>
+      <button id="quiz-submit" onclick="submitQuiz()" style="margin-top:16px;padding:12px 32px;background:var(--muscle);color:white;border:none;border-radius:12px;font-family:Outfit,sans-serif;font-size:15px;font-weight:700;cursor:pointer;width:100%;">
+        ✅ Verifică Răspunsurile
+      </button>
+    </div>
+  </div>
+
+  </div><!-- end .content -->
+</main>
+
+<script>
+// ── PANEL SWITCH ──
+function showPanel(id, btn) {
+  document.querySelectorAll('.panel').forEach(p => p.classList.remove('active'));
+  document.querySelectorAll('.tab-btn').forEach(b => b.classList.remove('active'));
+  document.getElementById('panel-' + id).classList.add('active');
+  btn.classList.add('active');
+}
+
+// ── ACCORDION ──
+function toggleLevel(row) {
+  row.classList.toggle('open');
+}
+
+// ── REGION CARDS ──
+function toggleRegion(card) {
+  const wasSelected = card.classList.contains('selected');
+  document.querySelectorAll('.region-card').forEach(c => c.classList.remove('selected'));
+  if (!wasSelected) card.classList.add('selected');
+}
+
+// ── MUSCLE INFO (anterior SVG) ──
+const muscleData = {
+  'scm': {
+    name: '💪 Sternocleidomastoid',
+    info: `<strong>Origine:</strong> Stern + suprafața superioară a claviculei<br>
+           <strong>Inserție:</strong> Apofiza mastoidă a osului temporal<br>
+           <strong>Funcție:</strong> Înclină capul lateral și spre torace; ambii mușchi bilateral → flexia capului<br>
+           <strong>Inervație:</strong> Nervul accesor (XI)<br>
+           <span class="tag tag-muscle">Gât</span>`
+  },
+  'trapez': {
+    name: '🟡 Trapezul',
+    info: `<strong>Origine:</strong> Os occipital + vertebre cervicale & toracice<br>
+           <strong>Inserție:</strong> Claviculă + spina & acromion scapulei<br>
+           <strong>Funcție:</strong> Extensia membrului superior; rotația scapulei în abducția brațului<br>
+           <strong>Inervație:</strong> Nervul accesor (XI) + nervi cervicali<br>
+           <span class="tag tag-orange">Spate</span>`
+  },
+  'pectoral': {
+    name: '🔴 Pectoralul Mare',
+    info: `<strong>Origine:</strong> Claviculă (jum. medială) + stern + cartilajele coastelor adevărate<br>
+           <strong>Inserție:</strong> Humerus (creasta tuberculului mare)<br>
+           <strong>Funcție:</strong> Adducția brațului; formează peretele anterior al axilei; agonist al adducției<br>
+           <strong>Antagonist:</strong> Deltoid (pentru abducție)<br>
+           <span class="tag tag-red">Umăr</span>`
+  },
+  'deltoid': {
+    name: '🟠 Deltoidul',
+    info: `<strong>Origine:</strong> Claviculă + spina & acromion scapulei<br>
+           <strong>Inserție:</strong> Humerus (tuberozitatea deltoidă)<br>
+           <strong>Funcție:</strong> ABDUCȚIA brațului (acțiune principală); + flexie & extensie braț<br>
+           <strong>Antagonist:</strong> Pectoral mare + Dorsal mare (când acționează ca abductor)<br>
+           <strong>Inervație:</strong> Nervul axilar<br>
+           <span class="tag tag-orange">Umăr — Abducție</span>`
+  },
+  'biceps': {
+    name: '🔵 Bicepsul Brahial',
+    info: `<strong>Origine:</strong> Scapulă — 2 capete: tuberculul supraglenoidal (cap lung) + apofiza coracoidă (cap scurt)<br>
+           <strong>Inserție:</strong> Radius (tuberozitatea proximală) + țesut conjunctiv antebraț<br>
+           <strong>Funcție:</strong> Flexia + supinația antebrațului la cot; flexia la umăr<br>
+           <strong>Antagonist:</strong> Triceps brahial<br>
+           <strong>Inervație:</strong> Nervul musculocutanat<br>
+           <span class="tag tag-blue">Braț — Flexie</span>`
+  },
+  'drept-abdom': {
+    name: '🟢 Dreptul Abdominal',
+    info: `<strong>Origine:</strong> Creasta pubiană<br>
+           <strong>Inserție:</strong> Apofiza xifoidă<br>
+           <strong>Funcție:</strong> Leagă pubisul de coaste și stern; comprimă cavitatea abdominală; flexia coloanei vertebrale<br>
+           <strong>Referință:</strong> Situat pe fiecare parte a liniei albe<br>
+           <span class="tag tag-green">Abdomen</span>`
+  },
+  'oblic': {
+    name: '🟣 Oblicul Extern',
+    info: `<strong>Origine:</strong> Ultimele 8 coaste inferioare<br>
+           <strong>Inserție:</strong> Linia albă + pubis (prin aponevroză)<br>
+           <strong>Funcție:</strong> Comprimarea peretelui abdominal<br>
+           <strong>Participă la:</strong> Expirația forțată<br>
+           <span class="tag tag-violet">Abdomen — superficial</span>`
+  },
+  'tensor-fl': {
+    name: '🩷 Tensorul Fasciei Late',
+    info: `<strong>Origine:</strong> Spina iliacă antero-superioară<br>
+           <strong>Inserție:</strong> Tibie (prin tractul iliotibial)<br>
+           <strong>Funcție:</strong> Flexia + abducția + rotația medială a coapsei<br>
+           <strong>Inervație:</strong> Nervul fesier superior<br>
+           <span class="tag tag-pink">Șold</span>`
+  },
+  'cvadriceps': {
+    name: '🟡 Cvadricepsul Femural',
+    info: `<strong>4 mușchi:</strong> Drept femural + Vast lateral + Vast medial + Vast intermediar<br>
+           <strong>Origine:</strong> Drept femural: ilion; ceilalți 3: femur<br>
+           <strong>Inserție:</strong> Tibie (prin tendonul patelar) — converg la nivelul patelei<br>
+           <strong>Funcție:</strong> Extensia gambei la genunchi; dreptul femural flectează și coapsa<br>
+           <strong>Antagonist:</strong> Ischiogambieri (flexia gambei)<br>
+           <span class="tag tag-orange">Coapsă anterioară</span>`
+  },
+  'gastrocnemian': {
+    name: '🟤 Gastrocnemianul',
+    info: `<strong>Origine:</strong> Femur (condilii medial & lateral)<br>
+           <strong>Inserție:</strong> Calcaneu prin tendonul ahilian<br>
+           <strong>Funcție:</strong> Flexia plantară (coboară piciorul) + flexia gambei<br>
+           <strong>Notă:</strong> Trece atât peste articulația genunchiului cât și gleznei!<br>
+           <strong>Antagonist:</strong> Tibial anterior (flexie dorsală)<br>
+           <span class="tag tag-muscle">Gambă posterioară</span>`
+  },
+  'occipital': {
+    name: '🟣 Mușchii Occipitali',
+    info: `<strong>Mușchiul epicranian</strong> (occipital + frontal): ridică sprânceanele; șifonează fruntea<br>
+           <strong>Componente:</strong> Venter frontalis (frontal) + venter occipitalis (occipital) unite prin aponevroza epicraniană<br>
+           <span class="tag tag-violet">Cap — Mimică</span>`
+  },
+  'trapez-post': {
+    name: '🟡 Trapezul (vedere posterioară)',
+    info: `<strong>Origine:</strong> Os occipital + vertebrele C1-T12<br>
+           <strong>Inserție:</strong> Claviculă + acromion & spina scapulei<br>
+           <strong>Funcție:</strong> Extensia membrului superior; mobilizarea centurii scapulare; rotația scapulei în sus la abducția brațului<br>
+           <span class="tag tag-orange">Spate superior</span>`
+  },
+  'dorsal-mare': {
+    name: '🟢 Dorsalul Mare (Latissimus Dorsi)',
+    info: `<strong>Origine:</strong> Apofizele vertebrelor toracice + creasta iliacă + fascia lombodorsală<br>
+           <strong>Inserție:</strong> Humerus (șanțul intertubercular) — printr-un tendon lat<br>
+           <strong>Funcție:</strong> Extensia + adducția brațului; antagonist al pectoralului mare<br>
+           <strong>Inervație:</strong> Nervul toracodorsal<br>
+           <span class="tag tag-green">Spate — Adducție</span>`
+  },
+  'triceps': {
+    name: '🔵 Tricepsul Brahial',
+    info: `<strong>Origine:</strong> 3 capete — tuberculul infraglenoidal al scapulei + 2 capete pe humerus (suprafața posterioară)<br>
+           <strong>Inserție:</strong> Ulnă (olecranon)<br>
+           <strong>Funcție:</strong> Extensia antebrațului la cot<br>
+           <strong>Antagonist:</strong> Biceps brahial<br>
+           <strong>Inervație:</strong> Nervul radial<br>
+           <span class="tag tag-blue">Braț posterior — Extensie</span>`
+  },
+  'fesier-mare': {
+    name: '🩷 Fesierul Mare (Gluteus Maximus)',
+    info: `<strong>Origine:</strong> Ilion (creasta & suprafața posterioară) + sacru + coccis + ligamentul sacrotuberal<br>
+           <strong>Inserție:</strong> Femur (tuberozitate gluteală) + tractul iliotibial<br>
+           <strong>Funcție:</strong> Extensia membrului inferior la șold (cel mai puternic extensor!)<br>
+           <strong>Inervație:</strong> Nervul fesier inferior<br>
+           <span class="tag tag-pink">Fese — Extensie</span>`
+  },
+  'ischiogambieri': {
+    name: '🟣 Mușchii Ischiogambieri',
+    info: `<strong>3 mușchi:</strong> Biceps femural + Semitendinos + Semimembranos<br>
+           <strong>Origine:</strong> Toți de pe tuberozitatea ischiatică<br>
+           <strong>Inserție:</strong> Biceps femural → fibulă; Semitendinos & Semimembranos → tibie<br>
+           <strong>Funcție:</strong> Flexia gambei + extensia coapsei<br>
+           <strong>Antagonist:</strong> Cvadriceps femural (extensie gambă)<br>
+           <span class="tag tag-violet">Coapsă posterioară</span>`
+  }
+};
+
+function showMuscle(id) {
+  const data = muscleData[id];
+  if (!data) return;
+  const box = document.getElementById('muscle-info-box');
+  if (box) {
+    box.innerHTML = `<strong style="color:var(--muscle);font-size:14px;">${data.name}</strong><br><br>${data.info}`;
+  }
+}
+
+function showMInfo(id) {
+  const box = document.getElementById('m-info');
+  if (box) {
+    box.innerHTML = `<strong style="color:var(--muscle);">Mușchiul scheletic tipic:</strong><br>
+    Constă din fibre musculare grupate în fascicule (perimisium), înconjurate de epimisium. Fiecare fibră este înfășurată de endomisium. Fibrele musculare sunt celule multinucleate (sincitiu) cu nucleii periferici.`;
+  }
+}
+
+// ── QUIZ DATA ──
+const quizData = [
+  {
+    q: "Care este deosebirea dintre ORIGINE și INSERȚIE unui mușchi?",
+    opts: [
+      "Originea este pe osul mobil; inserția este pe osul fix",
+      "Originea este pe osul FIX, mai aproape de linia mediană; inserția este pe osul MOBIL, mai departe de linia mediană",
+      "Originea și inserția sunt întotdeauna pe același os",
+      "Inserția se găsește mereu în apropierea liniei mediane"
+    ],
+    correct: 1,
+    explain: "Originea = os fix, mai aproape de linia mediană. Inserția = os mobil, mai departe. Aceasta este regula generală."
+  },
+  {
+    q: "Bicepsul brahial este AGONISTUL flexiei cotului. Care este ANTAGONISTUL său?",
+    opts: ["Deltoidul", "Tricepsul brahial", "Brahioradialul", "Brahialul"],
+    correct: 1,
+    explain: "Tricepsul brahial este antagonistul bicepsului brahial — se relaxează când bicepsul se contractă pentru flexia cotului și se contractă pentru extensia cotului."
+  },
+  {
+    q: "Mușchiul DELTOID realizează în principal:",
+    opts: ["Adducția brațului", "Flexia antebrațului", "ABDUCȚIA brațului", "Extensia gambei"],
+    correct: 2,
+    explain: "Deltoidul este abductorul major al brațului. Antagoniștii săi în abducție sunt pectoralul mare și dorsalul mare."
+  },
+  {
+    q: "Care mușchi se inseră pe calcaneu prin TENDONUL AHILIAN?",
+    opts: ["Tibial anterior + Peronier lung", "Gastrocnemian + Solear (triceps sural)", "Biceps femural + Semitendinos", "Croitor + Gracilis"],
+    correct: 1,
+    explain: "Tricepsul sural (Gastrocnemian + Solear) se inseră pe calcaneu prin tendonul ahilian. Gastrocnemianul trece și articulația genunchiului, solearul NU."
+  },
+  {
+    q: "Grupul CVADRICEPS FEMURAL este format din câți mușchi?",
+    opts: ["2 (biceps + triceps)", "3 (drept + vast lat. + vast med.)", "4 (drept femural + vast lateral + vast medial + vast intermediar)", "5"],
+    correct: 2,
+    explain: "Cvadricepsul femural are 4 componente: dreptul femural (origine: ilion), vastul lateral, vastul medial și vastul intermediar (origine: femur). Toți se inseră pe tibie prin tendonul patelar."
+  },
+  {
+    q: "STERNOCLEIDOMASTOIDUL, când acționează BILATERAL, produce:",
+    opts: ["Extensia capului", "Rotația capului spre stânga", "FLEXIA capului", "Abducția capului"],
+    correct: 2,
+    explain: "Un singur sternocleidomastoid înclină capul spre aceeași parte și spre torace. Ambii mușchi acționând bilateral = FLEXIA capului."
+  },
+  {
+    q: "Care mușchi face parte din mușchii ISCHIOGAMBIERI?",
+    opts: ["Dreptul femural", "Croitorul", "Semimembranosul", "Gracilis"],
+    correct: 2,
+    explain: "Mușchii ischiogambieri sunt: Biceps femural + Semitendinos + Semimembranos. Toți își au originea pe tuberozitatea ischiatică."
+  },
+  {
+    q: "FESIERUL MARE (Gluteus Maximus) are ca funcție principală:",
+    opts: ["Abducția coapsei", "EXTENSIA membrului inferior la articulația șoldului", "Adducția coapsei", "Flexia gambei"],
+    correct: 1,
+    explain: "Fesierul mare este cel mai voluminos mușchi al fesei și realizează extensia membrului inferior la șold. Fesierii mic și mijlociu realizează abducția coapsei."
+  },
+  {
+    q: "Mușchiul TIBIAL ANTERIOR produce:",
+    opts: ["Flexia plantară și eversia piciorului", "INVERSIA piciorului și flexia dorsală (ridică piciorul)", "Extensia gambei", "Adducția coapsei"],
+    correct: 1,
+    explain: "Tibial anterior (fața anterioară a gambei): inversie picior + flexie dorsală. Antagonistul său este gastrocnemianul (flexie plantară)."
+  },
+  {
+    q: "Care mușchi se numește 'SARTORIUS' și de ce?",
+    opts: ["Bicepsul femural — cel mai puternic", "Croitorul — permite încrucișarea picioarelor (sartor = croitor)", "Semitendinosul — devine tendinos la mijlocul coapsei", "Gracilis — cel mai subțire"],
+    correct: 1,
+    explain: "Croitorul (sartorius) se numește astfel deoarece permite încrucișarea picioarelor în poziția croitorului. Este cel mai lung mușchi din corp."
+  },
+  {
+    q: "Mușchii care ÎNCHID gura (masticație) sunt:",
+    opts: ["Pterigoid lateral + Temporalul", "Temporal + Maseter + Pterigoid medial", "Zigomatic + Buccinator", "Platisma + Orbicular guri"],
+    correct: 1,
+    explain: "Cei 3 mușchi masticatori care ÎNCHID gura: Temporalul + Maseterul + Pterigoidul medial. Pterigoidul LATERAL este singurul care deschide gura și produce mișcări laterale."
+  },
+  {
+    q: "Expirația RELAXATĂ (normală) implică:",
+    opts: ["Contracția activă a oblicilor externi", "Contracția activă a diafragmei", "Este un proces PASIV — urmează relaxarea mușchilor inspiratori", "Contracția intercostalilor externi"],
+    correct: 2,
+    explain: "Expirația relaxată este un proces PASIV — urmează pur și simplu relaxarea mușchilor inspiratori (diafragma + intercostalii externi). Expirația forțată implică oblicii + transversul + dreptul abdominal."
+  },
+  {
+    q: "APONEVROZELE sunt:",
+    opts: ["Mușchi plate fără tendoane", "Tendoane cilindrice lungi", "Tendoane PLATE, subțiri, sub formă de teci — frecvente la mușchii trunchiului", "Capsule articulare"],
+    correct: 2,
+    explain: "Aponevrozele sunt tendoane plate, subțiri, în formă de teci. Se găsesc frecvent la mușchii trunchiului. Uneori se atașează la fasciile altor mușchi, nu neapărat la oase."
+  },
+  {
+    q: "DORSALUL MARE (Latissimus Dorsi) acționează ca:",
+    opts: ["Abductor al brațului", "ANTAGONIST al pectoralului mare (adducție braț)", "Flexor al antebrațului", "Extensor al gambei"],
+    correct: 1,
+    explain: "Dorsalul mare extinde și adduce brațul — acționând ca antagonist al pectoralului mare în ce privește abducția, și ca agonist al adducției (alături de pectoralul mare)."
+  }
+];
+
+// ── BUILD QUIZ ──
+function buildQuiz() {
+  const c = document.getElementById('quiz-container');
+  c.innerHTML = quizData.map((q, i) => `
+    <div class="quiz-q">
+      <div class="quiz-q-text">${i+1}. ${q.q}</div>
+      <div class="quiz-opts">
+        ${q.opts.map((opt, j) => `
+          <button class="quiz-opt" onclick="selectOpt(this, ${i})" data-qi="${i}" data-oi="${j}">${opt}</button>
+        `).join('')}
+      </div>
+      <div class="quiz-explain" id="exp-${i}">${q.explain}</div>
+    </div>
+  `).join('');
+}
+
+function selectOpt(btn, qi) {
+  const siblings = document.querySelectorAll(`.quiz-opt[data-qi="${qi}"]`);
+  siblings.forEach(b => b.classList.remove('selected-opt'));
+  btn.classList.add('selected-opt');
+}
+
+function submitQuiz() {
+  let score = 0;
+  quizData.forEach((q, i) => {
+    const opts = document.querySelectorAll(`.quiz-opt[data-qi="${i}"]`);
+    let answered = false;
+    opts.forEach(btn => {
+      btn.disabled = true;
+      const oi = parseInt(btn.dataset.oi);
+      if (btn.classList.contains('selected-opt')) {
+        answered = true;
+        if (oi === q.correct) { btn.classList.add('correct'); score++; }
+        else { btn.classList.add('wrong'); }
+      }
+      if (oi === q.correct) btn.classList.add('correct');
+    });
+    document.getElementById('exp-' + i).classList.add('show');
+  });
+  const sc = document.getElementById('quiz-score');
+  sc.style.display = 'block';
+  const pct = Math.round(score / quizData.length * 100);
+  sc.textContent = `✅ Scor: ${score} / ${quizData.length} (${pct}%) ${pct >= 80 ? '🏆 Excelent!' : pct >= 60 ? '👍 Bine!' : '📚 Mai studiază!'}`;
+  document.getElementById('quiz-submit').textContent = '🔄 Încearcă din nou';
+  document.getElementById('quiz-submit').onclick = () => {
+    sc.style.display = 'none';
+    document.getElementById('quiz-submit').textContent = '✅ Verifică Răspunsurile';
+    document.getElementById('quiz-submit').onclick = submitQuiz;
+    buildQuiz();
+  };
+  sc.scrollIntoView({ behavior: 'smooth' });
+}
+
+buildQuiz();
+
+document.addEventListener("DOMContentLoaded", function () {
+  // 1. Detectează automat numele fișierului curent (ex: cap1.html)
+  const currentFile = window.location.pathname.split("/").pop() || "cap1.html";
+  
+  const menuContainer = document.getElementById("chapters-menu");
+  const menuItems = menuContainer.querySelectorAll(".nav-item");
+  let currentChapterNumber = 1;
+  let activeItem = null;
+
+  // 2. Parcurge toate capitolele din meniu pentru a le aplica stilul corect
+  menuItems.forEach((item) => {
+    const fileHref = item.getAttribute("href");
+    
+    if (fileHref === currentFile) {
+      // Dacă este capitolul curent, îl face activ
+      item.classList.add("active");
+      activeItem = item; // Salvăm elementul activ pentru a-l folosi la scroll
+      currentChapterNumber = parseInt(item.querySelector(".nav-num").textContent);
+    }
+  });
+
+  // 3. 💡 AUTO-SCROLL LA CAPITOLUL CURENT (Soluția pentru problema ta)
+  if (activeItem && menuContainer) {
+    // Așteptăm un timp foarte scurt (50ms) ca browserul să randeze stilurile, apoi mutăm scroll-ul
+    setTimeout(() => {
+      activeItem.scrollIntoView({
+        behavior: "smooth", // Efect de derulare fină (schimbă cu "auto" dacă vrei să fie instant)
+        block: "nearest"    // Îl aduce la vedere doar dacă nu este vizibil în container
+      });
+    }, 50);
+  }
+
+  // 4. Actualizează automat bara de progres din footer-ul sidebar-ului
+  const totalChapters = menuItems.length; // Va număra automat 23
+  
+  const progTextContainer = document.querySelector(".prog-label");
+  if (progTextContainer) {
+    progTextContainer.innerHTML = `<span>Progres curs</span><span>${currentChapterNumber} / ${totalChapters}</span>`;
+  }
+  
+  const progFill = document.querySelector(".prog-fill");
+  if (progFill) {
+    const percentage = (currentChapterNumber / totalChapters) * 100;
+    progFill.style.width = `${percentage}%`;
+  }
+});
+</script>
+</body>
+</html>

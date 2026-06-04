@@ -1,0 +1,1502 @@
+<!DOCTYPE html>
+<html lang="ro">
+<head>
+<meta charset="UTF-8">
+
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>MedStudy — Capitol 6: Oasele și Articulațiile</title>
+<link href="https://fonts.googleapis.com/css2?family=Outfit:wght@300;400;500;600;700;800;900&family=Lora:ital,wght@0,400;0,600;1,400;1,600&display=swap" rel="stylesheet">
+<style>
+:root{
+  --bg:#f0f4ff;--sidebar-bg:rgba(255,255,255,0.88);--surface:rgba(255,255,255,0.78);--surface2:rgba(255,255,255,0.94);
+  --border:rgba(170,150,220,0.22);--accent:#6d3fd6;--accent2:#e0468b;--accent3:#0ea5e9;
+  --blue:#3b82f6;--blue-l:#dbeafe;--violet:#7c3aed;--violet-l:#ede9fe;
+  --cyan:#06b6d4;--cyan-l:#cffafe;--pink:#ec4899;--pink-l:#fce7f3;
+  --green:#10b981;--green-l:#d1fae5;--orange:#f59e0b;--orange-l:#fef3c7;
+  --rose:#f43f5e;--rose-l:#ffe4e6;--teal:#14b8a6;--teal-l:#ccfbf1;
+  --amber:#b45309;--amber-l:#fef3c7;--text:#1a1640;--text2:#5c5880;--text3:#9ca3af;
+  --sidebar-w:268px;--r:16px;--shadow:0 4px 28px rgba(90,70,190,0.10);--shadow2:0 8px 44px rgba(90,70,190,0.16);
+}
+*{margin:0;padding:0;box-sizing:border-box;}
+body{font-family:'Outfit',sans-serif;background:var(--bg);color:var(--text);min-height:100vh;display:flex;overflow-x:hidden;}
+body::before{content:'';position:fixed;inset:0;
+  background:
+    radial-gradient(ellipse 800px 550px at 15% 8%,rgba(170,200,255,0.60) 0%,transparent 68%),
+    radial-gradient(ellipse 650px 500px at 85% 5%,rgba(195,170,255,0.50) 0%,transparent 62%),
+    radial-gradient(ellipse 700px 400px at 55% 92%,rgba(255,190,220,0.42) 0%,transparent 68%),
+    radial-gradient(ellipse 500px 500px at 2% 78%,rgba(170,235,255,0.38) 0%,transparent 62%),
+    #f0f4ff;
+  z-index:-1;pointer-events:none;}
+
+/* ── SIDEBAR ── */
+#sidebar{width:var(--sidebar-w);min-height:100vh;background:var(--sidebar-bg);backdrop-filter:blur(28px);border-right:1px solid var(--border);position:fixed;top:0;left:0;z-index:100;display:flex;flex-direction:column;box-shadow:3px 0 32px rgba(90,70,190,0.07);}
+.sb-logo{padding:24px 22px 18px;border-bottom:1px solid var(--border);display:flex;align-items:center;gap:12px;}
+.sb-icon{width:42px;height:42px;background:linear-gradient(135deg,#6d3fd6,#e0468b);border-radius:12px;display:flex;align-items:center;justify-content:center;font-size:20px;box-shadow:0 4px 16px rgba(109,63,214,0.38);}
+.sb-title{font-size:17px;font-weight:800;color:var(--text);line-height:1.2;}
+.sb-sub{font-size:10px;color:var(--text3);font-weight:400;letter-spacing:.09em;text-transform:uppercase;margin-top:2px;}
+.sidebar-section-label {
+  font-size: 10px;
+  font-weight: 600;
+  text-transform: uppercase;
+  letter-spacing: .08em;
+  color: var(--text3);
+  padding: 24px 22px 10px;
+}
+.nav-scroll { 
+  flex: 1; 
+  overflow-y: auto; 
+  padding-bottom: 16px; 
+  max-height: calc(100vh - 140px);
+  
+  /* 💡 TRUCUL PENTRU MUTAREA BAREI PE STÂNGA: */
+  direction: rtl; /* Muta scrollbar-ul pe stânga (Right-to-Left) */
+  
+  scrollbar-width: thin;
+  scrollbar-color: rgba(124,58,237,0.3) transparent;
+}
+
+/* 💡 RECONVERTIREA TEXTULUI: Întoarcem textul la normal (Left-to-Right) ca să nu fie inversat */
+.nav-scroll > * {
+  direction: ltr;
+}
+
+/* Stil pentru browserele bazate pe Chromium (Chrome, Edge, Opera) */
+.nav-scroll::-webkit-scrollbar { 
+  width: 5px; 
+}
+.nav-scroll::-webkit-scrollbar-track {
+  background: transparent;
+}
+.nav-scroll::-webkit-scrollbar-thumb { 
+  background: rgba(124,58,237,0.3); 
+  border-radius: 4px; 
+}
+.nav-scroll::-webkit-scrollbar-thumb:hover {
+  background: rgba(124,58,237,0.5); 
+}
+
+.nav-item{display:flex;align-items:center;gap:10px;padding:9px 14px 9px 16px;margin:1px 10px;border-radius:10px;font-size:12.5px;font-weight:500;color:var(--text2);cursor:pointer;transition:all .2s;text-decoration:none;position:relative;}
+.nav-item:hover{background:rgba(109,63,214,.07);color:var(--accent);}
+.nav-item.active{background:linear-gradient(90deg,rgba(109,63,214,.12),rgba(224,70,139,.07));color:var(--accent);font-weight:700;box-shadow:inset 2.5px 0 0 var(--accent);}
+.nav-num{min-width:22px;height:22px;background:rgba(109,63,214,.07);border-radius:6px;display:flex;align-items:center;justify-content:center;font-size:10.5px;font-weight:700;color:var(--text3);}
+.nav-item.active .nav-num{background:rgba(109,63,214,.18);color:var(--accent);}
+.nav-item.locked{opacity:.42;pointer-events:none;}
+.sidebar-footer {
+  padding: 16px 22px;
+  border-top: 1px solid var(--border);
+  margin-top: auto;
+}
+
+.prog-label { 
+  display: flex; 
+  justify-content: space-between; 
+  font-size: 11.5px; 
+  color: var(--text2); 
+  margin-bottom: 7px; 
+  font-weight: 500; 
+}
+
+.prog-track { 
+  height: 5px; 
+  background: rgba(124,58,237,0.1); 
+  border-radius: 3px; 
+  overflow: hidden; 
+}
+
+.prog-fill { 
+  height: 100%; 
+  background: linear-gradient(90deg, #7c3aed, #ec4899); 
+  border-radius: 3px; 
+  transition: width 1.2s ease; 
+}
+
+/* ── MAIN ── */
+#main{margin-left:var(--sidebar-w);flex:1;min-height:100vh;}
+.topbar{height:58px;background:rgba(255,255,255,.72);backdrop-filter:blur(22px);border-bottom:1px solid var(--border);display:flex;align-items:center;justify-content:space-between;padding:0 40px;position:sticky;top:0;z-index:50;}
+.breadcrumb{display:flex;align-items:center;gap:8px;font-size:13px;font-weight:500;color:var(--text2);}
+.breadcrumb .cur{color:var(--accent);}
+.bc-sep{color:var(--text3);}
+.badge{padding:5px 14px;border-radius:30px;font-size:12px;font-weight:600;background:linear-gradient(90deg,rgba(109,63,214,.09),rgba(224,70,139,.07));color:var(--accent);border:1px solid rgba(109,63,214,.2);}
+
+/* ── HERO ── */
+.hero{position:relative;overflow:hidden;padding:60px 56px 50px;border-bottom:1px solid rgba(190,170,255,.2);min-height:330px;display:flex;flex-direction:column;justify-content:center;}
+.hero::before{content:'';position:absolute;inset:0;background:radial-gradient(ellipse 70% 80% at 10% 20%,rgba(190,170,255,.75) 0%,transparent 58%),radial-gradient(ellipse 55% 65% at 88% 12%,rgba(170,220,255,.68) 0%,transparent 54%),radial-gradient(ellipse 60% 70% at 65% 88%,rgba(255,205,235,.62) 0%,transparent 56%),radial-gradient(ellipse 50% 60% at 25% 88%,rgba(195,240,220,.52) 0%,transparent 54%),#f2eeff;z-index:0;}
+.hero::after{content:'';position:absolute;inset:0;opacity:.4;background-image:url("data:image/svg+xml,%3Csvg viewBox='0 0 256 256' xmlns='http://www.w3.org/2000/svg'%3E%3Cfilter id='n'%3E%3CfeTurbulence type='fractalNoise' baseFrequency='0.9' numOctaves='4' stitchTiles='stitch'/%3E%3CfeColorMatrix type='saturate' values='0'/%3E%3C/filter%3E%3Crect width='100%25' height='100%25' filter='url(%23n)' opacity='0.14'/%3E%3C/svg%3E");background-size:200px 200px;pointer-events:none;z-index:1;mix-blend-mode:overlay;}
+.hero>*{position:relative;z-index:2;}
+.hero-eye{display:inline-flex;align-items:center;gap:7px;padding:6px 18px;border-radius:40px;background:rgba(255,255,255,.55);border:1px solid rgba(255,255,255,.88);font-size:11px;font-weight:600;color:rgba(80,50,160,.75);letter-spacing:.12em;text-transform:uppercase;margin-bottom:22px;backdrop-filter:blur(18px);box-shadow:0 2px 22px rgba(160,120,255,.12),inset 0 1px 0 rgba(255,255,255,.6);width:fit-content;font-family:'Lora',serif;font-style:italic;}
+.hero-eye::before{content:'◆';font-size:7px;font-style:normal;}
+.hero h1{font-family:'Lora',serif;font-size:clamp(32px,4vw,56px);font-weight:400;font-style:italic;line-height:1.08;color:rgba(26,20,70,.82);margin-bottom:18px;letter-spacing:-.01em;text-shadow:0 2px 40px rgba(160,120,255,.15);}
+.hero h1 span{font-weight:600;color:transparent;background:linear-gradient(135deg,rgba(100,55,215,.9),rgba(210,75,175,.85) 50%,rgba(80,170,240,.82));-webkit-background-clip:text;-webkit-text-fill-color:transparent;background-clip:text;}
+.hero-sub{font-family:'Lora',serif;font-size:15.5px;font-style:italic;color:rgba(60,40,120,.62);max-width:560px;line-height:1.7;margin-bottom:34px;}
+.hero-chips{display:flex;flex-wrap:wrap;gap:10px;}
+.hero-chip{display:flex;align-items:center;gap:9px;background:rgba(255,255,255,.54);border:1px solid rgba(255,255,255,.82);border-radius:14px;padding:9px 18px;font-size:13px;font-weight:500;color:rgba(50,30,100,.75);backdrop-filter:blur(16px);box-shadow:0 2px 18px rgba(160,120,255,.09),inset 0 1px 0 rgba(255,255,255,.62);font-family:'Lora',serif;font-style:italic;transition:all .25s;}
+.hero-chip:hover{background:rgba(255,255,255,.74);transform:translateY(-1px);}
+.hero-chip strong{font-family:'Outfit',sans-serif;font-style:normal;font-weight:800;font-size:21px;background:linear-gradient(135deg,#6d3fd6,#e0468b);-webkit-background-clip:text;-webkit-text-fill-color:transparent;background-clip:text;line-height:1;}
+
+/* ── TABS ── */
+.tab-bar{display:flex;gap:2px;padding:0 40px;background:rgba(255,255,255,.62);backdrop-filter:blur(18px);border-bottom:1px solid var(--border);position:sticky;top:58px;z-index:40;overflow-x:auto;}
+.tab-btn{display:flex;align-items:center;gap:7px;padding:14px 18px;background:none;border:none;font-family:'Outfit',sans-serif;font-size:13px;font-weight:600;color:var(--text2);cursor:pointer;border-bottom:2.5px solid transparent;margin-bottom:-1px;transition:all .2s;white-space:nowrap;}
+.tab-btn:hover{color:var(--accent);}
+.tab-btn.active{color:var(--accent);border-bottom-color:var(--accent);}
+
+/* ── CONTENT ── */
+.content{padding:36px 40px 70px;max-width:1200px;}
+.panel{display:none;}
+.panel.active{display:block;}
+.sec-title{font-size:22px;font-weight:800;color:var(--text);margin-bottom:6px;}
+.sec-desc{font-size:13.5px;color:var(--text2);line-height:1.65;margin-bottom:24px;}
+
+/* ── GLASS CARD ── */
+.gc{background:var(--surface2);backdrop-filter:blur(22px);border:1px solid var(--border);border-radius:var(--r);padding:28px;margin-bottom:24px;box-shadow:var(--shadow);}
+.gc-title{font-size:16px;font-weight:800;color:var(--text);margin-bottom:20px;display:flex;align-items:center;gap:10px;}
+.ct-icon{width:32px;height:32px;border-radius:9px;display:flex;align-items:center;justify-content:center;font-size:16px;flex-shrink:0;}
+
+/* ── GRIDS ── */
+.g2{display:grid;grid-template-columns:1fr 1fr;gap:20px;}
+.g3{display:grid;grid-template-columns:repeat(3,1fr);gap:16px;}
+.g4{display:grid;grid-template-columns:repeat(4,1fr);gap:14px;}
+
+/* ── HBOX ── */
+.hb{border-radius:12px;padding:15px 20px;margin-bottom:14px;font-size:13px;line-height:1.65;border-left:4px solid;}
+.hb strong{font-weight:700;display:block;margin-bottom:4px;}
+.hb-blue{background:var(--blue-l);border-color:var(--blue);}   .hb-blue strong{color:var(--blue);}
+.hb-violet{background:var(--violet-l);border-color:var(--violet);} .hb-violet strong{color:var(--violet);}
+.hb-green{background:var(--green-l);border-color:var(--green);}  .hb-green strong{color:var(--green);}
+.hb-pink{background:var(--pink-l);border-color:var(--pink);}    .hb-pink strong{color:var(--pink);}
+.hb-orange{background:var(--orange-l);border-color:var(--orange);}.hb-orange strong{color:var(--orange);}
+.hb-cyan{background:var(--cyan-l);border-color:var(--cyan);}   .hb-cyan strong{color:var(--cyan);}
+.hb-rose{background:var(--rose-l);border-color:var(--rose);}   .hb-rose strong{color:var(--rose);}
+.hb-teal{background:var(--teal-l);border-color:var(--teal);}   .hb-teal strong{color:var(--teal);}
+
+/* ── MNEMONIC ── */
+.mnem{background:linear-gradient(135deg,#ede9fe,#fce7f3);border:1px solid rgba(124,58,237,.2);border-radius:14px;padding:18px 22px;margin:16px 0;}
+.mnem-title{font-size:12px;font-weight:700;color:var(--accent);letter-spacing:.06em;text-transform:uppercase;margin-bottom:8px;}
+.mnem-text{font-size:13.5px;color:var(--text);line-height:1.7;}
+.em{color:var(--accent);font-weight:800;}
+.sub-note{font-size:12px;color:var(--text2);font-style:italic;display:block;margin-top:4px;}
+
+/* ── TABLE ── */
+.mt{width:100%;border-collapse:collapse;font-size:13px;}
+.mt thead tr{background:linear-gradient(90deg,rgba(109,63,214,.08),rgba(224,70,139,.05));}
+.mt th{padding:11px 14px;text-align:left;font-size:11px;font-weight:700;letter-spacing:.06em;text-transform:uppercase;color:var(--accent);border-bottom:2px solid rgba(109,63,214,.12);}
+.mt td{padding:10px 14px;border-bottom:1px solid rgba(109,63,214,.07);color:var(--text2);vertical-align:top;line-height:1.55;}
+.mt tr:last-child td{border-bottom:none;}
+.mt tr:hover td{background:rgba(109,63,214,.03);}
+.mt .hl{color:var(--text);font-weight:600;}
+
+/* ── TAGS ── */
+.tag{display:inline-block;padding:3px 10px;border-radius:20px;font-size:11px;font-weight:700;}
+.t-blue{background:var(--blue-l);color:var(--blue);}
+.t-violet{background:var(--violet-l);color:var(--violet);}
+.t-green{background:var(--green-l);color:var(--green);}
+.t-pink{background:var(--pink-l);color:var(--pink);}
+.t-orange{background:var(--orange-l);color:var(--orange);}
+.t-cyan{background:var(--cyan-l);color:var(--cyan);}
+.t-rose{background:var(--rose-l);color:var(--rose);}
+.t-teal{background:var(--teal-l);color:var(--teal);}
+
+/* ── ACCORDION ── */
+.acc-item{border:1px solid var(--border);border-radius:12px;margin-bottom:10px;overflow:hidden;}
+.acc-head{display:flex;align-items:center;justify-content:space-between;padding:14px 20px;cursor:pointer;background:var(--surface2);transition:background .2s;}
+.acc-head:hover{background:rgba(109,63,214,.04);}
+.acc-title-row{font-size:14px;font-weight:700;color:var(--text);display:flex;align-items:center;gap:10px;}
+.acc-body{max-height:0;overflow:hidden;transition:max-height .4s ease;background:#fff;}
+.acc-body.open{max-height:900px;}
+.acc-inner{padding:20px 22px;font-size:13px;color:var(--text2);line-height:1.7;}
+.acc-chevron{font-size:14px;color:var(--text3);transition:transform .3s;}
+.acc-item.open .acc-chevron{transform:rotate(90deg);}
+
+/* ── BONE TYPE CARDS (clickable) ── */
+.bone-card{background:var(--surface2);border:2px solid var(--border);border-radius:14px;padding:20px;cursor:pointer;transition:all .25s;text-align:center;}
+.bone-card:hover,.bone-card.sel{transform:translateY(-4px);box-shadow:var(--shadow2);}
+.bone-card.sel{border-color:var(--accent);}
+.bc-icon{font-size:32px;margin-bottom:10px;display:block;}
+.bc-name{font-size:14px;font-weight:800;color:var(--text);margin-bottom:6px;}
+.bc-short{font-size:12px;color:var(--text2);line-height:1.5;}
+
+/* ── CELL COMPARISON PILLS ── */
+.cell-pill{background:var(--surface2);border:1px solid var(--border);border-radius:12px;padding:14px 18px;display:flex;align-items:flex-start;gap:12px;}
+.cell-dot{width:12px;height:12px;border-radius:50%;flex-shrink:0;margin-top:3px;}
+.cell-name{font-size:13.5px;font-weight:700;color:var(--text);margin-bottom:4px;}
+.cell-desc{font-size:12px;color:var(--text2);line-height:1.55;}
+
+/* ── OSTEON SVG section ── */
+.bone-detail-panel{background:var(--violet-l);border:1.5px solid rgba(124,58,237,.22);border-radius:14px;padding:20px;min-height:120px;}
+.bdp-name{font-size:17px;font-weight:800;color:var(--violet);margin-bottom:8px;}
+.bdp-desc{font-size:13px;color:var(--text2);line-height:1.7;margin-bottom:10px;}
+.bdp-grid{display:grid;grid-template-columns:1fr 1fr;gap:8px;margin-top:10px;}
+.bdp-prop{background:rgba(255,255,255,.7);border-radius:8px;padding:8px 12px;}
+.bdp-key{font-size:10px;font-weight:700;text-transform:uppercase;letter-spacing:.06em;color:var(--text3);margin-bottom:2px;}
+.bdp-val{font-size:12px;font-weight:600;color:var(--text);}
+
+/* ── JOINT SELECTOR ── */
+.jnt-card{background:var(--surface2);border:2px solid var(--border);border-radius:14px;padding:18px;cursor:pointer;transition:all .25s;}
+.jnt-card:hover,.jnt-card.sel{transform:translateY(-3px);box-shadow:var(--shadow2);}
+.jnt-card.sel{border-color:var(--accent);}
+.jc-icon{font-size:26px;margin-bottom:8px;display:block;}
+.jc-name{font-size:14px;font-weight:800;color:var(--text);margin-bottom:6px;}
+.jc-mob{font-size:11px;font-weight:700;padding:3px 10px;border-radius:20px;display:inline-block;margin-bottom:8px;}
+.jc-desc{font-size:12px;color:var(--text2);line-height:1.55;}
+.jnt-detail{background:var(--surface2);border:2px solid rgba(109,63,214,.2);border-radius:14px;padding:24px;margin-top:20px;}
+
+/* ── MOVEMENT CARDS ── */
+.mov-card{background:var(--surface2);border:1px solid var(--border);border-radius:12px;padding:16px;text-align:center;cursor:pointer;transition:all .25s;}
+.mov-card:hover{transform:translateY(-3px);box-shadow:var(--shadow2);border-color:var(--accent);}
+.mov-icon{font-size:30px;margin-bottom:8px;display:block;}
+.mov-name{font-size:13px;font-weight:700;color:var(--text);margin-bottom:4px;}
+.mov-def{font-size:11.5px;color:var(--text2);line-height:1.5;}
+.mov-opp{font-size:11px;color:var(--accent);font-weight:600;margin-top:6px;}
+
+/* ── QUIZ ── */
+.qscore{display:flex;justify-content:space-between;align-items:center;background:linear-gradient(90deg,rgba(109,63,214,.06),rgba(224,70,139,.04));border:1px solid rgba(109,63,214,.15);border-radius:12px;padding:14px 20px;margin-bottom:24px;}
+.qs-label{font-size:13px;color:var(--text2);font-weight:600;}
+.qs-val{font-size:22px;font-weight:800;color:var(--accent);}
+.qcard{background:var(--surface2);border:1px solid var(--border);border-radius:14px;padding:22px;margin-bottom:16px;}
+.qt{font-size:14px;font-weight:700;color:var(--text);margin-bottom:14px;line-height:1.5;}
+.qopts{display:grid;grid-template-columns:1fr 1fr;gap:8px;}
+.qopt{padding:11px 16px;border:1.5px solid var(--border);border-radius:10px;font-size:13px;font-weight:500;color:var(--text2);cursor:pointer;background:var(--surface);transition:all .2s;text-align:left;}
+.qopt:hover:not(.dis){border-color:var(--violet);color:var(--violet);background:var(--violet-l);}
+.qopt.ok{border-color:var(--green)!important;background:var(--green-l)!important;color:var(--green)!important;font-weight:700;}
+.qopt.bad{border-color:var(--rose)!important;background:var(--rose-l)!important;color:var(--rose)!important;}
+.qopt.dis{cursor:default;pointer-events:none;}
+.qexp{margin-top:12px;padding:12px 16px;background:var(--green-l);border-radius:10px;font-size:12.5px;color:#065f46;font-weight:600;display:none;}
+.qexp.show{display:block;}
+.qnext{margin-top:14px;padding:10px 24px;background:linear-gradient(135deg,var(--accent),var(--pink));color:#fff;border:none;border-radius:10px;font-family:'Outfit',sans-serif;font-size:13px;font-weight:700;cursor:pointer;display:none;}
+.qnext.show{display:inline-block;}
+
+/* ──────── ANIMATIONS (STIL PREMIUM CAP 9) ──────── */
+@keyframes fadeUp { 
+  from { opacity: 0; transform: translateY(6px); } 
+  to { opacity: 1; transform: translateY(0); } 
+}
+.fu { animation: fadeUp 0.5s ease both; }
+.fu-1 { animation-delay: .08s; }
+.fu-2 { animation-delay: .16s; }
+.fu-3 { animation-delay: .24s; }
+.fu-4 { animation-delay: .32s; }
+
+/* Mobile */
+.mob-btn{display:none;position:fixed;bottom:20px;right:20px;z-index:200;background:var(--accent);color:#fff;border:none;width:52px;height:52px;border-radius:50%;font-size:22px;cursor:pointer;box-shadow:0 4px 22px rgba(109,63,214,.45);}
+@media(max-width:860px){
+  #sidebar{transform:translateX(-100%);transition:transform .3s;}
+  #sidebar.open{transform:translateX(0);}
+  #main{margin-left:0;}
+  .mob-btn{display:flex;align-items:center;justify-content:center;}
+  .hero{padding:38px 26px 34px;}
+  .content{padding:22px 18px 50px;}
+  .g2,.g3,.g4{grid-template-columns:1fr;}
+  .qopts{grid-template-columns:1fr;}
+  .bdp-grid{grid-template-columns:1fr;}
+  .tab-bar{padding:0 18px;}
+}
+</style>
+</head>
+<body>
+
+<!-- SIDEBAR -->
+<aside id="sidebar">
+  <div class="sb-logo">
+    <img src="medStudy.png" alt="Logo MedStudy" style="width: 42px; height: 42px; object-fit: contain; filter: drop-shadow(0 4px 14px rgba(124,58,237,0.35));">
+    <div><div class="sb-title">MedStudy</div><div class="sb-sub">Anatomy Made Easy</div></div>
+  </div>
+ 
+  
+  <div class="nav-scroll" id="chapters-menu">
+  <div class="sidebar-section-label">Capitole</div>
+
+  <a class="nav-item" href="cap1.html"><span class="nav-num">1</span>Introducere în A&B</a>
+  <a class="nav-item" href="cap2.html"><span class="nav-num">2</span>Bazele Chimice</a>
+  <a class="nav-item" href="cap3.html"><span class="nav-num">3</span>Fiziologia celulară</a>
+  <a class="nav-item" href="cap4.html"><span class="nav-num">4</span>Țesuturile</a>
+  <a class="nav-item" href="cap5.html"><span class="nav-num">5</span>Sistemul Tegumentar</a>
+  <a class="nav-item" href="cap6.html"><span class="nav-num">6</span>Oasele și Articulațiile</a>
+  <a class="nav-item" href="cap7.html"><span class="nav-num">7</span>Sistemul Osos</a>
+  <a class="nav-item" href="cap8.html"><span class="nav-num">8</span>Țesutul Muscular</a>
+  <a class="nav-item" href="cap9.html"><span class="nav-num">9</span>Sistemul Muscular</a>
+  <a class="nav-item" href="cap10.html"><span class="nav-num">10</span>Țesutul Nervos</a>
+  <a class="nav-item" href="cap11.html"><span class="nav-num">11</span>Organizarea Sistemului Nervos</a>
+  <a class="nav-item" href="cap12.html"><span class="nav-num">12</span>Organele de Simț</a>
+  <a class="nav-item" href="cap13.html"><span class="nav-num">13</span>Sistemul Endocrin</a>
+  <a class="nav-item" href="cap14.html"><span class="nav-num">14</span>Sângele</a>
+  <a class="nav-item" href="cap15.html"><span class="nav-num">15</span>Sistemul Cardiovascular</a>
+  <a class="nav-item" href="cap16.html"><span class="nav-num">16</span>Sistemul Limfatic</a>
+  <a class="nav-item" href="cap17.html"><span class="nav-num">17</span>Sistemul Respirator</a>
+  <a class="nav-item" href="cap18.html"><span class="nav-num">18</span>Sistemul Digestiv</a>
+  <a class="nav-item" href="cap19.html"><span class="nav-num">19</span>Metabolism & Nutriție</a>
+  <a class="nav-item" href="cap20.html"><span class="nav-num">20</span>Sistemul Urinar</a>
+  <a class="nav-item" href="cap21.html"><span class="nav-num">21</span>Echilibrul Hidro-Electrolitic</a>
+  <a class="nav-item" href="cap22.html"><span class="nav-num">22</span>Sistemul Reproducător Masculin</a>
+  <a class="nav-item" href="cap23.html"><span class="nav-num">23</span>Sistemul Reproducător Feminin</a>
+</div>
+  
+  <div class="sidebar-footer">
+    <div class="prog-label"><span>Progres curs</span><span>6 / 23</span></div>
+    <div class="prog-track"><div class="prog-fill"></div></div>
+  </div>
+
+</aside>
+<button class="mob-btn" onclick="document.getElementById('sidebar').classList.toggle('open')">☰</button>
+
+<!-- MAIN -->
+<div id="main">
+  <div class="topbar">
+    <div class="breadcrumb">
+      <span>A&F Umană</span><span class="bc-sep">›</span>
+      <span>Capitol 6</span><span class="bc-sep">›</span>
+      <span class="cur">Oasele și Articulațiile</span>
+    </div>
+    <div class="badge">🎓 Pregătire Admitere Medicină</div>
+  </div>
+
+  <!-- HERO -->
+  <div class="hero">
+    <div class="hero-eye fu fu-1">Capitol 6 · Sistem osos &amp; articular</div>
+    <h1 class="fu fu-2">Oasele și <span> Articulațiile</span></h1>
+    <p class="hero-sub fu fu-3">Cel mai dur țesut conjunctiv al corpului — clasificarea, structura, formarea, remodelarea osoasă și toate tipurile de articulații cu mișcările lor.</p>
+    <div class="hero-chips fu fu-4">
+      <div class="hero-chip"><strong>206</strong>oase în corp</div>
+      <div class="hero-chip"><strong>4</strong>tipuri de oase</div>
+      <div class="hero-chip"><strong>3</strong>tipuri de articulații</div>
+      <div class="hero-chip"><strong>6</strong>tipuri de diartroze</div>
+    </div>
+  </div>
+
+  <!-- TABS -->
+  <div class="tab-bar">
+    <button class="tab-btn active" onclick="switchTab('info',this)">🗺 Infografice</button>
+    <button class="tab-btn" onclick="switchTab('os',this)">🦴 Structura osului</button>
+    <button class="tab-btn" onclick="switchTab('formare',this)">⚗️ Formare &amp; Remodelare</button>
+    <button class="tab-btn" onclick="switchTab('articulatii',this)">🔗 Articulații</button>
+    <button class="tab-btn" onclick="switchTab('miscari',this)">🏃 Mișcări</button>
+    <button class="tab-btn" onclick="switchTab('tabele',this)">📊 Tabele</button>
+    <button class="tab-btn" onclick="switchTab('quiz',this)">🎯 Quiz</button>
+  </div>
+
+  <div class="content">
+
+    <!-- ═══ INFOGRAFICE ═══ -->
+    <div class="panel active" id="tab-info">
+      <div class="sec-title">Infografice — Oasele și Articulațiile</div>
+      <p class="sec-desc">Diagrame interactive, scheme logice și vizualizări ale structurii osoase și articulare.</p>
+
+      <!-- INTERACTIVE LONG BONE SVG -->
+      <div class="gc">
+        <div class="gc-title"><div class="ct-icon" style="background:#ede9fe">🦴</div>Structura osului lung — SVG interactiv (click pe componente)</div>
+        <div style="display:flex;gap:28px;align-items:flex-start;flex-wrap:wrap;">
+          <div style="flex-shrink:0;">
+            <svg id="bone-svg" width="240" height="440" viewBox="0 0 240 440" style="border-radius:14px;background:#f8f5ff;">
+              <!-- EPIFIZA PROXIMALA -->
+              <g class="bone-part" onclick="showBonePart('epifiza-sup')" style="cursor:pointer;">
+                <ellipse cx="120" cy="55" rx="65" ry="48" fill="#c4b5fd" opacity="0.78" id="bp-epifiza-sup"/>
+                <!-- spongy pattern -->
+                <ellipse cx="100" cy="50" rx="14" ry="10" fill="#a78bfa" opacity="0.45"/>
+                <ellipse cx="125" cy="42" rx="12" ry="8" fill="#a78bfa" opacity="0.45"/>
+                <ellipse cx="140" cy="55" rx="10" ry="7" fill="#a78bfa" opacity="0.45"/>
+                <ellipse cx="108" cy="65" rx="8" ry="6" fill="#a78bfa" opacity="0.45"/>
+                <text x="120" y="58" font-size="11" fill="#4c1d95" text-anchor="middle" font-weight="700">Epifiză</text>
+                <text x="120" y="71" font-size="9.5" fill="#4c1d95" text-anchor="middle">(proximală)</text>
+              </g>
+
+              <!-- CARTILAJ ARTICULAR top -->
+              <g onclick="showBonePart('cartilaj')" style="cursor:pointer;">
+                <ellipse cx="120" cy="20" rx="52" ry="14" fill="#6ee7b7" opacity="0.85"/>
+                <text x="120" y="23" font-size="9.5" fill="#065f46" text-anchor="middle" font-weight="700">Cartilaj articular</text>
+              </g>
+
+              <!-- METAFIZA SUPERIOARA -->
+              <g onclick="showBonePart('metafiza')" style="cursor:pointer;">
+                <path d="M55,100 Q55,110 80,118 L160,118 Q185,110 185,100 L185,95 Q185,85 160,95 L80,95 Q55,85 55,95 Z" fill="#fbbf24" opacity="0.65"/>
+                <text x="120" y="109" font-size="9" fill="#78350f" text-anchor="middle" font-weight="700">Metafiză (placă epifizară)</text>
+              </g>
+
+              <!-- PERIOST -->
+              <g onclick="showBonePart('periost')" style="cursor:pointer;">
+                <rect x="75" y="118" width="6" height="200" rx="3" fill="#f87171" opacity="0.8"/>
+                <rect x="159" y="118" width="6" height="200" rx="3" fill="#f87171" opacity="0.8"/>
+                <text x="195" y="200" font-size="9" fill="#9f1239" font-weight="700" text-anchor="start">Periost</text>
+                <line x1="165" y1="195" x2="192" y2="197" stroke="#9f1239" stroke-width="1"/>
+              </g>
+
+              <!-- OS COMPACT (diafiza) -->
+              <g onclick="showBonePart('compact')" style="cursor:pointer;">
+                <rect x="81" y="118" width="78" height="200" rx="4" fill="#93c5fd" opacity="0.6"/>
+                <text x="50" y="215" font-size="9" fill="#1d4ed8" text-anchor="middle" font-weight="700">Os</text>
+                <text x="50" y="226" font-size="9" fill="#1d4ed8" text-anchor="middle" font-weight="700">compact</text>
+                <line x1="62" y1="220" x2="81" y2="218" stroke="#1d4ed8" stroke-width="1"/>
+              </g>
+
+              <!-- CAVITATE MEDULARA -->
+              <g onclick="showBonePart('cavitate')" style="cursor:pointer;">
+                <rect x="100" y="125" width="40" height="186" rx="3" fill="#fde68a" opacity="0.85"/>
+                <text x="120" y="218" font-size="8" fill="#78350f" text-anchor="middle" font-weight="700">Cavitate</text>
+                <text x="120" y="229" font-size="8" fill="#78350f" text-anchor="middle" font-weight="700">medulară</text>
+                <text x="120" y="240" font-size="7.5" fill="#92400e" text-anchor="middle">(măduvă galbenă)</text>
+              </g>
+
+              <!-- ENDOST label -->
+              <text x="42" y="248" font-size="8.5" fill="#7c3aed" text-anchor="middle">Endost</text>
+              <line x1="62" y1="246" x2="100" y2="236" stroke="#7c3aed" stroke-width="1" stroke-dasharray="3,2"/>
+
+              <!-- METAFIZA INFERIOARA -->
+              <g onclick="showBonePart('metafiza')" style="cursor:pointer;">
+                <path d="M55,320 Q55,330 80,322 L160,322 Q185,330 185,320 L185,325 Q185,335 160,325 L80,325 Q55,335 55,325 Z" fill="#fbbf24" opacity="0.65"/>
+              </g>
+
+              <!-- EPIFIZA DISTALA -->
+              <g class="bone-part" onclick="showBonePart('epifiza-inf')" style="cursor:pointer;">
+                <ellipse cx="120" cy="390" rx="65" ry="48" fill="#c4b5fd" opacity="0.78"/>
+                <ellipse cx="100" cy="385" rx="14" ry="10" fill="#a78bfa" opacity="0.45"/>
+                <ellipse cx="130" cy="378" rx="12" ry="8" fill="#a78bfa" opacity="0.45"/>
+                <ellipse cx="142" cy="392" rx="10" ry="7" fill="#a78bfa" opacity="0.45"/>
+                <text x="120" y="393" font-size="11" fill="#4c1d95" text-anchor="middle" font-weight="700">Epifiză</text>
+                <text x="120" y="407" font-size="9.5" fill="#4c1d95" text-anchor="middle">(distală)</text>
+              </g>
+
+              <!-- OS SPONGIOS label in epifize -->
+              <text x="200" y="78" font-size="9" fill="#6d28d9" font-weight="700">Os</text>
+              <text x="200" y="89" font-size="9" fill="#6d28d9" font-weight="700">spongios</text>
+              <line x1="186" y1="60" x2="198" y2="72" stroke="#6d28d9" stroke-width="1"/>
+
+              <!-- DIAAFIZA label -->
+              <text x="18" y="222" font-size="9" fill="#1e3a8a" text-anchor="middle" font-weight="800" transform="rotate(-90,18,222)">DIAFIZĂ</text>
+
+              <!-- cartilaj articular bottom -->
+              <g onclick="showBonePart('cartilaj')" style="cursor:pointer;">
+                <ellipse cx="120" cy="428" rx="52" ry="12" fill="#6ee7b7" opacity="0.85"/>
+                <text x="120" y="431" font-size="9" fill="#065f46" text-anchor="middle" font-weight="700">Cartilaj articular</text>
+              </g>
+            </svg>
+          </div>
+          <div style="flex:1;min-width:220px;">
+            <div class="bone-detail-panel" id="bone-detail">
+              <div class="bdp-name">👆 Click pe o componentă</div>
+              <div class="bdp-desc">Apasă pe oricare parte a osului lung din diagramă pentru a vedea detalii complete. Structuri disponibile: epifize, diafiză, metafiză, periost, os compact, cavitate medulară, cartilaj articular.</div>
+            </div>
+            <div style="margin-top:12px;">
+              <div style="font-size:11px;font-weight:700;color:var(--text3);text-transform:uppercase;letter-spacing:.08em;margin-bottom:8px;">Navigare rapidă:</div>
+              <div style="display:flex;flex-wrap:wrap;gap:6px;">
+                <span onclick="showBonePart('epifiza-sup')" style="cursor:pointer;padding:5px 12px;border-radius:20px;font-size:11.5px;font-weight:600;background:var(--violet-l);color:var(--violet);border:1px solid var(--violet);">Epifiză</span>
+                <span onclick="showBonePart('cartilaj')" style="cursor:pointer;padding:5px 12px;border-radius:20px;font-size:11.5px;font-weight:600;background:var(--green-l);color:var(--green);border:1px solid var(--green);">Cartilaj articular</span>
+                <span onclick="showBonePart('metafiza')" style="cursor:pointer;padding:5px 12px;border-radius:20px;font-size:11.5px;font-weight:600;background:var(--orange-l);color:var(--orange);border:1px solid var(--orange);">Metafiză</span>
+                <span onclick="showBonePart('periost')" style="cursor:pointer;padding:5px 12px;border-radius:20px;font-size:11.5px;font-weight:600;background:var(--rose-l);color:var(--rose);border:1px solid var(--rose);">Periost</span>
+                <span onclick="showBonePart('compact')" style="cursor:pointer;padding:5px 12px;border-radius:20px;font-size:11.5px;font-weight:600;background:var(--blue-l);color:var(--blue);border:1px solid var(--blue);">Os compact</span>
+                <span onclick="showBonePart('cavitate')" style="cursor:pointer;padding:5px 12px;border-radius:20px;font-size:11.5px;font-weight:600;background:var(--orange-l);color:var(--amber);border:1px solid var(--orange);">Cavitate medulară</span>
+              </div>
+            </div>
+          </div>
+        </div>
+      </div>
+
+      <!-- BONE TYPES INTERACTIVE -->
+      <div class="gc">
+        <div class="gc-title"><div class="ct-icon" style="background:#d1fae5">🔷</div>Clasificarea oaselor după formă — click pentru detalii</div>
+        <div class="g4" style="margin-bottom:20px;">
+          <div class="bone-card sel" id="bt-plat" onclick="selectBoneType('plat',this)">
+            <span class="bc-icon">🫁</span>
+            <div class="bc-name">Oase Plate</div>
+            <div class="bc-short">Două plăci compact + os spongios interior</div>
+          </div>
+          <div class="bone-card" id="bt-lung" onclick="selectBoneType('lung',this)">
+            <span class="bc-icon">🦵</span>
+            <div class="bc-name">Oase Lungi</div>
+            <div class="bc-short">Diafiză + 2 epifize, funcție de pârghie</div>
+          </div>
+          <div class="bone-card" id="bt-scurt" onclick="selectBoneType('scurt',this)">
+            <span class="bc-icon">🎲</span>
+            <div class="bc-name">Oase Scurte</div>
+            <div class="bc-short">Formă cuboidală, suportă greutăți</div>
+          </div>
+          <div class="bone-card" id="bt-nereg" onclick="selectBoneType('nereg',this)">
+            <span class="bc-icon">🦷</span>
+            <div class="bc-name">Oase Neregulate</div>
+            <div class="bc-short">Forme variate, prelungiri de ancorare</div>
+          </div>
+        </div>
+        <div id="bonetype-detail" style="background:var(--blue-l);border:2px solid var(--blue);border-radius:14px;padding:20px;"></div>
+      </div>
+
+      <!-- FUNCTIONS OVERVIEW -->
+      <div class="gc">
+        <div class="gc-title"><div class="ct-icon" style="background:#fef3c7">⚡</div>Funcțiile oaselor (Tabelul 6.1)</div>
+        <div class="g3">
+          <div style="background:var(--blue-l);border:1px solid var(--blue);border-radius:14px;padding:18px;text-align:center;">
+            <div style="font-size:28px;margin-bottom:8px;">🏃</div>
+            <div style="font-size:14px;font-weight:800;color:var(--blue);margin-bottom:6px;">Mișcare</div>
+            <div style="font-size:12px;color:var(--text2);line-height:1.6;">Împreună cu mușchii scheletici — mențin sau schimbă poziția corpului</div>
+          </div>
+          <div style="background:var(--rose-l);border:1px solid var(--rose);border-radius:14px;padding:18px;text-align:center;">
+            <div style="font-size:28px;margin-bottom:8px;">🛡</div>
+            <div style="font-size:14px;font-weight:800;color:var(--rose);margin-bottom:6px;">Protecție</div>
+            <div style="font-size:12px;color:var(--text2);line-height:1.6;">Protejează creierul, plămânii și alte organe vitale</div>
+          </div>
+          <div style="background:var(--green-l);border:1px solid var(--green);border-radius:14px;padding:18px;text-align:center;">
+            <div style="font-size:28px;margin-bottom:8px;">🏛</div>
+            <div style="font-size:14px;font-weight:800;color:var(--green);margin-bottom:6px;">Suport</div>
+            <div style="font-size:12px;color:var(--text2);line-height:1.6;">Asigură suportul structural și ancorează mușchii</div>
+          </div>
+          <div style="background:var(--orange-l);border:1px solid var(--orange);border-radius:14px;padding:18px;text-align:center;">
+            <div style="font-size:28px;margin-bottom:8px;">🧪</div>
+            <div style="font-size:14px;font-weight:800;color:var(--orange);margin-bottom:6px;">Stocare minerale</div>
+            <div style="font-size:12px;color:var(--text2);line-height:1.6;">Depozit de calciu și fosfați — echilibru hidric și metabolic</div>
+          </div>
+          <div style="background:var(--violet-l);border:1px solid var(--violet);border-radius:14px;padding:18px;text-align:center;">
+            <div style="font-size:28px;margin-bottom:8px;">🩸</div>
+            <div style="font-size:14px;font-weight:800;color:var(--violet);margin-bottom:6px;">Hematopoieză</div>
+            <div style="font-size:12px;color:var(--text2);line-height:1.6;">Producerea celulelor sanguine în măduva osoasă roșie</div>
+          </div>
+          <div style="background:var(--teal-l);border:1px solid var(--teal);border-radius:14px;padding:18px;text-align:center;">
+            <div style="font-size:28px;margin-bottom:8px;">🔢</div>
+            <div style="font-size:14px;font-weight:800;color:var(--teal);margin-bottom:6px;">Total: 206 oase</div>
+            <div style="font-size:12px;color:var(--text2);line-height:1.6;">Axial (craniu + coloană + cutie toracică) + Membre (periferic)</div>
+          </div>
+        </div>
+      </div>
+
+      <!-- FLOWCHART ARTICULATIONS -->
+      <div class="gc">
+        <div class="gc-title"><div class="ct-icon" style="background:#fce7f3">🌳</div>Schemă logică — Clasificarea articulațiilor</div>
+        <div style="display:flex;flex-direction:column;align-items:center;gap:4px;padding:10px 0;">
+          <div style="background:linear-gradient(135deg,var(--accent),var(--pink));color:#fff;border-radius:12px;padding:12px 36px;font-size:14px;font-weight:800;box-shadow:0 4px 22px rgba(109,63,214,.3);">ARTICULAȚII (Artrologie)</div>
+          <div style="font-size:22px;color:var(--text3);">↓</div>
+          <div style="font-size:11px;color:var(--text3);font-style:italic;margin-bottom:4px;">clasificare după gradul de mișcare</div>
+          <div style="display:grid;grid-template-columns:repeat(3,1fr);gap:16px;width:100%;">
+            <!-- SINARTROZE -->
+            <div>
+              <div style="background:var(--green-l);border:2px solid var(--green);border-radius:12px;padding:10px 14px;text-align:center;font-weight:800;color:var(--green);margin-bottom:8px;">🔒 SINARTROZE</div>
+              <div style="text-align:center;font-size:10px;font-weight:700;color:var(--green);margin-bottom:8px;">IMOBILE</div>
+              <div style="display:flex;flex-direction:column;gap:6px;">
+                <div style="background:var(--surface2);border:1px solid var(--green);border-radius:9px;padding:8px 12px;font-size:11.5px;"><strong>Suturi</strong> — oasele craniului (frontal + parietale)</div>
+                <div style="background:var(--surface2);border:1px solid var(--green);border-radius:9px;padding:8px 12px;font-size:11.5px;"><strong>Gomfoze</strong> — dinți în alveole</div>
+                <div style="background:var(--surface2);border:1px solid var(--green);border-radius:9px;padding:8px 12px;font-size:11.5px;"><strong>Sindesmose</strong> — radius + ulnă (membrană interosoasă)</div>
+              </div>
+            </div>
+            <!-- AMFIARTROZE -->
+            <div>
+              <div style="background:var(--orange-l);border:2px solid var(--orange);border-radius:12px;padding:10px 14px;text-align:center;font-weight:800;color:var(--orange);margin-bottom:8px;">🔓 AMFIARTROZE</div>
+              <div style="text-align:center;font-size:10px;font-weight:700;color:var(--orange);margin-bottom:8px;">SEMIMOBILE</div>
+              <div style="display:flex;flex-direction:column;gap:6px;">
+                <div style="background:var(--surface2);border:1px solid var(--orange);border-radius:9px;padding:8px 12px;font-size:11.5px;"><strong>Discuri intervertebrale</strong> — fibrocartilaj + miez gelatinos</div>
+                <div style="background:var(--surface2);border:1px solid var(--orange);border-radius:9px;padding:8px 12px;font-size:11.5px;"><strong>Simfiza pubiană</strong> — oase pubiene</div>
+                <div style="background:var(--surface2);border:1px solid var(--orange);border-radius:9px;padding:8px 12px;font-size:11.5px;"><strong>Art. sacroiliacă</strong> — sacru + iliac</div>
+              </div>
+            </div>
+            <!-- DIARTROZE -->
+            <div>
+              <div style="background:var(--violet-l);border:2px solid var(--violet);border-radius:12px;padding:10px 14px;text-align:center;font-weight:800;color:var(--violet);margin-bottom:8px;">🔄 DIARTROZE</div>
+              <div style="text-align:center;font-size:10px;font-weight:700;color:var(--violet);margin-bottom:8px;">LIBERE (sinoviale)</div>
+              <div style="display:flex;flex-direction:column;gap:4px;">
+                <div style="background:var(--surface2);border:1px solid var(--violet);border-radius:9px;padding:6px 12px;font-size:11px;"><strong>Trohleară</strong> — cot, genunchi (balama)</div>
+                <div style="background:var(--surface2);border:1px solid var(--violet);border-radius:9px;padding:6px 12px;font-size:11px;"><strong>Pivotală</strong> — atlas-axis (rotație)</div>
+                <div style="background:var(--surface2);border:1px solid var(--violet);border-radius:9px;padding:6px 12px;font-size:11px;"><strong>Sferoidală</strong> — umăr, șold (liberă)</div>
+                <div style="background:var(--surface2);border:1px solid var(--violet);border-radius:9px;padding:6px 12px;font-size:11px;"><strong>Condiloidă</strong> — încheietura mâinii</div>
+                <div style="background:var(--surface2);border:1px solid var(--violet);border-radius:9px;padding:6px 12px;font-size:11px;"><strong>Selară</strong> — deget mare mână</div>
+                <div style="background:var(--surface2);border:1px solid var(--violet);border-radius:9px;padding:6px 12px;font-size:11px;"><strong>Plană</strong> — oase carpiene</div>
+              </div>
+            </div>
+          </div>
+        </div>
+        <div class="mnem" style="margin-top:20px;">
+          <div class="mnem-title">🧠 Memotecnică — Articulații după mobilitate</div>
+          <div class="mnem-text">
+            <span class="em">S</span>inartroza = <strong>S</strong>tatică (imobilă) | <span class="em">A</span>mfiartroza = <strong>A</strong>proape mobilă | <span class="em">D</span>iartroza = <strong>D</strong>inamică (liberă)
+            <span class="sub-note">SAD → Statică · Aproape · Dinamică | Sinartroze = suturi + gomfoze + sindesmose | Diartroze = articulații sinoviale</span>
+          </div>
+        </div>
+      </div>
+    </div><!-- /info -->
+
+
+    <!-- ═══ STRUCTURA OSULUI ═══ -->
+    <div class="panel" id="tab-os">
+      <div class="sec-title">Structura Osului</div>
+      <p class="sec-desc">Țesutul osos, compoziția chimică, structura microscopică (osteonul) și celulele osoase.</p>
+
+      <div class="hb hb-violet">
+        <strong>🦴 Osul — Date generale</strong>
+        Cel mai dur țesut conjunctiv din corp. Alcătuit din: <strong>celule + fibre de colagen + substanță fundamentală densă mineralizată</strong>.<br>
+        Componenta principală: <strong>fosfat de calciu</strong> + mici cantități de hidroxid de calciu și carbonat de calciu → formează <strong>hidroxiapatita</strong>.<br>
+        Hidroxiapatita = duritate | Fibrele de colagen = flexibilitate
+      </div>
+
+      <!-- CELLS COMPARISON -->
+      <div class="gc">
+        <div class="gc-title"><div class="ct-icon" style="background:#ede9fe">🔬</div>Celulele osoase — Roluri distincte</div>
+        <div class="g3">
+          <div class="cell-pill">
+            <div class="cell-dot" style="background:#10b981;"></div>
+            <div>
+              <div class="cell-name">Osteoblaste 🏗</div>
+              <div class="cell-desc"><strong>Formează</strong> osul. Sintetizează colagenul și hidroxiapatita. Celule formatoare de os. Se găsesc în periost și endost. Când sunt înglobate → devin osteocite.</div>
+            </div>
+          </div>
+          <div class="cell-pill">
+            <div class="cell-dot" style="background:#6d3fd6;"></div>
+            <div>
+              <div class="cell-name">Osteocite 🏡</div>
+              <div class="cell-desc"><strong>Întrețin</strong> osul. Osteoblaste mature captive în lacune. Conectate prin canalicule microscopice. Hrănesc osul din jur și îndepărtează produșii reziduali.</div>
+            </div>
+          </div>
+          <div class="cell-pill">
+            <div class="cell-dot" style="background:#f43f5e;"></div>
+            <div>
+              <div class="cell-name">Osteoclaste ⚒</div>
+              <div class="cell-desc"><strong>Resorbesc</strong> osul. Secretă substanțe ce dizolvă osul → eliberează calciu și fosfat pentru contracție musculară și metabolism. Active în endost.</div>
+            </div>
+          </div>
+        </div>
+        <div class="mnem">
+          <div class="mnem-title">🧠 Memotecnică — Celulele osoase</div>
+          <div class="mnem-text">
+            <span class="em">Blast</span>e = Construiesc (Blastere = a construi în limbaj pop) | <span class="em">Ocit</span>e = Ocupanți (locuiesc în lacune) | <span class="em">Clast</span>e = Clatesc (distrugere)
+            <span class="sub-note">Osteoblaste FORMEAZĂ → Osteocite ÎNTREȚIN → Osteoclaste RESORBESC (Formez·Întrețin·Resorb)</span>
+          </div>
+        </div>
+      </div>
+
+      <!-- OSTEON SVG -->
+      <div class="gc">
+        <div class="gc-title"><div class="ct-icon" style="background:#dbeafe">🔍</div>Osteonul — Unitatea structurală a osului compact</div>
+        <div style="display:flex;gap:28px;align-items:flex-start;flex-wrap:wrap;">
+          <div>
+            <svg width="280" height="280" viewBox="0 0 280 280" style="border-radius:14px;background:#f8f5ff;">
+              <!-- Outer compact bone bg -->
+              <rect width="280" height="280" fill="#dbeafe" rx="12" opacity="0.5"/>
+
+              <!-- Osteon rings (concentrice) -->
+              <circle cx="140" cy="140" r="110" fill="none" stroke="#93c5fd" stroke-width="12" opacity="0.55"/>
+              <circle cx="140" cy="140" r="88" fill="none" stroke="#93c5fd" stroke-width="10" opacity="0.6"/>
+              <circle cx="140" cy="140" r="66" fill="none" stroke="#93c5fd" stroke-width="10" opacity="0.65"/>
+              <circle cx="140" cy="140" r="44" fill="none" stroke="#93c5fd" stroke-width="8" opacity="0.7"/>
+              <circle cx="140" cy="140" r="22" fill="none" stroke="#93c5fd" stroke-width="6" opacity="0.75"/>
+
+              <!-- Canal central -->
+              <circle cx="140" cy="140" r="9" fill="#ef4444" opacity="0.85"/>
+              <text x="140" y="122" font-size="9" fill="#9f1239" text-anchor="middle" font-weight="700">Canal central</text>
+              <text x="140" y="132" font-size="8.5" fill="#9f1239" text-anchor="middle">(nervi + capilare)</text>
+              <line x1="140" y1="133" x2="140" y2="131" stroke="#9f1239" stroke-width="1"/>
+
+              <!-- Lacune cu osteocite -->
+              <circle cx="108" cy="140" r="5" fill="#a78bfa" opacity="0.85"/>
+              <circle cx="140" cy="108" r="5" fill="#a78bfa" opacity="0.85"/>
+              <circle cx="172" cy="140" r="5" fill="#a78bfa" opacity="0.85"/>
+              <circle cx="140" cy="172" r="5" fill="#a78bfa" opacity="0.85"/>
+              <circle cx="116" cy="116" r="4" fill="#a78bfa" opacity="0.75"/>
+              <circle cx="164" cy="116" r="4" fill="#a78bfa" opacity="0.75"/>
+              <circle cx="116" cy="164" r="4" fill="#a78bfa" opacity="0.75"/>
+              <circle cx="164" cy="164" r="4" fill="#a78bfa" opacity="0.75"/>
+
+              <!-- Canal perforant (cross) -->
+              <line x1="140" y1="30" x2="140" y2="250" stroke="#fbbf24" stroke-width="2.5" opacity="0.6"/>
+              <line x1="30" y1="140" x2="250" y2="140" stroke="#fbbf24" stroke-width="2.5" opacity="0.6"/>
+
+              <!-- Labels -->
+              <text x="240" y="70" font-size="9" fill="#7c3aed" text-anchor="middle" font-weight="700">Lamelă</text>
+              <text x="240" y="80" font-size="8.5" fill="#7c3aed" text-anchor="middle">(inel osteon)</text>
+              <line x1="230" y1="75" x2="196" y2="90" stroke="#7c3aed" stroke-width="1"/>
+
+              <text x="40" y="72" font-size="9" fill="#6d28d9" text-anchor="middle" font-weight="700">Lacună</text>
+              <text x="40" y="82" font-size="8.5" fill="#6d28d9" text-anchor="middle">+ Osteocit</text>
+              <line x1="45" y1="85" x2="84" y2="116" stroke="#6d28d9" stroke-width="1"/>
+
+              <text x="260" y="155" font-size="9" fill="#b45309" text-anchor="middle" font-weight="700">Canal</text>
+              <text x="260" y="165" font-size="9" fill="#b45309" text-anchor="middle" font-weight="700">perforant</text>
+
+              <!-- Canalicule lines from lacune to center -->
+              <line x1="111" y1="140" x2="131" y2="140" stroke="#c4b5fd" stroke-width="1"/>
+              <line x1="140" y1="111" x2="140" y2="131" stroke="#c4b5fd" stroke-width="1"/>
+              <line x1="169" y1="140" x2="149" y2="140" stroke="#c4b5fd" stroke-width="1"/>
+              <line x1="140" y1="169" x2="140" y2="149" stroke="#c4b5fd" stroke-width="1"/>
+
+              <!-- Title -->
+              <text x="140" y="267" font-size="10" fill="#1e3a8a" text-anchor="middle" font-weight="700">OSTEON (sistem haversian)</text>
+            </svg>
+          </div>
+          <div style="flex:1;">
+            <div class="hb hb-blue">
+              <strong>🔵 Osteonul — Unitatea de bază a osului compact</strong>
+              ✦ Inele concentrice de țesut osos = <strong>lamele osoase</strong><br>
+              ✦ <strong>Canal central</strong> (Havers) — conține nervi și capilare sanguine<br>
+              ✦ <strong>Lacune</strong> — spații în lamele ce conțin <strong>osteocite</strong><br>
+              ✦ <strong>Canalicule</strong> — extensii microscopice ce conectează osteocitele între ele și cu canalul central<br>
+              ✦ <strong>Canale perforante</strong> (Volkmann) — conectează canalele centrale și celulele osoase<br>
+              ✦ <strong>Lamele interstițiale</strong> — osteoane incomplete între osteoane<br>
+              ✦ Os compact = <strong>os lamelar</strong>
+            </div>
+            <div class="hb hb-violet">
+              <strong>🟣 Os compact vs Os spongios</strong>
+              <strong>Os compact:</strong> porțiunea externă a epifizelor + diafiza; dens, dur, cu osteoane vizibile la microscop<br>
+              <strong>Os spongios:</strong> interior epifize; rețea de <strong>trabecule</strong> cu spații ce conțin <strong>măduvă roșie</strong><br>
+              <strong>Diafiză:</strong> os compact exterior + <strong>cavitate medulară</strong> cu măduvă galbenă (grăsime)
+            </div>
+          </div>
+        </div>
+      </div>
+
+      <!-- COMPACT vs SPONGIOS TABLE -->
+      <div class="gc">
+        <div class="gc-title"><div class="ct-icon" style="background:#d1fae5">📊</div>Os compact vs Os spongios</div>
+        <table class="mt">
+          <thead><tr><th>Caracteristică</th><th>Os Compact (Lamelar)</th><th>Os Spongios</th></tr></thead>
+          <tbody>
+            <tr><td class="hl">Densitate</td><td>Dens, dur</td><td>Mai puțin dens</td></tr>
+            <tr><td class="hl">Structura</td><td>Osteoane (inele concentrice)</td><td>Rețea de trabecule (travee)</td></tr>
+            <tr><td class="hl">Localizare</td><td>Porțiunea externă epifize + diafiza</td><td>Interiorul epifizelor</td></tr>
+            <tr><td class="hl">Conținut spații</td><td>Cavitate medulară (măduvă galbenă în diafiză)</td><td>Măduvă osoasă roșie între trabecule</td></tr>
+            <tr><td class="hl">Alt nume</td><td>Os lamelar</td><td>Os trabecular / spongy</td></tr>
+            <tr><td class="hl">Hematopoieză</td><td>Nu</td><td>Da — în măduvă roșie</td></tr>
+          </tbody>
+        </table>
+        <div class="hb hb-orange" style="margin-top:16px;">
+          <strong>📍 Hematopoieza — Localizare specifică pentru admitere</strong>
+          Măduvă osoasă roșie: vertebre, stern, capetele humerusului și femurului → produce hematii, leucocite, plachete sanguine (Cap. 14)
+        </div>
+      </div>
+    </div><!-- /os -->
+
+
+    <!-- ═══ FORMARE & REMODELARE ═══ -->
+    <div class="panel" id="tab-formare">
+      <div class="sec-title">Formarea și Remodelarea Osoasă</div>
+      <p class="sec-desc">Osificarea (2 tipuri), creșterea osoasă și remodelarea de-a lungul vieții. Esențial pentru admitere!</p>
+
+      <div class="gc">
+        <div class="gc-title"><div class="ct-icon" style="background:#fce7f3">🏗</div>Osificarea — 2 tipuri de formare a osului</div>
+        <div class="g2">
+          <div style="background:var(--green-l);border:2px solid var(--green);border-radius:14px;padding:20px;">
+            <div style="font-size:16px;font-weight:800;color:var(--green);margin-bottom:12px;">🟢 Osificare Intramembranoasă</div>
+            <div style="font-size:13px;color:var(--text2);line-height:1.8;">
+              ✦ <strong>Unde:</strong> oasele PLATE ale craniului<br>
+              ✦ Osteoblastele migrează în membrane → formează <strong>centre de osificare</strong><br>
+              ✦ Secretă matricea: colagen + fosfat de calciu + carbonat de calciu<br>
+              ✦ Centrele se extind → se unesc → formează <strong>trabeculele osului spongios</strong><br>
+              ✦ Spațiile → măduvă osoasă roșie<br>
+              ✦ Osteoblastele depun os compact la nivelul periostului
+            </div>
+            <div style="margin-top:10px;"><span class="tag t-green">Craniu = Intramembranos</span></div>
+          </div>
+          <div style="background:var(--blue-l);border:2px solid var(--blue);border-radius:14px;padding:20px;">
+            <div style="font-size:16px;font-weight:800;color:var(--blue);margin-bottom:12px;">🔵 Osificare Endocondrală</div>
+            <div style="font-size:13px;color:var(--text2);line-height:1.8;">
+              ✦ <strong>Unde:</strong> oasele LUNGI (și toate oasele scheletului periferic)<br>
+              ✦ Săptămâna 6 embrionară: tije de <strong>cartilaj hialin</strong> cu forma oaselor lungi<br>
+              ✦ Vase sanguine + osteoblaste în membrană → depun os compact<br>
+              ✦ Osificare continuă la suprafață, nu în profunzime → cavitate medulară<br>
+              ✦ Os compact se îngroașă + tija cartilaginoasă crește la capete → lungime ↑<br>
+              ✦ După pubertate → zona de cartilaj = <strong>placă epifizară</strong><br>
+              ✦ Când placa epifizară e complet osificată → creștere în lungime <strong>ÎNCETEAZĂ</strong>
+            </div>
+            <div style="margin-top:10px;"><span class="tag t-blue">Oase lungi = Endocondrală</span></div>
+          </div>
+        </div>
+        <div class="hb hb-orange" style="margin-top:16px;">
+          <strong>⚠️ Placă epifizară — Crucial pentru admitere!</strong>
+          Placa epifizară = zona activă de cartilaj la joncțiunea diafiză-epifiză (metafiză). Când e complet osificată după pubertate, creșterea în lungime ÎNCETEAZĂ. Acest fenomen e <strong>controlat hormonal</strong>.
+        </div>
+      </div>
+
+      <div class="gc">
+        <div class="gc-title"><div class="ct-icon" style="background:#fef3c7">🔄</div>Remodelarea osoasă — Echilibrul osteoblaste-osteoclaste</div>
+        <div style="display:flex;flex-direction:column;align-items:center;gap:8px;padding:10px 0;">
+          <div style="display:grid;grid-template-columns:1fr auto 1fr;gap:16px;width:100%;align-items:center;">
+            <div style="background:var(--green-l);border:2px solid var(--green);border-radius:14px;padding:18px;text-align:center;">
+              <div style="font-size:24px;margin-bottom:8px;">🏗</div>
+              <div style="font-size:15px;font-weight:800;color:var(--green);margin-bottom:8px;">OSTEOBLASTE</div>
+              <div style="font-size:12px;color:var(--text2);line-height:1.6;">
+                Formează os nou<br>
+                Secretă colagen + hidroxiapatită<br>
+                Stimulați de: <strong>activitate fizică</strong>, hormoni
+              </div>
+            </div>
+            <div style="text-align:center;font-size:28px;">⚖️</div>
+            <div style="background:var(--rose-l);border:2px solid var(--rose);border-radius:14px;padding:18px;text-align:center;">
+              <div style="font-size:24px;margin-bottom:8px;">⚒</div>
+              <div style="font-size:15px;font-weight:800;color:var(--rose);margin-bottom:8px;">OSTEOCLASTE</div>
+              <div style="font-size:12px;color:var(--text2);line-height:1.6;">
+                Resorbesc osul<br>
+                Secretă substanțe dizolvante<br>
+                Eliberează Ca²⁺ și fosfați
+              </div>
+            </div>
+          </div>
+          <div style="font-size:11px;color:var(--text3);font-style:italic;margin:4px 0;">Echilibru controlat de hormoni (inclusiv hormoni sexuali)</div>
+          <div style="width:100%;background:var(--rose-l);border:2px solid var(--rose);border-radius:14px;padding:16px;margin-top:4px;">
+            <div style="font-size:14px;font-weight:800;color:var(--rose);margin-bottom:10px;">⚠️ Osteoporoza — Dezechilibru Resorb &gt; Formare</div>
+            <div class="g2">
+              <div style="font-size:13px;color:var(--text2);line-height:1.7;">
+                ✦ Apare mai ales la persoane <strong>în vârstă</strong><br>
+                ✦ Resorbția osoasă &gt; formarea<br>
+                ✦ Pierderi de calciu → oase mai puțin rezistente<br>
+                ✦ Risc crescut de fracturi
+              </div>
+              <div style="font-size:13px;color:var(--text2);line-height:1.7;">
+                <strong style="color:var(--text);">Prevenție:</strong><br>
+                ✦ Suplimente de calciu în alimentație<br>
+                ✦ Activitate fizică → stres mecanic → stimulează osteoblastele
+              </div>
+            </div>
+          </div>
+        </div>
+      </div>
+    </div><!-- /formare -->
+
+
+    <!-- ═══ ARTICULATII ═══ -->
+    <div class="panel" id="tab-articulatii">
+      <div class="sec-title">Articulațiile</div>
+      <p class="sec-desc">Cele 3 tipuri majore + cele 6 tipuri de diartroze, cu structuri și exemple anatomice.</p>
+
+      <div class="gc">
+        <div class="gc-title"><div class="ct-icon" style="background:#fce7f3">🔗</div>Tipuri de articulații — selectează pentru detalii</div>
+        <div class="g3" style="margin-bottom:20px;">
+          <div class="jnt-card sel" id="jt-sinar" onclick="selectJoint('sinar',this)">
+            <span class="jc-icon">🔒</span>
+            <div class="jc-name">Sinartroze</div>
+            <span class="jc-mob" style="background:var(--green-l);color:var(--green);">Imobile</span>
+            <div class="jc-desc">Capete osoase separate de cantitate redusă de țesut fibros sau cartilaj.</div>
+          </div>
+          <div class="jnt-card" id="jt-amfi" onclick="selectJoint('amfi',this)">
+            <span class="jc-icon">🔓</span>
+            <div class="jc-name">Amfiartroze</div>
+            <span class="jc-mob" style="background:var(--orange-l);color:var(--orange);">Semimobile</span>
+            <div class="jc-desc">Mobilitate limitată. Capete osoase separate de cantitate mare de cartilaj.</div>
+          </div>
+          <div class="jnt-card" id="jt-diar" onclick="selectJoint('diar',this)">
+            <span class="jc-icon">🔄</span>
+            <div class="jc-name">Diartroze</div>
+            <span class="jc-mob" style="background:var(--violet-l);color:var(--violet);">Libere (sinoviale)</span>
+            <div class="jc-desc">Mișcări libere. Cavitate sinovială. Lichidul sinovial lubrifiază.</div>
+          </div>
+        </div>
+        <div class="jnt-detail" id="joint-detail"></div>
+      </div>
+
+      <!-- DIARTROZE 6 TIPURI -->
+      <div class="gc">
+        <div class="gc-title"><div class="ct-icon" style="background:#ede9fe">🏆</div>Cele 6 tipuri de Diartroze — Click pentru detalii</div>
+        <div class="g3">
+          <div class="bone-card" id="dt-trohl" onclick="selectDiarthrosis('trohl',this)">
+            <span class="bc-icon">🔩</span>
+            <div class="bc-name">Trohleară</div>
+            <div class="bc-short">Mișcare într-un singur plan (balama)</div>
+            <div style="margin-top:8px;"><span class="tag t-blue">1 axă</span></div>
+          </div>
+          <div class="bone-card" id="dt-pivot" onclick="selectDiarthrosis('pivot',this)">
+            <span class="bc-icon">🔄</span>
+            <div class="bc-name">Pivotală</div>
+            <div class="bc-short">Mișcare de rotație pură</div>
+            <div style="margin-top:8px;"><span class="tag t-cyan">Rotație</span></div>
+          </div>
+          <div class="bone-card" id="dt-sfer" onclick="selectDiarthrosis('sfer',this)">
+            <span class="bc-icon">⚽</span>
+            <div class="bc-name">Sferoidală</div>
+            <div class="bc-short">Cea mai liberă — toate mișcările</div>
+            <div style="margin-top:8px;"><span class="tag t-violet">Toate axele</span></div>
+          </div>
+          <div class="bone-card" id="dt-cond" onclick="selectDiarthrosis('cond',this)">
+            <span class="bc-icon">🥚</span>
+            <div class="bc-name">Condiloidă</div>
+            <div class="bc-short">Suprafețe ovale, fără rotație</div>
+            <div style="margin-top:8px;"><span class="tag t-pink">2 axe</span></div>
+          </div>
+          <div class="bone-card" id="dt-sel" onclick="selectDiarthrosis('sel',this)">
+            <span class="bc-icon">🏇</span>
+            <div class="bc-name">Selară</div>
+            <div class="bc-short">Ca un călăreț în șa, biaxială</div>
+            <div style="margin-top:8px;"><span class="tag t-orange">2 axe+</span></div>
+          </div>
+          <div class="bone-card" id="dt-plan" onclick="selectDiarthrosis('plan',this)">
+            <span class="bc-icon">🛷</span>
+            <div class="bc-name">Plană</div>
+            <div class="bc-short">Alunecare non-axială</div>
+            <div style="margin-top:8px;"><span class="tag t-teal">Alunecare</span></div>
+          </div>
+        </div>
+        <div id="diarth-detail" style="margin-top:20px;background:var(--violet-l);border:2px solid var(--violet);border-radius:14px;padding:20px;display:none;"></div>
+      </div>
+
+      <!-- SYNOVIAL JOINT STRUCTURE -->
+      <div class="gc">
+        <div class="gc-title"><div class="ct-icon" style="background:#d1fae5">🔬</div>Structura articulației sinoviale (diartroze)</div>
+        <div class="g2">
+          <div>
+            <svg width="280" height="220" viewBox="0 0 280 220" style="border-radius:12px;background:#f8f5ff;">
+              <!-- Os 1 (sus) -->
+              <rect x="60" y="10" width="160" height="60" rx="14" fill="#c4b5fd" opacity="0.8"/>
+              <text x="140" y="43" font-size="11" fill="#4c1d95" text-anchor="middle" font-weight="700">Os</text>
+
+              <!-- Cartilaj articular sus -->
+              <rect x="80" y="68" width="120" height="12" rx="4" fill="#6ee7b7" opacity="0.85"/>
+              <text x="220" y="76" font-size="9" fill="#065f46" font-weight="700">Cart. articular</text>
+              <line x1="215" y1="74" x2="200" y2="74" stroke="#065f46" stroke-width="1"/>
+
+              <!-- Capsula fibroasa -->
+              <rect x="52" y="78" width="8" height="64" rx="4" fill="#fbbf24" opacity="0.8"/>
+              <rect x="220" y="78" width="8" height="64" rx="4" fill="#fbbf24" opacity="0.8"/>
+              <text x="26" y="112" font-size="8.5" fill="#b45309" text-anchor="middle">Capsulă</text>
+              <text x="26" y="122" font-size="8.5" fill="#b45309" text-anchor="middle">fibroasă</text>
+
+              <!-- Membrana sinoviala -->
+              <rect x="60" y="80" width="6" height="60" rx="3" fill="#f472b6" opacity="0.8"/>
+              <rect x="214" y="80" width="6" height="60" rx="3" fill="#f472b6" opacity="0.8"/>
+              <text x="258" y="103" font-size="8.5" fill="#be185d" text-anchor="middle">Membrană</text>
+              <text x="258" y="113" font-size="8.5" fill="#be185d" text-anchor="middle">sinovială</text>
+              <line x1="238" y1="108" x2="220" y2="108" stroke="#be185d" stroke-width="1"/>
+
+              <!-- Cavitate sinoviala (lichidul) -->
+              <rect x="66" y="80" width="148" height="60" fill="#bae6fd" opacity="0.55"/>
+              <text x="140" y="113" font-size="10" fill="#0c4a6e" text-anchor="middle" font-weight="700">Cavitate sinovială</text>
+              <text x="140" y="126" font-size="8.5" fill="#0369a1" text-anchor="middle">(lichid sinovial — lubrifiant)</text>
+
+              <!-- Cartilaj articular jos -->
+              <rect x="80" y="140" width="120" height="12" rx="4" fill="#6ee7b7" opacity="0.85"/>
+
+              <!-- Os 2 (jos) -->
+              <rect x="60" y="150" width="160" height="60" rx="14" fill="#c4b5fd" opacity="0.8"/>
+              <text x="140" y="183" font-size="11" fill="#4c1d95" text-anchor="middle" font-weight="700">Os</text>
+
+              <!-- Meniscuri -->
+              <ellipse cx="106" cy="140" rx="15" ry="6" fill="#fb923c" opacity="0.75"/>
+              <ellipse cx="174" cy="140" rx="15" ry="6" fill="#fb923c" opacity="0.75"/>
+              <text x="140" y="204" font-size="8.5" fill="#c2410c" text-anchor="middle">Meniscuri (discuri cartilaginoase)</text>
+            </svg>
+          </div>
+          <div>
+            <div class="hb hb-violet">
+              <strong>Structura articulației sinoviale</strong>
+              ✦ <strong>Cartilaj articular</strong> (hialin) — suprafață netedă, fără frecare<br>
+              ✦ <strong>Capsula fibroasă</strong> — învelește ambele capete osoase<br>
+              ✦ <strong>Membrana sinovială</strong> — tapetează interiorul capsulei (NU acoperă cartilajul)<br>
+              ✦ <strong>Lichid sinovial</strong> — secretat de membrana sinovială, vâscos, lubrifiant<br>
+              ✦ <strong>Meniscuri</strong> — discuri cartilaginoase (ex: genunchi: 2 meniscuri semilunare)<br>
+              ✦ <strong>Ligamente</strong> — fascicule din capsula fibroasă<br>
+              ✦ <strong>Burse</strong> — saci cu lichid sinovial între piele și os, facilitează alunecarea tendoanelor
+            </div>
+            <div class="hb hb-blue">
+              <strong>📍 Localizarea diartrozelor</strong>
+              Procese articulare vertebrale, umăr, cot, încheietura mâinii, șold, genunchi, gleznă, laba piciorului
+            </div>
+          </div>
+        </div>
+      </div>
+    </div><!-- /articulatii -->
+
+
+    <!-- ═══ MISCARI ═══ -->
+    <div class="panel" id="tab-miscari">
+      <div class="sec-title">Mișcările Articulare</div>
+      <p class="sec-desc">Toate tipurile de mișcări posibile la nivelul diartrozelor, cu definiții și antagoniste. Click pe mișcare pentru detalii.</p>
+
+      <div class="hb hb-blue">
+        <strong>Principiul general al mișcării articulare</strong>
+        Un capăt al mușchiului = atașat de o parte <strong>imobilă (fixă)</strong> a articulației; celălalt capăt = atașat de o parte <strong>mobilă (opusă)</strong>. Contracția musculară → tracțiune → mișcare.
+      </div>
+
+      <div class="gc">
+        <div class="gc-title"><div class="ct-icon" style="background:#d1fae5">🏃</div>Tipuri de mișcări articulare — Perechi antagoniste</div>
+        <div style="display:grid;grid-template-columns:1fr auto 1fr;gap:12px;align-items:center;margin-bottom:20px;" id="movements-grid">
+          <!-- Will be generated by JS -->
+        </div>
+        <div id="mov-detail" style="display:none;background:var(--violet-l);border:2px solid var(--violet);border-radius:14px;padding:20px;margin-top:16px;"></div>
+      </div>
+
+      <div class="gc">
+        <div class="gc-title"><div class="ct-icon" style="background:#fef3c7">📋</div>Mișcările articulare și antagonistele lor</div>
+        <table class="mt">
+          <thead><tr><th>Mișcare</th><th>Definiție</th><th>Mișcare antagonistă</th></tr></thead>
+          <tbody>
+            <tr><td class="hl">Flexie</td><td>Reduce unghiul dintre 2 oase (îndoire)</td><td>Extensie — mărește unghiul</td></tr>
+            <tr><td class="hl">Abducție</td><td>Îndepărtarea unui membru de linia mediană</td><td>Adducție — apropierea de linia mediană</td></tr>
+            <tr><td class="hl">Rotație medială</td><td>Rotația unui os pe axa sa, spre linia mediană</td><td>Rotație laterală — dinspre linia mediană</td></tr>
+            <tr><td class="hl">Supinație</td><td>Rotația antebrațului — palma spre anterior (anatomic)</td><td>Pronație — palma spre posterior</td></tr>
+            <tr><td class="hl">Elevație</td><td>Ridicarea unei părți a corpului (ex: umeri)</td><td>Depresie — coborârea</td></tr>
+            <tr><td class="hl">Protracție</td><td>Împingerea spre înainte (ex: bărbie)</td><td>Retracție — retragerea spre înapoi</td></tr>
+            <tr><td class="hl">Flexie dorsală</td><td>Ridicarea labei piciorului spre tibie</td><td>Flexie plantară — îndoirea înapoi</td></tr>
+            <tr><td class="hl">Inversie</td><td>Rotirea tălpii spre interior</td><td>Eversie — rotirea tălpii spre exterior</td></tr>
+            <tr><td class="hl">Circumducție</td><td>Mișcare circulară = flexie+extensie+abducție+adducție</td><td>—</td></tr>
+          </tbody>
+        </table>
+      </div>
+    </div><!-- /miscari -->
+
+
+    <!-- ═══ TABELE ═══ -->
+    <div class="panel" id="tab-tabele">
+      <div class="sec-title">Tabele comparative — Referință rapidă</div>
+      <p class="sec-desc">Toate informațiile esențiale pentru admitere, sistematizate.</p>
+
+      <div class="gc">
+        <div class="gc-title">Tabelul 6.1 — Funcțiile oaselor</div>
+        <table class="mt">
+          <thead><tr><th>Funcție</th><th>Descriere</th><th>Exemple</th></tr></thead>
+          <tbody>
+            <tr><td class="hl">Mișcare</td><td>Cu mușchii scheletici — mențin/schimbă poziția</td><td>Membre, coloana vertebrală</td></tr>
+            <tr><td class="hl">Protecție</td><td>Protejează organe vitale</td><td>Craniu (creier), coaste (plămâni, inimă), pelvis</td></tr>
+            <tr><td class="hl">Suport</td><td>Suport structural, ancorează mușchii</td><td>Scheletul axial și periferic</td></tr>
+            <tr><td class="hl">Stocare minerale</td><td>Depozit de Ca²⁺ și fosfați; echilibru hidric și metabolic</td><td>Calciu eliberat la nevoie în sânge</td></tr>
+            <tr><td class="hl">Hematopoieză</td><td>Producerea celulelor sanguine în măduvă roșie</td><td>Vertebre, stern, capete humerus, capete femur</td></tr>
+          </tbody>
+        </table>
+      </div>
+
+      <div class="gc">
+        <div class="gc-title">Tabelul 6.2 — Clasificarea oaselor după formă</div>
+        <table class="mt">
+          <thead><tr><th>Tip</th><th>Structură</th><th>Funcție</th><th>Exemple</th></tr></thead>
+          <tbody>
+            <tr><td class="hl">Plate</td><td>2 plăci compact + os spongios central</td><td>Protecție organe, suprafețe pentru tendoane</td><td>Craniu, scapule, coaste, stern, pelvis</td></tr>
+            <tr><td class="hl">Lungi</td><td>Diafiză + 2 epifize</td><td>Pârghie pentru mișcare</td><td>Femur, humerus, tibie, fibulă, falange</td></tr>
+            <tr><td class="hl">Scurte</td><td>Formă cuboidală</td><td>Suportă greutăți</td><td>Carpiene (mâna), tarsiene (glezna)</td></tr>
+            <tr><td class="hl">Neregulate</td><td>Forme variate cu prelungiri</td><td>Ancorare tendoane și ligamente</td><td>Vertebre, oase wormiene, rotule (patele)</td></tr>
+          </tbody>
+        </table>
+      </div>
+
+      <div class="gc">
+        <div class="gc-title">Tabelul 6.3 — Tipuri de articulații după mobilitate</div>
+        <table class="mt">
+          <thead><tr><th>Tip</th><th>Mobilitate</th><th>Structură</th><th>Exemple</th></tr></thead>
+          <tbody>
+            <tr><td class="hl">Sinartroze</td><td><span class="tag t-green">Imobile</span></td><td>Capete osoase + cantitate mică de fibros/cartilaj</td><td>Suturi craniene, gomfoze (dinți-alveolă), sindesmose (radius-ulnă)</td></tr>
+            <tr><td class="hl">Amfiartroze</td><td><span class="tag t-orange">Semimobile</span></td><td>Capete osoase + cantitate mare de cartilaj</td><td>Discuri intervertebrale, simfiza pubiană, art. sacroiliacă</td></tr>
+            <tr><td class="hl">Diartroze</td><td><span class="tag t-violet">Libere/Sinoviale</span></td><td>Cavitate sinovială + capsulă fibroasă + membrană sinovială</td><td>Umăr, cot, genunchi, șold, gleznă, degetele</td></tr>
+          </tbody>
+        </table>
+      </div>
+
+      <div class="gc">
+        <div class="gc-title">Tabelul 6.4 — Tipuri de diartroze</div>
+        <table class="mt">
+          <thead><tr><th>Diartroza</th><th>Descriere suprafețe</th><th>Mișcare</th><th>Exemple anatomice</th></tr></thead>
+          <tbody>
+            <tr><td class="hl">Trohleară</td><td>Scripete + suprafață concavă</td><td>1 plan (balama)</td><td>Cot (humerus-ulnă), genunchi (femur-tibie), interfalangiene</td></tr>
+            <tr><td class="hl">Pivotală</td><td>Suprafață cilindrică în inel osos</td><td>Rotație</td><td>Atlas-Axis (gât)</td></tr>
+            <tr><td class="hl">Sferoidală</td><td>Convex rotund + concavă</td><td>Toate mișcările (cea mai liberă)</td><td>Umăr (humerus-fosa glenoidă scapulei), șold (femur-acetabul)</td></tr>
+            <tr><td class="hl">Condiloidă (elipsoidală)</td><td>Condil oval + cavitate eliptică</td><td>2 planuri perpendiculare (fără rotație)</td><td>Încheietura mâinii (radius-carpiene)</td></tr>
+            <tr><td class="hl">Selară</td><td>Formă de șa (concav+convex)</td><td>Ca condiloidă, dar mai liberă; fără rotație</td><td>Degetul mare al mâinii (metacarpian I - trapez)</td></tr>
+            <tr><td class="hl">Plană</td><td>Două suprafețe plane</td><td>Alunecare non-axială</td><td>Între anumite oase carpiene/tarsiene</td></tr>
+          </tbody>
+        </table>
+      </div>
+
+      <div class="gc">
+        <div class="gc-title">Tabelul 6.5 — Celulele osoase</div>
+        <table class="mt">
+          <thead><tr><th>Celulă</th><th>Localizare</th><th>Rol</th><th>Produc</th></tr></thead>
+          <tbody>
+            <tr><td class="hl">Osteoblaste</td><td>Periost, endost (suprafețe osoase)</td><td><strong>Formează osul</strong></td><td>Colagen + hidroxiapatită (matricea osoasă)</td></tr>
+            <tr><td class="hl">Osteocite</td><td>Lacune din lamele osoase</td><td><strong>Întrețin osul</strong></td><td>Hrănesc osul, elimină produsi reziduali; conectați prin canalicule</td></tr>
+            <tr><td class="hl">Osteoclaste</td><td>Endost</td><td><strong>Resorbesc osul</strong></td><td>Substanțe dizolvante → eliberează Ca²⁺ și fosfați</td></tr>
+          </tbody>
+        </table>
+      </div>
+
+      <div class="gc">
+        <div class="gc-title">Tabelul 6.6 — Mișcări articulare și antagoniste (Tabelul 6.3 din manual)</div>
+        <table class="mt">
+          <thead><tr><th>Acțiune</th><th>Definiție</th><th>Acțiune antagonistă</th></tr></thead>
+          <tbody>
+            <tr><td class="hl">Flexie</td><td>Micșorarea unghiului dintre 2 oase</td><td>Extensie</td></tr>
+            <tr><td class="hl">Abducție</td><td>Îndepărtarea față de linia mediană</td><td>Adducție</td></tr>
+            <tr><td class="hl">Rotație medială</td><td>Rotația spre linia mediană</td><td>Rotație laterală</td></tr>
+            <tr><td class="hl">Supinație</td><td>Palma în poziție anatomică (anterior)</td><td>Pronație</td></tr>
+            <tr><td class="hl">Elevație</td><td>Ridicarea unei părți a corpului</td><td>Depresie</td></tr>
+            <tr><td class="hl">Protracție</td><td>Împingerea spre înainte</td><td>Retracție</td></tr>
+            <tr><td class="hl">Flexie dorsală</td><td>Laba piciorului spre tibie</td><td>Flexie plantară</td></tr>
+            <tr><td class="hl">Inversie</td><td>Rotirea tălpii spre interior</td><td>Eversie</td></tr>
+          </tbody>
+        </table>
+      </div>
+    </div><!-- /tabele -->
+
+
+    <!-- ═══ QUIZ ═══ -->
+    <div class="panel" id="tab-quiz">
+      <div class="sec-title">Quiz — Capitol 6: Oasele și Articulațiile</div>
+      <p class="sec-desc">Testează-ți cunoștințele cu 10 întrebări tip admitere medicină</p>
+      <div class="qscore">
+        <div class="qs-label">Scor curent</div>
+        <div class="qs-val" id="quiz-score">0 / 10</div>
+        <button onclick="resetQuiz()" style="padding:8px 18px;border-radius:10px;border:1px solid var(--border);background:var(--surface);font-family:'Outfit',sans-serif;font-size:12px;font-weight:600;cursor:pointer;color:var(--text2);">↺ Restart</button>
+      </div>
+      <div id="quiz-container"></div>
+    </div>
+
+  </div><!-- /content -->
+</div><!-- /main -->
+
+<script>
+// ── TAB SWITCHING ──
+function switchTab(id,btn){
+  document.querySelectorAll('.panel').forEach(p=>p.classList.remove('active'));
+  document.querySelectorAll('.tab-btn').forEach(b=>b.classList.remove('active'));
+  document.getElementById('tab-'+id).classList.add('active');
+  btn.classList.add('active');
+}
+
+// ── ACCORDION ──
+function toggleAcc(item){
+  const body=item.querySelector('.acc-body');
+  item.classList.toggle('open');
+  body.classList.toggle('open');
+}
+
+// ── BONE PART DATA ──
+const boneParts = {
+  'epifiza-sup':{name:'Epifiza',color:'#a78bfa',
+    desc:'Capetele osului lung. Conțin os spongios la interior și os compact la exterior. Acoperite de cartilaj articular la suprafețele articulare. Locul hematopoiezei (măduvă roșie în os spongios).',
+    props:[{k:'Tip os',v:'Os spongios (interior) + compact (exterior)'},{k:'Conținut',v:'Os spongios + măduvă osoasă roșie'},{k:'Suprafață',v:'Cartilaj articular hialin'},{k:'Funcție',v:'Articulare + hematopoieză'},{k:'Exemple',v:'Capetele femurului, humerusului'},{k:'Măduvă',v:'Roșie — formează celule sanguine'}]},
+  'epifiza-inf':{name:'Epifiza',color:'#a78bfa',
+    desc:'Capătul distal al osului lung — identic structural cu epifiza proximală. Os spongios interior, cartilaj articular la suprafață.',
+    props:[{k:'Localizare',v:'Capătul distal'},{k:'Os',v:'Spongios + compact exterior'},{k:'Cartilaj',v:'Articular hialin — fără frecare'},{k:'Măduvă',v:'Roșie (hematopoieză)'}]},
+  'cartilaj':{name:'Cartilaj articular',color:'#6ee7b7',
+    desc:'Strat subțire de cartilaj HIALIN la suprafața fiecărei epifize. Furnizează o suprafață ce facilitează deplasarea fără frecare a oaselor adiacente. NU este acoperit de membrana sinovială.',
+    props:[{k:'Tip',v:'Cartilaj hialin (cel mai comun)'},{k:'Rol',v:'Suprafață fără frecare pentru articulare'},{k:'Localizare',v:'Extremitatea fiecărei epifize'},{k:'Absent',v:'Nu acoperă diafiza — periostul e acolo'},{k:'Atenție!',v:'NU e acoperit de membrana sinovială'}]},
+  'metafiza':{name:'Metafiza (Placă epifizară)',color:'#fbbf24',
+    desc:'Zona de joncțiune dintre diafiză și epifiză. În perioada de creștere: conține PLACA EPIFIZARĂ — cartilaj activ ce permite creșterea în lungime. După pubertate: placa se osifică complet → creștere ÎNCETEAZĂ.',
+    props:[{k:'Localizare',v:'Joncțiunea diafiză-epifiză'},{k:'În creștere',v:'Conține placă epifizară activă'},{k:'Funcție',v:'Creștere în lungime a osului'},{k:'Mecanism',v:'Cartilaj nou depus → îndepărtează epifizele'},{k:'Post-pubertate',v:'Placa se osifică → creștere STOP'},{k:'Control',v:'Hormonal (inclusiv hormoni sexuali)'}]},
+  'periost':{name:'Periostul',color:'#f87171',
+    desc:'Învelișul de țesut conjunctiv al suprafeței externe a diafizei (acolo unde nu există cartilaj articular). Conține vase sanguine, nervi și osteoblaste. Sursă de osteocite noi. Permite atașarea mușchilor și tendoanelor.',
+    props:[{k:'Tip',v:'Țesut conjunctiv'},{k:'Localizare',v:'Suprafața externă a diafizei'},{k:'Conține',v:'Vase sanguine + nervi + osteoblaste'},{k:'Funcție',v:'Vascularizație + nutriție + atașare mușchi'},{k:'Origine osteocite',v:'Din periost iau naștere osteocitele'}]},
+  'compact':{name:'Osul Compact (Lamelar)',color:'#93c5fd',
+    desc:'Forma porțiunii externe a diafizei și epifizelor. Dens și dur. La microscop: osteoane (sisteme haversiene) — inele concentrice de lamele cu canal central ce conține vase și nervi.',
+    props:[{k:'Alt nume',v:'Os lamelar'},{k:'Structura',v:'Osteoane (sisteme haversiene)'},{k:'Unitate',v:'Osteonul = canal central + lamele + lacune + osteocite'},{k:'Canal central',v:'Nervi + capilare sanguine'},{k:'Canalicule',v:'Extensii microscopice conectând osteocitele'},{k:'Localizare',v:'Diafiza + exterior epifize'}]},
+  'cavitate':{name:'Cavitatea Medulară',color:'#fde68a',
+    desc:'Cavitatea centrală a diafizei. Căptușită de endost (conține osteoblaste + osteoclaste). Conține măduvă galbenă (grăsime) la adult. Măduvă roșie (hematopoietică) se găsește în os spongios, nu în cavitatea medulară.',
+    props:[{k:'Localizare',v:'Centrul diafizei'},{k:'Căptușeală',v:'Endost'},{k:'Endost conține',v:'Osteoblaste + osteoclaste'},{k:'Conținut adult',v:'Măduvă GALBENĂ (grăsime)'},{k:'Atenție!',v:'Măduvă ROȘIE e în os SPONGIOS (nu aici)'},{k:'Funcție',v:'Depozit lipide; rezervă hematopoietică potențială'}]}
+};
+
+function showBonePart(id){
+  const d = boneParts[id];
+  if(!d) return;
+  const el = document.getElementById('bone-detail');
+  el.style.background = d.color+'22';
+  el.style.borderColor = d.color;
+  el.style.borderWidth = '2px';
+  el.innerHTML = `
+    <div class="bdp-name" style="color:${d.color};">${d.name}</div>
+    <div class="bdp-desc">${d.desc}</div>
+    <div class="bdp-grid">
+      ${d.props.map(p=>`<div class="bdp-prop"><div class="bdp-key">${p.k}</div><div class="bdp-val">${p.v}</div></div>`).join('')}
+    </div>`;
+}
+
+// ── BONE TYPES ──
+const boneTypes = {
+  plat:{color:'var(--blue)',bg:'var(--blue-l)',
+    html:`<div style="font-size:16px;font-weight:800;color:var(--blue);margin-bottom:12px;">🫁 Oase Plate</div>
+    <div class="g2"><div style="font-size:13px;color:var(--text2);line-height:1.8;">
+      ✦ <strong>Structura:</strong> 2 plăci subțiri de os compact + os spongios central (diplo)<br>
+      ✦ <strong>Funcție principală:</strong> protejează țesuturi delicate (creier, organe toracice)<br>
+      ✦ Oferă suprafețe întinse pentru atașarea tendoanelor<br>
+      ✦ <strong>Exemple:</strong> oasele craniului, scapule (omoplați), coaste, stern, oasele pelvisului
+    </div><div class="hb hb-blue" style="margin:0;font-size:12px;"><strong>⚠️ Admitere</strong>Craniul + sternul + coastele = PLATE → conțin măduvă roșie = hematopoieză</div></div>`},
+  lung:{color:'var(--violet)',bg:'var(--violet-l)',
+    html:`<div style="font-size:16px;font-weight:800;color:var(--violet);margin-bottom:12px;">🦵 Oase Lungi</div>
+    <div class="g2"><div style="font-size:13px;color:var(--text2);line-height:1.8;">
+      ✦ <strong>Structura:</strong> Diafiză (ax lung) + 2 Epifize (capete)<br>
+      ✦ <strong>Metafiza:</strong> joncțiunea diafiză-epifiză (zona de creștere)<br>
+      ✦ Diafiiza: os compact extern + cavitate medulară cu măduvă galbenă<br>
+      ✦ Epifizele: os spongios cu măduvă roșie + cartilaj articular la suprafață<br>
+      ✦ <strong>Exemple:</strong> femur, humerus, tibie, fibulă, radius, ulnă, falange
+    </div><div class="hb hb-violet" style="margin:0;font-size:12px;"><strong>Funcție</strong>Pârghii pentru mișcare. Sursa principală de hematopoieză în capetele femurului și humerusului.</div></div>`},
+  scurt:{color:'var(--orange)',bg:'var(--orange-l)',
+    html:`<div style="font-size:16px;font-weight:800;color:var(--orange);margin-bottom:12px;">🎲 Oase Scurte</div>
+    <div class="g2"><div style="font-size:13px;color:var(--text2);line-height:1.8;">
+      ✦ <strong>Formă:</strong> aproximativ cuboidală (cubice)<br>
+      ✦ <strong>Funcție:</strong> suportă greutăți, permit mișcări fine complexe<br>
+      ✦ Apar în spații închise / articulate<br>
+      ✦ <strong>Exemple:</strong> oasele carpiene (8 oase la încheietura mâinii), oasele tarsiene (7 oase la gleznă)
+    </div><div class="hb hb-orange" style="margin:0;font-size:12px;"><strong>Mnemotecnică</strong>CArpiene = MÂini (C de la Carpus/Cheie) | TArSiene = Talpă/Gleznă</div></div>`},
+  nereg:{color:'var(--rose)',bg:'var(--rose-l)',
+    html:`<div style="font-size:16px;font-weight:800;color:var(--rose);margin-bottom:12px;">🦷 Oase Neregulate</div>
+    <div class="g2"><div style="font-size:13px;color:var(--text2);line-height:1.8;">
+      ✦ <strong>Forme variate</strong> — nu se încadrează în celelalte categorii<br>
+      ✦ Au <strong>prelungiri</strong> (contraforturi, aripi) → puncte de ancorare tendoane și ligamente<br>
+      ✦ Vertrebrele: formă rectangulară + prelungiri laterale și spinoase<br>
+      ✦ <strong>Oase wormiene</strong> — la nivelul suturilor craniene<br>
+      ✦ <strong>Oase sesamoide</strong> — la nivelul articulațiilor; cele mai importante = <strong>patelele (rotulele)</strong>
+    </div><div class="hb hb-rose" style="margin:0;font-size:12px;"><strong>Atenție!</strong>Patela = rotula = os sesamoid = os neregulat! Apare la articulatia genunchiului.</div></div>`}
+};
+function selectBoneType(id,card){
+  document.querySelectorAll('#bt-plat,#bt-lung,#bt-scurt,#bt-nereg').forEach(c=>c.classList.remove('sel'));
+  card.classList.add('sel');
+  const d = boneTypes[id];
+  const det = document.getElementById('bonetype-detail');
+  det.style.background = d.bg;
+  det.style.borderColor = d.color.replace('var(','').replace(')','');
+  det.innerHTML = d.html;
+}
+// Init
+selectBoneType('plat',document.getElementById('bt-plat'));
+
+// ── JOINT DATA ──
+const joints = {
+  sinar:{color:'var(--green)',
+    html:`<div style="font-size:16px;font-weight:800;color:var(--green);margin-bottom:14px;">🔒 Sinartroze — Articulații Imobile</div>
+    <div class="g2">
+    <div style="font-size:13px;color:var(--text2);line-height:1.8;">
+      ✦ Aproape sau total <strong>imobile</strong><br>
+      ✦ 2 capete osoase + cantitate REDUSĂ de țesut fibros sau cartilaj<br>
+      ✦ <strong>Suturi</strong> — craniene: os frontal + 2 parietale + occipital; imobile<br>
+      ✦ <strong>Gomfoze</strong> — implantarea dintelui în alveolă; imobilă<br>
+      ✦ <strong>Sindesmose</strong> — membrane fibroase interosoase; ex: radius-ulnă (mișcare minimă)
+    </div>
+    <div class="hb hb-green" style="margin:0;font-size:12px;"><strong>📍 Localizări cheie</strong>Suturi = craniu | Gomfoze = dentiție | Sindesmose = antebrat (radius-ulnă legați prin membrană)</div>
+    </div>`},
+  amfi:{color:'var(--orange)',
+    html:`<div style="font-size:16px;font-weight:800;color:var(--orange);margin-bottom:14px;">🔓 Amfiartroze — Articulații Semimobile</div>
+    <div class="g2">
+    <div style="font-size:13px;color:var(--text2);line-height:1.8;">
+      ✦ Mobilitate <strong>limitată</strong><br>
+      ✦ 2 capete osoase + cantitate MARE de cartilaj<br>
+      ✦ <strong>Discuri intervertebrale:</strong> fibrocartilaj + miez gelatinos; absorb șocuri; permit aplecare limitată<br>
+      ✦ <strong>Simfiza pubiană</strong> — între cele 2 oase pubiene ale pelvisului; mobilitate foarte limitată<br>
+      ✦ <strong>Art. sacroiliacă</strong> — sacru + iliac
+    </div>
+    <div class="hb hb-orange" style="margin:0;font-size:12px;"><strong>Discul intervertebral</strong>Fibrocartilaj (inel fibros) + miez gelatinos (nucleu pulpos) = amortizor + permit mișcare limitată</div>
+    </div>`},
+  diar:{color:'var(--violet)',
+    html:`<div style="font-size:16px;font-weight:800;color:var(--violet);margin-bottom:14px;">🔄 Diartroze — Articulații Libere (Sinoviale)</div>
+    <div class="g2">
+    <div style="font-size:13px;color:var(--text2);line-height:1.8;">
+      ✦ Mișcări <strong>libere, ample</strong><br>
+      ✦ <strong>Cavitate sinovială</strong> — de aceea se numesc și articulații sinoviale<br>
+      ✦ Fiecare os acoperit de <strong>cartilaj articular</strong><br>
+      ✦ <strong>Capsulă fibroasă</strong> învelește ambele capete<br>
+      ✦ <strong>Membrana sinovială</strong> — tapetează capsula (nu acoperă cartilajul!) → secretă lichid sinovial<br>
+      ✦ <strong>Burse</strong> — saci sinoviali între piele și proeminențe osoase; facilitează alunecarea tendoanelor
+    </div>
+    <div class="hb hb-violet" style="margin:0;font-size:12px;"><strong>📍 Localizare diartroze</strong>Umăr, cot, încheietura mâinii, șold, genunchi, gleznă, laba piciorului, procese vertebrale</div>
+    </div>`}
+};
+function selectJoint(id,card){
+  document.querySelectorAll('#jt-sinar,#jt-amfi,#jt-diar').forEach(c=>c.classList.remove('sel'));
+  card.classList.add('sel');
+  const d=joints[id];
+  const det=document.getElementById('joint-detail');
+  det.style.borderColor=d.color.replace('var(','').replace(')','');
+  det.innerHTML=d.html;
+}
+selectJoint('sinar',document.getElementById('jt-sinar'));
+
+// ── DIARTHROSIS TYPES ──
+const diarthData = {
+  trohl:{name:'Articulație Trohleară (Balama)',color:'var(--blue)',
+    html:`<b>Descriere:</b> O suprafață în formă de scripete articulată cu o suprafață concavă<br>
+    <b>Mișcare:</b> Într-un singur plan, ca o balama (1 axă). Flexie ↔ Extensie<br>
+    <b>Exemple:</b> Cotul (humerus-ulnă), Genunchiul (femur-tibie), Articulațiile interfalangiene (degetele)<br>
+    <b>Atenție examen:</b> Genunchiul are și meniscuri + ligamente = stabilizare suplimentară`},
+  pivot:{name:'Articulație Pivotală (Pivot)',color:'var(--cyan)',
+    html:`<b>Descriere:</b> Suprafața cilindrică a unui os se rotește în interiorul unui inel osos<br>
+    <b>Mișcare:</b> Rotație pură (mișcare uniaxială)<br>
+    <b>Exemple:</b> Atlas-Axis (C1-C2, gât) — rotația capului din stânga în dreapta (negație)<br>
+    <b>Atenție examen:</b> Atlas = C1, Axis = C2. Artic. PIVOT = singura articulatie care permite NUMAI rotatie`},
+  sfer:{name:'Articulație Sferoidală (Enartroză)',color:'var(--violet)',
+    html:`<b>Descriere:</b> Suprafață convexă rotundă + cavitate concavă (socket)<br>
+    <b>Mișcare:</b> CELE MAI LIBERE — flexie, extensie, abducție, adducție, rotație, circumducție<br>
+    <b>Exemple:</b> Umăr (capul humerusului — fosa glenoidă a scapulei), Șold (capul femurului — acetabul)<br>
+    <b>Atenție examen:</b> Cel mai liber tip de articulație! Umăr = cea mai liberă dar instabilă. Șold = mai stabilă.`},
+  cond:{name:'Articulație Condiloidă (Elipsoidală)',color:'var(--pink)',
+    html:`<b>Descriere:</b> Condil oval + cavitate eliptică; ambele biaxiale<br>
+    <b>Mișcare:</b> 2 planuri perpendiculare (flexie-extensie + abducție-adducție). Rotația NU e posibilă!<br>
+    <b>Exemple:</b> Încheietura mâinii (radius — oasele carpiene), articulații metacarpofalangiene<br>
+    <b>Atenție examen:</b> Condiloidă = FĂRĂ rotație! Biaxiale = condiloidă și selară`},
+  sel:{name:'Articulație Selară (Șa)',color:'var(--orange)',
+    html:`<b>Descriere:</b> Un os în formă de șa articulat cu o suprafață de formă opusă (concav-convex)<br>
+    <b>Mișcare:</b> Ca articulația condiloidă dar mai liberă; fără rotație; ca un călăreț în șa<br>
+    <b>Exemple:</b> Degetul mare al mâinii — metacarpianul I + osul trapez (carpian)<br>
+    <b>Atenție examen:</b> Selară = POLICELE (degetul mare mână). Biaxială, mai liberă decât condiloidă`},
+  plan:{name:'Articulație Plană',color:'var(--teal)',
+    html:`<b>Descriere:</b> Două suprafețe articulare relativ plate<br>
+    <b>Mișcare:</b> Alunecare în mai multe direcții (non-axială)<br>
+    <b>Exemple:</b> Între anumite oase carpiene sau tarsiene; între procesele vertebrale articulare<br>
+    <b>Atenție examen:</b> Mișcare de alunecare și răsucire. Articulații plane = procesele articulare vertebrale`}
+};
+function selectDiarthrosis(id,card){
+  document.querySelectorAll('[id^="dt-"]').forEach(c=>c.classList.remove('sel'));
+  card.classList.add('sel');
+  const d=diarthData[id];
+  const det=document.getElementById('diarth-detail');
+  det.style.display='block';
+  det.style.borderColor=d.color.replace('var(','').replace(')','');
+  det.innerHTML=`<div style="font-size:16px;font-weight:800;color:${d.color};margin-bottom:12px;">${d.name}</div>
+  <div style="font-size:13px;color:var(--text2);line-height:1.9;">${d.html}</div>`;
+}
+
+// ── MOVEMENTS GRID ──
+const movData = [
+  {a:'Flexie',ad:'↙ reduce unghiul',opp:'Extensie',od:'↗ mărește unghiul',icon:'🦵',ex:'Îndoirea genunchiului'},
+  {a:'Abducție',ad:'↔ departe de mediană',opp:'Adducție',od:'↔ spre mediană',icon:'🤸',ex:'Ridicarea brațului lateral'},
+  {a:'Rotație med.',ad:'↻ spre mediană',opp:'Rotație lat.',od:'↺ dinspre mediană',icon:'🔄',ex:'Rotirea capului'},
+  {a:'Supinație',ad:'palma ↑ anterior',opp:'Pronație',od:'palma ↓ posterior',icon:'🤲',ex:'Poziție anatomică'},
+  {a:'Elevație',ad:'↑ ridicare',opp:'Depresie',od:'↓ coborâre',icon:'🏋',ex:'Ridicarea umerilor'},
+  {a:'Protracție',ad:'→ spre înainte',opp:'Retracție',od:'← spre înapoi',icon:'😤',ex:'Bărbiei spre înainte'},
+  {a:'Fl. dorsală',ad:'laba spre tibie',opp:'Fl. plantară',od:'laba spre spate',icon:'🦶',ex:'Piciorul sus pe volan'},
+  {a:'Inversie',ad:'talpa spre interior',opp:'Eversie',od:'talpa spre exterior',icon:'🦿',ex:'Glezna în valgus'}
+];
+function buildMovements(){
+  const grid=document.getElementById('movements-grid');
+  if(!grid) return;
+  grid.innerHTML = movData.map((m,i)=>`
+    <div style="background:var(--blue-l);border:1px solid var(--blue);border-radius:12px;padding:12px 16px;cursor:pointer;transition:all .2s;" onclick="showMov(${i})" onmouseover="this.style.transform='translateY(-2px)'" onmouseout="this.style.transform=''">
+      <div style="font-size:14px;font-weight:800;color:var(--blue);margin-bottom:4px;">${m.icon} ${m.a}</div>
+      <div style="font-size:11.5px;color:var(--text2);">${m.ad}</div>
+    </div>
+    <div style="text-align:center;font-size:18px;color:var(--text3);">⇌</div>
+    <div style="background:var(--rose-l);border:1px solid var(--rose);border-radius:12px;padding:12px 16px;cursor:pointer;transition:all .2s;" onclick="showMov(${i})" onmouseover="this.style.transform='translateY(-2px)'" onmouseout="this.style.transform=''">
+      <div style="font-size:14px;font-weight:800;color:var(--rose);margin-bottom:4px;">${m.icon} ${m.opp}</div>
+      <div style="font-size:11.5px;color:var(--text2);">${m.od}</div>
+    </div>`).join('');
+}
+function showMov(i){
+  const m=movData[i];
+  const det=document.getElementById('mov-detail');
+  det.style.display='block';
+  det.innerHTML=`<div style="font-size:15px;font-weight:800;color:var(--violet);margin-bottom:10px;">${m.icon} ${m.a} ⇌ ${m.opp}</div>
+  <div class="g2">
+  <div style="font-size:13px;color:var(--text2);line-height:1.8;">
+    <strong>${m.a}:</strong> ${m.ad}<br>
+    <strong>${m.opp}:</strong> ${m.od}<br>
+    <strong>Exemplu:</strong> ${m.ex}
+  </div>
+  <div class="hb hb-violet" style="margin:0;font-size:12px;"><strong>Pereche antagonistă</strong>Mișcările antagoniste se opun reciproc. Într-o articulație, mușchii antagoniști controlează mișcarea în ambele direcții.</div>
+  </div>`;
+}
+buildMovements();
+
+// ── QUIZ ──
+const quizQs = [
+  {q:'Osul este clasificat ca cel mai dur țesut conjunctiv. Componenta care îi conferă DURITATE este:',
+   opts:['Fibrele de colagen','Hidroxiapatita','Proteoglicanii','Fibronectina'],correct:1,
+   ex:'Hidroxiapatita (fosfat de calciu + hidroxid de calciu + carbonat de calciu) = duritate. Fibrele de colagen = flexibilitate. Ambele sunt sintetizate de osteoblaste.'},
+  {q:'Celulele osoase care RESORBESC osul și eliberează calciu în sânge sunt:',
+   opts:['Osteoblastele','Osteocitele','Osteoclastele','Condrocitele'],correct:2,
+   ex:'Osteoclastele secretă substanțe ce dizolvă osul → eliberează Ca²⁺ și fosfați. Osteoblastele FORMEAZĂ osul. Osteocitele ÎNTREȚIN osul (în lacune). Formulă: Blast=Build, Ocit=Occupy, Clast=Crush.'},
+  {q:'Creșterea în lungime a oaselor lungi are loc datorită:',
+   opts:['Periostului','Endostului','Plăcii epifizare','Măduvei roșii'],correct:2,
+   ex:'Placa epifizară (la metafiză) = zona activă de cartilaj hialin. Noul cartilaj depus → îndepărtează epifizele → lungimea crește. După pubertate, placa se osifică → creșterea ÎNCETEAZĂ (controlat hormonal).'},
+  {q:'Care articulație permite cele mai libere mișcări din toate tipurile de diartroze?',
+   opts:['Trohleară','Condiloidă','Pivotală','Sferoidală'],correct:3,
+   ex:'Articulația sferoidală (enartroze) = cea mai liberă. Capăt rotund convex + concavitate. Permite: flexie, extensie, abducție, adducție, rotație, circumducție. Exemple: umăr + șold.'},
+  {q:'Sinartrozele de la nivelul craniului se numesc:',
+   opts:['Gomfoze','Sindesmose','Suturi','Meniscuri'],correct:2,
+   ex:'Suturile = sinartroze craniene. Gomfoza = dinte în alveolă. Sindesmoza = membrane fibroase (radius-ulnă). Suturile sunt imobile și conectează: os frontal, 2 parietale, occipital.'},
+  {q:'Hematopoieza (formarea celulelor sanguine) are loc în:',
+   opts:['Măduva galbenă a cavității medulare','Os compact din diafiză','Măduva roșie din os spongios','Periost'],correct:2,
+   ex:'Măduva osoasă ROȘIE din os SPONGIOS (epifize, vertebre, stern, capetele humerusului și femurului) = hematopoieză. Măduva GALBENĂ din cavitatea medulară a diafizei = grăsime (rezervă energetică).'},
+  {q:'Osificarea endocondrală are loc în:',
+   opts:['Oasele plate ale craniului','Oasele lungi (femur, humerus)','Mandibulă','Oasele suturilor craniene'],correct:1,
+   ex:'Osificare endocondrală = oase LUNGI (schelet periferic). Model inițial = tije de cartilaj hialin (săptămâna 6 embrionară) → înlocuite treptat cu os. Osificare intramembranoasă = oase PLATE ale craniului.'},
+  {q:'Articulația dintre atlas și axis (C1-C2) este o:',
+   opts:['Articulație trohleară','Articulație pivotală','Articulație condiloidă','Articulație sferoidală'],correct:1,
+   ex:'Atlas-Axis = articulație PIVOTALĂ. Suprafața cilindrică a axisului (pivot) se rotește în inelul format de atlas. Permite rotația capului (negație). Singura articulație cu mișcare EXCLUSIV de rotație.'},
+  {q:'Membrana sinovială secretă lichid sinovial. Aceasta se găsește în:',
+   opts:['Sinartroze (suturi)','Amfiartroze (discuri intervertebrale)','Diartroze (articulații sinoviale)','Toate tipurile de articulații'],correct:2,
+   ex:'Membrana sinovială = NUMAI în diartroze (articulații sinoviale). Tapetează interiorul capsulei fibroase dar NU acoperă cartilajul articular. Secretă lichid sinovial (vâscos, lubrifiant).'},
+  {q:'Care mișcare reprezintă rotația antebrațului cu palma spre posterior?',
+   opts:['Supinație','Pronație','Eversie','Inversie'],correct:1,
+   ex:'Pronația = rotația antebrațului cu palma spre POSTERIOR (jos). Supinația = palma spre ANTERIOR (sus, poziție anatomică). Mnemotecnică: Supinație = Soup in hand (ții supa în palmă = palmă sus).'}
+];
+
+let qAnswered = new Array(quizQs.length).fill(false);
+let qScore = 0;
+
+function renderQuiz(){
+  const c=document.getElementById('quiz-container');
+  c.innerHTML = quizQs.map((q,i)=>`
+    <div class="qcard" id="qq${i}" ${i>0?'style="display:none"':''}>
+      <div class="qt">${i+1}. ${q.q}</div>
+      <div class="qopts">
+        ${q.opts.map((o,j)=>`<button class="qopt" onclick="answerQ(${i},${j})">${o}</button>`).join('')}
+      </div>
+      <div class="qexp" id="qe${i}">✅ ${q.ex}</div>
+      <button class="qnext" id="qn${i}" onclick="nextQ(${i})">
+        ${i<quizQs.length-1?`Întrebarea ${i+2} ›`:'🎯 Finalizat!'}
+      </button>
+    </div>`).join('');
+}
+
+function answerQ(qi,oi){
+  if(qAnswered[qi]) return;
+  qAnswered[qi]=true;
+  const opts=document.querySelectorAll(`#qq${qi} .qopt`);
+  opts.forEach((o,j)=>{
+    o.classList.add('dis');
+    if(j===quizQs[qi].correct) o.classList.add('ok');
+    else if(j===oi) o.classList.add('bad');
+  });
+  if(oi===quizQs[qi].correct) qScore++;
+  document.getElementById('quiz-score').textContent = qScore+' / '+quizQs.length;
+  document.getElementById('qe'+qi).classList.add('show');
+  const nb=document.getElementById('qn'+qi);
+  nb.classList.add('show');
+  if(qi===quizQs.length-1){
+    nb.textContent='🎯 Scor final: '+qScore+'/'+quizQs.length;
+    nb.onclick=null;
+  }
+}
+
+function nextQ(qi){
+  document.getElementById('qq'+qi).style.display='none';
+  const next=document.getElementById('qq'+(qi+1));
+  if(next){next.style.display='block';next.scrollIntoView({behavior:'smooth',block:'start'});}
+}
+
+function resetQuiz(){
+  qAnswered=new Array(quizQs.length).fill(false);
+  qScore=0;
+  document.getElementById('quiz-score').textContent='0 / '+quizQs.length;
+  renderQuiz();
+}
+
+renderQuiz();
+
+document.addEventListener("DOMContentLoaded", function () {
+  // 1. Detectează automat numele fișierului curent (ex: cap1.html)
+  const currentFile = window.location.pathname.split("/").pop() || "cap1.html";
+  
+  const menuContainer = document.getElementById("chapters-menu");
+  const menuItems = menuContainer.querySelectorAll(".nav-item");
+  let currentChapterNumber = 1;
+  let activeItem = null;
+
+  // 2. Parcurge toate capitolele din meniu pentru a le aplica stilul corect
+  menuItems.forEach((item) => {
+    const fileHref = item.getAttribute("href");
+    
+    if (fileHref === currentFile) {
+      // Dacă este capitolul curent, îl face activ
+      item.classList.add("active");
+      activeItem = item; // Salvăm elementul activ pentru a-l folosi la scroll
+      currentChapterNumber = parseInt(item.querySelector(".nav-num").textContent);
+    }
+  });
+
+  // 3. 💡 AUTO-SCROLL LA CAPITOLUL CURENT (Soluția pentru problema ta)
+  if (activeItem && menuContainer) {
+    // Așteptăm un timp foarte scurt (50ms) ca browserul să randeze stilurile, apoi mutăm scroll-ul
+    setTimeout(() => {
+      activeItem.scrollIntoView({
+        behavior: "smooth", // Efect de derulare fină (schimbă cu "auto" dacă vrei să fie instant)
+        block: "nearest"    // Îl aduce la vedere doar dacă nu este vizibil în container
+      });
+    }, 50);
+  }
+
+  // 4. Actualizează automat bara de progres din footer-ul sidebar-ului
+  const totalChapters = menuItems.length; // Va număra automat 23
+  
+  const progTextContainer = document.querySelector(".prog-label");
+  if (progTextContainer) {
+    progTextContainer.innerHTML = `<span>Progres curs</span><span>${currentChapterNumber} / ${totalChapters}</span>`;
+  }
+  
+  const progFill = document.querySelector(".prog-fill");
+  if (progFill) {
+    const percentage = (currentChapterNumber / totalChapters) * 100;
+    progFill.style.width = `${percentage}%`;
+  }
+});
+</script>
+</body>
+</html>

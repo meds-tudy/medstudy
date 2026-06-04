@@ -1,0 +1,2040 @@
+<!DOCTYPE html>
+<html lang="ro">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>MedStudy — Educație Medicală Simplificată</title>
+<link rel="preconnect" href="https://fonts.googleapis.com">
+<link href="https://fonts.googleapis.com/css2?family=Outfit:wght@300;400;500;600;700;800;900&family=Lora:ital,wght@0,400;0,600;1,400;1,600&display=swap" rel="stylesheet">
+<style>
+/* ══════════════════════════════════════
+   DESIGN TOKENS — Aurora Borealis Pastel
+══════════════════════════════════════ */
+:root {
+  /* Palette */
+  --bg: #f4f0ff;
+  --bg2: #ede8ff;
+  --white: #ffffff;
+  --navy: #1a1f4e;
+  --navy2: #242a66;
+  --blue:  #6b8df7;
+  --violet:#9b6ef3;
+  --mint:  #5ecec0;
+  --pink:  #f794c0;
+  --sky:   #7dd6f7;
+  --peach: #f9b97a;
+  --lavender: #c2b0ff;
+  --lavender-light: #e4daff;
+  --text: #21265a;
+  --text2: #6972a8;
+  --border: rgba(155,110,243,.13);
+
+  /* Aurora gradients */
+  --aurora-1: linear-gradient(135deg, #a8d8ff 0%, #c8b0ff 35%, #f0aad8 65%, #ffd4b0 100%);
+  --aurora-2: linear-gradient(125deg, #b8e8ff 0%, #d4c0ff 30%, #ffc0e8 65%, #ffe8c0 100%);
+  --aurora-glass: rgba(255,255,255,0.45);
+  --aurora-border: rgba(255,255,255,0.7);
+
+  /* Shadows */
+  --shadow-sm: 0 2px 12px rgba(107,141,247,.10);
+  --shadow-md: 0 6px 28px rgba(107,141,247,.14);
+  --shadow-lg: 0 16px 56px rgba(107,141,247,.18);
+  --shadow-glow: 0 0 40px rgba(155,110,243,.22);
+
+  --radius: 22px;
+  --radius-lg: 32px;
+  --radius-sm: 14px;
+}
+
+/* ── RESET & BASE ── */
+*, *::before, *::after { margin: 0; padding: 0; box-sizing: border-box; }
+html { scroll-behavior: smooth; }
+body {
+  font-family: 'Outfit', sans-serif;
+  background: var(--bg);
+  color: var(--text);
+  overflow-x: hidden;
+  line-height: 1.65;
+}
+
+/* ── AURORA ANIMATED BACKGROUND ── */
+.aurora-bg {
+  position: fixed; inset: 0; z-index: 0; pointer-events: none; overflow: hidden;
+}
+.aurora-orb {
+  position: absolute; border-radius: 50%; filter: blur(90px);
+  animation: auroraFloat 18s ease-in-out infinite;
+}
+.orb-1 { width: 700px; height: 700px; background: radial-gradient(ellipse, rgba(168,216,255,.55) 0%, transparent 70%); top: -200px; left: -150px; animation-delay: 0s; }
+.orb-2 { width: 600px; height: 600px; background: radial-gradient(ellipse, rgba(200,176,255,.5) 0%, transparent 70%); top: 20%; right: -120px; animation-delay: -5s; }
+.orb-3 { width: 500px; height: 500px; background: radial-gradient(ellipse, rgba(247,148,192,.42) 0%, transparent 70%); bottom: 5%; left: 15%; animation-delay: -10s; }
+.orb-4 { width: 450px; height: 450px; background: radial-gradient(ellipse, rgba(125,214,247,.38) 0%, transparent 70%); top: 50%; right: 20%; animation-delay: -7s; }
+.orb-5 { width: 350px; height: 350px; background: radial-gradient(ellipse, rgba(249,185,122,.35) 0%, transparent 70%); bottom: 20%; right: 5%; animation-delay: -13s; }
+
+@keyframes auroraFloat {
+  0%,100% { transform: translate(0,0) scale(1) rotate(0deg); }
+  25%  { transform: translate(40px,-30px) scale(1.07) rotate(5deg); }
+  50%  { transform: translate(-25px,45px) scale(0.93) rotate(-3deg); }
+  75%  { transform: translate(20px,15px) scale(1.04) rotate(4deg); }
+}
+
+/* Noise grain */
+body::after {
+  content: ''; position: fixed; inset: 0; z-index: 1; pointer-events: none;
+  background-image: url("data:image/svg+xml,%3Csvg viewBox='0 0 256 256' xmlns='http://www.w3.org/2000/svg'%3E%3Cfilter id='n'%3E%3CfeTurbulence type='fractalNoise' baseFrequency='0.85' numOctaves='4' stitchTiles='stitch'/%3E%3C/filter%3E%3Crect width='100%25' height='100%25' filter='url(%23n)' opacity='0.12'/%3E%3C/svg%3E");
+  background-size: 220px; opacity: .45; mix-blend-mode: overlay;
+}
+
+/* ── SCROLL PROGRESS ── */
+#scroll-progress {
+  position: fixed; top: 0; left: 0; height: 3px; z-index: 9999;
+  background: linear-gradient(90deg, var(--sky), var(--violet), var(--pink));
+  transition: width 0.08s linear; border-radius: 0 3px 3px 0;
+}
+
+/* ── CURSOR GLOW ── */
+.cursor-glow {
+  position: fixed; width: 480px; height: 480px; border-radius: 50%; z-index: 2;
+  background: radial-gradient(circle, rgba(155,110,243,.07) 0%, transparent 65%);
+  pointer-events: none; transform: translate(-50%,-50%);
+  transition: left .12s ease, top .12s ease;
+}
+
+/* ── NAV ── */
+nav {
+  position: fixed; top: 0; left: 0; right: 0; z-index: 500;
+  display: flex; align-items: center; justify-content: space-between;
+  padding: 14px 52px;
+  background: rgba(244,240,255,0.6);
+  backdrop-filter: blur(28px) saturate(180%);
+  -webkit-backdrop-filter: blur(28px) saturate(180%);
+  border-bottom: 1px solid rgba(255,255,255,0.6);
+  transition: all .35s ease;
+}
+nav.scrolled {
+  padding: 10px 52px;
+  background: rgba(244,240,255,0.82);
+  box-shadow: 0 4px 28px rgba(107,141,247,.1);
+}
+.nav-logo {
+  display: flex; align-items: center; gap: 11px;
+  font-family: 'Outfit', sans-serif; font-size: 20px; font-weight: 800;
+  color: var(--navy); text-decoration: none; letter-spacing: -.5px;
+}
+.nav-logo-icon {
+  width: 38px; height: 38px; border-radius: 11px;
+  background: linear-gradient(135deg, var(--violet), var(--sky));
+  display: flex; align-items: center; justify-content: center;
+  box-shadow: 0 4px 14px rgba(155,110,243,.4);
+  overflow: hidden; flex-shrink: 0;
+}
+.nav-logo-icon img { width: 30px; height: 30px; object-fit: contain; }
+.nav-links { display: flex; gap: 4px; list-style: none; }
+.nav-links a {
+  font-size: 14px; font-weight: 600; color: var(--text2);
+  text-decoration: none; padding: 8px 16px; border-radius: 100px;
+  transition: all .2s ease;
+}
+.nav-links a:hover { color: var(--violet); background: rgba(155,110,243,.09); }
+.nav-right { display: flex; gap: 10px; align-items: center; }
+.nav-ghost {
+  font-size: 14px; font-weight: 700; color: var(--navy);
+  text-decoration: none; padding: 9px 20px; border-radius: 100px;
+  transition: all .2s;
+}
+.nav-ghost:hover { color: var(--violet); }
+.nav-cta {
+  font-size: 14px; font-weight: 700; color: white;
+  background: linear-gradient(135deg, var(--violet), var(--blue));
+  text-decoration: none; padding: 10px 24px; border-radius: 100px;
+  box-shadow: 0 4px 18px rgba(155,110,243,.45);
+  transition: all .25s; display: flex; align-items: center; gap: 6px;
+}
+.nav-cta:hover { transform: translateY(-2px); box-shadow: 0 8px 28px rgba(155,110,243,.55); }
+
+/* ── HERO ── */
+.hero {
+  position: relative; z-index: 10;
+  min-height: 100vh; display: flex; flex-direction: column;
+  align-items: center; justify-content: center;
+  padding: 130px 80px 90px; text-align: center;
+}
+
+/* Aura orbs */
+.hero-aura {
+  position: absolute; inset: 0; overflow: hidden; pointer-events: none;
+}
+.hero-aura-ring {
+  position: absolute; border-radius: 50%;
+  background: radial-gradient(ellipse at center, rgba(194,176,255,.28) 0%, transparent 65%);
+  animation: auraRing 8s ease-in-out infinite;
+}
+.har1 { width: 900px; height: 900px; top: 50%; left: 50%; transform: translate(-50%,-50%); animation-delay: 0s; }
+.har2 { width: 600px; height: 600px; top: 50%; left: 50%; transform: translate(-50%,-50%); background: radial-gradient(ellipse at center, rgba(125,214,247,.22) 0%, transparent 65%); animation-delay: -4s; }
+@keyframes auraRing {
+  0%,100%{transform:translate(-50%,-50%) scale(1);} 50%{transform:translate(-50%,-50%) scale(1.12);}
+}
+
+/* Hero badge */
+.hero-badge {
+  display: inline-flex; align-items: center; gap: 8px;
+  background: var(--aurora-glass); border: 1px solid var(--aurora-border);
+  backdrop-filter: blur(16px);
+  color: var(--violet); font-size: 12px; font-weight: 700;
+  letter-spacing: .1em; text-transform: uppercase;
+  padding: 7px 18px; border-radius: 100px; margin-bottom: 30px;
+  box-shadow: 0 4px 18px rgba(155,110,243,.12);
+  animation: heroReveal .8s ease both;
+}
+.badge-dot {
+  width: 8px; height: 8px; border-radius: 50%;
+  background: linear-gradient(135deg, var(--violet), var(--pink));
+  animation: dotPulse 2s ease-in-out infinite;
+}
+@keyframes dotPulse { 0%,100%{transform:scale(1);opacity:1} 50%{transform:scale(1.5);opacity:.65} }
+
+/* Hero logo */
+.hero-logo {
+  width: 160px; margin: 0 auto 34px;
+  animation: heroReveal .8s ease .08s both;
+  filter: drop-shadow(0 10px 36px rgba(155,110,243,.3));
+}
+.hero-logo img { width: 100%; }
+
+/* Hero headline */
+.hero-title {
+  font-family: 'Lora', serif;
+  font-size: clamp(44px, 6.5vw, 84px);
+  font-weight: 400; font-style: italic;
+  line-height: 1.08; letter-spacing: -1.5px;
+  color: var(--navy); max-width: 780px; margin: 0 auto 20px;
+  animation: heroReveal .8s ease .14s both;
+}
+.hero-title strong { font-style: normal; font-weight: 800; }
+.hero-title .gradient-text {
+  background: linear-gradient(135deg, var(--violet) 0%, var(--sky) 50%, var(--pink) 100%);
+  -webkit-background-clip: text; -webkit-text-fill-color: transparent; background-clip: text;
+}
+
+/* Hero subtitle */
+.hero-sub {
+  font-size: 17px; color: var(--text2); max-width: 500px;
+  margin: 0 auto 44px; line-height: 1.75; font-weight: 500;
+  animation: heroReveal .8s ease .2s both;
+}
+
+/* Hero CTA */
+.hero-actions {
+  display: flex; gap: 14px; justify-content: center; flex-wrap: wrap;
+  margin-bottom: 60px;
+  animation: heroReveal .8s ease .26s both;
+}
+.btn-primary {
+  display: inline-flex; align-items: center; gap: 8px;
+  background: linear-gradient(135deg, var(--violet), var(--blue));
+  color: white; font-weight: 800; font-size: 15px;
+  padding: 16px 36px; border-radius: 100px; text-decoration: none;
+  box-shadow: 0 6px 26px rgba(155,110,243,.45);
+  transition: all .28s cubic-bezier(.34,1.56,.64,1);
+  font-family: 'Outfit', sans-serif;
+}
+.btn-primary:hover { transform: translateY(-4px); box-shadow: 0 14px 40px rgba(155,110,243,.55); }
+.btn-secondary {
+  display: inline-flex; align-items: center; gap: 8px;
+  background: var(--aurora-glass); border: 1.5px solid rgba(255,255,255,.8);
+  backdrop-filter: blur(16px);
+  color: var(--navy); font-weight: 800; font-size: 15px;
+  padding: 15px 32px; border-radius: 100px; text-decoration: none;
+  box-shadow: 0 4px 16px rgba(155,110,243,.1);
+  transition: all .28s cubic-bezier(.34,1.56,.64,1);
+  font-family: 'Outfit', sans-serif;
+}
+.btn-secondary:hover { transform: translateY(-4px); border-color: var(--lavender); box-shadow: 0 10px 28px rgba(155,110,243,.18); }
+
+/* Hero stats glass cards */
+.hero-stats {
+  display: flex; gap: 0; justify-content: center;
+  background: rgba(255,255,255,.42);
+  backdrop-filter: blur(24px) saturate(150%);
+  border: 1.5px solid rgba(255,255,255,.7);
+  border-radius: var(--radius);
+  box-shadow: 0 8px 40px rgba(155,110,243,.12), inset 0 1px 0 rgba(255,255,255,.8);
+  overflow: hidden;
+  animation: heroReveal .8s ease .32s both;
+}
+.hero-stat {
+  padding: 22px 36px; text-align: center;
+  border-right: 1px solid rgba(194,176,255,.25);
+  transition: background .2s;
+}
+.hero-stat:last-child { border-right: none; }
+.hero-stat:hover { background: rgba(255,255,255,.3); }
+.stat-num {
+  font-family: 'Outfit', sans-serif; font-size: 28px; font-weight: 800;
+  background: linear-gradient(135deg, var(--violet), var(--sky));
+  -webkit-background-clip: text; -webkit-text-fill-color: transparent; background-clip: text;
+  line-height: 1;
+}
+.stat-label { font-size: 11px; color: var(--text2); font-weight: 600; margin-top: 4px; letter-spacing: .06em; text-transform: uppercase; }
+
+/* Floating deco cards */
+.hero-deco { position: absolute; inset: 0; z-index: 5; pointer-events: none; }
+.deco-card {
+  position: absolute;
+  background: rgba(255,255,255,.52);
+  backdrop-filter: blur(20px) saturate(150%);
+  border: 1.5px solid rgba(255,255,255,.75);
+  border-radius: 18px; padding: 14px 18px;
+  box-shadow: 0 8px 32px rgba(155,110,243,.12), inset 0 1px 0 rgba(255,255,255,.7);
+  display: flex; align-items: center; gap: 10px;
+  font-size: 13px; font-weight: 700; color: var(--navy);
+  animation: decoFloat 6s ease-in-out infinite;
+}
+.dc1 { top: 22%; left: 4%; animation-delay: 0s; }
+.dc2 { top: 58%; left: 2%; animation-delay: -2s; }
+.dc3 { top: 22%; right: 4%; animation-delay: -1s; }
+.dc4 { top: 60%; right: 2%; animation-delay: -3s; }
+@keyframes decoFloat { 0%,100%{transform:translateY(0) rotate(-1deg)} 50%{transform:translateY(-16px) rotate(1deg)} }
+.deco-emoji { font-size: 22px; }
+.deco-txt-sub { font-size: 11px; color: var(--text2); font-weight: 500; margin-top: 2px; }
+
+@keyframes heroReveal { from{opacity:0;transform:translateY(28px)} to{opacity:1;transform:none} }
+
+/* ── TICKER ── */
+.ticker-wrap {
+  position: relative; z-index: 10; overflow: hidden;
+  background: linear-gradient(90deg, var(--navy) 0%, var(--navy2) 100%);
+  border-top: 1px solid rgba(255,255,255,.07);
+  border-bottom: 1px solid rgba(255,255,255,.07);
+}
+.ticker-inner {
+  display: flex; gap: 0;
+  animation: ticker 28s linear infinite;
+  white-space: nowrap; width: max-content;
+}
+.ticker-item {
+  display: flex; align-items: center; gap: 14px;
+  padding: 14px 28px;
+  font-size: 11.5px; font-weight: 700; letter-spacing: .14em;
+  text-transform: uppercase; color: rgba(255,255,255,.45);
+}
+.ticker-gem {
+  width: 6px; height: 6px; border-radius: 50%;
+  background: linear-gradient(135deg, var(--lavender), var(--sky));
+  flex-shrink: 0;
+}
+@keyframes ticker { from{transform:translateX(0)} to{transform:translateX(-50%)} }
+
+/* ── SECTIONS COMMON ── */
+section { position: relative; z-index: 10; }
+.section-eyebrow {
+  display: inline-flex; align-items: center; gap: 8px;
+  font-size: 11px; font-weight: 800; letter-spacing: .18em;
+  text-transform: uppercase; color: var(--violet); margin-bottom: 14px;
+}
+.section-eyebrow::before {
+  content: ''; width: 28px; height: 2.5px;
+  background: linear-gradient(90deg, var(--violet), var(--sky));
+  border-radius: 2px; display: block;
+}
+.section-title {
+  font-family: 'Lora', serif;
+  font-size: clamp(28px, 3.5vw, 50px);
+  font-weight: 600; line-height: 1.15;
+  color: var(--navy); letter-spacing: -.5px;
+}
+.section-sub { font-size: 16px; color: var(--text2); max-width: 500px; margin-top: 14px; line-height: 1.75; }
+
+/* ── REVEAL ANIMATIONS ── */
+.reveal { opacity: 0; transform: translateY(32px); transition: opacity .75s ease, transform .75s ease; }
+.reveal.visible { opacity: 1; transform: none; }
+.stagger > * {
+  opacity: 0; transform: translateY(26px);
+  transition: opacity .55s ease, transform .55s ease;
+}
+.stagger.visible > *:nth-child(1) { opacity:1; transform:none; transition-delay:.04s; }
+.stagger.visible > *:nth-child(2) { opacity:1; transform:none; transition-delay:.1s; }
+.stagger.visible > *:nth-child(3) { opacity:1; transform:none; transition-delay:.16s; }
+.stagger.visible > *:nth-child(4) { opacity:1; transform:none; transition-delay:.22s; }
+.stagger.visible > *:nth-child(n+5) { opacity:1; transform:none; transition-delay:.28s; }
+
+/* ── CHAPTERS ── */
+.chapters-section { padding: 110px 80px; }
+.chapters-header { text-align: center; margin-bottom: 64px; }
+.chapters-header .section-eyebrow { justify-content: center; }
+.chapters-header .section-eyebrow::before { display: none; }
+.chapters-header .section-sub { margin: 14px auto 0; }
+
+.chapters-grid { display: grid; grid-template-columns: repeat(4, 1fr); gap: 18px; }
+
+.chapter-card {
+  position: relative;
+  background: rgba(255,255,255,.55);
+  backdrop-filter: blur(18px) saturate(140%);
+  border: 1.5px solid rgba(255,255,255,.72);
+  border-radius: var(--radius);
+  padding: 26px 22px 58px;
+  cursor: pointer;
+  box-shadow: 0 4px 22px rgba(107,141,247,.09), inset 0 1px 0 rgba(255,255,255,.7);
+  transition: all .4s cubic-bezier(.34,1.56,.64,1);
+  text-decoration: none; color: inherit; display: block; overflow: hidden;
+}
+.chapter-card::before {
+  content: ''; position: absolute; inset: 0; border-radius: var(--radius);
+  background: linear-gradient(135deg, rgba(194,176,255,.25) 0%, transparent 60%);
+  opacity: 0; transition: opacity .3s;
+}
+.chapter-card:hover {
+  transform: translateY(-10px) scale(1.025);
+  box-shadow: 0 20px 55px rgba(155,110,243,.22), inset 0 1px 0 rgba(255,255,255,.8);
+  border-color: rgba(194,176,255,.6);
+}
+.chapter-card:hover::before { opacity: 1; }
+.chapter-card.cat-pink:hover { border-color: rgba(247,148,192,.5); }
+.chapter-card.cat-pink::before { background: linear-gradient(135deg, rgba(247,148,192,.2) 0%, transparent 60%); }
+.chapter-card.cat-mint:hover { border-color: rgba(94,206,192,.5); }
+.chapter-card.cat-mint::before { background: linear-gradient(135deg, rgba(94,206,192,.2) 0%, transparent 60%); }
+.chapter-card.cat-peach:hover { border-color: rgba(249,185,122,.5); }
+.chapter-card.cat-peach::before { background: linear-gradient(135deg, rgba(249,185,122,.2) 0%, transparent 60%); }
+.chapter-card.cat-lilac:hover { border-color: rgba(155,110,243,.5); }
+
+.chapter-tag {
+  display: inline-flex; align-items: center; gap: 5px;
+  font-size: 10px; font-weight: 800; letter-spacing: .1em; text-transform: uppercase;
+  padding: 4px 12px; border-radius: 100px; margin-bottom: 14px;
+}
+.tag-blue   { background: rgba(107,141,247,.12); color: #4a7cf7; }
+.tag-pink   { background: rgba(247,148,192,.18); color: #c44076; }
+.tag-mint   { background: rgba(94,206,192,.18);  color: #1f8870; }
+.tag-peach  { background: rgba(249,185,122,.2);  color: #b25d15; }
+.tag-lilac  { background: rgba(155,110,243,.14); color: #7933d4; }
+
+.chapter-icon { font-size: 34px; margin-bottom: 12px; display: block; }
+.chapter-title {
+  font-family: 'Outfit', sans-serif; font-size: 15px; font-weight: 700;
+  line-height: 1.35; color: var(--navy); margin-bottom: 8px;
+}
+.chapter-desc { font-size: 12.5px; line-height: 1.6; color: var(--text2); }
+.chapter-arrow {
+  position: absolute; bottom: 18px; right: 18px;
+  width: 34px; height: 34px; border-radius: 50%;
+  background: rgba(255,255,255,.6); border: 1.5px solid rgba(194,176,255,.35);
+  display: flex; align-items: center; justify-content: center;
+  font-size: 14px; color: var(--text2);
+  transition: all .25s;
+}
+.chapter-card:hover .chapter-arrow {
+  background: linear-gradient(135deg, var(--violet), var(--blue));
+  color: white; border-color: transparent; transform: rotate(45deg);
+}
+
+/* Lock overlay */
+.lock-overlay {
+  position: absolute; inset: 0;
+  background: rgba(244,240,255,.78);
+  backdrop-filter: blur(6px);
+  border-radius: var(--radius);
+  display: flex; flex-direction: column; align-items: center; justify-content: center; gap: 6px; z-index: 5;
+}
+.lock-icon { font-size: 26px; }
+.lock-text { font-size: 11px; font-weight: 800; color: var(--navy); letter-spacing: .05em; text-transform: uppercase; }
+.lock-cta { font-size: 11px; color: var(--violet); font-weight: 700; text-decoration: underline; cursor: pointer; }
+.chapter-card.locked:hover { transform: none; box-shadow: 0 4px 22px rgba(107,141,247,.09); border-color: rgba(255,255,255,.72); }
+
+/* ── FEATURES ── */
+.features-section {
+  padding: 110px 80px;
+  display: grid; grid-template-columns: 1fr 1fr; gap: 70px; align-items: center;
+}
+
+/* Glass dark panel */
+.features-visual {
+  position: relative;
+  background: linear-gradient(135deg, var(--navy) 0%, #2a2070 50%, #321a5e 100%);
+  border-radius: var(--radius-lg); padding: 44px; overflow: hidden;
+  box-shadow: 0 24px 70px rgba(26,31,78,.4), 0 0 60px rgba(155,110,243,.2);
+  border: 1px solid rgba(155,110,243,.3);
+}
+.features-visual::before {
+  content: ''; position: absolute; inset: 0;
+  background:
+    radial-gradient(ellipse 65% 55% at 15% 15%, rgba(107,141,247,.25) 0%, transparent 60%),
+    radial-gradient(ellipse 50% 50% at 85% 85%, rgba(247,148,192,.18) 0%, transparent 55%),
+    radial-gradient(ellipse 40% 50% at 80% 20%, rgba(125,214,247,.18) 0%, transparent 55%);
+  pointer-events: none;
+}
+.features-visual > * { position: relative; z-index: 1; }
+
+.vis-title { font-family:'Lora',serif; font-size: 22px; font-weight: 600; font-style: italic; color: white; margin-bottom: 24px; }
+.vis-chips { display: flex; flex-wrap: wrap; gap: 9px; margin-bottom: 30px; }
+.vis-chip {
+  display: flex; align-items: center; gap: 8px;
+  background: rgba(255,255,255,.09); border: 1px solid rgba(255,255,255,.14);
+  border-radius: 100px; padding: 7px 15px;
+  font-size: 12px; font-weight: 700; color: rgba(255,255,255,.85);
+  backdrop-filter: blur(10px);
+}
+.vis-dot { width: 8px; height: 8px; border-radius: 50%; }
+
+/* Progress bars */
+.progress-section { display: flex; flex-direction: column; gap: 16px; }
+.progress-label { font-size: 12px; font-weight: 700; color: rgba(255,255,255,.5); letter-spacing: .1em; text-transform: uppercase; margin-bottom: 4px; }
+.pb-row { display: flex; align-items: center; gap: 12px; }
+.pb-name { font-size: 12px; font-weight: 600; color: rgba(255,255,255,.75); min-width: 100px; }
+.pb-track {
+  flex: 1; height: 7px;
+  background: rgba(255,255,255,.1); border-radius: 100px; overflow: hidden;
+}
+.pb-fill {
+  height: 100%; border-radius: 100px;
+  transition: width 1.4s cubic-bezier(.25,.46,.45,.94);
+}
+.pb-pct { font-size: 12px; font-weight: 700; color: rgba(255,255,255,.6); min-width: 36px; text-align: right; }
+
+/* Features list */
+.features-list { display: flex; flex-direction: column; gap: 28px; }
+.feature-item { display: flex; align-items: flex-start; gap: 18px; }
+.feature-icon {
+  width: 48px; height: 48px; border-radius: 14px; flex-shrink: 0;
+  display: flex; align-items: center; justify-content: center; font-size: 22px;
+  box-shadow: 0 4px 14px rgba(107,141,247,.15);
+  transition: transform .25s cubic-bezier(.34,1.56,.64,1);
+}
+.feature-item:hover .feature-icon { transform: scale(1.12) rotate(-3deg); }
+.fi-blue   { background: linear-gradient(135deg, rgba(107,141,247,.18), rgba(107,141,247,.08)); }
+.fi-pink   { background: linear-gradient(135deg, rgba(247,148,192,.2), rgba(247,148,192,.08)); }
+.fi-mint   { background: linear-gradient(135deg, rgba(94,206,192,.18), rgba(94,206,192,.08)); }
+.fi-peach  { background: linear-gradient(135deg, rgba(249,185,122,.2), rgba(249,185,122,.08)); }
+.feature-text h3 { font-family:'Outfit',sans-serif; font-size: 16px; font-weight: 700; color: var(--navy); margin-bottom: 5px; }
+.feature-text p  { font-size: 13.5px; color: var(--text2); line-height: 1.7; }
+
+/* ── PRICING ── */
+.pricing-section { padding: 110px 80px; }
+.pricing-header { text-align: center; margin-bottom: 64px; }
+.pricing-header .section-eyebrow { justify-content: center; }
+.pricing-header .section-eyebrow::before { display: none; }
+.pricing-header .section-sub { margin: 14px auto 0; }
+.pricing-grid { display: grid; grid-template-columns: repeat(4, 1fr); gap: 20px; }
+
+.price-card {
+  position: relative;
+  background: rgba(255,255,255,.52);
+  backdrop-filter: blur(22px) saturate(160%);
+  border: 1.5px solid rgba(255,255,255,.72);
+  border-radius: var(--radius);
+  padding: 34px 28px;
+  box-shadow: 0 6px 28px rgba(107,141,247,.1), inset 0 1px 0 rgba(255,255,255,.8);
+  transition: all .4s cubic-bezier(.34,1.56,.64,1);
+  display: flex; flex-direction: column; gap: 0;
+}
+.price-card:hover {
+  transform: translateY(-10px);
+  box-shadow: 0 22px 60px rgba(155,110,243,.2), inset 0 1px 0 rgba(255,255,255,.9);
+  border-color: rgba(194,176,255,.5);
+}
+.price-card.featured {
+  background: linear-gradient(155deg, var(--navy) 0%, #2a2070 60%, #321a5e 100%);
+  border-color: rgba(155,110,243,.5);
+  box-shadow: 0 12px 48px rgba(155,110,243,.35), 0 0 60px rgba(155,110,243,.15);
+}
+.price-card.featured:hover {
+  transform: translateY(-12px) scale(1.025);
+  box-shadow: 0 28px 70px rgba(155,110,243,.45);
+}
+.price-badge {
+  display: inline-flex; align-items: center; gap: 6px;
+  background: linear-gradient(135deg, rgba(155,110,243,.25), rgba(125,214,247,.18));
+  border: 1px solid rgba(194,176,255,.4);
+  color: var(--lavender); font-size: 11px; font-weight: 800;
+  letter-spacing: .08em; text-transform: uppercase;
+  padding: 5px 14px; border-radius: 100px; margin-bottom: 20px; width: fit-content;
+}
+.price-period {
+  font-size: 12px; font-weight: 800; letter-spacing: .12em;
+  text-transform: uppercase; color: var(--text2); margin-bottom: 16px;
+}
+.price-card.featured .price-period { color: rgba(255,255,255,.55); }
+.price-amount { display: flex; align-items: flex-end; gap: 4px; margin-bottom: 4px; }
+.price-currency { font-size: 16px; font-weight: 700; color: var(--text2); margin-bottom: 8px; }
+.price-number {
+  font-family: 'Outfit', sans-serif; font-size: 54px; font-weight: 800;
+  color: var(--navy); line-height: 1;
+}
+.price-card.featured .price-currency { color: rgba(255,255,255,.6); }
+.price-card.featured .price-number { color: white; }
+.price-per { font-size: 12.5px; color: var(--text2); margin-bottom: 10px; font-weight: 500; }
+.price-card.featured .price-per { color: rgba(255,255,255,.5); }
+.price-saving {
+  display: inline-flex; align-items: center;
+  background: rgba(94,206,192,.15); border: 1px solid rgba(94,206,192,.3);
+  color: #1f8870; font-size: 11px; font-weight: 700;
+  padding: 3px 12px; border-radius: 100px; margin-bottom: 20px; width: fit-content;
+}
+.price-features {
+  list-style: none; display: flex; flex-direction: column; gap: 11px;
+  margin-bottom: 28px; flex: 1;
+}
+.price-features li {
+  font-size: 13px; font-weight: 600; color: var(--text);
+  display: flex; align-items: center; gap: 10px;
+}
+.price-features li::before {
+  content: '✦'; font-size: 9px; color: var(--violet);
+  background: rgba(155,110,243,.12); width: 20px; height: 20px;
+  border-radius: 50%; display: flex; align-items: center; justify-content: center;
+  flex-shrink: 0;
+}
+.price-card.featured .price-features li { color: rgba(255,255,255,.8); }
+.price-card.featured .price-features li::before { background: rgba(194,176,255,.18); color: var(--lavender); }
+.price-features .locked-feat { opacity: .45; }
+
+/* Pay buttons */
+.pay-btn {
+  display: block; width: 100%; padding: 14px;
+  border-radius: 100px; border: none; cursor: pointer;
+  font-size: 14.5px; font-weight: 800;
+  font-family: 'Outfit', sans-serif;
+  transition: all .28s cubic-bezier(.34,1.56,.64,1);
+  letter-spacing: -.2px;
+}
+.pay-btn-default {
+  background: rgba(255,255,255,.6);
+  backdrop-filter: blur(12px);
+  border: 1.5px solid rgba(194,176,255,.4);
+  color: var(--navy);
+  box-shadow: 0 3px 12px rgba(155,110,243,.1);
+}
+.pay-btn-default:hover {
+  background: rgba(255,255,255,.85);
+  transform: translateY(-3px);
+  box-shadow: 0 8px 24px rgba(155,110,243,.18);
+  border-color: var(--lavender);
+}
+.pay-btn-featured {
+  background: linear-gradient(135deg, var(--violet), var(--sky));
+  color: white;
+  box-shadow: 0 6px 24px rgba(155,110,243,.45);
+}
+.pay-btn-featured:hover {
+  transform: translateY(-3px);
+  box-shadow: 0 12px 36px rgba(155,110,243,.6);
+}
+
+.revolut-note {
+  text-align: center; margin-top: 36px;
+  font-size: 13.5px; color: var(--text2); font-weight: 500;
+}
+.revolut-logo { font-weight: 800; color: var(--navy); }
+
+/* ── TESTIMONIALS ── */
+.proof-section { padding: 110px 80px; }
+.proof-grid { display: grid; grid-template-columns: repeat(3,1fr); gap: 22px; margin-top: 50px; }
+.proof-card {
+  background: rgba(255,255,255,.5);
+  backdrop-filter: blur(20px) saturate(140%);
+  border: 1.5px solid rgba(255,255,255,.72);
+  border-radius: var(--radius);
+  padding: 30px 28px;
+  box-shadow: 0 5px 24px rgba(107,141,247,.08), inset 0 1px 0 rgba(255,255,255,.7);
+  transition: all .35s cubic-bezier(.34,1.56,.64,1);
+  display: flex; flex-direction: column; gap: 16px;
+}
+.proof-card:hover {
+  transform: translateY(-8px);
+  box-shadow: 0 18px 50px rgba(155,110,243,.16);
+  border-color: rgba(194,176,255,.5);
+}
+.proof-stars { font-size: 16px; letter-spacing: 3px; color: #f9b97a; }
+.proof-quote {
+  font-family: 'Lora', serif; font-style: italic;
+  font-size: 14px; line-height: 1.75; color: var(--text);
+  flex: 1;
+}
+.proof-author { display: flex; align-items: center; gap: 12px; }
+.proof-avatar {
+  width: 42px; height: 42px; border-radius: 50%;
+  display: flex; align-items: center; justify-content: center;
+  font-size: 20px; flex-shrink: 0;
+  background: rgba(194,176,255,.2);
+}
+.proof-name { font-size: 13px; font-weight: 800; color: var(--navy); }
+.proof-role { font-size: 11.5px; color: var(--text2); font-weight: 500; }
+
+/* ── CTA SECTION ── */
+.cta-section { padding: 80px;  }
+.cta-inner {
+  position: relative; overflow: hidden;
+  background: linear-gradient(135deg, var(--navy) 0%, #2a2070 50%, #3a1a68 100%);
+  border-radius: 40px; padding: 80px 70px; text-align: center;
+  border: 1px solid rgba(155,110,243,.3);
+  box-shadow: 0 24px 80px rgba(26,31,78,.4), 0 0 80px rgba(155,110,243,.18);
+}
+.cta-inner::before {
+  content: ''; position: absolute; inset: 0;
+  background:
+    radial-gradient(ellipse 60% 55% at 10% 20%, rgba(107,141,247,.3) 0%, transparent 60%),
+    radial-gradient(ellipse 50% 50% at 90% 80%, rgba(247,148,192,.22) 0%, transparent 55%),
+    radial-gradient(ellipse 40% 45% at 75% 10%, rgba(125,214,247,.22) 0%, transparent 50%);
+  pointer-events: none;
+}
+.cta-inner > * { position: relative; z-index: 1; }
+.cta-badge {
+  display: inline-flex; align-items: center; gap: 7px;
+  background: rgba(255,255,255,.08); border: 1px solid rgba(255,255,255,.2);
+  backdrop-filter: blur(10px);
+  color: rgba(255,255,255,.7); font-size: 11px; font-weight: 700; letter-spacing: .12em;
+  text-transform: uppercase; padding: 6px 16px; border-radius: 100px; margin-bottom: 24px;
+}
+.cta-title {
+  font-family: 'Lora', serif; font-size: clamp(30px, 4vw, 54px);
+  font-weight: 600; font-style: italic; line-height: 1.15;
+  color: white; margin-bottom: 18px;
+}
+.cta-title strong { font-style: normal; font-weight: 800; }
+.cta-sub { font-size: 16px; color: rgba(255,255,255,.6); max-width: 440px; margin: 0 auto 40px; line-height: 1.75; }
+.cta-actions { display: flex; gap: 14px; justify-content: center; flex-wrap: wrap; }
+.btn-cta-main {
+  display: inline-flex; align-items: center; gap: 8px;
+  background: linear-gradient(135deg, var(--violet), var(--sky));
+  color: white; font-weight: 800; font-size: 15px;
+  padding: 16px 36px; border-radius: 100px; text-decoration: none;
+  box-shadow: 0 6px 26px rgba(155,110,243,.5);
+  transition: all .28s cubic-bezier(.34,1.56,.64,1);
+}
+.btn-cta-main:hover { transform: translateY(-4px); box-shadow: 0 14px 40px rgba(155,110,243,.65); }
+.btn-cta-ghost {
+  display: inline-flex; align-items: center; gap: 8px;
+  background: rgba(255,255,255,.1); border: 1.5px solid rgba(255,255,255,.25);
+  backdrop-filter: blur(12px);
+  color: white; font-weight: 700; font-size: 15px;
+  padding: 15px 32px; border-radius: 100px; text-decoration: none;
+  transition: all .28s cubic-bezier(.34,1.56,.64,1);
+}
+.btn-cta-ghost:hover { background: rgba(255,255,255,.18); transform: translateY(-4px); }
+
+/* ── FOOTER ── */
+footer {
+  background: rgba(255,255,255,.45);
+  backdrop-filter: blur(20px);
+  padding: 64px 80px 40px;
+  display: grid; grid-template-columns: 2fr 1fr 1fr 1fr; gap: 50px;
+  border-top: 1.5px solid rgba(255,255,255,.6);
+  position: relative; z-index: 10;
+}
+.footer-logo { display: flex; align-items: center; gap: 10px; margin-bottom: 14px; }
+.footer-logo-icon {
+  width: 36px; height: 36px; border-radius: 10px;
+  background: linear-gradient(135deg, var(--violet), var(--sky));
+  display: flex; align-items: center; justify-content: center; overflow: hidden;
+}
+.footer-logo-icon img { width: 28px; height: 28px; object-fit: contain; }
+.footer-logo-text { font-size: 18px; font-weight: 800; color: var(--navy); }
+.footer-brand p { font-size: 13.5px; color: var(--text2); line-height: 1.75; max-width: 260px; }
+.footer-col h4 { font-family:'Outfit',sans-serif; font-size: 13px; font-weight: 800; color: var(--navy); margin-bottom: 18px; letter-spacing: .03em; }
+.footer-col ul { list-style: none; display: flex; flex-direction: column; gap: 10px; }
+.footer-col ul a { font-size: 13px; color: var(--text2); text-decoration: none; font-weight: 500; transition: color .2s; }
+.footer-col ul a:hover { color: var(--violet); }
+.footer-bottom {
+  background: rgba(255,255,255,.35); backdrop-filter: blur(16px);
+  padding: 20px 80px;
+  display: flex; justify-content: space-between; align-items: center;
+  border-top: 1px solid rgba(255,255,255,.55);
+  font-size: 12.5px; color: var(--text2);
+  position: relative; z-index: 10;
+}
+
+/* ── MODAL ── */
+.modal-overlay {
+  display: none; position: fixed; inset: 0; z-index: 9000;
+  background: rgba(26,31,78,.5);
+  backdrop-filter: blur(16px) saturate(150%);
+  align-items: center; justify-content: center;
+}
+.modal-overlay.open { display: flex; }
+.modal-box {
+  background: rgba(255,255,255,.88);
+  backdrop-filter: blur(28px) saturate(180%);
+  border: 1.5px solid rgba(255,255,255,.85);
+  border-radius: var(--radius-lg); padding: 50px 46px;
+  max-width: 480px; width: 92%; text-align: center;
+  box-shadow: 0 28px 90px rgba(26,31,78,.35), 0 0 60px rgba(155,110,243,.15);
+  animation: modalIn .45s cubic-bezier(.34,1.56,.64,1);
+}
+@keyframes modalIn { from{opacity:0;transform:scale(.84) translateY(24px)} to{opacity:1;transform:scale(1) translateY(0)} }
+.modal-icon { font-size: 52px; margin-bottom: 16px; display: block; }
+.modal-title {
+  font-family: 'Lora', serif; font-size: 26px; font-weight: 600;
+  font-style: italic; color: var(--navy); margin-bottom: 10px;
+}
+.modal-plan {
+  display: inline-block;
+  background: rgba(155,110,243,.1); border: 1.5px solid rgba(194,176,255,.4);
+  color: var(--violet); font-size: 11.5px; font-weight: 800; letter-spacing: .1em;
+  text-transform: uppercase; padding: 5px 16px; border-radius: 100px; margin-bottom: 18px;
+}
+.modal-price-tag {
+  font-family: 'Outfit', sans-serif; font-size: 34px; font-weight: 800;
+  background: linear-gradient(135deg, var(--violet), var(--sky));
+  -webkit-background-clip: text; -webkit-text-fill-color: transparent; background-clip: text;
+  margin-bottom: 5px;
+}
+.modal-price-label { font-size: 12px; color: var(--text2); margin-bottom: 26px; }
+.modal-steps {
+  background: rgba(244,240,255,.6); border-radius: 18px;
+  padding: 20px 24px; margin-bottom: 24px; text-align: left;
+  border: 1px solid rgba(194,176,255,.3);
+}
+.modal-step { display: flex; align-items: flex-start; gap: 12px; margin-bottom: 13px; font-size: 13px; color: var(--text); line-height: 1.5; }
+.modal-step:last-child { margin-bottom: 0; }
+.modal-step-num {
+  width: 24px; height: 24px; border-radius: 50%;
+  background: linear-gradient(135deg, var(--violet), var(--blue));
+  color: white; font-size: 11px; font-weight: 800;
+  display: flex; align-items: center; justify-content: center; flex-shrink: 0; margin-top: 1px;
+}
+.modal-revolut-btn {
+  display: flex; align-items: center; justify-content: center; gap: 10px;
+  background: #191c33; color: white; padding: 16px 32px; border-radius: 100px;
+  font-size: 15px; font-weight: 800; text-decoration: none;
+  transition: all .25s; margin-bottom: 12px;
+  box-shadow: 0 4px 22px rgba(25,28,51,.3);
+  font-family: 'Outfit', sans-serif;
+}
+.modal-revolut-btn:hover { background: #2d3160; transform: translateY(-2px); box-shadow: 0 8px 30px rgba(25,28,51,.4); }
+.modal-revolut-icon { font-size: 18px; }
+.modal-confirm-btn {
+  display: block; width: 100%; padding: 14px; border-radius: 100px;
+  background: linear-gradient(135deg, var(--mint), #1f8870);
+  color: white; font-size: 14.5px; font-weight: 800;
+  border: none; cursor: pointer; font-family: 'Outfit', sans-serif;
+  transition: all .25s; margin-bottom: 10px;
+  box-shadow: 0 4px 18px rgba(94,206,192,.4);
+}
+.modal-confirm-btn:hover { transform: translateY(-2px); box-shadow: 0 8px 28px rgba(94,206,192,.5); }
+.modal-close {
+  background: none; border: none; color: var(--text2); font-size: 13px;
+  font-weight: 600; cursor: pointer; font-family: 'Outfit', sans-serif;
+  transition: color .2s; padding: 8px;
+}
+.modal-close:hover { color: var(--text); }
+.success-box { padding: 8px 0; }
+
+/* ── PARTICLES CANVAS ── */
+#particles-canvas {
+  position: fixed; inset: 0; z-index: 3; pointer-events: none; opacity: .35;
+}
+
+/* ── ANIMATIONS ── */
+@keyframes fadeUp { from{opacity:0;transform:translateY(22px)} to{opacity:1;transform:none} }
+@keyframes fadeSlideUp { from{opacity:0;transform:translateX(-50%) translateY(14px)} to{opacity:1;transform:translateX(-50%) translateY(0)} }
+
+/* ── RESPONSIVE ── */
+@media(max-width: 1200px) {
+  .chapters-grid { grid-template-columns: repeat(3,1fr); }
+  .pricing-grid  { grid-template-columns: repeat(2,1fr); }
+}
+@media(max-width: 1024px) {
+  nav { padding: 14px 22px; }
+  .nav-links { display: none; }
+  .hero { padding: 110px 22px 70px; }
+  .hero-deco { display: none; }
+  .hero-stats { flex-wrap: wrap; }
+  .hero-stat { border-right: none; border-bottom: 1px solid rgba(194,176,255,.2); }
+  .hero-stat:last-child { border-bottom: none; }
+  .chapters-section, .features-section, .pricing-section, .proof-section, .cta-section { padding: 80px 22px; }
+  .chapters-grid { grid-template-columns: repeat(2,1fr); }
+  .features-section { grid-template-columns: 1fr; }
+  .pricing-grid { grid-template-columns: repeat(2,1fr); }
+  .proof-grid { grid-template-columns: 1fr; }
+  footer { grid-template-columns: 1fr 1fr; gap: 36px; padding: 50px 22px 36px; }
+  .footer-bottom { padding: 18px 22px; flex-direction: column; gap: 6px; text-align: center; }
+  .cta-inner { padding: 60px 28px; }
+  .cta-section { padding: 40px 22px 60px; }
+}
+@media(max-width: 600px) {
+  .chapters-grid { grid-template-columns: 1fr; }
+  .pricing-grid  { grid-template-columns: 1fr; }
+}
+
+/* ── NOUL DESIGN PENTRU BUTONUL DE STATUS (AURORA GLASS) ── */
+#access-status {
+  display: none; /* Controlat din JS */
+  align-items: center;
+  gap: 9px;
+  background: rgba(255, 255, 255, 0.45);
+  backdrop-filter: blur(16px) saturate(140%);
+  -webkit-backdrop-filter: blur(16px) saturate(140%);
+  border: 1.5px solid rgba(155, 110, 243, 0.25);
+  padding: 8px 18px;
+  border-radius: 100px;
+  box-shadow: var(--shadow-sm);
+  transition: all 0.3s ease;
+  animation: fadeUp 0.5s ease both;
+}
+
+#access-status:hover {
+  transform: translateY(-2px);
+  border-color: rgba(155, 110, 243, 0.5);
+  box-shadow: 0 8px 24px rgba(155, 110, 243, 0.15);
+}
+
+/* Bulina animată tip „Live” în tonuri de Cyan */
+.status-pulse-dot {
+  width: 8px; height: 8px; border-radius: 50%;
+  /* Schimbat în gradient Cyan vibrant (sau poți pune simplu: background: #00e5ff;) */
+  background: linear-gradient(135deg, #00f2fe, #4facfe); 
+  position: relative;
+  flex-shrink: 0;
+}
+
+.status-pulse-dot::after {
+  content: '';
+  position: absolute; inset: -4px; border-radius: 50%;
+  /* Schimbat din var(--mint) într-o nuanță de cyan pentru animație */
+  background: #00f2fe; 
+  opacity: 0.4;
+  animation: statusGlow 2s ease-in-out infinite;
+}
+
+/* Textul în degrade asortat cu logo-ul și titlurile */
+#access-status-text {
+  font-size: 12.5px;
+  font-weight: 700;
+  letter-spacing: -0.1px;
+  background: linear-gradient(135deg, var(--navy) 0%, var(--violet) 100%);
+  -webkit-background-clip: text;
+  -webkit-text-fill-color: transparent;
+  background-clip: text;
+}
+
+@keyframes statusGlow {
+  0%, 100% { transform: scale(1); opacity: 0.4; }
+  50% { transform: scale(1.6); opacity: 0; }
+}
+
+/* 📱 OPTIMIZARE ESTETICĂ ULTRA-COMPACTĂ PENTRU MOBIL */
+@media (max-width: 768px) {
+  /* 1. Îngustăm bara și o forțăm să nu lase elementele să iasă în afară */
+  nav, .topbar {
+    height: 50px !important;         
+    padding: 0 8px !important;       
+    display: flex !important;
+    align-items: center !important;
+    justify-content: space-between !important; 
+    gap: 4px !important;
+  }
+
+  /* 2. Micșorăm logo-ul și textul brandului */
+  nav .nav-logo {
+    gap: 4px !important;             
+    font-size: 13px !important;     /* Text mai mic la brand ca să lase loc butoanelor */
+  }
+
+  nav .nav-logo-icon {
+    width: 24px !important;         /* Iconiță mai mică */
+    height: 24px !important;
+  }
+
+  /* 3. Ascundem link-urile text de meniu inutile pe telefon */
+  nav .nav-links {
+    display: none !important;        
+  }
+
+  /* 4. Aliniem zona din dreapta */
+  nav .nav-right {
+    display: flex !important;
+    gap: 6px !important;            /* Spațiu fin între cele două butoane */
+    align-items: center !important;
+  }
+
+  /* 5. STILIZARE EXCLUSIVĂ PENTRU BUTOANE — TEXT MIC ȘI SPAȚIERE CORECTĂ */
+  nav .nav-ghost {
+    padding: 4px 8px !important;    /* Padding foarte mic */
+    font-size: 11px !important;     /* Text fin și mic */
+    white-space: nowrap !important;
+    margin: 0 !important;
+  }
+
+  nav .nav-cta {
+    padding: 4px 8px !important;    /* Padding redus la minimum */
+    font-size: 11px !important;     /* Text fin și mic */
+    height: auto !important;
+    white-space: nowrap !important;
+    border-radius: 100px !important; 
+    box-shadow: none !important;     /* Eliminăm umbrele mari pe mobil */
+    margin: 0 !important;
+  }
+
+  /* Forțăm și elementele din logica ta specială să rămână compacte */
+  #access-status, .status-pill {
+    padding: 4px 8px !important;
+    font-size: 11px !important;
+    height: auto !important;
+    white-space: nowrap !important;
+  }
+}
+
+/* 📱 OPTIMIZARE ESTETICĂ ULTRA-COMPACTĂ PENTRU MOBIL */
+@media (max-width: 768px) {
+  /* 1. Bara principală - flexibilă și curată */
+  nav, .topbar {
+    height: 52px !important;         
+    padding: 0 12px !important;       
+    display: flex !important;
+    align-items: center !important;
+    justify-content: space-between !important; 
+    gap: 6px !important;
+  }
+
+  /* 2. REVENIRE LA DIMENSIUNILE ORIGINALE PENTRU LOGO ȘI TEXT BRAND */
+  nav .nav-logo {
+    gap: 11px !important;             
+    font-size: 20px !important;     /* Dimensiunea originală, mare și vizibilă */
+  }
+
+  nav .nav-logo-icon {
+    width: 38px !important;         /* Dimensiunea originală a iconiței */
+    height: 38px !important;
+    border-radius: 11px !important;
+  }
+
+  /* 3. Ascundem link-urile text din mijloc ca să nu încurce */
+  nav .nav-links {
+    display: none !important;        
+  }
+
+  /* 4. Alinierea zonei cu butoane din dreapta */
+  nav .nav-right {
+    display: flex !important;
+    gap: 6px !important;            
+    align-items: center !important;
+  }
+
+  /* 5. Dimensiuni finuțe pentru texte și pastile pe mobil */
+  nav .nav-ghost {
+    padding: 4px 8px !important;    
+    font-size: 11px !important;     
+    white-space: nowrap !important;
+    margin: 0 !important;
+  }
+
+  nav .nav-cta {
+    padding: 4px 8px !important;    
+    font-size: 11px !important;     
+    height: auto !important;
+    white-space: nowrap !important;
+    border-radius: 100px !important; 
+    box-shadow: none !important;     
+    margin: 0 !important;
+  }
+
+  #access-status, .status-pill {
+    padding: 4px 8px !important;
+    font-size: 11px !important;
+    height: auto !important;
+    white-space: nowrap !important;
+    border-radius: 100px !important;
+  }
+
+  /* 🧠 6. LOGICA PENTRU DISPARIȚIA AUTOMATĂ A BUTONULUI CÂND ABONAMENTUL ESTE ACTIV */
+  /* Dacă pe site se detectează că capitolele NU mai au clasa .locked (adică s-au deblocat) */
+  body:not(:has(.chapter-card.locked)) nav .nav-cta {
+    display: none !important;        /* Ascunde complet butonul Încearcă gratuit */
+  }
+}
+</style>
+</head>
+<body>
+
+<!-- Scroll progress -->
+<div id="scroll-progress"></div>
+<!-- Cursor glow -->
+<div class="cursor-glow" id="cursorGlow"></div>
+<!-- Aurora animated bg -->
+<div class="aurora-bg">
+  <div class="aurora-orb orb-1"></div>
+  <div class="aurora-orb orb-2"></div>
+  <div class="aurora-orb orb-3"></div>
+  <div class="aurora-orb orb-4"></div>
+  <div class="aurora-orb orb-5"></div>
+</div>
+<!-- Particles -->
+<canvas id="particles-canvas"></canvas>
+
+<!-- ── NAV ── -->
+<nav id="nav">
+  <a href="#" class="nav-logo">
+    <div class="nav-logo-icon" style="background: none; box-shadow: none;">
+      <img src="medStudy.png" alt="MedStudy logo" style="width: 100%; height: 100%; object-fit: contain;">
+    </div>
+    MedStudy
+  </a>
+  <ul class="nav-links">
+    <li><a href="#chapters">Capitole</a></li>
+    <li><a href="#features">Funcții</a></li>
+    <li><a href="#pricing">Prețuri</a></li>
+    <li><a href="#about">Recenzii</a></li>
+  </ul>
+  <div class="nav-right">
+    <a href="javascript:void(0)" onclick="document.getElementById('payModal').classList.add('open'); document.body.style.overflow='hidden';" class="nav-ghost">Autentificare</a>
+    <a href="cap1.html" class="nav-cta">Încearcă gratuit ✦</a>
+    <div id="access-status">
+  <div class="status-pulse-dot"></div>
+  <span id="access-status-text">Se încarcă statusul...</span>
+</div>
+  </div>
+</nav>
+
+<!-- ── HERO ── -->
+<section class="hero" id="hero">
+  <div class="hero-aura">
+    <div class="hero-aura-ring har1"></div>
+    <div class="hero-aura-ring har2"></div>
+  </div>
+
+  <div class="hero-deco">
+  <div class="deco-card dc1">
+    <img src="inima.png" alt="Cardiovascular" style="width: 24px; height: 24px; object-fit: contain; flex-shrink: 0;">
+    <div>
+      <div>Cardiovascular</div>
+      <div class="deco-txt-sub">85% progres</div>
+    </div>
+  </div>
+
+  <div class="deco-card dc2">
+    <img src="creier.png" alt="Sistem Nervos" style="width: 24px; height: 24px; object-fit: contain; flex-shrink: 0;">
+    <div>
+      <div>Sistem Nervos</div>
+      <div class="deco-txt-sub">Cap. 10 disponibil</div>
+    </div>
+  </div>
+
+  <div class="deco-card dc3">
+    <img src="diagrama.png" alt="Statistici" style="width: 24px; height: 24px; object-fit: contain; flex-shrink: 0;">
+    <div>
+      <div>800+ studenți</div>
+      <div class="deco-txt-sub">activi zilnic</div>
+    </div>
+  </div>
+
+  <div class="deco-card dc4">
+    <img src="hand.png" alt="Quiz" style="width: 24px; height: 24px; object-fit: contain; flex-shrink: 0;">
+    <div>
+      <div>Quiz adaptiv</div>
+      <div class="deco-txt-sub">12 întrebări/zi</div>
+    </div>
+  </div>
+</div>
+
+  <div class="hero-badge">
+    <div class="badge-dot"></div>
+    23 Capitole Complete
+  </div>
+
+  <div class="hero-logo">
+    <img src="" alt="MedStudy">
+  </div>
+
+  <h1 class="hero-title">
+    Educație Medicală<br>
+    <strong class="gradient-text">Simplificată</strong>
+  </h1>
+  <p class="hero-sub">Anatomie și Fiziologie umană prezentată clar, cu diagrame interactive, quizuri adaptive și aplicabilitate clinică imediată.</p>
+
+  <div class="hero-actions">
+    <a href="cap1.html" class="btn-primary">Studiază Gratuit →</a>
+    <a href="#chapters" class="btn-secondary">↓ Vezi Capitolele</a>
+  </div>
+
+  <div class="hero-stats">
+    <div class="hero-stat">
+      <div class="stat-num" id="cnt-capitole">23</div>
+      <div class="stat-label">Capitole</div>
+    </div>
+    <div class="hero-stat">
+      <div class="stat-num" id="cnt-studenti">800+</div>
+      <div class="stat-label">Studenți activi</div>
+    </div>
+    <div class="hero-stat">
+      <div class="stat-num">4.9★</div>
+      <div class="stat-label">Rating mediu</div>
+    </div>
+    <div class="hero-stat">
+      <div class="stat-num">15 <span style="font-size:18px;font-weight:600">lei</span></div>
+      <div class="stat-label">De la / săptămână</div>
+    </div>
+  </div>
+</section>
+
+<!-- ── TICKER ── -->
+<div class="ticker-wrap">
+  <div class="ticker-inner">
+    <div class="ticker-item"><div class="ticker-gem"></div>Anatomie &amp; Fiziologie</div>
+    <div class="ticker-item"><div class="ticker-gem"></div>Quiz Adaptiv UMF</div>
+    <div class="ticker-item"><div class="ticker-gem"></div>Diagrame Interactive</div>
+    <div class="ticker-item"><div class="ticker-gem"></div>Clinică Aplicată</div>
+    <div class="ticker-item"><div class="ticker-gem"></div>23 Sisteme Anatomice</div>
+    <div class="ticker-item"><div class="ticker-gem"></div>Acces Instant</div>
+    <div class="ticker-item"><div class="ticker-gem"></div>Plată securizată </div>
+    <div class="ticker-item"><div class="ticker-gem"></div>Anatomie &amp; Fiziologie</div>
+    <div class="ticker-item"><div class="ticker-gem"></div>Quiz Adaptiv UMF</div>
+    <div class="ticker-item"><div class="ticker-gem"></div>Diagrame Interactive</div>
+    <div class="ticker-item"><div class="ticker-gem"></div>Clinică Aplicată</div>
+    <div class="ticker-item"><div class="ticker-gem"></div>23 Sisteme Anatomice</div>
+    <div class="ticker-item"><div class="ticker-gem"></div>Acces Instant</div>
+    
+  </div>
+</div>
+
+<section class="chapters-section" id="chapters">
+  <div class="chapters-header reveal">
+    <div class="section-eyebrow">Conținut complet</div>
+    <h2 class="section-title">Toate sistemele corpului uman</h2>
+    <p class="section-sub">23 de capitole structurate progresiv, de la celulă la organism.</p>
+  </div>
+  <div class="chapters-grid stagger">
+
+    <a href="cap1.html" class="chapter-card">
+      <div class="chapter-tag tag-blue">Gratuit · CAP. 01</div>
+      <div class="chapter-title">Introducere în Anatomie & Fiziologie</div>
+      <div class="chapter-desc">Niveluri de organizare, homeostazia, terminologie anatomică esențială.</div>
+      <div class="chapter-arrow">↗</div>
+    </a>
+
+    <a href="cap2.html" class="chapter-card cat-mint">
+      <div class="chapter-tag tag-mint">Gratuit · CAP. 02</div>
+      <div class="chapter-title">Bazele Chimice ale Vieții</div>
+      <div class="chapter-desc">Atomi, molecule, reacții chimice și biomolecule esențiale vieții.</div>
+      <div class="chapter-arrow">↗</div>
+    </a>
+
+    <div class="chapter-card cat-pink locked" onclick="openPricing()">
+      <div class="chapter-tag tag-pink">CAP. 03</div>
+      <div class="chapter-title">Celulele și Fiziologia Celulară</div>
+      <div class="chapter-desc">Structura celulei, membrane, organite și procese metabolice celulare.</div>
+      <div class="lock-overlay">
+        <div class="lock-icon"><img src="lacat.png" alt="Blocat" style="width: 34px; height: 34px; object-fit: contain; margin-bottom: 4px;"></div>
+        <div class="lock-text">Capitol blocat</div>
+        <div class="lock-cta">Abonează-te</div>
+      </div>
+    </div>
+
+    <div class="chapter-card cat-peach locked" onclick="openPricing()">
+      <div class="chapter-tag tag-peach">CAP. 04</div>
+      <div class="chapter-title">Țesuturile</div>
+      <div class="chapter-desc">Cele patru tipuri de țesuturi fundamentale — epitelial, conjunctiv, muscular, nervos.</div>
+      <div class="lock-overlay">
+        <div class="lock-icon"><img src="lacat.png" alt="Blocat" style="width: 34px; height: 34px; object-fit: contain; margin-bottom: 4px;"></div>
+        <div class="lock-text">Capitol blocat</div>
+        <div class="lock-cta">Abonează-te</div>
+      </div>
+    </div>
+
+    <div class="chapter-card cat-lilac locked" onclick="openPricing()">
+      <div class="chapter-tag tag-lilac">CAP. 05</div>
+      <div class="chapter-title">Sistemul Integumentar</div>
+      <div class="chapter-desc">Pielea, părul, unghiile, glandele cutanate și funcțiile de protecție.</div>
+      <div class="lock-overlay">
+        <div class="lock-icon"><img src="lacat.png" alt="Blocat" style="width: 34px; height: 34px; object-fit: contain; margin-bottom: 4px;"></div>
+        <div class="lock-text">Capitol blocat</div>
+        <div class="lock-cta">Abonează-te</div>
+      </div>
+    </div>
+
+    <div class="chapter-card locked" onclick="openPricing()">
+      <div class="chapter-tag tag-blue">CAP. 06</div>
+      <div class="chapter-title">Sistemul Osos</div>
+      <div class="chapter-desc">Osteologia, articulațiile, funcțiile metabolice ale scheletului.</div>
+      <div class="lock-overlay">
+        <div class="lock-icon"><img src="lacat.png" alt="Blocat" style="width: 34px; height: 34px; object-fit: contain; margin-bottom: 4px;"></div>
+        <div class="lock-text">Capitol blocat</div>
+        <div class="lock-cta">Abonează-te</div>
+      </div>
+    </div>
+
+    <div class="chapter-card cat-mint locked" onclick="openPricing()">
+      <div class="chapter-tag tag-mint">CAP. 07</div>
+      <div class="chapter-title">Sistemul Muscular</div>
+      <div class="chapter-desc">Structura musculară, mecanismele contracției, tipuri de fibre.</div>
+      <div class="lock-overlay">
+        <div class="lock-icon"><img src="lacat.png" alt="Blocat" style="width: 34px; height: 34px; object-fit: contain; margin-bottom: 4px;"></div>
+        <div class="lock-text">Capitol blocat</div>
+        <div class="lock-cta">Abonează-te</div>
+      </div>
+    </div>
+
+    <div class="chapter-card cat-pink locked" onclick="openPricing()">
+      <div class="chapter-tag tag-pink">CAP. 08</div>
+      <div class="chapter-title">Sistemul Nervos — Introducere</div>
+      <div class="chapter-desc">Celulele nervoase, potențiale de acțiune, sinapsa.</div>
+      <div class="lock-overlay">
+        <div class="lock-icon"><img src="lacat.png" alt="Blocat" style="width: 34px; height: 34px; object-fit: contain; margin-bottom: 4px;"></div>
+        <div class="lock-text">Capitol blocat</div>
+        <div class="lock-cta">Abonează-te</div>
+      </div>
+    </div>
+
+    <div class="chapter-card cat-peach locked" onclick="openPricing()">
+      <div class="chapter-tag tag-peach">CAP. 09</div>
+      <div class="chapter-title">SNC — Creierul și Măduva</div>
+      <div class="chapter-desc">Structuri cerebrale, funcții cortical, măduva spinării.</div>
+      <div class="lock-overlay">
+        <div class="lock-icon"><img src="lacat.png" alt="Blocat" style="width: 34px; height: 34px; object-fit: contain; margin-bottom: 4px;"></div>
+        <div class="lock-text">Capitol blocat</div>
+        <div class="lock-cta">Abonează-te</div>
+      </div>
+    </div>
+
+    <div class="chapter-card cat-lilac locked" onclick="openPricing()">
+      <div class="chapter-tag tag-lilac">CAP. 10</div>
+      <div class="chapter-title">SNP și Sistemul Autonom</div>
+      <div class="chapter-desc">Nervii periferici, sistemul simpatic și parasimpatic.</div>
+      <div class="lock-overlay">
+        <div class="lock-icon"><img src="lacat.png" alt="Blocat" style="width: 34px; height: 34px; object-fit: contain; margin-bottom: 4px;"></div>
+        <div class="lock-text">Capitol blocat</div>
+        <div class="lock-cta">Abonează-te</div>
+      </div>
+    </div>
+
+    <div class="chapter-card locked" onclick="openPricing()">
+      <div class="chapter-tag tag-blue">CAP. 11</div>
+      <div class="chapter-title">Organele de Simț</div>
+      <div class="chapter-desc">Vederea, auzul, echilibrul, gustul și mirosul.</div>
+      <div class="lock-overlay">
+        <div class="lock-icon"><img src="lacat.png" alt="Blocat" style="width: 34px; height: 34px; object-fit: contain; margin-bottom: 4px;"></div>
+        <div class="lock-text">Capitol blocat</div>
+        <div class="lock-cta">Abonează-te</div>
+      </div>
+    </div>
+
+    <div class="chapter-card cat-mint locked" onclick="openPricing()">
+      <div class="chapter-tag tag-mint">CAP. 12</div>
+      <div class="chapter-title">Sistemul Endocrin</div>
+      <div class="chapter-desc">Glandele endocrine, hormonii și mecanismele de reglare.</div>
+      <div class="lock-overlay">
+        <div class="lock-icon"><img src="lacat.png" alt="Blocat" style="width: 34px; height: 34px; object-fit: contain; margin-bottom: 4px;"></div>
+        <div class="lock-text">Capitol blocat</div>
+        <div class="lock-cta">Abonează-te</div>
+      </div>
+    </div>
+
+    <div class="chapter-card cat-pink locked" onclick="openPricing()">
+      <div class="chapter-tag tag-pink">CAP. 13</div>
+      <div class="chapter-title">Sângele</div>
+      <div class="chapter-desc">Compoziția sângelui, grupele sanguine, hemostaza și coagularea.</div>
+      <div class="lock-overlay">
+        <div class="lock-icon"><img src="lacat.png" alt="Blocat" style="width: 34px; height: 34px; object-fit: contain; margin-bottom: 4px;"></div>
+        <div class="lock-text">Capitol blocat</div>
+        <div class="lock-cta">Abonează-te</div>
+      </div>
+    </div>
+
+    <div class="chapter-card cat-peach locked" onclick="openPricing()">
+      <div class="chapter-tag tag-peach">CAP. 14</div>
+      <div class="chapter-title">Inima și Circulația Cardiacă</div>
+      <div class="chapter-desc">Anatomia inimii, ciclul cardiac, electrocardiograma.</div>
+      <div class="lock-overlay">
+        <div class="lock-icon"><img src="lacat.png" alt="Blocat" style="width: 34px; height: 34px; object-fit: contain; margin-bottom: 4px;"></div>
+        <div class="lock-text">Capitol blocat</div>
+        <div class="lock-cta">Abonează-te</div>
+      </div>
+    </div>
+
+    <div class="chapter-card cat-lilac locked" onclick="openPricing()">
+      <div class="chapter-tag tag-lilac">CAP. 15</div>
+      <div class="chapter-title">Vasele Sanguine și Circulația</div>
+      <div class="chapter-desc">Artere, vene, capilare, reglarea presiunii arteriale.</div>
+      <div class="lock-overlay">
+        <div class="lock-icon"><img src="lacat.png" alt="Blocat" style="width: 34px; height: 34px; object-fit: contain; margin-bottom: 4px;"></div>
+        <div class="lock-text">Capitol blocat</div>
+        <div class="lock-cta">Abonează-te</div>
+      </div>
+    </div>
+
+    <div class="chapter-card locked" onclick="openPricing()">
+      <div class="chapter-tag tag-blue">CAP. 16</div>
+      <div class="chapter-title">Sistemul Limfatic și Imunitar</div>
+      <div class="chapter-desc">Imunitate înnăscută și adaptativă, anticorpi, vaccinare.</div>
+      <div class="lock-overlay">
+        <div class="lock-icon"><img src="lacat.png" alt="Blocat" style="width: 34px; height: 34px; object-fit: contain; margin-bottom: 4px;"></div>
+        <div class="lock-text">Capitol blocat</div>
+        <div class="lock-cta">Abonează-te</div>
+      </div>
+    </div>
+
+    <div class="chapter-card cat-mint locked" onclick="openPricing()">
+      <div class="chapter-tag tag-mint">CAP. 17</div>
+      <div class="chapter-title">Sistemul Respirator</div>
+      <div class="chapter-desc">Ventilația, schimbul gazos, transportul O₂ și CO₂.</div>
+      <div class="lock-overlay">
+        <div class="lock-icon"><img src="lacat.png" alt="Blocat" style="width: 34px; height: 34px; object-fit: contain; margin-bottom: 4px;"></div>
+        <div class="lock-text">Capitol blocat</div>
+        <div class="lock-cta">Abonează-te</div>
+      </div>
+    </div>
+
+    <div class="chapter-card cat-pink locked" onclick="openPricing()">
+      <div class="chapter-tag tag-pink">CAP. 18</div>
+      <div class="chapter-title">Sistemul Digestiv</div>
+      <div class="chapter-desc">Digestia, absorbția nutrienților, motilitatea gastrointestinală.</div>
+      <div class="lock-overlay">
+        <div class="lock-icon"><img src="lacat.png" alt="Blocat" style="width: 34px; height: 34px; object-fit: contain; margin-bottom: 4px;"></div>
+        <div class="lock-text">Capitol blocat</div>
+        <div class="lock-cta">Abonează-te</div>
+      </div>
+    </div>
+
+    <div class="chapter-card cat-lilac locked" onclick="openPricing()">
+      <div class="chapter-tag tag-lilac">CAP. 19</div>
+      <div class="chapter-title">Metabolism și Nutriție</div>
+      <div class="chapter-desc">Catabolism, anabolism, metabolismul glucidelor, lipidelor și proteinelor.</div>
+      <div class="lock-overlay">
+        <div class="lock-icon"><img src="lacat.png" alt="Blocat" style="width: 34px; height: 34px; object-fit: contain; margin-bottom: 4px;"></div>
+        <div class="lock-text">Capitol blocat</div>
+        <div class="lock-cta">Abonează-te</div>
+      </div>
+    </div>
+
+    <div class="chapter-card locked" onclick="openPricing()">
+      <div class="chapter-tag tag-blue">CAP. 20</div>
+      <div class="chapter-title">Sistemul Urinar</div>
+      <div class="chapter-desc">Rinichii, formarea urinei, echilibrul acido-bazic și homeostazia.</div>
+      <div class="lock-overlay">
+        <div class="lock-icon"><img src="lacat.png" alt="Blocat" style="width: 34px; height: 34px; object-fit: contain; margin-bottom: 4px;"></div>
+        <div class="lock-text">Capitol blocat</div>
+        <div class="lock-cta">Abonează-te</div>
+      </div>
+    </div>
+
+    <div class="chapter-card cat-mint locked" onclick="openPricing()">
+      <div class="chapter-tag tag-mint">CAP. 21</div>
+      <div class="chapter-title">Echilibrul Hidro-Electrolitic și Acido-Bazic</div>
+      <div class="chapter-desc">Reglarea apei și electroliților, pH-ul sangvin, sisteme tampon.</div>
+      <div class="lock-overlay">
+        <div class="lock-icon"><img src="lacat.png" alt="Blocat" style="width: 34px; height: 34px; object-fit: contain; margin-bottom: 4px;"></div>
+        <div class="lock-text">Capitol blocat</div>
+        <div class="lock-cta">Abonează-te</div>
+      </div>
+    </div>
+
+    <div class="chapter-card cat-pink locked" onclick="openPricing()">
+      <div class="chapter-tag tag-pink">CAP. 22</div>
+      <div class="chapter-title">Sistemul Reproducător Masculin</div>
+      <div class="chapter-desc">Anatomia și fiziologia aparatului reproducător masculin, spermatogeneza.</div>
+      <div class="lock-overlay">
+        <div class="lock-icon"><img src="lacat.png" alt="Blocat" style="width: 34px; height: 34px; object-fit: contain; margin-bottom: 4px;"></div>
+        <div class="lock-text">Capitol blocat</div>
+        <div class="lock-cta">Abonează-te</div>
+      </div>
+    </div>
+
+    <div class="chapter-card cat-lilac locked" onclick="openPricing()">
+      <div class="chapter-tag tag-lilac">CAP. 23</div>
+      <div class="chapter-title">Sistemul Reproducător Feminin</div>
+      <div class="chapter-desc">Anatomia și fiziologia aparatului reproducător feminin, ciclul menstrual.</div>
+      <div class="lock-overlay">
+        <div class="lock-icon"><img src="lacat.png" alt="Blocat" style="width: 34px; height: 34px; object-fit: contain; margin-bottom: 4px;"></div>
+        <div class="lock-text">Capitol blocat</div>
+        <div class="lock-cta">Abonează-te</div>
+      </div>
+    </div>
+
+  </div>
+</section>
+
+<!-- ── FEATURES ── -->
+<section class="features-section" id="features">
+  <div class="features-visual reveal">
+    <div class="vis-title" style="display: flex; align-items: center; gap: 8px;">
+      <img src="dia.png" alt="Grafic Progres" style="width: 24px; height: 24px; object-fit: contain;">
+      Progresul tău
+    </div>
+    <div class="vis-chips">
+      <div class="vis-chip"><div class="vis-dot" style="background:#7dd6f7"></div>Diagrame interactive</div>
+      <div class="vis-chip"><div class="vis-dot" style="background:#f794c0"></div>Quiz adaptiv</div>
+      <div class="vis-chip"><div class="vis-dot" style="background:#5ecec0"></div>Clinică aplicată</div>
+    </div>
+    <div class="progress-section">
+      <div class="progress-label">Progres pe sisteme</div>
+      <div class="pb-row">
+        <span class="pb-name">Cardiovascular</span>
+        <div class="pb-track"><div class="pb-fill" style="width:85%;background:linear-gradient(90deg,#7dd6f7,#c2b0ff)"></div></div>
+        <span class="pb-pct">85%</span>
+      </div>
+      <div class="pb-row">
+        <span class="pb-name">Nervos</span>
+        <div class="pb-track"><div class="pb-fill" style="width:72%;background:linear-gradient(90deg,#c2b0ff,#f794c0)"></div></div>
+        <span class="pb-pct">72%</span>
+      </div>
+      <div class="pb-row">
+        <span class="pb-name">Muscular</span>
+        <div class="pb-track"><div class="pb-fill" style="width:60%;background:linear-gradient(90deg,#5ecec0,#7dd6f7)"></div></div>
+        <span class="pb-pct">60%</span>
+      </div>
+      <div class="pb-row">
+        <span class="pb-name">Digestiv</span>
+        <div class="pb-track"><div class="pb-fill" style="width:44%;background:linear-gradient(90deg,#f9b97a,#f794c0)"></div></div>
+        <span class="pb-pct">44%</span>
+      </div>
+    </div>
+  </div>
+
+ <div class="features-list reveal">
+    <div>
+      <div class="section-eyebrow">De ce MedStudy</div>
+      <h2 class="section-title">Arhitectura succesului tău la admitere</h2>
+    </div>
+    
+    <div class="feature-item">
+      <div class="feature-icon" style="background: none; box-shadow: none;">
+        <img src="panou.png" alt="Admitere UMF" style="width: 32px; height: 32px; object-fit: contain;">
+      </div>
+      <div class="feature-text">
+        <h3>Orientat spre admitere UMF</h3>
+        <p>Fiecare capitol include întrebări grilă tip UMF cu răspunsuri explicate detaliat, concordante cu programa de admitere.</p>
+      </div>
+    </div>
+    
+    <div class="feature-item">
+      <div class="feature-icon" style="background: none; box-shadow: none;">
+        <img src="d.png" alt="Diagrame interactive" style="width: 32px; height: 32px; object-fit: contain;">
+      </div>
+      <div class="feature-text">
+        <h3>Diagrame și hărți conceptuale</h3>
+        <p>Vizualizări interactive care transformă conceptele complexe în structuri clare și ușor de memorat.</p>
+      </div>
+    </div>
+    
+    <div class="feature-item">
+      <div class="feature-icon" style="background: none; box-shadow: none;">
+        <img src="docc.png" alt="Clinică" style="width: 32px; height: 32px; object-fit: contain;">
+      </div>
+      <div class="feature-text">
+        <h3>Aplicabilitate clinică imediată</h3>
+        <p>Fiecare secțiune conectează anatomia și fiziologia cu patologia reală și situațiile clinice frecvente.</p>
+      </div>
+    </div>
+    
+    <div class="feature-item">
+      <div class="feature-icon" style="background: none; box-shadow: none;">
+        <img src="lacat.png" alt="Securitate" style="width: 32px; height: 32px; object-fit: contain;">
+      </div>
+      <div class="feature-text">
+        <h3>Plată securizată</h3>
+        <p>Abonament simplu, fără date de card pe site. Plătești direct folosind linkul și accesul se activează imediat.</p>
+      </div>
+    </div>
+</div>
+ 
+</section>
+
+<!-- ── PRICING ── -->
+<section class="pricing-section" id="pricing">
+  <div class="pricing-header reveal">
+    <div class="section-eyebrow">Acces complet</div>
+    <h2 class="section-title">Alege abonamentul tău</h2>
+    <p class="section-sub">Plătești o singură dată și accesezi instant toate cele 23 de capitole, diagrame interactive și quizuri adaptive.</p>
+  </div>
+  <div class="pricing-grid stagger">
+
+    <div class="price-card">
+      <div class="price-period">Săptămânal</div>
+      <div class="price-amount">
+        <span class="price-currency">lei</span>
+        <span class="price-number">15</span>
+      </div>
+      <div class="price-per">/ 7 zile acces</div>
+      <ul class="price-features">
+        <li>Acces la toate 23 capitole</li>
+        <li>Diagrame interactive</li>
+        <li>Quiz-uri adaptive</li>
+        <li>Valabil 7 zile</li>
+        <li class="locked-feat">Fără reînnoire automată</li>
+      </ul>
+      <a href="https://buy.stripe.com/test_cNi00b138g4re83fbU8EM00" target="_blank" class="pay-btn pay-btn-default" style="text-align: center; text-decoration: none; display: block;">Plătește 15 lei →</a>
+    </div>
+
+    <div class="price-card featured">
+      <div class="price-badge">✦ Cel mai popular</div>
+      <div class="price-period">Lunar</div>
+      <div class="price-amount">
+        <span class="price-currency">lei</span>
+        <span class="price-number">50</span>
+      </div>
+      <div class="price-per">/ 30 zile acces</div>
+      <ul class="price-features">
+        <li>Acces la toate 23 capitole</li>
+        <li>Diagrame interactive</li>
+        <li>Quiz-uri adaptive</li>
+        <li>Conținut clinic aplicat</li>
+      </ul>
+      <a href="https://buy.stripe.com/test_28EfZ9cLQ8BZd3ZaVE8EM01" target="_blank" class="pay-btn pay-btn-featured" style="text-align: center; text-decoration: none; display: block;">Plătește 50 lei →</a>
+    </div>
+
+    <div class="price-card">
+      <div class="price-period">6 Luni</div>
+      <div class="price-amount">
+        <span class="price-currency">lei</span>
+        <span class="price-number">250</span>
+      </div>
+      
+      <span class="price-saving">Economisești 50 lei</span>
+      <ul class="price-features">
+        <li>Acces la toate 23 capitole</li>
+        <li>Diagrame interactive</li>
+        <li>Quiz-uri adaptive</li>
+        <li>Conținut clinic aplicat</li>
+      </ul>
+      <a href="https://buy.stripe.com/test_8x2fZ94fkaK76FB4xg8EM02" target="_blank" class="pay-btn pay-btn-default" style="text-align: center; text-decoration: none; display: block;">Plătește 250 lei →</a>
+    </div>
+
+    <div class="price-card">
+      <div class="price-period">Anual</div>
+      <div class="price-amount">
+        <span class="price-currency">lei</span>
+        <span class="price-number">450</span>
+      </div>
+      
+      <span class="price-saving">Economisești 150 lei</span>
+      <ul class="price-features">
+        <li>Acces la toate 23 capitole</li>
+        <li>Diagrame interactive</li>
+        <li>Quiz-uri adaptive</li>
+        <li>Conținut clinic aplicat</li>
+      </ul>
+      <a href="https://buy.stripe.com/test_4gM3cn27c6tRe83e7Q8EM03" target="_blank" class="pay-btn pay-btn-default" style="text-align: center; text-decoration: none; display: block;">Plătește 450 lei →</a>
+    </div>
+
+  </div>
+  <div class="revolut-note reveal">
+    <p>Plata procesată securizat prin <span class="revolut-logo">Sandbox</span> · Confirmare în 24h · Acces instant după confirmare</p>
+  </div>
+</section>
+
+<!-- ── MODAL ACTIVARE ABONAMENT (STRIPE FLOW) ── -->
+<div class="modal-overlay" id="payModal">
+  <div class="modal-box" id="modalContent">
+    <span class="modal-icon" style="font-size: 40px; display: block; margin-bottom: 10px;"></span>
+    <h2 class="modal-title" style="margin-bottom: 10px; font-size: 24px;">Activează Accesul</h2>
+    
+    <div class="modal-steps" style="text-align: center; padding: 16px; margin-bottom: 20px; background: rgba(244,240,255,0.7);">
+      <p style="font-size: 13.5px; color: var(--text); font-weight: 600; line-height: 1.5;">
+        După finalizarea plății, introduceți codul unic primit prin email pentru a debloca instant toate capitolele.
+      </p>
+    </div>
+
+    <!-- Câmp de text elegant pentru introducere cod -->
+    <div style="margin-bottom: 16px;">
+      <input type="text" id="activationCodeInput" placeholder="" style="width: 100%; padding: 12px 20px; border-radius: 100px; border: 1.5px solid rgba(155,110,243,0.3); font-family: 'Outfit', sans-serif; font-size: 14px; text-align: center; font-weight: 700; text-transform: uppercase; outline: none; background: white; color: var(--navy);">
+    </div>
+
+    <!-- Butonul de validare -->
+    <button class="modal-confirm-btn" onclick="validateStripeCode()" style="margin-bottom: 12px; width: 100%; background: linear-gradient(135deg, var(--violet), var(--blue)); color: white; font-weight: 800; padding: 14px; border-radius: 100px; border: none; cursor: pointer; font-family: 'Outfit', sans-serif;">
+      ✓ Activează Codul
+    </button>
+    
+    <button class="modal-close" onclick="closeModal()" style="background: none; border: none; color: var(--text2); font-weight: 600; cursor: pointer;">Anulează</button>
+  </div>
+</div>
+
+<!-- ── TESTIMONIALS ── -->
+<section class="proof-section" id="about">
+  <div class="reveal">
+    <div class="section-eyebrow">Feedback studenți</div>
+    <h2 class="section-title">Ce spun colegii tăi</h2>
+  </div>
+  <div class="proof-grid stagger">
+    <div class="proof-card">
+      <div class="proof-stars">★★★★★</div>
+      <p class="proof-quote">"MedStudy m-a ajutat enorm la admiterea la UMF Cluj. Diagramele interactive și quizurile m-au pregătit mult mai eficient decât manualele clasice."</p>
+      <div class="proof-author">
+        <div class="proof-avatar">👩‍⚕️</div>
+        <div><div class="proof-name">Ioana Moldovan</div><div class="proof-role">Studentă Medicină, Anul I</div></div>
+      </div>
+    </div>
+    <div class="proof-card">
+      <div class="proof-stars">★★★★★</div>
+      <p class="proof-quote">"Abonamentul lunar e super accesibil pentru ce primești. Am dat examenul de anatomie cu 9.50 după ce am studiat cu MedStudy o lună."</p>
+      <div class="proof-author">
+        <div class="proof-avatar">👨‍🎓</div>
+        <div><div class="proof-name">Alexandru Popa</div><div class="proof-role">Student Medicină, Anul II</div></div>
+      </div>
+    </div>
+    <div class="proof-card">
+      <div class="proof-stars">★★★★★</div>
+      <p class="proof-quote">"Plata instant și simplă. Capitolele de sistem nervos și cardiovascular sunt excepționale — le-am recitit de 3 ori înainte de admitere."</p>
+      <div class="proof-author">
+        <div class="proof-avatar">👩‍💻</div>
+        <div><div class="proof-name">Maria Ionescu</div><div class="proof-role">Studentă Medicină, Preparatoare</div></div>
+      </div>
+    </div>
+  </div>
+</section>
+
+<!-- ── CTA ── -->
+<section class="cta-section">
+  <div class="cta-inner reveal">
+    <div class="cta-badge">✦ Începe Astăzi</div>
+    <h2 class="cta-title">Pregătit să stăpânești<br><strong>corpul uman?</strong></h2>
+    <p class="cta-sub">Primele 2 capitole sunt gratuite. Abonează-te pentru acces complet la toate cele 23 de capitole.</p>
+    <div class="cta-actions">
+      <a href="cap1.html" class="btn-cta-main">Studiază Gratuit →</a>
+      <a href="#pricing" class="btn-cta-ghost">Vezi prețuri</a>
+    </div>
+  </div>
+</section>
+
+<!-- ── FOOTER ── -->
+<footer>
+  <div class="footer-brand">
+    <div class="footer-logo">
+      <div class="footer-logo-icon">
+      </div>
+      <span class="footer-logo-text">MedStudy</span>
+    </div>
+    <p>Platforma educațională dedicată studenților la medicină, cu conținut complet de anatomie și fiziologie umană.</p>
+  </div>
+  <div class="footer-col">
+    <h4>Capitole gratuite</h4>
+    <ul>
+      <li><a href="cap1.html">Introducere A&amp;F</a></li>
+      <li><a href="cap2.html">Bazele chimice</a></li>
+    </ul>
+  </div>
+  <div class="footer-col">
+    <h4>Abonamente</h4>
+    <ul>
+      <li><a href="https://buy.stripe.com/test_cNi00b138g4re83fbU8EM00" target="_blank">Săptămânal — 15 lei</a></li>
+      <li><a href="https://buy.stripe.com/test_28EfZ9cLQ8BZd3ZaVE8EM01" target="_blank">Lunar — 50 lei</a></li>
+      <li><a href="https://buy.stripe.com/test_8x2fZ94fkaK76FB4xg8EM02" target="_blank">6 Luni — 250 lei</a></li>
+      <li><a href="https://buy.stripe.com/test_4gM3cn27c6tRe83e7Q8EM03" target="_blank">Anual — 450 lei</a></li>
+    </ul>
+  </div>
+  <div class="footer-col">
+    <h4>Platformă</h4>
+    <ul>
+      <li><a href="#">Despre MedStudy</a></li>
+      <li><a href="#">Contact</a></li>
+      <li><a href="#">Politică confidențialitate</a></li>
+    </ul>
+  </div>
+</footer>
+<div class="footer-bottom">
+  <span>© 2025 MedStudy. Toate drepturile rezervate.</span>
+  <span>Creat cu ❤️ pentru studenții la medicină</span>
+</div>
+
+<script>
+// ── SCROLL PROGRESS ──
+window.addEventListener('scroll', () => {
+  const pct = (window.scrollY / (document.body.scrollHeight - window.innerHeight)) * 100;
+  document.getElementById('scroll-progress').style.width = pct + '%';
+});
+
+// ── CURSOR GLOW ──
+const glow = document.getElementById('cursorGlow');
+document.addEventListener('mousemove', e => {
+  glow.style.left = e.clientX + 'px';
+  glow.style.top  = e.clientY + 'px';
+});
+
+// ── NAV SCROLL ──
+const nav = document.getElementById('nav');
+window.addEventListener('scroll', () => {
+  nav.classList.toggle('scrolled', window.scrollY > 30);
+});
+
+// ── PARTICLES ──
+const canvas = document.getElementById('particles-canvas');
+const ctx = canvas.getContext('2d');
+function resize() { canvas.width = window.innerWidth; canvas.height = window.innerHeight; }
+resize(); window.addEventListener('resize', resize);
+const COLORS = [
+  'rgba(107,141,247,.55)', 'rgba(247,148,192,.5)',
+  'rgba(94,206,192,.5)', 'rgba(194,176,255,.55)', 'rgba(125,214,247,.5)'
+];
+const pts = Array.from({length:50}, () => ({
+  x: Math.random()*window.innerWidth, y: Math.random()*window.innerHeight,
+  r: Math.random()*2.5+.8,
+  vx: (Math.random()-.5)*.35, vy: (Math.random()-.5)*.35,
+  c: COLORS[Math.floor(Math.random()*COLORS.length)]
+}));
+function animPts() {
+  ctx.clearRect(0,0,canvas.width,canvas.height);
+  pts.forEach(p => {
+    p.x += p.vx; p.y += p.vy;
+    if(p.x<0||p.x>canvas.width)p.vx*=-1;
+    if(p.y<0||p.y>canvas.height)p.vy*=-1;
+    ctx.beginPath(); ctx.arc(p.x,p.y,p.r,0,Math.PI*2);
+    ctx.fillStyle=p.c; ctx.fill();
+  });
+  pts.forEach((a,i) => pts.slice(i+1).forEach(b => {
+    const d=Math.hypot(a.x-b.x,a.y-b.y);
+    if(d<130){ ctx.beginPath(); ctx.moveTo(a.x,a.y); ctx.lineTo(b.x,b.y);
+      ctx.strokeStyle=`rgba(155,110,243,${.07*(1-d/130)})`; ctx.lineWidth=.8; ctx.stroke(); }
+  }));
+  requestAnimationFrame(animPts);
+}
+animPts();
+
+// ── SCROLL REVEAL ──
+const obs = new IntersectionObserver(entries => {
+  entries.forEach(e => { if(e.isIntersecting) e.target.classList.add('visible'); });
+}, { threshold: .07 });
+document.querySelectorAll('.reveal, .stagger').forEach(el => obs.observe(el));
+
+// ── SMOOTH SCROLL ──
+document.querySelectorAll('a[href^="#"]').forEach(a => {
+  a.addEventListener('click', e => {
+    const id = a.getAttribute('href').slice(1);
+    const el = document.getElementById(id);
+    if(el){ e.preventDefault(); el.scrollIntoView({behavior:'smooth'}); }
+  });
+});
+
+// ── PROGRESS BAR ANIMATION ──
+const pbObs = new IntersectionObserver(entries => {
+  entries.forEach(e => {
+    if(e.isIntersecting) {
+      e.target.querySelectorAll('.pb-fill').forEach(bar => {
+        const w = bar.style.width; bar.style.width='0';
+        setTimeout(()=>{ bar.style.width=w; }, 120);
+      });
+    }
+  });
+},{threshold:.3});
+document.querySelectorAll('.features-visual').forEach(el => pbObs.observe(el));
+
+// ── MODAL LOGIC ──
+let currentPlan='', currentAmount='';
+
+function openModal(plan, label, amount) {
+  currentPlan=plan; currentAmount=amount;
+  document.getElementById('modalPlanName').textContent=plan;
+  document.getElementById('modalPlanLabel').textContent=label;
+  document.getElementById('modalPrice').textContent=amount+' lei';
+  document.getElementById('stepAmount').textContent=amount+' lei';
+  
+  document.getElementById('payModal').classList.add('open');
+  document.body.style.overflow='hidden';
+}
+function closeModal() {
+  document.getElementById('payModal').classList.remove('open');
+  document.body.style.overflow='';
+  // Resetăm inputul de cod dacă există
+  const codeInput = document.getElementById('activationCode');
+  if (codeInput) codeInput.value = '';
+}
+
+function openPricing() {
+  const vreiCod = confirm("🎓 Acest capitol face parte din pachetul Premium.\n\n-> Apasă 'OK' pentru a vedea prețurile abonamentelor.\n-> Apasă 'Cancel' dacă ai cumpărat deja și vrei să introduci codul.");
+  if (vreiCod) {
+    document.getElementById('pricing').scrollIntoView({behavior:'smooth'});
+  } else {
+    document.getElementById('payModal').classList.add('open');
+    document.body.style.overflow='hidden';
+  }
+}
+
+// ── HARTĂ CODURI → ZILE (câte un cod per plan, ușor de schimbat) ──
+const CODURI_ABONAMENT = {
+  "MED-7ZILE-2024":  7,
+  "MED-1LUNA-2024":  30,
+  "MED-6LUNI-2024":  180,
+  "MED-12LUNI-2024": 365
+};
+
+// ── DEBLOCARE CAPITOLE (cap 3–23) ──
+function unlockChapters() {
+  const capFiles = {
+    3:"cap3.html", 4:"cap4.html", 5:"cap5.html", 6:"cap6.html",
+    7:"cap7.html", 8:"cap8.html", 9:"cap9.html", 10:"cap10.html",
+    11:"cap11.html", 12:"cap12.html", 13:"cap13.html", 14:"cap14.html",
+    15:"cap15.html", 16:"cap16.html", 17:"cap17.html", 18:"cap18.html",
+    19:"cap19.html", 20:"cap20.html", 21:"cap21.html", 22:"cap22.html",
+    23:"cap23.html"
+  };
+
+  document.querySelectorAll('.chapter-card.locked').forEach(card => {
+    const tagEl = card.querySelector('.chapter-tag');
+    if (!tagEl) return;
+    const match = tagEl.textContent.match(/CAP\.\s*0*(\d+)/i);
+    if (!match) return;
+    const nr = parseInt(match[1]);
+    const href = capFiles[nr];
+    if (!href) return;
+
+    // 1. Eliminăm overlay-ul vizual
+    const overlay = card.querySelector('.lock-overlay');
+    if (overlay) overlay.remove();
+
+    // 2. Eliminăm clasa și TOATE handler-ele vechi (onclick inline + addEventListener)
+    card.classList.remove('locked');
+    card.removeAttribute('onclick');       // ← elimină showModal() inline
+    card.onclick = null;                   // ← curăță orice onclick setat din JS
+
+    // 3. Navigare directă la fișierul capitolului
+    card.style.cursor = 'pointer';
+    card.addEventListener('click', () => { window.location.href = href; });
+
+    // 4. Adăugăm săgeata dacă lipsește
+    if (!card.querySelector('.chapter-arrow')) {
+      const arrow = document.createElement('div');
+      arrow.className = 'chapter-arrow';
+      arrow.textContent = '↗';
+      card.appendChild(arrow);
+    }
+  });
+
+  // Actualizăm pill-ul de status
+  const statusEl   = document.getElementById('access-status');
+  const statusText = document.getElementById('access-status-text');
+  if (statusEl && statusText) {
+    const dataActivare  = parseInt(localStorage.getItem('medstudy_access_date') || '0', 10);
+    const zileCumparate = parseInt(localStorage.getItem('medstudy_duration_days') || '30', 10);
+    const zileScurse    = Math.floor((new Date().getTime() - dataActivare) / 86400000);
+    const zileRamase    = Math.max(0, zileCumparate - zileScurse);
+    statusText.textContent = `Abonat activ · ${zileRamase} zile rămase`;
+    statusEl.style.display = 'flex';
+    const ghostBtn = document.querySelector('.nav-ghost');
+    if (ghostBtn) ghostBtn.style.display = 'none';
+  }
+}
+
+// ── BLOCARE CAPITOLE (resetare vizuală) ──
+function lockChapters() {
+  // Re-adăugăm overlay la cardurile blocate (fără reload)
+  // Cel mai simplu: reîncărcăm pagina după expirare
+  location.reload();
+}
+
+function confirmPayment() {
+  const userCode = prompt("Introdu codul unic de activare primit după confirmarea plății :");
+  
+  if (userCode === null) return; // Utilizatorul a apăsat „Cancel"
+  
+  const codCurat = userCode.trim().toUpperCase();
+
+  // Verificăm codul în hartă
+  const zileAcces = CODURI_ABONAMENT[codCurat] || 0;
+
+  if (zileAcces > 0) {
+    const dataActivare = new Date().getTime();
+    
+    // Salvăm datele de acces în localStorage
+    localStorage.setItem('medstudy_access', 'true');
+    localStorage.setItem('medstudy_access_date', String(dataActivare));
+    localStorage.setItem('medstudy_duration_days', String(zileAcces));
+    
+    unlockChapters();
+    closeModal();
+    
+    // Mesaj de confirmare
+    setTimeout(() => {
+      alert(`✅ Cod valid! Abonamentul tău pentru ${zileAcces} zile a fost activat cu succes.\n\nPoți accesa acum toate capitolele. Spor la învățat! 🎓`);
+    }, 300);
+  } else {
+    alert("❌ Codul introdus este invalid sau a expirat.\n\nDacă ai efectuat plata și nu ai primit codul, contactează-ne la suport.");
+  }
+}
+
+function validateStripeCode() {
+  const inputEl = document.getElementById('activationCodeInput');
+  if (!inputEl) return;
+  
+  const userCode = inputEl.value;
+  const codCurat = userCode.trim().toUpperCase();
+
+  if (!codCurat) {
+    alert("❌ Vă rugăm să introduceți un cod de activare.");
+    return;
+  }
+
+  // Verificăm codul în structura existentă
+  const zileAcces = CODURI_ABONAMENT[codCurat] || 0;
+
+  if (zileAcces > 0) {
+    const dataActivare = new Date().getTime();
+    
+    // Salvăm datele de acces în localStorage
+    localStorage.setItem('medstudy_access', 'true');
+    localStorage.setItem('medstudy_access_date', String(dataActivare));
+    localStorage.setItem('medstudy_duration_days', String(zileAcces));
+    
+    unlockChapters();
+    closeModal();
+    
+    setTimeout(() => {
+      alert(`✅ Pachet activat! Abonamentul tău pentru ${zileAcces} zile a fost deblocat cu succes.\n\nSpor la învățat! 🎓`);
+    }, 300);
+  } else {
+    alert("❌ Codul introdus este invalid sau a expirat.\n\nVerificați caracterele primite pe email sau contactați echipa de suport.");
+  }
+}
+
+function reBindModal() {
+  document.getElementById('payModal').addEventListener('click', function(e){ if(e.target===this) closeModal(); });
+}
+
+// ── VERIFICARE DINAMICĂ ȘI EXPIRARE ACCES ──
+function verificaAccesIndex() {
+  const accesActiv = localStorage.getItem('medstudy_access') === 'true';
+  const dataActivare = parseInt(localStorage.getItem('medstudy_access_date') || '0', 10);
+  const zileCumparate = parseInt(localStorage.getItem('medstudy_duration_days') || '30', 10);
+  const acum = new Date().getTime();
+  const zileInMs = zileCumparate * 24 * 60 * 60 * 1000;
+
+  if (accesActiv && dataActivare > 0) {
+    if (acum - dataActivare > zileInMs) {
+      // Abonament expirat — curățăm tot
+      localStorage.removeItem('medstudy_access');
+      localStorage.removeItem('medstudy_access_date');
+      localStorage.removeItem('medstudy_duration_days');
+      alert("⏰ Abonamentul tău MedStudy a expirat. Te rugăm să reînnoiești pentru a păstra accesul la capitole.");
+    } else {
+      // Abonament activ — deblocăm capitolele
+      unlockChapters();
+    }
+  }
+}
+
+// ── MICRO INTERACTION: Price card tilt ──
+document.querySelectorAll('.price-card').forEach(card => {
+  card.addEventListener('mousemove', e => {
+    const rect = card.getBoundingClientRect();
+    const x = (e.clientX - rect.left - rect.width/2) / rect.width * 8;
+    const y = (e.clientY - rect.top - rect.height/2) / rect.height * 8;
+    card.style.transform = `perspective(1000px) rotateX(${-y}deg) rotateY(${x}deg) translateY(-8px)`;
+  });
+  card.addEventListener('mouseleave', () => {
+    card.style.transform = 'perspective(1000px) rotateX(0deg) rotateY(0deg) translateY(0)';
+  });
+});
+
+// ── SCROLL REVEAL EFFECT ──
+const revealElements = document.querySelectorAll('.reveal');
+const revealOnScroll = () => {
+  revealElements.forEach(el => {
+    const rect = el.getBoundingClientRect();
+    if(rect.top < window.innerHeight * 0.88) el.classList.add('active');
+  });
+};
+
+// ── MANAGER DE PORNIRE REZOLVAT PENTRU FIȘIERE LOCALE ──
+window.addEventListener('load', () => {
+  // Pasul 1: Verificăm codul salvat local și modificăm capitolele blocate
+  verificaAccesIndex();
+  
+  // Pasul 2: Lansăm funcțiile de scroll reveal după ce structura e gata
+  if (typeof revealOnScroll === 'function') {
+    revealOnScroll();
+  }
+});
+
+// Ascultătorul simplu de scroll rămâne activ pentru navigare
+window.addEventListener('scroll', revealOnScroll);
+
+
+</script>
+</body>
+</html>

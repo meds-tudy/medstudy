@@ -1,0 +1,1814 @@
+<!DOCTYPE html>
+<html lang="ro">
+<head>
+<meta charset="UTF-8">
+
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>MedStudy — Capitol 17: Sistemul Respirator</title>
+<link href="https://fonts.googleapis.com/css2?family=Outfit:wght@300;400;500;600;700;800;900&family=Lora:ital,wght@0,400;0,600;1,400&display=swap" rel="stylesheet">
+<style>
+:root {
+  --bg-main: #f0f4ff;
+  --bg-sidebar: rgba(255,255,255,0.85);
+  --surface: rgba(255,255,255,0.75);
+  --surface2: rgba(255,255,255,0.92);
+  --border: rgba(130,160,220,0.22);
+  --blue: #3b82f6;
+  --blue-light: #dbeafe;
+  --teal: #0d9488;
+  --teal-light: #ccfbf1;
+  --cyan: #06b6d4;
+  --cyan-light: #e0f7fb;
+  --sky: #0ea5e9;
+  --sky-light: #e0f2fe;
+  --violet: #8b5cf6;
+  --violet-light: #ede9fe;
+  --pink: #ec4899;
+  --pink-light: #fce7f3;
+  --green: #10b981;
+  --green-light: #d1fae5;
+  --orange: #f59e0b;
+  --orange-light: #fef3c7;
+  --rose: #f43f5e;
+  --red: #ef4444;
+  --red-light: #fee2e2;
+  --accent: #0369a1;
+  --accent2: #0d9488;
+  --text: #0c1a3a;
+  --text2: #475569;
+  --text3: #94a3b8;
+  --sidebar-w: 268px;
+  --radius: 16px;
+  --shadow: 0 4px 24px rgba(14,100,180,0.09);
+  --shadow2: 0 8px 40px rgba(14,100,180,0.15);
+}
+* { margin:0; padding:0; box-sizing:border-box; }
+body {
+  font-family: 'Outfit', sans-serif;
+  background: var(--bg-main);
+  color: var(--text);
+  min-height: 100vh;
+  display: flex;
+  overflow-x: hidden;
+}
+body::before {
+  content:'';
+  position:fixed; inset:0;
+  background:
+    radial-gradient(ellipse 800px 600px at 15% 10%, rgba(147,210,255,0.42) 0%, transparent 70%),
+    radial-gradient(ellipse 600px 500px at 85% 5%, rgba(153,230,220,0.38) 0%, transparent 65%),
+    radial-gradient(ellipse 700px 400px at 65% 88%, rgba(186,230,255,0.35) 0%, transparent 70%),
+    radial-gradient(ellipse 500px 500px at 5% 80%, rgba(147,197,253,0.28) 0%, transparent 65%),
+    #f0f4ff;
+  z-index:-1; pointer-events:none;
+}
+
+/* SIDEBAR */
+#sidebar {
+  width: var(--sidebar-w);
+  min-height: 100vh;
+  background: var(--bg-sidebar);
+  backdrop-filter: blur(24px);
+  border-right: 1px solid var(--border);
+  position: fixed; top:0; left:0; z-index:100;
+  display: flex; flex-direction: column;
+  box-shadow: 4px 0 30px rgba(14,100,180,0.07);
+  transition: transform .35s cubic-bezier(.4,0,.2,1);
+}
+.sidebar-logo {
+  padding: 26px 22px 20px;
+  border-bottom: 1px solid var(--border);
+  display:flex; align-items:center; gap:12px;
+}
+.logo-icon {
+  width:42px; height:42px;
+  background: linear-gradient(135deg,#0ea5e9,#0d9488);
+  border-radius:12px;
+  display:flex; align-items:center; justify-content:center;
+  font-size:20px;
+  box-shadow: 0 4px 14px rgba(14,165,233,0.35);
+}
+.logo-text { font-size:17px; font-weight:800; color:var(--text); line-height:1.2; }
+.logo-sub { font-size:10px; color:var(--text3); font-weight:400; letter-spacing:.08em; text-transform:uppercase; margin-top:2px; }
+.sidebar-section-label { padding:18px 20px 8px; font-size:9.5px; letter-spacing:.14em; text-transform:uppercase; color:var(--text3); font-weight:600; }
+.nav-scroll { 
+  flex: 1; 
+  overflow-y: auto; 
+  padding-bottom: 16px; 
+  max-height: calc(100vh - 140px);
+  
+  /* 💡 TRUCUL PENTRU MUTAREA BAREI PE STÂNGA: */
+  direction: rtl; /* Muta scrollbar-ul pe stânga (Right-to-Left) */
+  
+  scrollbar-width: thin;
+  scrollbar-color: rgba(124,58,237,0.3) transparent;
+}
+
+/* 💡 RECONVERTIREA TEXTULUI: Întoarcem textul la normal (Left-to-Right) ca să nu fie inversat */
+.nav-scroll > * {
+  direction: ltr;
+}
+
+/* Stil pentru browserele bazate pe Chromium (Chrome, Edge, Opera) */
+.nav-scroll::-webkit-scrollbar { 
+  width: 5px; 
+}
+.nav-scroll::-webkit-scrollbar-track {
+  background: transparent;
+}
+.nav-scroll::-webkit-scrollbar-thumb { 
+  background: rgba(124,58,237,0.3); 
+  border-radius: 4px; 
+}
+.nav-scroll::-webkit-scrollbar-thumb:hover {
+  background: rgba(124,58,237,0.5); 
+}
+
+.nav-item {
+  display:flex; align-items:center; gap:10px;
+  padding:9px 14px 9px 16px; margin:1px 10px;
+  border-radius:10px; font-size:12.5px; font-weight:500;
+  color:var(--text2); cursor:pointer; transition:all .2s;
+  text-decoration:none; position:relative;
+}
+.nav-item:hover { background:rgba(14,165,233,0.08); color:#0369a1; }
+.nav-item.active {
+  background:linear-gradient(90deg,rgba(14,165,233,0.14),rgba(13,148,136,0.08));
+  color:#0369a1; font-weight:700;
+  box-shadow:inset 2px 0 0 #0ea5e9;
+}
+.nav-item.done {
+  color:#0d9488; 
+}
+.nav-item.done .nav-num { background:rgba(13,148,136,0.12); color:#0d9488; }
+.nav-num {
+  min-width:22px; height:22px; background:rgba(14,165,233,0.08);
+  border-radius:6px; display:flex; align-items:center; justify-content:center;
+  font-size:10.5px; font-weight:700; color:var(--text3);
+}
+.nav-item.active .nav-num { background:rgba(14,165,233,0.18); color:#0369a1; }
+.nav-item.locked { opacity:0.42; pointer-events:none; }
+.sidebar-footer { padding:16px 20px; border-top:1px solid var(--border); }
+.prog-label { display:flex; justify-content:space-between; font-size:11.5px; color:var(--text2); margin-bottom:7px; font-weight:500; }
+.prog-label span:last-child { color:#0369a1; font-weight:700; }
+.prog-track { height:5px; background:rgba(14,165,233,0.1); border-radius:3px; overflow:hidden; }
+.prog-fill { height:100%; width:73.9%; background:linear-gradient(90deg,#0ea5e9,#0d9488); border-radius:3px; transition:width 1.2s ease; }
+
+/* MAIN */
+#main { margin-left:var(--sidebar-w); flex:1; min-height:100vh; }
+.topbar {
+  height:60px; background:rgba(255,255,255,0.72);
+  backdrop-filter:blur(20px); border-bottom:1px solid var(--border);
+  display:flex; align-items:center; justify-content:space-between;
+  padding:0 40px; position:sticky; top:0; z-index:50;
+}
+.breadcrumb { display:flex; align-items:center; gap:8px; font-size:13px; font-weight:500; color:var(--text2); }
+.breadcrumb .current { color:#0369a1; }
+.bc-sep { color:var(--text3); }
+.badge-pill {
+  padding:5px 14px; border-radius:30px; font-size:12px; font-weight:600;
+  background:linear-gradient(90deg,rgba(14,165,233,0.1),rgba(13,148,136,0.07));
+  color:#0369a1; border:1px solid rgba(14,165,233,0.22);
+}
+.hamburger { display:none; background:none; border:none; cursor:pointer; font-size:22px; color:var(--text); }
+
+/* HERO */
+.hero {
+  position:relative; overflow:hidden;
+  padding:60px 56px 50px; border-bottom:1px solid rgba(147,210,255,.22);
+  min-height:320px; display:flex; flex-direction:column; justify-content:center;
+}
+.hero::before {
+  content:''; position:absolute; inset:0;
+  background:
+    radial-gradient(ellipse 70% 80% at 8% 20%, rgba(147,210,255,.70) 0%, transparent 60%),
+    radial-gradient(ellipse 55% 65% at 88% 12%, rgba(153,240,220,.62) 0%, transparent 55%),
+    radial-gradient(ellipse 60% 70% at 68% 88%, rgba(186,225,255,.58) 0%, transparent 58%),
+    radial-gradient(ellipse 50% 60% at 32% 88%, rgba(147,220,245,.48) 0%, transparent 55%),
+    #f0faff;
+  z-index:0;
+}
+.hero::after {
+  content:''; position:absolute; inset:0; opacity:.30;
+  background-image:url("data:image/svg+xml,%3Csvg viewBox='0 0 256 256' xmlns='http://www.w3.org/2000/svg'%3E%3Cfilter id='noise'%3E%3CfeTurbulence type='fractalNoise' baseFrequency='0.9' numOctaves='4' stitchTiles='stitch'/%3E%3CfeColorMatrix type='saturate' values='0'/%3E%3C/filter%3E%3Crect width='100%25' height='100%25' filter='url(%23noise)' opacity='0.15'/%3E%3C/svg%3E");
+  background-size:200px; pointer-events:none; z-index:1; mix-blend-mode:overlay;
+}
+.hero > * { position:relative; z-index:2; }
+.hero-eyebrow {
+  display:inline-flex; align-items:center; gap:7px;
+  padding:6px 18px; border-radius:40px;
+  background:rgba(255,255,255,.55); border:1px solid rgba(255,255,255,.85);
+  font-size:11px; font-weight:600; color:rgba(3,105,161,.78);
+  letter-spacing:.12em; text-transform:uppercase; margin-bottom:22px;
+  backdrop-filter:blur(16px); box-shadow:0 2px 20px rgba(14,165,233,.12),inset 0 1px 0 rgba(255,255,255,.6);
+  width:fit-content; font-family:'Lora',serif; font-style:italic;
+}
+.hero-eyebrow::before { content:'◆'; font-size:7px; font-style:normal; }
+.hero h1 {
+  font-family:'Lora',serif; font-size:clamp(32px,3.8vw,54px);
+  font-weight:400; font-style:italic; line-height:1.08;
+  color:rgba(12,26,58,.82); margin-bottom:18px;
+  text-shadow:0 2px 40px rgba(14,165,233,.15);
+}
+.hero h1 span {
+  font-weight:600; font-style:italic; color:transparent;
+  background:linear-gradient(135deg,rgba(3,105,161,.92) 0%,rgba(14,165,233,.9) 45%,rgba(13,148,136,.85) 100%);
+  -webkit-background-clip:text; -webkit-text-fill-color:transparent; background-clip:text;
+}
+.hero-sub {
+  font-family:'Lora',serif; font-size:15px; font-style:italic;
+  color:rgba(10,50,90,.6); max-width:560px; line-height:1.72;
+  margin-bottom:32px; font-weight:400;
+}
+.hero-chips { display:flex; flex-wrap:wrap; gap:10px; }
+.hero-chip {
+  display:flex; align-items:center; gap:9px;
+  background:rgba(255,255,255,.52); border:1px solid rgba(255,255,255,.8);
+  border-radius:14px; padding:9px 18px; font-size:13px; font-weight:500;
+  color:rgba(10,50,90,.75); backdrop-filter:blur(14px);
+  box-shadow:0 2px 16px rgba(14,165,233,.1),inset 0 1px 0 rgba(255,255,255,.6);
+  font-family:'Lora',serif; font-style:italic; transition:all .25s;
+}
+.hero-chip:hover { background:rgba(255,255,255,.72); transform:translateY(-2px); box-shadow:0 6px 24px rgba(14,165,233,.18); }
+.hero-chip strong {
+  font-family:'Outfit',sans-serif; font-style:normal; font-weight:800; font-size:21px;
+  background:linear-gradient(135deg,#0369a1,#0d9488);
+  -webkit-background-clip:text; -webkit-text-fill-color:transparent; background-clip:text; line-height:1;
+}
+
+/* TAB BAR */
+.tab-bar {
+  display:flex; gap:2px; padding:0 40px;
+  background:rgba(255,255,255,0.62); backdrop-filter:blur(16px);
+  border-bottom:1px solid var(--border); position:sticky; top:60px; z-index:40;
+  overflow-x:auto;
+}
+.tab-btn {
+  display:flex; align-items:center; gap:7px; padding:14px 18px;
+  background:none; border:none; font-family:'Outfit',sans-serif;
+  font-size:12.5px; font-weight:600; color:var(--text2); cursor:pointer;
+  border-bottom:2.5px solid transparent; margin-bottom:-1px;
+  transition:all .2s; white-space:nowrap;
+}
+.tab-btn:hover { color:#0369a1; background:rgba(14,165,233,0.05); border-radius:10px 10px 0 0; }
+.tab-btn.active { color:#0369a1; border-bottom-color:#0ea5e9; }
+
+/* CONTENT */
+.content { padding:36px 40px 60px; max-width:1200px; }
+.panel { display:none; }
+.panel.active { display:block; }
+
+/* SECTION HEADER */
+.section-header { margin-bottom:24px; }
+.section-title { font-size:22px; font-weight:800; color:var(--text); margin-bottom:6px; }
+.section-desc { font-size:13.5px; color:var(--text2); line-height:1.6; }
+
+/* GLASS CARD */
+.gcard {
+  background:var(--surface2); backdrop-filter:blur(20px);
+  border:1px solid var(--border); border-radius:var(--radius);
+  padding:28px; margin-bottom:24px; box-shadow:var(--shadow);
+  transition:box-shadow .3s, transform .2s;
+}
+.gcard:hover { box-shadow:var(--shadow2); }
+.gcard-title {
+  font-size:16px; font-weight:800; color:var(--text);
+  margin-bottom:20px; display:flex; align-items:center; gap:10px;
+}
+.ct-icon { width:32px; height:32px; border-radius:9px; display:flex; align-items:center; justify-content:center; font-size:16px; }
+
+/* GRIDS */
+.g2 { display:grid; grid-template-columns:1fr 1fr; gap:20px; }
+.g3 { display:grid; grid-template-columns:repeat(3,1fr); gap:16px; }
+.g4 { display:grid; grid-template-columns:repeat(4,1fr); gap:14px; }
+
+/* HIGHLIGHT BOX */
+.hbox { border-radius:12px; padding:16px 20px; margin-bottom:16px; font-size:13px; line-height:1.65; border-left:4px solid; }
+.hbox-blue { background:var(--blue-light); border-color:var(--blue); }
+.hbox-teal { background:var(--teal-light); border-color:var(--teal); }
+.hbox-sky { background:var(--sky-light); border-color:var(--sky); }
+.hbox-cyan { background:var(--cyan-light); border-color:var(--cyan); }
+.hbox-violet { background:var(--violet-light); border-color:var(--violet); }
+.hbox-green { background:var(--green-light); border-color:var(--green); }
+.hbox-pink { background:var(--pink-light); border-color:var(--pink); }
+.hbox-orange { background:var(--orange-light); border-color:var(--orange); }
+.hbox-red { background:var(--red-light); border-color:var(--red); }
+.hbox strong { font-weight:700; display:block; margin-bottom:4px; }
+.hbox-blue strong { color:var(--blue); }
+.hbox-teal strong { color:var(--teal); }
+.hbox-sky strong { color:var(--sky); }
+.hbox-cyan strong { color:var(--cyan); }
+.hbox-violet strong { color:var(--violet); }
+.hbox-green strong { color:var(--green); }
+.hbox-pink strong { color:var(--pink); }
+.hbox-orange strong { color:var(--orange); }
+.hbox-red strong { color:var(--red); }
+
+/* MNEMONIC */
+.mnemonic {
+  background:linear-gradient(135deg,#e0f2fe,#ccfbf1);
+  border:1px solid rgba(14,165,233,0.22); border-radius:14px;
+  padding:18px 22px; margin:16px 0;
+}
+.mnemonic-title { font-size:12px; font-weight:700; color:#0369a1; letter-spacing:.06em; text-transform:uppercase; margin-bottom:8px; display:flex; align-items:center; gap:6px; }
+.mnemonic-text { font-size:13.5px; color:var(--text); line-height:1.7; }
+.mnemonic-text .em { color:#0369a1; font-weight:800; }
+
+/* TABLE */
+.mtable { width:100%; border-collapse:collapse; font-size:13px; }
+.mtable thead tr { background:linear-gradient(90deg,rgba(14,165,233,0.07),rgba(13,148,136,0.05)); }
+.mtable th { padding:11px 14px; text-align:left; font-size:11px; font-weight:700; letter-spacing:.06em; text-transform:uppercase; color:#0369a1; border-bottom:2px solid rgba(14,165,233,0.12); }
+.mtable td { padding:10px 14px; border-bottom:1px solid rgba(14,165,233,0.07); color:var(--text2); vertical-align:top; line-height:1.5; }
+.mtable tr:last-child td { border-bottom:none; }
+.mtable tr:hover td { background:rgba(14,165,233,0.03); }
+.mtable .hl { color:var(--text); font-weight:600; }
+
+/* TAG PILLS */
+.tag { display:inline-block; padding:3px 10px; border-radius:20px; font-size:11px; font-weight:700; }
+.t-blue { background:var(--blue-light); color:var(--blue); }
+.t-teal { background:var(--teal-light); color:var(--teal); }
+.t-sky { background:var(--sky-light); color:var(--sky); }
+.t-cyan { background:var(--cyan-light); color:var(--cyan); }
+.t-green { background:var(--green-light); color:var(--green); }
+.t-violet { background:var(--violet-light); color:var(--violet); }
+.t-orange { background:var(--orange-light); color:var(--orange); }
+.t-pink { background:var(--pink-light); color:var(--pink); }
+.t-red { background:var(--red-light); color:var(--red); }
+
+/* EXPAND ROWS */
+.level-row { display:flex; align-items:stretch; gap:12px; margin-bottom:6px; cursor:pointer; }
+.level-bar { width:5px; border-radius:3px; flex-shrink:0; }
+.level-body { flex:1; background:var(--surface); border:1px solid var(--border); border-radius:12px; padding:14px 18px; transition:all .25s; }
+.level-row:hover .level-body, .level-row.open .level-body { box-shadow:0 4px 20px rgba(14,165,233,0.12); border-color:rgba(14,165,233,0.3); }
+.level-head { display:flex; align-items:center; gap:12px; }
+.level-num { min-width:30px; height:30px; border-radius:8px; display:flex; align-items:center; justify-content:center; font-size:13px; font-weight:800; }
+.level-info { flex:1; }
+.level-name { font-size:14px; font-weight:700; color:var(--text); }
+.level-short { font-size:12px; color:var(--text2); margin-top:2px; }
+.level-chevron { font-size:14px; color:var(--text3); transition:transform .3s; }
+.level-row.open .level-chevron { transform:rotate(90deg); }
+.level-detail { display:none; margin-top:12px; padding-top:12px; border-top:1px solid var(--border); font-size:13px; color:var(--text2); line-height:1.65; }
+.level-row.open .level-detail { display:block; }
+
+/* STAT CARD */
+.stat-card {
+  background:var(--surface); border:1px solid var(--border); border-radius:14px;
+  padding:18px 20px; text-align:center; transition:all .25s;
+}
+.stat-card:hover { transform:translateY(-3px); box-shadow:0 8px 28px rgba(14,165,233,0.14); }
+.stat-num { font-size:28px; font-weight:900; background:linear-gradient(135deg,#0369a1,#0d9488); -webkit-background-clip:text; -webkit-text-fill-color:transparent; background-clip:text; line-height:1; }
+.stat-label { font-size:11.5px; color:var(--text2); margin-top:5px; font-weight:500; }
+.stat-unit { font-size:12px; color:var(--text3); margin-top:2px; }
+
+/* SVG DIAGRAM */
+.svg-wrap { background:var(--surface); border:1px solid var(--border); border-radius:16px; padding:20px; overflow:hidden; }
+.svg-wrap svg { width:100%; height:auto; }
+
+/* FLOWCHART */
+.flow-node {
+  cursor:pointer; transition:all .25s;
+}
+.flow-node:hover rect, .flow-node:hover circle, .flow-node:hover ellipse { filter:brightness(1.05); }
+
+/* INTERACTIVE QUIZ */
+.quiz-q { font-size:14px; font-weight:600; color:var(--text); margin-bottom:14px; }
+.quiz-opts { display:flex; flex-direction:column; gap:8px; }
+.quiz-opt {
+  padding:11px 16px; border-radius:10px; border:1.5px solid var(--border);
+  font-size:13px; cursor:pointer; transition:all .2s; background:var(--surface);
+  color:var(--text2); font-family:'Outfit',sans-serif;
+}
+.quiz-opt:hover { border-color:rgba(14,165,233,0.4); background:rgba(14,165,233,0.05); color:var(--text); }
+.quiz-opt.correct { border-color:#10b981; background:#d1fae5; color:#065f46; font-weight:600; }
+.quiz-opt.wrong { border-color:#ef4444; background:#fee2e2; color:#991b1b; }
+.quiz-opt.disabled { pointer-events:none; }
+.quiz-feedback { margin-top:12px; padding:12px 16px; border-radius:10px; font-size:13px; display:none; }
+.quiz-feedback.show { display:block; }
+.quiz-feedback.ok { background:#d1fae5; color:#065f46; border:1px solid #10b981; }
+.quiz-feedback.bad { background:#fee2e2; color:#991b1b; border:1px solid #ef4444; }
+.quiz-next { margin-top:10px; padding:9px 20px; border-radius:8px; background:linear-gradient(90deg,#0369a1,#0d9488); color:#fff; border:none; cursor:pointer; font-family:'Outfit',sans-serif; font-size:13px; font-weight:600; display:none; transition:opacity .2s; }
+.quiz-next.show { display:inline-block; }
+.quiz-counter { font-size:12px; color:var(--text3); margin-bottom:16px; }
+
+/* ──────── ANIMATIONS (STIL PREMIUM CAP 9) ──────── */
+@keyframes fadeUp { 
+  from { opacity: 0; transform: translateY(6px); } 
+  to { opacity: 1; transform: translateY(0); } 
+}
+.fu { animation: fadeUp 0.5s ease both; }
+.fu-1 { animation-delay: .08s; }
+.fu-2 { animation-delay: .16s; }
+.fu-3 { animation-delay: .24s; }
+.fu-4 { animation-delay: .32s; }
+
+/* TOOLTIP */
+.has-tip { position:relative; cursor:help; border-bottom:1px dashed rgba(14,165,233,0.5); }
+.tip-box {
+  display:none; position:absolute; bottom:calc(100% + 6px); left:50%; transform:translateX(-50%);
+  background:rgba(12,26,58,0.92); color:#e2f0ff; font-size:12px; line-height:1.5;
+  padding:8px 12px; border-radius:8px; white-space:nowrap; z-index:200;
+  box-shadow:0 4px 20px rgba(0,0,0,0.25); pointer-events:none;
+  max-width:220px; white-space:normal; text-align:center;
+}
+.has-tip:hover .tip-box { display:block; }
+
+/* PATHWAY STEP */
+.pathway { display:flex; flex-direction:column; gap:0; }
+.p-step {
+  display:flex; gap:16px; align-items:flex-start; padding:16px 0;
+  border-bottom:1px solid var(--border); cursor:pointer;
+}
+.p-step:last-child { border-bottom:none; }
+.p-circle {
+  width:40px; height:40px; border-radius:50%; flex-shrink:0;
+  display:flex; align-items:center; justify-content:center;
+  font-weight:800; font-size:14px; color:#fff;
+  box-shadow:0 4px 12px rgba(14,165,233,0.22);
+}
+.p-content { flex:1; }
+.p-title { font-size:14px; font-weight:700; color:var(--text); margin-bottom:3px; }
+.p-desc { font-size:12.5px; color:var(--text2); line-height:1.6; }
+.p-expand { display:none; margin-top:10px; padding:12px 14px; background:rgba(14,165,233,0.05); border-radius:10px; font-size:12.5px; color:var(--text2); line-height:1.65; }
+.p-step.open .p-expand { display:block; }
+.p-arrow { color:var(--text3); font-size:13px; margin-top:12px; transition:transform .3s; }
+.p-step.open .p-arrow { transform:rotate(90deg); }
+.connector { width:2px; height:20px; background:linear-gradient(180deg,#0ea5e9,#0d9488); margin-left:19px; opacity:.35; }
+
+/* VOLUME BAR */
+.vol-bar-wrap { margin:8px 0; }
+.vol-label-row { display:flex; justify-content:space-between; font-size:12px; margin-bottom:4px; color:var(--text2); }
+.vol-track { height:10px; background:rgba(14,165,233,0.1); border-radius:6px; overflow:hidden; }
+.vol-fill { height:100%; border-radius:6px; transition:width 1.2s ease; }
+
+/* COMPARISON TABLE */
+.comp-table { width:100%; font-size:12.5px; }
+.comp-table th { padding:9px 12px; background:linear-gradient(90deg,rgba(14,165,233,0.08),rgba(13,148,136,0.06)); font-size:10.5px; font-weight:700; color:#0369a1; letter-spacing:.05em; text-transform:uppercase; border-bottom:2px solid rgba(14,165,233,0.12); }
+.comp-table td { padding:9px 12px; border-bottom:1px solid var(--border); color:var(--text2); vertical-align:middle; }
+.comp-table tr:last-child td { border-bottom:none; }
+.comp-table tr:hover td { background:rgba(14,165,233,0.03); }
+
+/* SIDEBAR OVERLAY */
+.sidebar-overlay { display:none; position:fixed; inset:0; background:rgba(0,0,0,0.35); z-index:99; }
+
+@media (max-width: 900px) {
+  .g2,.g3,.g4 { grid-template-columns:1fr; }
+}
+@media (max-width: 768px) {
+  #sidebar { transform:translateX(-100%); }
+  #sidebar.open { transform:translateX(0); }
+  .sidebar-overlay.show { display:block; }
+  #main { margin-left:0; }
+  .hamburger { display:block; }
+  .topbar { padding:0 20px; }
+  .content { padding:22px 18px 40px; }
+  .hero { padding:40px 22px 36px; }
+  .tab-bar { padding:0 16px; }
+}
+</style>
+</head>
+<body>
+
+<div class="sidebar-overlay" id="overlay" onclick="closeSidebar()"></div>
+
+<!-- SIDEBAR -->
+<nav id="sidebar">
+  <div class="sidebar-logo">
+    <img src="medStudy.png" alt="Logo MedStudy" style="width: 42px; height: 42px; object-fit: contain; filter: drop-shadow(0 4px 14px rgba(124,58,237,0.35));">
+    <div>
+      <div class="logo-text">MedStudy</div>
+      <div class="logo-sub">Anatomy Made Easy</div>
+    </div>
+  </div>
+ 
+ <div class="nav-scroll" id="chapters-menu">
+  <div class="sidebar-section-label">Capitole</div>
+
+  <a class="nav-item" href="cap1.html"><span class="nav-num">1</span>Introducere în A&B</a>
+  <a class="nav-item" href="cap2.html"><span class="nav-num">2</span>Bazele Chimice</a>
+  <a class="nav-item" href="cap3.html"><span class="nav-num">3</span>Fiziologia celulară</a>
+  <a class="nav-item" href="cap4.html"><span class="nav-num">4</span>Țesuturile</a>
+  <a class="nav-item" href="cap5.html"><span class="nav-num">5</span>Sistemul Tegumentar</a>
+  <a class="nav-item" href="cap6.html"><span class="nav-num">6</span>Oasele și Articulațiile</a>
+  <a class="nav-item" href="cap7.html"><span class="nav-num">7</span>Sistemul Osos</a>
+  <a class="nav-item" href="cap8.html"><span class="nav-num">8</span>Țesutul Muscular</a>
+  <a class="nav-item" href="cap9.html"><span class="nav-num">9</span>Sistemul Muscular</a>
+  <a class="nav-item" href="cap10.html"><span class="nav-num">10</span>Țesutul Nervos</a>
+  <a class="nav-item" href="cap11.html"><span class="nav-num">11</span>Organizarea Sistemului Nervos</a>
+  <a class="nav-item" href="cap12.html"><span class="nav-num">12</span>Organele de Simț</a>
+  <a class="nav-item" href="cap13.html"><span class="nav-num">13</span>Sistemul Endocrin</a>
+  <a class="nav-item" href="cap14.html"><span class="nav-num">14</span>Sângele</a>
+  <a class="nav-item" href="cap15.html"><span class="nav-num">15</span>Sistemul Cardiovascular</a>
+  <a class="nav-item" href="cap16.html"><span class="nav-num">16</span>Sistemul Limfatic</a>
+  <a class="nav-item" href="cap17.html"><span class="nav-num">17</span>Sistemul Respirator</a>
+  <a class="nav-item" href="cap18.html"><span class="nav-num">18</span>Sistemul Digestiv</a>
+  <a class="nav-item" href="cap19.html"><span class="nav-num">19</span>Metabolism & Nutriție</a>
+  <a class="nav-item" href="cap20.html"><span class="nav-num">20</span>Sistemul Urinar</a>
+  <a class="nav-item" href="cap21.html"><span class="nav-num">21</span>Echilibrul Hidro-Electrolitic</a>
+  <a class="nav-item" href="cap22.html"><span class="nav-num">22</span>Sistemul Reproducător Masculin</a>
+  <a class="nav-item" href="cap23.html"><span class="nav-num">23</span>Sistemul Reproducător Feminin</a>
+</div>
+ 
+  <div class="sidebar-footer">
+    <div class="prog-label"><span>Progres</span><span>17/23</span></div>
+    <div class="prog-track"><div class="prog-fill"></div></div>
+  </div>
+</nav>
+
+<!-- MAIN -->
+<div id="main">
+  <div class="topbar">
+    <div style="display:flex;align-items:center;gap:14px;">
+      <button class="hamburger" onclick="openSidebar()">☰</button>
+      <div class="breadcrumb">
+        <span>A&F Umană</span><span class="bc-sep">›</span>
+        <span>Capitol 17</span><span class="bc-sep">›</span>
+        <span class="current">Sistemul Respirator</span>
+      </div>
+    </div>
+    <span class="badge-pill">🎓 Pregătire Admitere Medicină</span>
+  </div>
+
+  <!-- HERO -->
+  <div class="hero">
+    <div class="hero-eyebrow fu fu-1">Capitol 17 · Anatomie &amp; Fiziologie</div>
+    <h1 class="fu fu-2">Sistemul <span>Respirator</span></h1>
+    <p class="hero-sub fu fu-3">Anatomia și fiziologia căilor aeriene, mecanica respiratorie, schimbul de gaze — tot ce trebuie să știi pentru admitere la medicină.</p>
+    <div class="hero-chips fu fu-4">
+      <div class="hero-chip"><strong>300M</strong> alveole per plămân adult</div>
+      <div class="hero-chip"><strong>500ml</strong> volum curent normal</div>
+      <div class="hero-chip"><strong>23</strong> generații de ramificații bronșice</div>
+      <div class="hero-chip"><strong>98%</strong> O₂ transportat de hemoglobină</div>
+    </div>
+  </div>
+
+  <!-- TAB BAR -->
+  <div class="tab-bar">
+    <button class="tab-btn active" onclick="showTab('anatomie',this)">🗺️ Anatomie</button>
+    <button class="tab-btn" onclick="showTab('fiziologie',this)">💨 Fiziologie</button>
+    <button class="tab-btn" onclick="showTab('volume',this)">📊 Volume</button>
+    <button class="tab-btn" onclick="showTab('gaze',this)">🔄 Schimb gaze</button>
+    <button class="tab-btn" onclick="showTab('patologie',this)">⚕️ Patologie</button>
+    <button class="tab-btn" onclick="showTab('quiz',this)">✏️ Test rapid</button>
+  </div>
+
+  <div class="content">
+
+    <!-- ==================== ANATOMIE ==================== -->
+    <div class="panel active" id="tab-anatomie">
+      <div class="section-header">
+        <div class="section-title">Anatomia Sistemului Respirator</div>
+        <div class="section-desc">Structurile anatomice de la nări până la alveole — calea aerului prin organism.</div>
+      </div>
+
+      <!-- SVG INTERACTIV -->
+      <div class="gcard">
+        <div class="gcard-title"><div class="ct-icon" style="background:rgba(14,165,233,0.12)">🫁</div>Diagrama Sistemului Respirator — click pe structuri</div>
+        <div class="svg-wrap" style="background:linear-gradient(135deg,#f0faff,#f0fdf4);">
+          <svg viewBox="0 0 700 480" xmlns="http://www.w3.org/2000/svg" id="resp-svg">
+            <defs>
+              <linearGradient id="lungGrad" x1="0%" y1="0%" x2="100%" y2="100%">
+                <stop offset="0%" style="stop-color:#bae6fd;stop-opacity:0.8"/>
+                <stop offset="100%" style="stop-color:#99f6e4;stop-opacity:0.7"/>
+              </linearGradient>
+              <linearGradient id="airwayGrad" x1="0%" y1="0%" x2="0%" y2="100%">
+                <stop offset="0%" style="stop-color:#7dd3fc"/>
+                <stop offset="100%" style="stop-color:#38bdf8"/>
+              </linearGradient>
+              <filter id="glow"><feGaussianBlur stdDeviation="2.5" result="blur"/><feMerge><feMergeNode in="blur"/><feMergeNode in="SourceGraphic"/></feMerge></filter>
+            </defs>
+
+            <!-- Left lung -->
+            <ellipse cx="195" cy="310" rx="95" ry="140" fill="url(#lungGrad)" stroke="#7dd3fc" stroke-width="2" opacity="0.85"/>
+            <!-- Right lung -->
+            <ellipse cx="505" cy="310" rx="95" ry="140" fill="url(#lungGrad)" stroke="#7dd3fc" stroke-width="2" opacity="0.85"/>
+
+            <!-- Trachea -->
+            <rect x="330" y="120" width="40" height="100" rx="8" fill="url(#airwayGrad)" stroke="#0ea5e9" stroke-width="1.5" id="svg-trahee" style="cursor:pointer" onclick="svgInfo('trahee')"/>
+            <!-- Left bronchus -->
+            <path d="M330 200 Q280 220 220 240" stroke="#38bdf8" stroke-width="12" fill="none" stroke-linecap="round" id="svg-bronhie-st" style="cursor:pointer" onclick="svgInfo('bronhie')"/>
+            <!-- Right bronchus -->
+            <path d="M370 200 Q420 220 480 240" stroke="#38bdf8" stroke-width="14" fill="none" stroke-linecap="round" id="svg-bronhie-dr" style="cursor:pointer" onclick="svgInfo('bronhie')"/>
+
+            <!-- Bronchioles left -->
+            <path d="M220 240 Q180 270 160 300 M220 240 Q200 290 190 330 M220 240 Q240 280 230 310" stroke="#67e8f9" stroke-width="5" fill="none" stroke-linecap="round" style="cursor:pointer" onclick="svgInfo('bronhiole')"/>
+            <!-- Bronchioles right -->
+            <path d="M480 240 Q520 270 540 300 M480 240 Q500 290 510 330 M480 240 Q460 280 470 310" stroke="#67e8f9" stroke-width="5" fill="none" stroke-linecap="round" style="cursor:pointer" onclick="svgInfo('bronhiole')"/>
+
+            <!-- Alveoli clusters left -->
+            <circle cx="160" cy="330" r="16" fill="#a5f3fc" stroke="#06b6d4" stroke-width="1.5" style="cursor:pointer" onclick="svgInfo('alveole')"/>
+            <circle cx="185" cy="355" r="13" fill="#a5f3fc" stroke="#06b6d4" stroke-width="1.5" style="cursor:pointer" onclick="svgInfo('alveole')"/>
+            <circle cx="155" cy="370" r="11" fill="#a5f3fc" stroke="#06b6d4" stroke-width="1.5" style="cursor:pointer" onclick="svgInfo('alveole')"/>
+            <circle cx="195" cy="380" r="14" fill="#a5f3fc" stroke="#06b6d4" stroke-width="1.5" style="cursor:pointer" onclick="svgInfo('alveole')"/>
+            <!-- Alveoli right -->
+            <circle cx="540" cy="330" r="16" fill="#a5f3fc" stroke="#06b6d4" stroke-width="1.5" style="cursor:pointer" onclick="svgInfo('alveole')"/>
+            <circle cx="515" cy="355" r="13" fill="#a5f3fc" stroke="#06b6d4" stroke-width="1.5" style="cursor:pointer" onclick="svgInfo('alveole')"/>
+            <circle cx="545" cy="370" r="11" fill="#a5f3fc" stroke="#06b6d4" stroke-width="1.5" style="cursor:pointer" onclick="svgInfo('alveole')"/>
+            <circle cx="505" cy="380" r="14" fill="#a5f3fc" stroke="#06b6d4" stroke-width="1.5" style="cursor:pointer" onclick="svgInfo('alveole')"/>
+
+            <!-- Pharynx/Larynx -->
+            <rect x="325" y="60" width="50" height="60" rx="8" fill="#93c5fd" stroke="#3b82f6" stroke-width="1.5" style="cursor:pointer" onclick="svgInfo('laringe')"/>
+            <!-- Nasal cavity -->
+            <ellipse cx="350" cy="40" rx="45" ry="22" fill="#bfdbfe" stroke="#60a5fa" stroke-width="1.5" style="cursor:pointer" onclick="svgInfo('nas')"/>
+
+            <!-- Diaphragm -->
+            <path d="M80 430 Q200 410 350 415 Q500 410 620 430" stroke="#0d9488" stroke-width="4" fill="none" stroke-linecap="round" style="cursor:pointer" onclick="svgInfo('diafragma')"/>
+            <text x="350" y="448" text-anchor="middle" font-size="12" fill="#0f766e" font-family="Outfit,sans-serif" font-weight="600" style="cursor:pointer" onclick="svgInfo('diafragma')">DIAFRAGMA</text>
+
+            <!-- Pleura hint -->
+            <ellipse cx="195" cy="310" rx="105" ry="150" fill="none" stroke="#0ea5e9" stroke-width="1" stroke-dasharray="5,4" opacity="0.5" style="cursor:pointer" onclick="svgInfo('pleura')"/>
+            <ellipse cx="505" cy="310" rx="105" ry="150" fill="none" stroke="#0ea5e9" stroke-width="1" stroke-dasharray="5,4" opacity="0.5" style="cursor:pointer" onclick="svgInfo('pleura')"/>
+
+            <!-- Labels -->
+            <text x="350" y="34" text-anchor="middle" font-size="11" fill="#1d4ed8" font-family="Outfit,sans-serif" font-weight="700">CAVITATE NAZALĂ</text>
+            <text x="350" y="93" text-anchor="middle" font-size="11" fill="#1d4ed8" font-family="Outfit,sans-serif" font-weight="700">LARINGE / FARINGE</text>
+            <text x="350" y="158" text-anchor="middle" font-size="11" fill="#0369a1" font-family="Outfit,sans-serif" font-weight="700">TRAHEE</text>
+            <text x="225" y="228" text-anchor="middle" font-size="10.5" fill="#0369a1" font-family="Outfit,sans-serif" font-weight="600">BRONHIE stg.</text>
+            <text x="478" y="228" text-anchor="middle" font-size="10.5" fill="#0369a1" font-family="Outfit,sans-serif" font-weight="600">BRONHIE dr.</text>
+            <text x="163" cy="295" text-anchor="middle" font-size="10" fill="#0891b2" font-family="Outfit,sans-serif" font-weight="600"></text>
+            <text x="170" y="296" text-anchor="middle" font-size="9.5" fill="#0891b2" font-family="Outfit,sans-serif" font-weight="600">BRONHIOLE</text>
+            <text x="530" y="296" text-anchor="middle" font-size="9.5" fill="#0891b2" font-family="Outfit,sans-serif" font-weight="600">BRONHIOLE</text>
+            <text x="168" y="360" text-anchor="middle" font-size="9.5" fill="#0e7490" font-family="Outfit,sans-serif" font-weight="700">ALVEOLE</text>
+            <text x="528" y="360" text-anchor="middle" font-size="9.5" fill="#0e7490" font-family="Outfit,sans-serif" font-weight="700">ALVEOLE</text>
+
+            <!-- Lobe dividers -->
+            <path d="M130 230 Q150 310 140 400" stroke="#7dd3fc" stroke-width="1.5" fill="none" stroke-dasharray="4,3" opacity="0.6"/>
+            <path d="M160 260 Q175 330 170 420" stroke="#7dd3fc" stroke-width="1.5" fill="none" stroke-dasharray="4,3" opacity="0.6"/>
+            <path d="M570 230 Q550 310 560 400" stroke="#7dd3fc" stroke-width="1.5" fill="none" stroke-dasharray="4,3" opacity="0.6"/>
+
+            <!-- Lung labels -->
+            <text x="125" y="200" text-anchor="middle" font-size="12" fill="#0369a1" font-family="Lora,serif" font-style="italic" font-weight="600">Plămânul stâng</text>
+            <text x="125" y="215" text-anchor="middle" font-size="10" fill="#0369a1" font-family="Outfit,sans-serif">(2 lobi)</text>
+            <text x="578" y="200" text-anchor="middle" font-size="12" fill="#0369a1" font-family="Lora,serif" font-style="italic" font-weight="600">Plămânul drept</text>
+            <text x="578" y="215" text-anchor="middle" font-size="10" fill="#0369a1" font-family="Outfit,sans-serif">(3 lobi)</text>
+
+            <!-- Pleura labels -->
+            <text x="90" y="310" text-anchor="middle" font-size="9" fill="#0ea5e9" font-family="Outfit,sans-serif" font-weight="500">pleura</text>
+          </svg>
+        </div>
+        <!-- Info panel -->
+        <div id="svg-info-panel" style="display:none; margin-top:16px; padding:14px 18px; background:linear-gradient(90deg,rgba(14,165,233,0.07),rgba(13,148,136,0.05)); border-radius:12px; border-left:4px solid #0ea5e9; font-size:13px; color:var(--text2); line-height:1.65;">
+          <strong id="svg-info-title" style="color:#0369a1; display:block; margin-bottom:6px;"></strong>
+          <span id="svg-info-text"></span>
+        </div>
+      </div>
+
+      <!-- Pathway through airways -->
+      <div class="gcard">
+        <div class="gcard-title"><div class="ct-icon" style="background:rgba(14,165,233,0.12)">🛤️</div>Calea aerului — click pe fiecare etapă</div>
+        <div class="pathway" id="pathway">
+          <div class="p-step" onclick="toggleStep(this)">
+            <div class="p-circle" style="background:linear-gradient(135deg,#60a5fa,#3b82f6)">1</div>
+            <div class="p-content">
+              <div class="p-title">Cavitățile nazale</div>
+              <div class="p-desc">Prima poartă de intrare — filtrare, încălzire, umidificare</div>
+              <div class="p-expand">
+                <strong>Structuri cheie:</strong> cornete nazale (superior, mijlociu, inferior), sept nazal, sinusuri paranazale<br><br>
+                <strong>Funcții critice:</strong><br>
+                • <strong>Filtrare:</strong> mucusul captează particulele de praf și microorganismele; cilii le transportă spre faringe<br>
+                • <strong>Încălzire:</strong> vascularizație bogată în mucoasă încălzește aerul rece<br>
+                • <strong>Umidificare:</strong> mucusul adaugă vapori de apă aerului uscat<br>
+                • <strong>Olfacție:</strong> regiunea olfactivă în peretele superior detectează molecule mirositoare<br><br>
+                <span class="tag t-blue">Rinită</span> = inflamație mucoasă nazală &nbsp; <span class="tag t-teal">Febra fânului</span> = rinită alergică la polen
+              </div>
+            </div>
+            <div class="p-arrow">›</div>
+          </div>
+          <div class="connector"></div>
+          <div class="p-step" onclick="toggleStep(this)">
+            <div class="p-circle" style="background:linear-gradient(135deg,#38bdf8,#0ea5e9)">2</div>
+            <div class="p-content">
+              <div class="p-title">Faringele (gâtlejul)</div>
+              <div class="p-desc">Cale comună digestiv + respirator · 3 regiuni</div>
+              <div class="p-expand">
+                <strong>Cele 3 regiuni:</strong><br>
+                • <strong>Nazofaringe</strong> — posterior de cavitățile nazale, superior de vălul palatin; conține amigdala faringiană (vegetații adenoide când este tumefiată); se deschid trompele lui Eustachio<br>
+                • <strong>Orofaringe</strong> — posterior de cavitatea orală; se întâlnesc căile digestive și respiratorii; conține amigdalele palatine<br>
+                • <strong>Laringofaringe</strong> — posterior față de laringe; se bifurcă în esofag și laringe<br><br>
+                <strong>Trompe Eustachio:</strong> egalizează presiunea între nazofaringe și urechea medie — infecțiile urechii medii sunt adesea din nazofaringe!
+              </div>
+            </div>
+            <div class="p-arrow">›</div>
+          </div>
+          <div class="connector"></div>
+          <div class="p-step" onclick="toggleStep(this)">
+            <div class="p-circle" style="background:linear-gradient(135deg,#2dd4bf,#0d9488)">3</div>
+            <div class="p-content">
+              <div class="p-title">Laringele</div>
+              <div class="p-desc">Cale aeriană + producerea sunetelor — cartilajele laringiene</div>
+              <div class="p-expand">
+                <strong>11 structuri cartilaginoase:</strong><br>
+                • <strong>Cartilaj tiroid</strong> — „mărul lui Adam", cel mai mare, vizibil la bărbați<br>
+                • <strong>Cartilaj cricoid</strong> — formă de „inel cu pecete", leagă laringele de trahee<br>
+                • <strong>Epiglotă</strong> — pliu în formă de frunză/capac; <strong>se închide în timp ce înghițim</strong> pentru a proteja căile aeriene<br>
+                • <strong>Glota</strong> = deschiderea spre laringe<br>
+                • <strong>Corzile vocale</strong> — 2 seturi de pliuri membranoase; vibrează la expirație → sunete; lungimea → tonalitate (femei/copii: mai scurte → tonalitate mai ridicată)
+              </div>
+            </div>
+            <div class="p-arrow">›</div>
+          </div>
+          <div class="connector"></div>
+          <div class="p-step" onclick="toggleStep(this)">
+            <div class="p-circle" style="background:linear-gradient(135deg,#34d399,#059669)">4</div>
+            <div class="p-content">
+              <div class="p-title">Traheea</div>
+              <div class="p-desc">Tub semirigid susținut de inele cartilaginoase în „C" — ~10-12 cm</div>
+              <div class="p-expand">
+                • Lungime: <strong>10–12 cm</strong>, situată pe linia mediană a gâtului<br>
+                • Susținută de <strong>inele cartilaginoase în formă de C</strong> (deschise posterior → permite expansiunea esofagului)<br>
+                • Tapetată de celule ciliate cu mucus — filtrează aerul, împinge particulele spre faringe<br>
+                • Se bifurcă în <strong>2 bronhii primare</strong> (bronhia dreaptă: mai largă + mai verticală → corp străin intră mai ușor în dreapta!)
+              </div>
+            </div>
+            <div class="p-arrow">›</div>
+          </div>
+          <div class="connector"></div>
+          <div class="p-step" onclick="toggleStep(this)">
+            <div class="p-circle" style="background:linear-gradient(135deg,#a78bfa,#7c3aed)">5</div>
+            <div class="p-content">
+              <div class="p-title">Arborele bronșic</div>
+              <div class="p-desc">Bronhii → bronhiole → bronhiole terminale → respiratorii</div>
+              <div class="p-expand">
+                • <strong>Bronhii primare</strong> → bronhii lobare → bronhii segmentare → bronhiole (diametru ~1mm, fără cartilaj!)<br>
+                • Pereții bronhiolelor = <strong>mușchi neted</strong> + țesut conjunctiv<br>
+                • <strong>Bronhiole terminale</strong> → <strong>bronhiole respiratorii</strong> → <strong>alveole</strong><br>
+                • <strong>Bronșită</strong> = inflamație arbore bronșic<br>
+                • <strong>Astm</strong> = spasmul mușchilor netezi bronșici (episoade periodice de wheezing, cauzate de alergeni)
+              </div>
+            </div>
+            <div class="p-arrow">›</div>
+          </div>
+          <div class="connector"></div>
+          <div class="p-step" onclick="toggleStep(this)">
+            <div class="p-circle" style="background:linear-gradient(135deg,#f472b6,#db2777)">6</div>
+            <div class="p-content">
+              <div class="p-title">Alveolele + Plămânii</div>
+              <div class="p-desc">~300 milioane alveole · unitatea funcțională a schimbului de gaze</div>
+              <div class="p-expand">
+                <strong>Structura plămânilor:</strong><br>
+                • Plămân drept: <strong>3 lobi</strong> (superior, mijlociu, inferior)<br>
+                • Plămân stâng: <strong>2 lobi</strong> (superior, inferior) — mai mic, loc pentru inimă<br>
+                • Fiecare lob → lobuli, fiecare lobul deservit de o bronhiolă<br><br>
+                <strong>Pleura:</strong><br>
+                • <strong>Pleura viscerală</strong> — aderentă la plămân<br>
+                • <strong>Pleura parietală</strong> — aderentă la cavitatea toracică<br>
+                • <strong>Cavitatea pleurală</strong> — spațiul între foițe; lichidul pleural permite alunecarea și menține plămânii aderați la peretele toracic<br><br>
+                <strong>Alveolele:</strong> membrane subțiri, înconjurate de rețea capilară extinsă → suprafață mare schimb gaze (~70 m²!)
+              </div>
+            </div>
+            <div class="p-arrow">›</div>
+          </div>
+        </div>
+      </div>
+
+      <!-- Table organs -->
+      <div class="gcard">
+        <div class="gcard-title"><div class="ct-icon" style="background:rgba(13,148,136,0.12)">📋</div>Organele Sistemului Respirator — Tabel Sinteză</div>
+        <div style="overflow-x:auto;">
+          <table class="mtable">
+            <thead><tr><th>Structură</th><th>Descriere</th><th>Funcții principale</th><th>Notă clinică</th></tr></thead>
+            <tbody>
+              <tr><td class="hl">Cavitatea nazală</td><td>Spațiu în interiorul nasului cu cornete și sinusuri</td><td>Filtrare, încălzire, umidificare, olfacție</td><td><span class="tag t-red">Rinită alergică, febra fânului</span></td></tr>
+              <tr><td class="hl">Sinusuri paranazale</td><td>Spații goale în oasele craniene (frontal, sfenoidal, etmoid, maxilar)</td><td>Reduc greutatea craniului, rezonanță, condiționare aer</td><td><span class="tag t-orange">Sinuzită</span></td></tr>
+              <tr><td class="hl">Faringele</td><td>Gâtlej — 3 regiuni: nazo-, oro-, laringofaringe</td><td>Cale comună digestiv/respirator; adăpostește amigdale</td><td><span class="tag t-red">Amigdalită, vegetații adenoide</span></td></tr>
+              <tr><td class="hl">Laringele</td><td>11 cartilaje, inclusiv tiroid, cricoid, epiglotă</td><td>Cale aeriană, protecție (epiglotă), fonație</td><td><span class="tag t-orange">Laringită, edem glotic</span></td></tr>
+              <tr><td class="hl">Traheea</td><td>Tub 10-12 cm, inele C cartilaginoase</td><td>Conductă aeriană, filtrare prin cili și mucus</td><td><span class="tag t-blue">Corp străin → bronhia dreaptă</span></td></tr>
+              <tr><td class="hl">Arbore bronșic</td><td>Bronhii → bronhiole (fără cartilaj, cu mușchi neted)</td><td>Distribuie aerul la toate alveolele</td><td><span class="tag t-red">Bronșită, astm (spasm)</span></td></tr>
+              <tr><td class="hl">Plămânii</td><td>Dr: 3 lobi; Stg: 2 lobi; înconjurați de pleură</td><td>Conțin arborele bronșic, alveolele, vase, nervi</td><td><span class="tag t-teal">Pneumonie, TBC, cancer pulmonar</span></td></tr>
+              <tr><td class="hl">Alveolele</td><td>~300 milioane/plămân; membrane subțiri + capilare</td><td>Schimbul O₂/CO₂ prin difuziune</td><td><span class="tag t-violet">Emfizem, edem pulmonar</span></td></tr>
+            </tbody>
+          </table>
+        </div>
+      </div>
+    </div>
+
+    <!-- ==================== FIZIOLOGIE ==================== -->
+    <div class="panel" id="tab-fiziologie">
+      <div class="section-header">
+        <div class="section-title">Fiziologia Respirației</div>
+        <div class="section-desc">Mecanica ventilatorie, controlul nervos al respirației — inspirație și expirație.</div>
+      </div>
+
+      <!-- Flowchart inspiratie/expiratie -->
+      <div class="gcard">
+        <div class="gcard-title"><div class="ct-icon" style="background:rgba(14,165,233,0.12)">🔄</div>Schema mecanismului ventilației pulmonare</div>
+        <div class="svg-wrap" style="background:linear-gradient(135deg,#f0f9ff,#f0fdf4); min-height:400px;">
+          <svg viewBox="0 0 680 420" xmlns="http://www.w3.org/2000/svg">
+            <defs>
+              <marker id="arrowBlue" markerWidth="8" markerHeight="8" refX="6" refY="3" orient="auto">
+                <path d="M0,0 L0,6 L8,3 z" fill="#0ea5e9"/>
+              </marker>
+              <marker id="arrowTeal" markerWidth="8" markerHeight="8" refX="6" refY="3" orient="auto">
+                <path d="M0,0 L0,6 L8,3 z" fill="#0d9488"/>
+              </marker>
+            </defs>
+
+            <!-- INSPIRATIE column -->
+            <text x="170" y="28" text-anchor="middle" font-size="14" font-weight="800" fill="#0369a1" font-family="Outfit,sans-serif">INSPIRAȚIE</text>
+
+            <!-- Node 1 -->
+            <rect x="60" y="42" width="220" height="46" rx="10" fill="#dbeafe" stroke="#3b82f6" stroke-width="1.5"/>
+            <text x="170" y="60" text-anchor="middle" font-size="12" font-weight="700" fill="#1d4ed8" font-family="Outfit,sans-serif">Contracție mușchi intercostali</text>
+            <text x="170" y="76" text-anchor="middle" font-size="11" fill="#3b82f6" font-family="Outfit,sans-serif">externi + diafragmă coboară</text>
+
+            <line x1="170" y1="88" x2="170" y2="108" stroke="#0ea5e9" stroke-width="2" marker-end="url(#arrowBlue)"/>
+
+            <rect x="60" y="110" width="220" height="40" rx="10" fill="#e0f2fe" stroke="#0ea5e9" stroke-width="1.5"/>
+            <text x="170" y="125" text-anchor="middle" font-size="12" font-weight="700" fill="#0369a1" font-family="Outfit,sans-serif">↑ Volumul cutiei toracice</text>
+            <text x="170" y="141" text-anchor="middle" font-size="11" fill="#0369a1" font-family="Outfit,sans-serif">Coastele se ridică + extern</text>
+
+            <line x1="170" y1="150" x2="170" y2="170" stroke="#0ea5e9" stroke-width="2" marker-end="url(#arrowBlue)"/>
+
+            <rect x="60" y="172" width="220" height="40" rx="10" fill="#cffafe" stroke="#06b6d4" stroke-width="1.5"/>
+            <text x="170" y="187" text-anchor="middle" font-size="12" font-weight="700" fill="#0e7490" font-family="Outfit,sans-serif">Plămânii se destind elastic</text>
+            <text x="170" y="203" text-anchor="middle" font-size="11" fill="#0e7490" font-family="Outfit,sans-serif">↑ Volume alveolare</text>
+
+            <line x1="170" y1="212" x2="170" y2="232" stroke="#0ea5e9" stroke-width="2" marker-end="url(#arrowBlue)"/>
+
+            <rect x="60" y="234" width="220" height="40" rx="10" fill="#ccfbf1" stroke="#0d9488" stroke-width="1.5"/>
+            <text x="170" y="249" text-anchor="middle" font-size="12" font-weight="700" fill="#065f46" font-family="Outfit,sans-serif">↓ Presiune alveolară</text>
+            <text x="170" y="265" text-anchor="middle" font-size="11" fill="#065f46" font-family="Outfit,sans-serif">sub presiunea atmosferică</text>
+
+            <line x1="170" y1="274" x2="170" y2="294" stroke="#0ea5e9" stroke-width="2" marker-end="url(#arrowBlue)"/>
+
+            <rect x="60" y="296" width="220" height="40" rx="10" fill="#6ee7b7" stroke="#059669" stroke-width="1.5"/>
+            <text x="170" y="311" text-anchor="middle" font-size="13" font-weight="800" fill="#064e3b" font-family="Outfit,sans-serif">Aerul intră în plămâni</text>
+            <text x="170" y="327" text-anchor="middle" font-size="11" fill="#064e3b" font-family="Outfit,sans-serif">Presiune înaltă → joasă</text>
+
+            <!-- EXPIRATIE column -->
+            <text x="510" y="28" text-anchor="middle" font-size="14" font-weight="800" fill="#0d9488" font-family="Outfit,sans-serif">EXPIRAȚIE</text>
+
+            <rect x="400" y="42" width="220" height="46" rx="10" fill="#f0fdf4" stroke="#10b981" stroke-width="1.5"/>
+            <text x="510" y="60" text-anchor="middle" font-size="12" font-weight="700" fill="#065f46" font-family="Outfit,sans-serif">Relaxare mușchi respiratori</text>
+            <text x="510" y="76" text-anchor="middle" font-size="11" fill="#059669" font-family="Outfit,sans-serif">Diafragmă urcă (pasiv)</text>
+
+            <line x1="510" y1="88" x2="510" y2="108" stroke="#0d9488" stroke-width="2" marker-end="url(#arrowTeal)"/>
+
+            <rect x="400" y="110" width="220" height="40" rx="10" fill="#dcfce7" stroke="#22c55e" stroke-width="1.5"/>
+            <text x="510" y="125" text-anchor="middle" font-size="12" font-weight="700" fill="#15803d" font-family="Outfit,sans-serif">↓ Volumul cutiei toracice</text>
+            <text x="510" y="141" text-anchor="middle" font-size="11" fill="#15803d" font-family="Outfit,sans-serif">Coastele coboară</text>
+
+            <line x1="510" y1="150" x2="510" y2="170" stroke="#0d9488" stroke-width="2" marker-end="url(#arrowTeal)"/>
+
+            <rect x="400" y="172" width="220" height="40" rx="10" fill="#fef9c3" stroke="#ca8a04" stroke-width="1.5"/>
+            <text x="510" y="187" text-anchor="middle" font-size="12" font-weight="700" fill="#713f12" font-family="Outfit,sans-serif">Plămânii se comprimă elastic</text>
+            <text x="510" y="203" text-anchor="middle" font-size="11" fill="#92400e" font-family="Outfit,sans-serif">↓ Volume alveolare</text>
+
+            <line x1="510" y1="212" x2="510" y2="232" stroke="#0d9488" stroke-width="2" marker-end="url(#arrowTeal)"/>
+
+            <rect x="400" y="234" width="220" height="40" rx="10" fill="#fce7f3" stroke="#ec4899" stroke-width="1.5"/>
+            <text x="510" y="249" text-anchor="middle" font-size="12" font-weight="700" fill="#9d174d" font-family="Outfit,sans-serif">↑ Presiune alveolară</text>
+            <text x="510" y="265" text-anchor="middle" font-size="11" fill="#9d174d" font-family="Outfit,sans-serif">peste presiunea atmosferică</text>
+
+            <line x1="510" y1="274" x2="510" y2="294" stroke="#0d9488" stroke-width="2" marker-end="url(#arrowTeal)"/>
+
+            <rect x="400" y="296" width="220" height="40" rx="10" fill="#fecaca" stroke="#ef4444" stroke-width="1.5"/>
+            <text x="510" y="311" text-anchor="middle" font-size="13" font-weight="800" fill="#7f1d1d" font-family="Outfit,sans-serif">Aerul iese din plămâni</text>
+            <text x="510" y="327" text-anchor="middle" font-size="11" fill="#7f1d1d" font-family="Outfit,sans-serif">Presiune înaltă → joasă</text>
+
+            <!-- Divider -->
+            <line x1="340" y1="30" x2="340" y2="390" stroke="#cbd5e1" stroke-width="1.5" stroke-dasharray="6,4"/>
+            <text x="340" y="380" text-anchor="middle" font-size="10" fill="#94a3b8" font-family="Outfit,sans-serif">vs.</text>
+
+            <!-- Legend boxes -->
+            <rect x="80" y="358" width="180" height="32" rx="8" fill="rgba(14,165,233,0.08)" stroke="rgba(14,165,233,0.25)" stroke-width="1"/>
+            <text x="170" y="370" text-anchor="middle" font-size="11" fill="#0369a1" font-family="Outfit,sans-serif" font-weight="600">Proces ACTIV</text>
+            <text x="170" y="383" text-anchor="middle" font-size="10" fill="#0369a1" font-family="Outfit,sans-serif">(necesită contracție musculară)</text>
+
+            <rect x="420" y="358" width="180" height="32" rx="8" fill="rgba(13,148,136,0.08)" stroke="rgba(13,148,136,0.25)" stroke-width="1"/>
+            <text x="510" y="370" text-anchor="middle" font-size="11" fill="#0d9488" font-family="Outfit,sans-serif" font-weight="600">Proces PASIV</text>
+            <text x="510" y="383" text-anchor="middle" font-size="10" fill="#0d9488" font-family="Outfit,sans-serif">(relaxare elastică)</text>
+          </svg>
+        </div>
+      </div>
+
+      <!-- Controlul respiratiei flowchart -->
+      <div class="gcard">
+        <div class="gcard-title"><div class="ct-icon" style="background:rgba(13,148,136,0.12)">🧠</div>Controlul Nervos al Respirației</div>
+        <div class="svg-wrap" style="background:linear-gradient(135deg,#fafafa,#f0f9ff);">
+          <svg viewBox="0 0 680 340" xmlns="http://www.w3.org/2000/svg">
+            <defs>
+              <marker id="arr" markerWidth="8" markerHeight="8" refX="6" refY="3" orient="auto">
+                <path d="M0,0 L0,6 L8,3 z" fill="#0369a1"/>
+              </marker>
+              <marker id="arrG" markerWidth="8" markerHeight="8" refX="6" refY="3" orient="auto">
+                <path d="M0,0 L0,6 L8,3 z" fill="#16a34a"/>
+              </marker>
+              <marker id="arrR" markerWidth="8" markerHeight="8" refX="6" refY="3" orient="auto">
+                <path d="M0,0 L0,6 L8,3 z" fill="#dc2626"/>
+              </marker>
+            </defs>
+
+            <!-- Central control -->
+            <ellipse cx="340" cy="80" rx="130" ry="44" fill="#dbeafe" stroke="#3b82f6" stroke-width="2"/>
+            <text x="340" y="73" text-anchor="middle" font-size="13" font-weight="800" fill="#1d4ed8" font-family="Outfit,sans-serif">Centrul respirator</text>
+            <text x="340" y="89" text-anchor="middle" font-size="11" fill="#2563eb" font-family="Outfit,sans-serif">Bulb rahidian + Punte (trunchi cerebral)</text>
+            <text x="340" y="104" text-anchor="middle" font-size="10" fill="#3b82f6" font-family="Outfit,sans-serif">Zona pneumotaxică</text>
+
+            <!-- CO2 sensor -->
+            <rect x="20" y="40" width="160" height="50" rx="10" fill="#cffafe" stroke="#06b6d4" stroke-width="1.5"/>
+            <text x="100" y="58" text-anchor="middle" font-size="11" font-weight="700" fill="#0e7490" font-family="Outfit,sans-serif">Ventriculi cerebrali</text>
+            <text x="100" y="72" text-anchor="middle" font-size="10" fill="#0e7490" font-family="Outfit,sans-serif">Senzori CO₂</text>
+            <text x="100" y="84" text-anchor="middle" font-size="10" fill="#0891b2" font-family="Outfit,sans-serif">(LCR → H⁺ → activare)</text>
+
+            <!-- O2 sensor -->
+            <rect x="500" y="40" width="160" height="50" rx="10" fill="#dcfce7" stroke="#22c55e" stroke-width="1.5"/>
+            <text x="580" y="58" text-anchor="middle" font-size="11" font-weight="700" fill="#15803d" font-family="Outfit,sans-serif">Corpusculi carotidieni</text>
+            <text x="580" y="72" text-anchor="middle" font-size="10" fill="#15803d" font-family="Outfit,sans-serif">+ Corpusculi aortici</text>
+            <text x="580" y="84" text-anchor="middle" font-size="10" fill="#16a34a" font-family="Outfit,sans-serif">Senzori O₂ dizolvat</text>
+
+            <!-- Arrows to center -->
+            <line x1="180" y1="65" x2="210" y2="70" stroke="#06b6d4" stroke-width="2" marker-end="url(#arr)"/>
+            <line x1="500" y1="65" x2="470" y2="70" stroke="#22c55e" stroke-width="2" marker-end="url(#arrG)"/>
+
+            <!-- Cortex (voluntary) -->
+            <rect x="240" y="150" width="200" height="42" rx="10" fill="#ede9fe" stroke="#8b5cf6" stroke-width="1.5" stroke-dasharray="5,3"/>
+            <text x="340" y="167" text-anchor="middle" font-size="11" font-weight="700" fill="#6d28d9" font-family="Outfit,sans-serif">Cortex cerebral (voluntar)</text>
+            <text x="340" y="181" text-anchor="middle" font-size="10" fill="#7c3aed" font-family="Outfit,sans-serif">Poate suprima temporar</text>
+
+            <line x1="340" y1="150" x2="340" y2="124" stroke="#8b5cf6" stroke-width="1.5" stroke-dasharray="4,3" marker-end="url(#arr)"/>
+
+            <!-- Output: muscles -->
+            <rect x="100" y="240" width="200" height="50" rx="10" fill="#fef3c7" stroke="#f59e0b" stroke-width="1.5"/>
+            <text x="200" y="258" text-anchor="middle" font-size="12" font-weight="700" fill="#92400e" font-family="Outfit,sans-serif">Mușchi intercostali externi</text>
+            <text x="200" y="274" text-anchor="middle" font-size="11" fill="#b45309" font-family="Outfit,sans-serif">Nervul frenic → diafragmă</text>
+            <text x="200" y="287" text-anchor="middle" font-size="10" fill="#b45309" font-family="Outfit,sans-serif">(inspirație forțată vs normală)</text>
+
+            <rect x="380" y="240" width="200" height="50" rx="10" fill="#fce7f3" stroke="#ec4899" stroke-width="1.5"/>
+            <text x="480" y="258" text-anchor="middle" font-size="12" font-weight="700" fill="#9d174d" font-family="Outfit,sans-serif">Hiperventilaţie</text>
+            <text x="480" y="274" text-anchor="middle" font-size="11" fill="#9d174d" font-family="Outfit,sans-serif">CO₂ ↑ → H⁺ ↑ în LCR</text>
+            <text x="480" y="287" text-anchor="middle" font-size="10" fill="#be185d" font-family="Outfit,sans-serif">Override voluntar imposibil!</text>
+
+            <!-- Arrows from center to muscles -->
+            <line x1="290" y1="122" x2="230" y2="238" stroke="#0369a1" stroke-width="2" marker-end="url(#arr)"/>
+            <line x1="390" y1="122" x2="450" y2="238" stroke="#dc2626" stroke-width="2" marker-end="url(#arrR)"/>
+
+            <!-- Feedback arrow CO2 -->
+            <path d="M200 290 Q100 310 90 200 Q80 150 90 90" stroke="#06b6d4" stroke-width="1.5" fill="none" stroke-dasharray="5,3" marker-end="url(#arr)"/>
+            <text x="55" y="205" font-size="9.5" fill="#0891b2" font-family="Outfit,sans-serif" transform="rotate(-90,55,205)">feedback CO₂</text>
+          </svg>
+        </div>
+        <div class="hbox hbox-cyan" style="margin-top:16px; margin-bottom:0;">
+          <strong>⚠️ Mecanism cheie pentru admitere</strong>
+          Creșterea CO₂ → difuzează în LCR → crește H⁺ → activează centrul respirator → ↑ frecvență și amplitudine. <strong>CO₂ este stimulul principal</strong> al respirației, nu O₂! (O₂ scăzut → chemoreceptori periferici). Hiperventilaţia = respirație profundă + rapidă.
+        </div>
+      </div>
+
+      <!-- Comparative table inspiratie vs expiratie -->
+      <div class="gcard">
+        <div class="gcard-title"><div class="ct-icon" style="background:rgba(14,165,233,0.12)">⚖️</div>Comparație: Inspirație vs. Expirație</div>
+        <div style="overflow-x:auto;">
+          <table class="comp-table" style="border-collapse:collapse; width:100%;">
+            <thead>
+              <tr>
+                <th style="width:200px;">Parametru</th>
+                <th style="background:linear-gradient(90deg,rgba(14,165,233,0.12),rgba(14,165,233,0.06));">💨 Inspirație</th>
+                <th style="background:linear-gradient(90deg,rgba(13,148,136,0.12),rgba(13,148,136,0.06));">🌬️ Expirație</th>
+              </tr>
+            </thead>
+            <tbody>
+              <tr><td class="hl" style="padding:9px 12px; border-bottom:1px solid var(--border); font-weight:600; color:var(--text);">Tip de proces</td><td style="padding:9px 12px; border-bottom:1px solid var(--border); color:var(--text2);"><span class="tag t-blue">ACTIV</span></td><td style="padding:9px 12px; border-bottom:1px solid var(--border); color:var(--text2);"><span class="tag t-teal">PASIV</span> (normal)</td></tr>
+              <tr><td class="hl" style="padding:9px 12px; border-bottom:1px solid var(--border); font-weight:600; color:var(--text);">Mușchii implicați</td><td style="padding:9px 12px; border-bottom:1px solid var(--border); color:var(--text2);">Diafragmă (↓) + intercostali externi (ridică coaste)</td><td style="padding:9px 12px; border-bottom:1px solid var(--border); color:var(--text2);">Relaxare (↑ diafragmă, coaste coboară)</td></tr>
+              <tr><td class="hl" style="padding:9px 12px; border-bottom:1px solid var(--border); font-weight:600; color:var(--text);">Volumul toracelui</td><td style="padding:9px 12px; border-bottom:1px solid var(--border); color:var(--text2);">↑ Crește</td><td style="padding:9px 12px; border-bottom:1px solid var(--border); color:var(--text2);">↓ Scade</td></tr>
+              <tr><td class="hl" style="padding:9px 12px; border-bottom:1px solid var(--border); font-weight:600; color:var(--text);">Presiunea alveolară</td><td style="padding:9px 12px; border-bottom:1px solid var(--border); color:var(--text2);">↓ Sub presiunea atm.</td><td style="padding:9px 12px; border-bottom:1px solid var(--border); color:var(--text2);">↑ Peste presiunea atm.</td></tr>
+              <tr><td class="hl" style="padding:9px 12px; border-bottom:1px solid var(--border); font-weight:600; color:var(--text);">Mișcarea aerului</td><td style="padding:9px 12px; border-bottom:1px solid var(--border); color:var(--text2);">Atm. → Alveole (intră)</td><td style="padding:9px 12px; border-bottom:1px solid var(--border); color:var(--text2);">Alveole → Atm. (iese)</td></tr>
+              <tr><td class="hl" style="padding:9px 12px; font-weight:600; color:var(--text);">Control voluntar</td><td style="padding:9px 12px; color:var(--text2);">Da (parțial)</td><td style="padding:9px 12px; color:var(--text2);">Limitat (mai puțin)</td></tr>
+            </tbody>
+          </table>
+        </div>
+      </div>
+    </div>
+
+    <!-- ==================== VOLUME ==================== -->
+    <div class="panel" id="tab-volume">
+      <div class="section-header">
+        <div class="section-title">Volumele și Capacitățile Pulmonare</div>
+        <div class="section-desc">Valorile de reținut pentru admitere — hover pe bare pentru detalii.</div>
+      </div>
+
+      <div class="gcard">
+        <div class="gcard-title"><div class="ct-icon" style="background:rgba(14,165,233,0.12)">📊</div>Diagrama interactivă a volumelor pulmonare</div>
+        <div class="svg-wrap" style="background:linear-gradient(180deg,#f0f9ff,#f0fdf4);">
+          <svg viewBox="0 0 680 340" xmlns="http://www.w3.org/2000/svg" id="vol-svg">
+            <defs>
+              <linearGradient id="vGrad1" x1="0%" y1="0%" x2="0%" y2="100%">
+                <stop offset="0%" style="stop-color:#38bdf8;stop-opacity:0.9"/>
+                <stop offset="100%" style="stop-color:#0ea5e9;stop-opacity:0.7"/>
+              </linearGradient>
+              <linearGradient id="vGrad2" x1="0%" y1="0%" x2="0%" y2="100%">
+                <stop offset="0%" style="stop-color:#34d399;stop-opacity:0.9"/>
+                <stop offset="100%" style="stop-color:#10b981;stop-opacity:0.7"/>
+              </linearGradient>
+              <linearGradient id="vGrad3" x1="0%" y1="0%" x2="0%" y2="100%">
+                <stop offset="0%" style="stop-color:#a78bfa;stop-opacity:0.9"/>
+                <stop offset="100%" style="stop-color:#7c3aed;stop-opacity:0.7"/>
+              </linearGradient>
+              <linearGradient id="vGrad4" x1="0%" y1="0%" x2="0%" y2="100%">
+                <stop offset="0%" style="stop-color:#fb923c;stop-opacity:0.9"/>
+                <stop offset="100%" style="stop-color:#ea580c;stop-opacity:0.7"/>
+              </linearGradient>
+            </defs>
+
+            <!-- Y axis -->
+            <line x1="90" y1="20" x2="90" y2="280" stroke="#94a3b8" stroke-width="1.5"/>
+            <!-- X axis -->
+            <line x1="90" y1="280" x2="640" y2="280" stroke="#94a3b8" stroke-width="1.5"/>
+
+            <!-- Y labels (ml) -->
+            <text x="82" y="24" text-anchor="end" font-size="10" fill="#64748b" font-family="Outfit,sans-serif">6000</text>
+            <text x="82" y="72" text-anchor="end" font-size="10" fill="#64748b" font-family="Outfit,sans-serif">5000</text>
+            <text x="82" y="120" text-anchor="end" font-size="10" fill="#64748b" font-family="Outfit,sans-serif">4000</text>
+            <text x="82" y="168" text-anchor="end" font-size="10" fill="#64748b" font-family="Outfit,sans-serif">3000</text>
+            <text x="82" y="200" text-anchor="end" font-size="10" fill="#64748b" font-family="Outfit,sans-serif">2400</text>
+            <text x="82" y="234" text-anchor="end" font-size="10" fill="#64748b" font-family="Outfit,sans-serif">1800</text>
+            <text x="82" y="256" text-anchor="end" font-size="10" fill="#64748b" font-family="Outfit,sans-serif">1200</text>
+            <text x="82" y="270" text-anchor="end" font-size="10" fill="#64748b" font-family="Outfit,sans-serif">600</text>
+
+            <!-- Grid lines -->
+            <line x1="90" y1="72" x2="640" y2="72" stroke="#e2e8f0" stroke-width="1" stroke-dasharray="4,3"/>
+            <line x1="90" y1="120" x2="640" y2="120" stroke="#e2e8f0" stroke-width="1" stroke-dasharray="4,3"/>
+            <line x1="90" y1="168" x2="640" y2="168" stroke="#e2e8f0" stroke-width="1" stroke-dasharray="4,3"/>
+            <line x1="90" y1="200" x2="640" y2="200" stroke="#e2e8f0" stroke-width="1" stroke-dasharray="4,3"/>
+            <line x1="90" y1="234" x2="640" y2="234" stroke="#e2e8f0" stroke-width="1" stroke-dasharray="4,3"/>
+
+            <!-- TOTAL = 6000ml, scale: 6000 → 260px → 1ml = 0.0433px -->
+            <!-- Volum rezidual: 1000ml → starts at bottom (280-43=237, height=43) -->
+            <rect x="110" y="237" width="80" height="43" rx="6" fill="url(#vGrad4)" class="vol-rect" data-label="Volum rezidual: 1000 ml" style="cursor:pointer"/>
+            <text x="150" y="262" text-anchor="middle" font-size="10" font-weight="700" fill="white" font-family="Outfit,sans-serif">VR</text>
+            <text x="150" y="298" text-anchor="middle" font-size="11" fill="#92400e" font-family="Outfit,sans-serif" font-weight="600">Volum Rezidual</text>
+            <text x="150" y="311" text-anchor="middle" font-size="10" fill="#b45309" font-family="Outfit,sans-serif">1000 ml</text>
+
+            <!-- Volum curent: 500ml (22px), starts at 237-22=215 -->
+            <rect x="230" y="215" width="80" height="22" rx="6" fill="url(#vGrad1)" class="vol-rect" data-label="Volum curent: 500 ml" style="cursor:pointer"/>
+            <text x="270" y="230" text-anchor="middle" font-size="9.5" font-weight="700" fill="white" font-family="Outfit,sans-serif">VC 500ml</text>
+            <text x="270" y="298" text-anchor="middle" font-size="11" fill="#0369a1" font-family="Outfit,sans-serif" font-weight="600">Volum Curent</text>
+            <text x="270" y="311" text-anchor="middle" font-size="10" fill="#0369a1" font-family="Outfit,sans-serif">500 ml</text>
+
+            <!-- VIR: 2500-3500ml (~130px), starts at 215-130=85 -->
+            <rect x="370" y="85" width="80" height="130" rx="6" fill="url(#vGrad2)" class="vol-rect" data-label="Volum inspirator de rezervă: 2500-3500 ml" style="cursor:pointer"/>
+            <text x="410" y="145" text-anchor="middle" font-size="10" font-weight="700" fill="white" font-family="Outfit,sans-serif">VIR</text>
+            <text x="410" y="298" text-anchor="middle" font-size="11" fill="#065f46" font-family="Outfit,sans-serif" font-weight="600">V.I. de Rezervă</text>
+            <text x="410" y="311" text-anchor="middle" font-size="10" fill="#065f46" font-family="Outfit,sans-serif">2500-3500 ml</text>
+
+            <!-- VER: 1200ml (~52px), starts at 237-52=185 -->
+            <rect x="500" y="185" width="80" height="52" rx="6" fill="url(#vGrad3)" class="vol-rect" data-label="Volum expirator de rezervă: 1200 ml" style="cursor:pointer"/>
+            <text x="540" y="215" text-anchor="middle" font-size="10" font-weight="700" fill="white" font-family="Outfit,sans-serif">VER</text>
+            <text x="540" y="298" text-anchor="middle" font-size="11" fill="#5b21b6" font-family="Outfit,sans-serif" font-weight="600">V.E. de Rezervă</text>
+            <text x="540" y="311" text-anchor="middle" font-size="10" fill="#6d28d9" font-family="Outfit,sans-serif">1200 ml</text>
+
+            <!-- Capacitate vitala bracket -->
+            <line x1="95" y1="26" x2="95" y2="237" stroke="#0369a1" stroke-width="2"/>
+            <line x1="95" y1="26" x2="108" y2="26" stroke="#0369a1" stroke-width="2"/>
+            <line x1="95" y1="237" x2="108" y2="237" stroke="#0369a1" stroke-width="2"/>
+            <text x="43" y="130" text-anchor="middle" font-size="10" fill="#0369a1" font-family="Outfit,sans-serif" font-weight="700" transform="rotate(-90,43,130)">CAPACITATE VITALĂ ~4500ml</text>
+
+            <!-- Tooltip placeholder -->
+            <rect id="vol-tooltip-bg" x="0" y="0" width="200" height="36" rx="8" fill="rgba(12,26,58,0.88)" display="none"/>
+            <text id="vol-tooltip-text" x="0" y="0" font-size="11" fill="white" font-family="Outfit,sans-serif" display="none"/>
+          </svg>
+        </div>
+      </div>
+
+      <!-- Volume cards -->
+      <div class="g4">
+        <div class="stat-card">
+          <div class="stat-num">500</div>
+          <div class="stat-label">Volum curent (VC)</div>
+          <div class="stat-unit">ml — respirație normală</div>
+        </div>
+        <div class="stat-card">
+          <div class="stat-num">1000</div>
+          <div class="stat-label">Volum rezidual (VR)</div>
+          <div class="stat-unit">ml — rămâne după expirație forțată</div>
+        </div>
+        <div class="stat-card">
+          <div class="stat-num">3000</div>
+          <div class="stat-label">Vol. inspirator de rezervă</div>
+          <div class="stat-unit">ml (2500–3500 ml) — inspirație forțată</div>
+        </div>
+        <div class="stat-card">
+          <div class="stat-num">4500</div>
+          <div class="stat-label">Capacitate vitală</div>
+          <div class="stat-unit">ml (variabil) — max schimb posibil</div>
+        </div>
+      </div>
+
+      <div class="gcard" style="margin-top:20px;">
+        <div class="gcard-title"><div class="ct-icon" style="background:rgba(14,165,233,0.12)">📏</div>Tabel complet — Volumele și Capacitățile Pulmonare</div>
+        <div style="overflow-x:auto;">
+          <table class="mtable">
+            <thead><tr><th>Parametru</th><th>Valoare normală</th><th>Definiție</th><th>Importanță clinică</th></tr></thead>
+            <tbody>
+              <tr><td class="hl">Volum curent (VC)</td><td>~500 ml</td><td>Aer intrat/ieșit în respirație normală de repaus</td><td>Scade în boli restrictive</td></tr>
+              <tr><td class="hl">Vol. inspirator de rezervă (VIR)</td><td>2500–3500 ml</td><td>Aer suplimentar introdus prin inspirație forțată peste VC</td><td>Redus în obstrucție</td></tr>
+              <tr><td class="hl">Vol. expirator de rezervă (VER)</td><td>~1200 ml</td><td>Aer expulzat prin expirație forțată după expirație normală</td><td>Afectat în emfizem</td></tr>
+              <tr><td class="hl">Volum rezidual (VR)</td><td>~1000 ml</td><td>Aer rămas în plămâni după expirație forțată maximă</td><td>Crește în emfizem</td></tr>
+              <tr><td class="hl">Capacitate vitală (CV)</td><td>~4500 ml</td><td>VC + VIR + VER — volumul maxim schimbat</td><td>Indicator funcție pulmonară</td></tr>
+              <tr><td class="hl">Capacitate pulmonară totală</td><td>~5500–6000 ml</td><td>CV + VR</td><td>Referință în spirometrie</td></tr>
+              <tr><td class="hl">Capacitate funcțională reziduală</td><td>~2300 ml</td><td>VER + VR — aer în plămâni după expirație normală</td><td>Importantă în anestezie</td></tr>
+            </tbody>
+          </table>
+        </div>
+        <div class="mnemonic" style="margin-top:16px; margin-bottom:0;">
+          <div class="mnemonic-title">🧠 Memotehnica volumelor</div>
+          <div class="mnemonic-text">
+            <span class="em">C</span>apacitate <span class="em">V</span>itală = <span class="em">V</span>olum <span class="em">C</span>urent + <span class="em">V</span>olum <span class="em">I</span>nspirator <span class="em">R</span>ezervă + <span class="em">V</span>olum <span class="em">E</span>xpirator <span class="em">R</span>ezervă<br>
+            <strong>CV ≈ 4500 ml</strong> &nbsp;|&nbsp; <strong>VR = 1000 ml</strong> (nu poate fi eliminat!) &nbsp;|&nbsp; <strong>VC = 500 ml</strong> (valoarea de bază)
+          </div>
+        </div>
+      </div>
+    </div>
+
+    <!-- ==================== SCHIMB GAZE ==================== -->
+    <div class="panel" id="tab-gaze">
+      <div class="section-header">
+        <div class="section-title">Schimbul de Gaze și Transportul</div>
+        <div class="section-desc">Difuziunea O₂ și CO₂ la nivel alveolar și tisular — mecanisme de transport.</div>
+      </div>
+
+      <!-- Transport O2 vs CO2 -->
+      <div class="g2">
+        <div class="gcard">
+          <div class="gcard-title"><div class="ct-icon" style="background:rgba(14,165,233,0.14)">🟦</div>Transportul Oxigenului (O₂)</div>
+          <div class="hbox hbox-sky">
+            <strong>98% transportat de hemoglobină</strong>
+            Fiecare moleculă de Hb leagă 4 molecule O₂ → <strong>oxihemoglobină (HbO₂)</strong>
+          </div>
+          <div style="margin-top:12px;">
+            <div class="vol-bar-wrap">
+              <div class="vol-label-row"><span>Legat de hemoglobină</span><span style="font-weight:700; color:#0369a1;">98%</span></div>
+              <div class="vol-track"><div class="vol-fill" style="width:98%; background:linear-gradient(90deg,#0ea5e9,#0369a1);"></div></div>
+            </div>
+            <div class="vol-bar-wrap">
+              <div class="vol-label-row"><span>Dizolvat în plasmă / citoplasmă eritrocite</span><span style="font-weight:700; color:#64748b;">2%</span></div>
+              <div class="vol-track"><div class="vol-fill" style="width:2%; background:#94a3b8;"></div></div>
+            </div>
+          </div>
+          <div class="hbox hbox-teal" style="margin-top:12px;">
+            <strong>📍 Loc de reținut</strong>
+            Hb scăzut în O₂ → captează O₂ ușor. Hb saturată cu O₂ → eliberează O₂ la țesuturi unde CO₂ este crescut (efect Bohr).
+          </div>
+        </div>
+        <div class="gcard">
+          <div class="gcard-title"><div class="ct-icon" style="background:rgba(13,148,136,0.14)">🟩</div>Transportul Dioxidului de Carbon (CO₂)</div>
+          <div style="margin-top:4px;">
+            <div class="vol-bar-wrap">
+              <div class="vol-label-row"><span>Ioni bicarbonat HCO₃⁻ (în plasmă ca NaHCO₃)</span><span style="font-weight:700; color:#0d9488;">70-75%</span></div>
+              <div class="vol-track"><div class="vol-fill" style="width:73%; background:linear-gradient(90deg,#0d9488,#065f46);"></div></div>
+            </div>
+            <div class="vol-bar-wrap">
+              <div class="vol-label-row"><span>Carbaminohemoglobină (Hb-CO₂)</span><span style="font-weight:700; color:#0369a1;">25-30%</span></div>
+              <div class="vol-track"><div class="vol-fill" style="width:27%; background:linear-gradient(90deg,#0ea5e9,#0369a1);"></div></div>
+            </div>
+            <div class="vol-bar-wrap">
+              <div class="vol-label-row"><span>CO₂ dizolvat în plasmă</span><span style="font-weight:700; color:#64748b;">7%</span></div>
+              <div class="vol-track"><div class="vol-fill" style="width:7%; background:#94a3b8;"></div></div>
+            </div>
+          </div>
+          <div class="hbox hbox-teal" style="margin-top:12px;">
+            <strong>Reacție cheie: anhidraza carbonică</strong>
+            CO₂ + H₂O → H₂CO₃ → H⁺ + HCO₃⁻<br>
+            <strong>Transfer de clor:</strong> când HCO₃⁻ iese din eritrocit, intră Cl⁻
+          </div>
+        </div>
+      </div>
+
+      <!-- Gas exchange SVG -->
+      <div class="gcard">
+        <div class="gcard-title"><div class="ct-icon" style="background:rgba(14,165,233,0.12)">🔄</div>Schimbul de gaze: alveolă ↔ sânge ↔ țesuturi</div>
+        <div class="svg-wrap" style="background:linear-gradient(135deg,#f0f9ff,#f0fdf4);">
+          <svg viewBox="0 0 700 300" xmlns="http://www.w3.org/2000/svg">
+            <!-- Alveola -->
+            <ellipse cx="120" cy="130" rx="80" ry="90" fill="#cffafe" stroke="#06b6d4" stroke-width="2" opacity="0.85"/>
+            <text x="120" y="110" text-anchor="middle" font-size="11" font-weight="700" fill="#0e7490" font-family="Outfit,sans-serif">ALVEOLĂ</text>
+            <text x="120" y="125" text-anchor="middle" font-size="10" fill="#0891b2" font-family="Outfit,sans-serif">O₂ crescut</text>
+            <text x="120" y="140" text-anchor="middle" font-size="10" fill="#0891b2" font-family="Outfit,sans-serif">CO₂ scăzut</text>
+            <!-- O2 arrows out -->
+            <text x="120" y="160" text-anchor="middle" font-size="16" fill="#0369a1">O₂</text>
+
+            <!-- Capillar pulmonar -->
+            <rect x="235" y="40" width="220" height="180" rx="14" fill="#dbeafe" stroke="#3b82f6" stroke-width="2" opacity="0.85"/>
+            <text x="345" y="65" text-anchor="middle" font-size="11" font-weight="700" fill="#1d4ed8" font-family="Outfit,sans-serif">CAPILAR PULMONAR</text>
+            <!-- Left side: deoxygenated -->
+            <rect x="248" y="75" width="88" height="130" rx="10" fill="#fce7f3" stroke="#ec4899" stroke-width="1.5" opacity="0.8"/>
+            <text x="292" y="93" text-anchor="middle" font-size="10" fill="#9d174d" font-family="Outfit,sans-serif">Sânge venos</text>
+            <text x="292" y="107" text-anchor="middle" font-size="10" fill="#9d174d" font-family="Outfit,sans-serif">CO₂ crescut</text>
+            <text x="292" y="121" text-anchor="middle" font-size="10" fill="#9d174d" font-family="Outfit,sans-serif">O₂ scăzut</text>
+            <text x="292" y="140" text-anchor="middle" font-size="18" fill="#ec4899">●</text>
+            <text x="292" y="170" text-anchor="middle" font-size="9.5" fill="#be185d" font-family="Outfit,sans-serif">Hb-CO₂</text>
+            <text x="292" y="183" text-anchor="middle" font-size="9.5" fill="#be185d" font-family="Outfit,sans-serif">HCO₃⁻</text>
+
+            <!-- Right side: oxygenated -->
+            <rect x="360" y="75" width="88" height="130" rx="10" fill="#dbeafe" stroke="#3b82f6" stroke-width="1.5" opacity="0.8"/>
+            <text x="404" y="93" text-anchor="middle" font-size="10" fill="#1d4ed8" font-family="Outfit,sans-serif">Sânge arterial</text>
+            <text x="404" y="107" text-anchor="middle" font-size="10" fill="#1d4ed8" font-family="Outfit,sans-serif">O₂ crescut</text>
+            <text x="404" y="121" text-anchor="middle" font-size="10" fill="#1d4ed8" font-family="Outfit,sans-serif">CO₂ scăzut</text>
+            <text x="404" y="140" text-anchor="middle" font-size="18" fill="#3b82f6">●</text>
+            <text x="404" y="170" text-anchor="middle" font-size="9.5" fill="#2563eb" font-family="Outfit,sans-serif">HbO₂</text>
+            <text x="404" y="183" text-anchor="middle" font-size="9.5" fill="#2563eb" font-family="Outfit,sans-serif">O₂ eliberat</text>
+
+            <!-- Arrows alveola to capillar -->
+            <path d="M200 115 L245 130" stroke="#0369a1" stroke-width="2.5" fill="none" marker-end="url(#arr)"/>
+            <text x="220" y="112" text-anchor="middle" font-size="10" fill="#0369a1" font-family="Outfit,sans-serif" font-weight="700">O₂→</text>
+            <path d="M245 150 L200 155" stroke="#ec4899" stroke-width="2.5" fill="none" marker-end="url(#arrR)"/>
+            <text x="220" y="170" text-anchor="middle" font-size="10" fill="#be185d" font-family="Outfit,sans-serif" font-weight="700">←CO₂</text>
+
+            <!-- Arrow between capillar halves -->
+            <path d="M336 130 L360 130" stroke="#64748b" stroke-width="1.5" fill="none" marker-end="url(#arr)"/>
+
+            <!-- Tissues -->
+            <rect x="500" y="40" width="170" height="180" rx="14" fill="#f0fdf4" stroke="#10b981" stroke-width="2" opacity="0.85"/>
+            <text x="585" y="65" text-anchor="middle" font-size="11" font-weight="700" fill="#065f46" font-family="Outfit,sans-serif">ȚESUTURI</text>
+            <text x="585" y="82" text-anchor="middle" font-size="10" fill="#059669" font-family="Outfit,sans-serif">CO₂ crescut (metabolism)</text>
+            <text x="585" y="97" text-anchor="middle" font-size="10" fill="#059669" font-family="Outfit,sans-serif">O₂ scăzut (consum ATP)</text>
+            <text x="585" y="130" text-anchor="middle" font-size="22" fill="#10b981">⬡</text>
+            <text x="585" y="155" text-anchor="middle" font-size="9.5" fill="#047857" font-family="Outfit,sans-serif">Celule în metabolism</text>
+            <text x="585" y="168" text-anchor="middle" font-size="9.5" fill="#047857" font-family="Outfit,sans-serif">aerob → ATP</text>
+            <text x="585" y="185" text-anchor="middle" font-size="9.5" fill="#047857" font-family="Outfit,sans-serif">CO₂ produs</text>
+            <text x="585" y="200" text-anchor="middle" font-size="9.5" fill="#047857" font-family="Outfit,sans-serif">O₂ consumat</text>
+
+            <!-- Arrows capillar to tissue -->
+            <path d="M450 120 L498 115" stroke="#3b82f6" stroke-width="2.5" fill="none" marker-end="url(#arr)"/>
+            <text x="474" y="113" text-anchor="middle" font-size="10" fill="#0369a1" font-family="Outfit,sans-serif" font-weight="700">O₂→</text>
+            <path d="M498 155 L450 155" stroke="#ec4899" stroke-width="2.5" fill="none" marker-end="url(#arrR)"/>
+            <text x="474" y="172" text-anchor="middle" font-size="10" fill="#be185d" font-family="Outfit,sans-serif" font-weight="700">←CO₂</text>
+
+            <!-- Diffusion labels -->
+            <text x="120" y="240" text-anchor="middle" font-size="9.5" fill="#0e7490" font-family="Outfit,sans-serif" font-style="italic">Spațiu aerian alveolar</text>
+            <text x="345" y="240" text-anchor="middle" font-size="9.5" fill="#1d4ed8" font-family="Outfit,sans-serif" font-style="italic">Difuziune pasivă (gradient conc.)</text>
+            <text x="585" y="240" text-anchor="middle" font-size="9.5" fill="#065f46" font-family="Outfit,sans-serif" font-style="italic">Capilare periferice</text>
+          </svg>
+        </div>
+        <div class="hbox hbox-sky" style="margin-top:16px; margin-bottom:0;">
+          <strong>⚡ Principiul esențial: DIFUZIUNEA</strong>
+          Gazele se mișcă din zonă cu concentrație MARE → zonă cu concentrație MICĂ. Procesul este <strong>pasiv</strong> (nu necesită energie). 
+          La alveole: O₂ intră în sânge, CO₂ iese în alveolă.
+          La țesuturi: O₂ iese din sânge în celule, CO₂ intră din celule în sânge.
+        </div>
+      </div>
+
+      <!-- Anhidraza carbonica -->
+      <div class="gcard">
+        <div class="gcard-title"><div class="ct-icon" style="background:rgba(13,148,136,0.12)">⚗️</div>Reacția anhidrazei carbonice — mecanism detaliat</div>
+        <div class="svg-wrap" style="background:linear-gradient(135deg,#f0fdf4,#ecfeff);">
+          <svg viewBox="0 0 680 180" xmlns="http://www.w3.org/2000/svg">
+            <defs>
+              <marker id="arr2" markerWidth="8" markerHeight="8" refX="6" refY="3" orient="auto">
+                <path d="M0,0 L0,6 L8,3 z" fill="#0369a1"/>
+              </marker>
+            </defs>
+
+            <!-- Step 1: CO2 into RBC -->
+            <rect x="10" y="55" width="100" height="60" rx="10" fill="#cffafe" stroke="#06b6d4" stroke-width="1.5"/>
+            <text x="60" y="78" text-anchor="middle" font-size="11" font-weight="700" fill="#0e7490" font-family="Outfit,sans-serif">CO₂ + H₂O</text>
+            <text x="60" y="93" text-anchor="middle" font-size="10" fill="#0891b2" font-family="Outfit,sans-serif">din țesuturi</text>
+            <text x="60" y="106" text-anchor="middle" font-size="9" fill="#0891b2" font-family="Outfit,sans-serif">în eritrocit</text>
+
+            <line x1="110" y1="85" x2="148" y2="85" stroke="#0369a1" stroke-width="2" marker-end="url(#arr2)"/>
+            <text x="129" y="78" text-anchor="middle" font-size="9" fill="#0369a1" font-family="Outfit,sans-serif">anhidrază</text>
+            <text x="129" y="90" text-anchor="middle" font-size="9" fill="#0369a1" font-family="Outfit,sans-serif">carbonică</text>
+
+            <!-- Step 2: H2CO3 -->
+            <rect x="150" y="55" width="110" height="60" rx="10" fill="#dbeafe" stroke="#3b82f6" stroke-width="1.5"/>
+            <text x="205" y="78" text-anchor="middle" font-size="11" font-weight="700" fill="#1d4ed8" font-family="Outfit,sans-serif">H₂CO₃</text>
+            <text x="205" y="93" text-anchor="middle" font-size="10" fill="#2563eb" font-family="Outfit,sans-serif">Acid carbonic</text>
+            <text x="205" y="107" text-anchor="middle" font-size="9" fill="#2563eb" font-family="Outfit,sans-serif">(instabil)</text>
+
+            <line x1="260" y1="85" x2="298" y2="85" stroke="#0369a1" stroke-width="2" marker-end="url(#arr2)"/>
+            <text x="279" y="78" text-anchor="middle" font-size="9" fill="#0369a1" font-family="Outfit,sans-serif">disociere</text>
+
+            <!-- Step 3: ions -->
+            <rect x="300" y="40" width="110" height="55" rx="10" fill="#ede9fe" stroke="#8b5cf6" stroke-width="1.5"/>
+            <text x="355" y="60" text-anchor="middle" font-size="11" font-weight="700" fill="#6d28d9" font-family="Outfit,sans-serif">H⁺ + HCO₃⁻</text>
+            <text x="355" y="75" text-anchor="middle" font-size="10" fill="#7c3aed" font-family="Outfit,sans-serif">Ioni bicarbonat</text>
+            <text x="355" y="88" text-anchor="middle" font-size="9" fill="#7c3aed" font-family="Outfit,sans-serif">+ ioni hidrogen</text>
+
+            <!-- Transfer Cl -->
+            <rect x="300" y="110" width="110" height="55" rx="10" fill="#fce7f3" stroke="#ec4899" stroke-width="1.5"/>
+            <text x="355" y="128" text-anchor="middle" font-size="11" font-weight="700" fill="#9d174d" font-family="Outfit,sans-serif">Transfer Cl⁻</text>
+            <text x="355" y="143" text-anchor="middle" font-size="10" fill="#be185d" font-family="Outfit,sans-serif">HCO₃⁻ iese din Er.</text>
+            <text x="355" y="157" text-anchor="middle" font-size="9" fill="#be185d" font-family="Outfit,sans-serif">Cl⁻ intră în eritrocit</text>
+
+            <line x1="355" y1="95" x2="355" y2="108" stroke="#8b5cf6" stroke-width="1.5" marker-end="url(#arr2)"/>
+
+            <!-- Step 4: NaHCO3 in plasma -->
+            <line x1="410" y1="137" x2="448" y2="137" stroke="#0369a1" stroke-width="2" marker-end="url(#arr2)"/>
+
+            <rect x="450" y="110" width="130" height="55" rx="10" fill="#fef3c7" stroke="#f59e0b" stroke-width="1.5"/>
+            <text x="515" y="128" text-anchor="middle" font-size="11" font-weight="700" fill="#92400e" font-family="Outfit,sans-serif">NaHCO₃</text>
+            <text x="515" y="143" text-anchor="middle" font-size="10" fill="#b45309" font-family="Outfit,sans-serif">Bicarbonat de sodiu</text>
+            <text x="515" y="157" text-anchor="middle" font-size="9" fill="#b45309" font-family="Outfit,sans-serif">în plasmă (70-75% CO₂)</text>
+
+            <!-- Hb buffer -->
+            <line x1="410" y1="68" x2="448" y2="68" stroke="#0369a1" stroke-width="2" marker-end="url(#arr2)"/>
+            <rect x="450" y="40" width="130" height="55" rx="10" fill="#ccfbf1" stroke="#0d9488" stroke-width="1.5"/>
+            <text x="515" y="60" text-anchor="middle" font-size="11" font-weight="700" fill="#065f46" font-family="Outfit,sans-serif">Hb-CO₂</text>
+            <text x="515" y="75" text-anchor="middle" font-size="10" fill="#0d9488" font-family="Outfit,sans-serif">Carbaminohemoglobină</text>
+            <text x="515" y="88" text-anchor="middle" font-size="9" fill="#0d9488" font-family="Outfit,sans-serif">25-30% CO₂</text>
+
+            <!-- H+ buffer label -->
+            <text x="205" y="135" text-anchor="middle" font-size="10" fill="#7c3aed" font-family="Outfit,sans-serif" font-style="italic">H⁺ tamponat de Hb</text>
+          </svg>
+        </div>
+      </div>
+    </div>
+
+    <!-- ==================== PATOLOGIE ==================== -->
+    <div class="panel" id="tab-patologie">
+      <div class="section-header">
+        <div class="section-title">Patologie respiratorie — Noțiuni esențiale</div>
+        <div class="section-desc">Afecțiunile frecvente ale sistemului respirator relevante pentru admitere.</div>
+      </div>
+
+      <div class="g2">
+        <div class="gcard">
+          <div class="gcard-title"><div class="ct-icon" style="background:rgba(239,68,68,0.12)">⚕️</div>Afecțiunile căilor aeriene superioare</div>
+          <div class="level-row" onclick="this.classList.toggle('open')">
+            <div class="level-bar" style="background:#ef4444;"></div>
+            <div class="level-body">
+              <div class="level-head">
+                <div class="level-num" style="background:#fee2e2; color:#ef4444;">1</div>
+                <div class="level-info">
+                  <div class="level-name">Rinita alergică (Febra fânului)</div>
+                  <div class="level-short">Inflamație mucoasă nazală de cauză alergică</div>
+                </div>
+                <div class="level-chevron">›</div>
+              </div>
+              <div class="level-detail">
+                <strong>Cauze:</strong> polen, pene, acarieni, părul de animale<br>
+                <strong>Mecanism:</strong> IgE mediată — degranulare mastocitară → histamină → inflamație<br>
+                <strong>Simptome:</strong> rinoree, prurit nazal, strănutat, congestie<br>
+                <strong>De reținut:</strong> Febra fânului = rinită alergică sezonieră (pólen)
+              </div>
+            </div>
+          </div>
+          <div class="level-row" onclick="this.classList.toggle('open')">
+            <div class="level-bar" style="background:#f97316;"></div>
+            <div class="level-body">
+              <div class="level-head">
+                <div class="level-num" style="background:#ffedd5; color:#f97316;">2</div>
+                <div class="level-info">
+                  <div class="level-name">Vegetații adenoide</div>
+                  <div class="level-short">Amigdala faringiană tumefiată — obstruează nazofaringele</div>
+                </div>
+                <div class="level-chevron">›</div>
+              </div>
+              <div class="level-detail">
+                Amigdala faringiană hipertrofiată blochează calea aeriană. Frecventă la copii.<br>
+                <strong>Consecință:</strong> respirație pe gură, hipoacuzie (obstrucție tuba lui Eustachio), roncopatii nocturne.
+              </div>
+            </div>
+          </div>
+          <div class="level-row" onclick="this.classList.toggle('open')">
+            <div class="level-bar" style="background:#8b5cf6;"></div>
+            <div class="level-body">
+              <div class="level-head">
+                <div class="level-num" style="background:#ede9fe; color:#8b5cf6;">3</div>
+                <div class="level-info">
+                  <div class="level-name">Otita medie</div>
+                  <div class="level-short">Infecție urechii medii via trompa lui Eustachio</div>
+                </div>
+                <div class="level-chevron">›</div>
+              </div>
+              <div class="level-detail">
+                Microorganismele din nazofaringe urcă prin tuba lui Eustachio → urechea medie.<br>
+                <strong>De reținut:</strong> Conexiunea anatomică faringe-ureche medie (tuba Eustachio) explică de ce infecțiile faringiene → otite!
+              </div>
+            </div>
+          </div>
+        </div>
+
+        <div class="gcard">
+          <div class="gcard-title"><div class="ct-icon" style="background:rgba(14,165,233,0.12)">🫁</div>Afecțiunile căilor aeriene inferioare</div>
+          <div class="level-row" onclick="this.classList.toggle('open')">
+            <div class="level-bar" style="background:#0ea5e9;"></div>
+            <div class="level-body">
+              <div class="level-head">
+                <div class="level-num" style="background:#e0f2fe; color:#0ea5e9;">1</div>
+                <div class="level-info">
+                  <div class="level-name">Astmul bronșic</div>
+                  <div class="level-short">Spasm mușchi netezi bronșici + inflamație cronică</div>
+                </div>
+                <div class="level-chevron">›</div>
+              </div>
+              <div class="level-detail">
+                <strong>Mecanism:</strong> Spasm mușchi neted bronșic → bronhoconstricție → ↓ lumen<br>
+                <strong>Declanșatori:</strong> alergeni (praf, Polen, animale), efort, aer rece<br>
+                <strong>Simptome:</strong> wheezing (respirație șuierătoare), dispnee, tuse<br>
+                <strong>Tratament:</strong> bronhodilatatoare (β₂-agoniste), antiinflamatorii (corticoizi inhalatori)
+              </div>
+            </div>
+          </div>
+          <div class="level-row" onclick="this.classList.toggle('open')">
+            <div class="level-bar" style="background:#06b6d4;"></div>
+            <div class="level-body">
+              <div class="level-head">
+                <div class="level-num" style="background:#cffafe; color:#06b6d4;">2</div>
+                <div class="level-info">
+                  <div class="level-name">Bronșita cronică</div>
+                  <div class="level-short">Inflamație cronică arbore bronșic cu hipersecreție mucus</div>
+                </div>
+                <div class="level-chevron">›</div>
+              </div>
+              <div class="level-detail">
+                Inflamație persistentă → hipersecreție mucus + disfuncție ciliară → tuse productivă cronică.<br>
+                <strong>Cauza principală:</strong> fumatul. Face parte din BPOC (boala pulmonară obstructivă cronică).
+              </div>
+            </div>
+          </div>
+          <div class="level-row" onclick="this.classList.toggle('open')">
+            <div class="level-bar" style="background:#0d9488;"></div>
+            <div class="level-body">
+              <div class="level-head">
+                <div class="level-num" style="background:#ccfbf1; color:#0d9488;">3</div>
+                <div class="level-info">
+                  <div class="level-name">Emfizemul pulmonar</div>
+                  <div class="level-short">Distrugerea pereților alveolari → ↑ VR, ↓ CV</div>
+                </div>
+                <div class="level-chevron">›</div>
+              </div>
+              <div class="level-detail">
+                Distrugerea septelor interalveolare → alveole dilatate → ↓ suprafața de schimb gaze.<br>
+                <strong>Rezultat:</strong> ↑ VR, ↓ CV, ↓ VEMS, hipoxemie cronică.<br>
+                <strong>Cauza:</strong> fumatul → eliberare elastaze → distrugere elastină alveolară.
+              </div>
+            </div>
+          </div>
+        </div>
+      </div>
+
+      <!-- Comparative diseases table -->
+      <div class="gcard">
+        <div class="gcard-title"><div class="ct-icon" style="background:rgba(14,165,233,0.12)">📊</div>Tabel comparativ boli pulmonare — admitere</div>
+        <div style="overflow-x:auto;">
+          <table class="mtable">
+            <thead><tr><th>Afecțiune</th><th>Mecanism</th><th>Structuri afectate</th><th>Simptom cardinal</th><th>VR</th><th>CV</th></tr></thead>
+            <tbody>
+              <tr>
+                <td class="hl">Astm</td>
+                <td>Bronhoconstricție (spasm m. neted) + edem</td>
+                <td>Bronhiole</td>
+                <td>Wheezing + dispnee paroxistică</td>
+                <td><span class="tag t-red">↑</span></td>
+                <td><span class="tag t-orange">↓</span></td>
+              </tr>
+              <tr>
+                <td class="hl">Bronșită cronică</td>
+                <td>Inflamație + hipersecreție mucus + ↓ clearance ciliar</td>
+                <td>Arbore bronșic</td>
+                <td>Tuse productivă cronică ≥3 luni/an, 2 ani</td>
+                <td><span class="tag t-orange">↑</span></td>
+                <td><span class="tag t-orange">↓</span></td>
+              </tr>
+              <tr>
+                <td class="hl">Emfizem</td>
+                <td>Distrugere septă alveolară → ↓ elasticitate</td>
+                <td>Alveole</td>
+                <td>Dispnee progresivă, "torace în butoi"</td>
+                <td><span class="tag t-red">↑↑</span></td>
+                <td><span class="tag t-red">↓↓</span></td>
+              </tr>
+              <tr>
+                <td class="hl">Pneumonie</td>
+                <td>Infecție bacteriană/virală → exsudat alveolar</td>
+                <td>Alveole + interstițiu</td>
+                <td>Febră, tuse cu spută, crepitante</td>
+                <td><span class="tag t-teal">N</span></td>
+                <td><span class="tag t-orange">↓</span></td>
+              </tr>
+              <tr>
+                <td class="hl">Pneumotorax</td>
+                <td>Aer în cavitatea pleurală → colaps pulmonar</td>
+                <td>Spațiu pleural</td>
+                <td>Durere toracică bruscă, dispnee</td>
+                <td>—</td>
+                <td><span class="tag t-red">↓↓</span></td>
+              </tr>
+            </tbody>
+          </table>
+        </div>
+      </div>
+    </div>
+
+    <!-- ==================== QUIZ ==================== -->
+    <div class="panel" id="tab-quiz">
+      <div class="section-header">
+        <div class="section-title">Test rapid de autoevaluare</div>
+        <div class="section-desc">10 întrebări tip grilă — stilul examenului de admitere la medicină.</div>
+      </div>
+
+      <div class="gcard">
+        <div id="quiz-container">
+          <div class="quiz-counter" id="quiz-counter">Întrebarea 1 din 10</div>
+          <div class="quiz-q" id="quiz-q"></div>
+          <div class="quiz-opts" id="quiz-opts"></div>
+          <div class="quiz-feedback" id="quiz-fb"></div>
+          <button class="quiz-next" id="quiz-next" onclick="nextQuestion()">Următoarea întrebare →</button>
+        </div>
+        <div id="quiz-result" style="display:none; text-align:center; padding:30px 20px;">
+          <div style="font-size:48px; margin-bottom:12px;" id="quiz-emoji"></div>
+          <div style="font-size:26px; font-weight:900; color:var(--text); margin-bottom:8px;" id="quiz-score"></div>
+          <div style="font-size:14px; color:var(--text2); margin-bottom:22px;" id="quiz-msg"></div>
+          <button onclick="restartQuiz()" style="padding:12px 28px; border-radius:10px; background:linear-gradient(90deg,#0369a1,#0d9488); color:#fff; border:none; cursor:pointer; font-family:'Outfit',sans-serif; font-size:14px; font-weight:700;">Reîncercați</button>
+        </div>
+      </div>
+    </div>
+
+  </div><!-- /content -->
+</div><!-- /main -->
+
+<script>
+// SIDEBAR
+function openSidebar(){
+  document.getElementById('sidebar').classList.add('open');
+  document.getElementById('overlay').classList.add('show');
+}
+function closeSidebar(){
+  document.getElementById('sidebar').classList.remove('open');
+  document.getElementById('overlay').classList.remove('show');
+}
+
+// TABS
+function showTab(id, btn){
+  document.querySelectorAll('.panel').forEach(p=>p.classList.remove('active'));
+  document.querySelectorAll('.tab-btn').forEach(b=>b.classList.remove('active'));
+  document.getElementById('tab-'+id).classList.add('active');
+  btn.classList.add('active');
+  window.scrollTo({top:document.querySelector('.tab-bar').offsetTop-60, behavior:'smooth'});
+}
+
+// EXPANDABLE STEPS
+function toggleStep(el){
+  el.classList.toggle('open');
+}
+
+// SVG INFO
+const svgData = {
+  nas: {
+    title: '🦁 Cavitatea Nazală',
+    text: 'Calea normală de intrare a aerului. Cornete nazale (superior/mijlociu/inferior) creează turbulențe care permit filtrarea, încălzirea și umidificarea aerului. Mucoasa nazală captează particulele; cilii le transportă spre faringe. Sinus frontal, sfenoidal, etmoid și maxilar se deschid în cavitățile nazale. Rinita = inflamație mucoasă.'
+  },
+  laringe: {
+    title: '🗣️ Laringe & Faringe',
+    text: 'Laringele conține 11 cartilaje: tiroid (mărul lui Adam), cricoid (inel cu pecete) și epiglota (capac — se închide la înghițire!). Corzile vocale vibrează la expirație → sunete. Faringele = gâtlej, cu 3 regiuni: nazofaringe, orofaringe (cruce digestiv-respirator), laringofaringe.'
+  },
+  trahee: {
+    title: '🔵 Traheea',
+    text: '10-12 cm, susținută de inele cartilaginoase în formă de C (deschise posterior pentru esofag). Celulele ciliate + mucus filtrează aerul. Se bifurcă în 2 bronhii primare. ATENȚIE: bronhia dreaptă este mai largă și mai verticală → corpii străini aspirați ajung cel mai des în bronhia dreaptă!'
+  },
+  bronhiole: {
+    title: '🌿 Bronhiole',
+    text: 'Ramuri cu diametru < 1mm, fără cartilaj. Pereții din mușchi neted → pot face bronhoconstricție (astm!). Bronhiole terminale → bronhiole respiratorii → alveole. 23 generații de ramificații de la trahee la alveole.'
+  },
+  alveole: {
+    title: '🫧 Alveolele',
+    text: '~300 milioane alveole per plămân adult. Suprafața totală de schimb: ~70 m². Membrane extrem de subțiri acoperite de rețea capilară extinsă (din arterele pulmonare). Schimb O₂/CO₂ prin DIFUZIUNE PASIVĂ. Tapetate de pneumocite tip I (schimb gaze) și tip II (surfactant — previne colapsul).'
+  },
+  bronhie: {
+    title: '🔀 Bronhii primare',
+    text: 'Aceeași structură ca traheea (cu cartilaj). Bronhia dreaptă: mai largă + mai verticală → aspirația de corpi străini → ajunge în plămânul drept mai frecvent. Fiecare bronhie intră în hilul pulmonar împreună cu artera și vena pulmonară.'
+  },
+  pleura: {
+    title: '🫧 Pleura',
+    text: 'Membrană dublu stratificată: Pleura viscerală (aderentă la plămân) + Pleura parietală (căptușește peretele toracic). Cavitatea pleurală = spațiul virtual între cele două foițe, conține lichid pleural. Funcție: permite plămânilor să urmeze mișcările toracelui. Pneumotorax = aer în cavitatea pleurală → colaps pulmonar.'
+  },
+  diafragma: {
+    title: '💪 Diafragma',
+    text: 'Principalul mușchi respirator! Inervat de nervul frenic (C3-C5). La inspirație: se contractă → coboară → ↑ volumul toracelui. La expirație normală: se relaxează → urcă pasiv. La expirație forțată: mușchii abdominali împing diafragma în sus activ.'
+  }
+};
+
+function svgInfo(key){
+  const d = svgData[key];
+  if(!d) return;
+  const panel = document.getElementById('svg-info-panel');
+  document.getElementById('svg-info-title').textContent = d.title;
+  document.getElementById('svg-info-text').textContent = d.text;
+  panel.style.display = 'block';
+}
+
+// SVG Volume tooltip
+document.querySelectorAll('.vol-rect').forEach(r=>{
+  r.addEventListener('mouseenter', function(e){
+    const t = document.getElementById('vol-tooltip-text');
+    const bg = document.getElementById('vol-tooltip-bg');
+    t.textContent = this.dataset.label;
+    t.setAttribute('display','block');
+    bg.setAttribute('display','block');
+    const x = parseFloat(this.getAttribute('x'));
+    const y = parseFloat(this.getAttribute('y'));
+    t.setAttribute('x', x+4); t.setAttribute('y', y-8);
+    bg.setAttribute('x', x-2); bg.setAttribute('y', y-24);
+  });
+  r.addEventListener('mouseleave', function(){
+    document.getElementById('vol-tooltip-text').setAttribute('display','none');
+    document.getElementById('vol-tooltip-bg').setAttribute('display','none');
+  });
+});
+
+// QUIZ
+const questions = [
+  {
+    q: "Care este structura cartilaginoasă a laringelui cu rol de protecție a căilor aeriene în timpul deglutiției?",
+    opts: ["Cartilajul tiroid", "Cartilajul cricoid", "Epiglota", "Corzile vocale"],
+    correct: 2,
+    exp: "Epiglota este un pliu în formă de frunză/capac care se închide peste laringe (glotă) în timpul deglutiției, prevenind aspirarea alimentelor."
+  },
+  {
+    q: "Ce procent din oxigenul din sânge este transportat de hemoglobină?",
+    opts: ["50%", "75%", "90%", "98%"],
+    correct: 3,
+    exp: "98% din O₂ este transportat legat de hemoglobină (oxihemoglobină HbO₂). Doar 2% este dizolvat direct în plasmă."
+  },
+  {
+    q: "Care este volumul curent al unui adult în repaus?",
+    opts: ["250 ml", "500 ml", "1000 ml", "2500 ml"],
+    correct: 1,
+    exp: "Volumul curent (VC) este de ~500 ml în condiții normale de repaus — aerul care intră și iese în fiecare respirație normală."
+  },
+  {
+    q: "Ce enzimă catalizează reacția CO₂ + H₂O → H₂CO₃ în eritrocite?",
+    opts: ["Anhidraza carbonică", "Hemoglobinaza", "Carbaminaza", "Oxidaza citocromică"],
+    correct: 0,
+    exp: "Anhidraza carbonică din globulele roșii catalizează rapid formarea acidului carbonic, care se disociază în H⁺ și HCO₃⁻ — principala formă de transport a CO₂ (70-75%)."
+  },
+  {
+    q: "De ce un corp străin aspirat ajunge mai frecvent în bronhia dreaptă?",
+    opts: ["Este mai lungă", "Este mai scurtă", "Este mai largă și mai verticală", "Are mai puțin cartilaj"],
+    correct: 2,
+    exp: "Bronhia dreaptă este mai largă și are o orientare mai verticală față de trahee comparativ cu bronhia stângă → corpii străini aspirați o urmează preferențial."
+  },
+  {
+    q: "Care este principalul stimul chimic al respirației?",
+    opts: ["Scăderea O₂ în sânge", "Creșterea CO₂ (și H⁺) în LCR", "Scăderea pH-ului arterial", "Creșterea N₂ în sânge"],
+    correct: 1,
+    exp: "CO₂ crescut difuzează în LCR → crește H⁺ → activează centrul respirator din bulbul rahidian. CO₂ (nu O₂) este stimulul PRINCIPAL! O₂ scăzut activează chemoreceptorii periferici (corpusculii carotidieni)."
+  },
+  {
+    q: "Care este volumul rezidual al plămânilor după expirație forțată maximă?",
+    opts: ["500 ml", "750 ml", "1000 ml", "1500 ml"],
+    correct: 2,
+    exp: "Volumul rezidual (VR) este ~1000 ml — aerul care rămâne în plămâni chiar și după expirație forțată maximă. Nu poate fi eliminat voluntar."
+  },
+  {
+    q: "Câți lobi are plămânul drept?",
+    opts: ["2 lobi", "3 lobi", "4 lobi", "5 lobi"],
+    correct: 1,
+    exp: "Plămânul drept are 3 lobi (superior, mijlociu, inferior), iar plămânul stâng are 2 lobi (superior, inferior) — este mai mic pentru a face loc inimii."
+  },
+  {
+    q: "Cum se numește fenomenul în care Cl⁻ intră în eritrocit când HCO₃⁻ iese?",
+    opts: ["Efect Bohr", "Transfer de clor (chloride shift)", "Hematocritul", "Difuziunea Fick"],
+    correct: 1,
+    exp: "Transferul de clor (chloride shift sau Hamburger shift): când HCO₃⁻ difuzează din eritrocit în plasmă, câte un ion Cl⁻ intră în eritrocit pentru a menține electroneutralitatea."
+  },
+  {
+    q: "Forța motrice a schimbului de gaze la nivelul alveolelor este:",
+    opts: ["Transport activ (ATP)", "Difuziunea pasivă (gradient de concentrație)", "Osmoza", "Filtrarea hidrostatică"],
+    correct: 1,
+    exp: "Schimbul de gaze (O₂ și CO₂) la nivel alveolar se face EXCLUSIV prin difuziune pasivă — gazele se mișcă din zona cu concentrație mare → mică. Nu necesită consum energetic."
+  }
+];
+
+let currentQ = 0;
+let score = 0;
+let answered = false;
+
+function renderQuestion(){
+  const q = questions[currentQ];
+  document.getElementById('quiz-counter').textContent = `Întrebarea ${currentQ+1} din ${questions.length}`;
+  document.getElementById('quiz-q').textContent = q.q;
+  const opts = document.getElementById('quiz-opts');
+  opts.innerHTML = '';
+  q.opts.forEach((o,i)=>{
+    const btn = document.createElement('button');
+    btn.className = 'quiz-opt';
+    btn.textContent = `${String.fromCharCode(65+i)}. ${o}`;
+    btn.onclick = ()=>selectOpt(i);
+    opts.appendChild(btn);
+  });
+  const fb = document.getElementById('quiz-fb');
+  fb.className = 'quiz-feedback';
+  fb.textContent = '';
+  document.getElementById('quiz-next').className = 'quiz-next';
+  answered = false;
+}
+
+function selectOpt(i){
+  if(answered) return;
+  answered = true;
+  const q = questions[currentQ];
+  const opts = document.querySelectorAll('.quiz-opt');
+  opts.forEach((o,idx)=>{
+    o.classList.add('disabled');
+    if(idx===q.correct) o.classList.add('correct');
+    else if(idx===i && i!==q.correct) o.classList.add('wrong');
+  });
+  const fb = document.getElementById('quiz-fb');
+  if(i===q.correct){
+    score++;
+    fb.className = 'quiz-feedback show ok';
+    fb.textContent = '✅ Corect! ' + q.exp;
+  } else {
+    fb.className = 'quiz-feedback show bad';
+    fb.textContent = '❌ Greșit. ' + q.exp;
+  }
+  const btn = document.getElementById('quiz-next');
+  btn.className = 'quiz-next show';
+  btn.textContent = currentQ < questions.length-1 ? 'Următoarea →' : 'Vezi rezultatul →';
+}
+
+function nextQuestion(){
+  currentQ++;
+  if(currentQ >= questions.length){
+    showResult();
+  } else {
+    renderQuestion();
+  }
+}
+
+function showResult(){
+  document.getElementById('quiz-container').style.display='none';
+  document.getElementById('quiz-result').style.display='block';
+  const pct = Math.round(score/questions.length*100);
+  document.getElementById('quiz-score').textContent = `${score} / ${questions.length} — ${pct}%`;
+  let emoji, msg;
+  if(pct>=90){emoji='🏆'; msg='Excelent! Ești pregătit pentru admitere!';}
+  else if(pct>=70){emoji='💪'; msg='Bine! Mai revizuiește câteva concepte.';}
+  else if(pct>=50){emoji='📚'; msg='Continuă să studiezi — mai ai de parcurs!';}
+  else {emoji='🔄'; msg='Recitește capitolul cu atenție și încearcă din nou!';}
+  document.getElementById('quiz-emoji').textContent = emoji;
+  document.getElementById('quiz-msg').textContent = msg;
+}
+
+function restartQuiz(){
+  currentQ=0; score=0; answered=false;
+  document.getElementById('quiz-container').style.display='block';
+  document.getElementById('quiz-result').style.display='none';
+  renderQuestion();
+}
+
+// Init
+renderQuestion();
+
+// Animate vol fills on tab switch
+document.querySelectorAll('.tab-btn').forEach((btn,i)=>{
+  btn.addEventListener('click',()=>{
+    setTimeout(()=>{
+      document.querySelectorAll('.vol-fill').forEach(f=>{
+        const w = f.style.width;
+        f.style.width = '0';
+        setTimeout(()=>{ f.style.width = w; }, 50);
+      });
+    }, 100);
+  });
+});
+
+document.addEventListener("DOMContentLoaded", function () {
+  // 1. Detectează automat numele fișierului curent (ex: cap1.html)
+  const currentFile = window.location.pathname.split("/").pop() || "cap1.html";
+  
+  const menuContainer = document.getElementById("chapters-menu");
+  const menuItems = menuContainer.querySelectorAll(".nav-item");
+  let currentChapterNumber = 1;
+  let activeItem = null;
+
+  // 2. Parcurge toate capitolele din meniu pentru a le aplica stilul corect
+  menuItems.forEach((item) => {
+    const fileHref = item.getAttribute("href");
+    
+    if (fileHref === currentFile) {
+      // Dacă este capitolul curent, îl face activ
+      item.classList.add("active");
+      activeItem = item; // Salvăm elementul activ pentru a-l folosi la scroll
+      currentChapterNumber = parseInt(item.querySelector(".nav-num").textContent);
+    }
+  });
+
+  // 3. 💡 AUTO-SCROLL LA CAPITOLUL CURENT (Soluția pentru problema ta)
+  if (activeItem && menuContainer) {
+    // Așteptăm un timp foarte scurt (50ms) ca browserul să randeze stilurile, apoi mutăm scroll-ul
+    setTimeout(() => {
+      activeItem.scrollIntoView({
+        behavior: "smooth", // Efect de derulare fină (schimbă cu "auto" dacă vrei să fie instant)
+        block: "nearest"    // Îl aduce la vedere doar dacă nu este vizibil în container
+      });
+    }, 50);
+  }
+
+  // 4. Actualizează automat bara de progres din footer-ul sidebar-ului
+  const totalChapters = menuItems.length; // Va număra automat 23
+  
+  const progTextContainer = document.querySelector(".prog-label");
+  if (progTextContainer) {
+    progTextContainer.innerHTML = `<span>Progres curs</span><span>${currentChapterNumber} / ${totalChapters}</span>`;
+  }
+  
+  const progFill = document.querySelector(".prog-fill");
+  if (progFill) {
+    const percentage = (currentChapterNumber / totalChapters) * 100;
+    progFill.style.width = `${percentage}%`;
+  }
+});
+</script>
+</body>
+</html>

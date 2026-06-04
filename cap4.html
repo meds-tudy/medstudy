@@ -1,0 +1,1641 @@
+<!DOCTYPE html>
+<html lang="ro">
+<head>
+<meta charset="UTF-8">
+
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>MedStudy — Capitol 4: Țesuturile</title>
+<link href="https://fonts.googleapis.com/css2?family=Outfit:wght@300;400;500;600;700;800;900&family=Lora:ital,wght@0,400;0,600;1,400&display=swap" rel="stylesheet">
+<style>
+:root {
+  --bg-main: #f0f4ff;
+  --bg-sidebar: rgba(255,255,255,0.85);
+  --surface: rgba(255,255,255,0.75);
+  --surface2: rgba(255,255,255,0.92);
+  --border: rgba(180,160,220,0.25);
+  --blue: #5b8dee; --blue-light: #e8eeff;
+  --violet: #8b5cf6; --violet-light: #ede9fe;
+  --cyan: #06b6d4; --cyan-light: #e0f7fb;
+  --pink: #ec4899; --pink-light: #fce7f3;
+  --green: #10b981; --green-light: #d1fae5;
+  --orange: #f59e0b; --orange-light: #fef3c7;
+  --rose: #f43f5e; --rose-light: #ffe4e6;
+  --teal: #14b8a6; --teal-light: #ccfbf1;
+  --text: #1e1b4b; --text2: #6b7280; --text3: #9ca3af;
+  --accent: #7c3aed;
+  --sidebar-w: 268px;
+  --radius: 16px;
+  --shadow: 0 4px 24px rgba(100,80,200,0.10);
+  --shadow2: 0 8px 40px rgba(100,80,200,0.14);
+}
+*{margin:0;padding:0;box-sizing:border-box;}
+body{font-family:'Outfit',sans-serif;background:var(--bg-main);color:var(--text);min-height:100vh;display:flex;overflow-x:hidden;}
+body::before{content:'';position:fixed;inset:0;background:radial-gradient(ellipse 800px 600px at 20% 10%,rgba(180,200,255,0.55) 0%,transparent 70%),radial-gradient(ellipse 600px 500px at 80% 5%,rgba(200,180,255,0.45) 0%,transparent 65%),radial-gradient(ellipse 700px 400px at 60% 90%,rgba(255,200,230,0.4) 0%,transparent 70%),radial-gradient(ellipse 500px 500px at 5% 80%,rgba(180,230,255,0.35) 0%,transparent 65%),#f0f4ff;z-index:-1;pointer-events:none;}
+
+/* ── SIDEBAR ── */
+#sidebar{width:var(--sidebar-w);min-height:100vh;background:var(--bg-sidebar);backdrop-filter:blur(24px);border-right:1px solid var(--border);position:fixed;top:0;left:0;z-index:100;display:flex;flex-direction:column;box-shadow:4px 0 30px rgba(100,80,200,0.07);}
+.sidebar-logo{padding:26px 22px 20px;border-bottom:1px solid var(--border);display:flex;align-items:center;gap:12px;}
+.logo-icon{width:42px;height:42px;background:linear-gradient(135deg,#7c3aed,#ec4899);border-radius:12px;display:flex;align-items:center;justify-content:center;font-size:20px;box-shadow:0 4px 14px rgba(124,58,237,0.35);}
+.logo-text{font-size:17px;font-weight:800;color:var(--text);line-height:1.2;}
+.logo-sub{font-size:10px;color:var(--text3);font-weight:400;letter-spacing:.08em;text-transform:uppercase;margin-top:2px;}
+.sidebar-section-label{padding:18px 20px 8px;font-size:9.5px;letter-spacing:.14em;text-transform:uppercase;color:var(--text3);font-weight:600;}
+.nav-scroll { 
+  flex: 1; 
+  overflow-y: auto; 
+  padding-bottom: 16px; 
+  max-height: calc(100vh - 140px);
+  
+  /* 💡 TRUCUL PENTRU MUTAREA BAREI PE STÂNGA: */
+  direction: rtl; /* Muta scrollbar-ul pe stânga (Right-to-Left) */
+  
+  scrollbar-width: thin;
+  scrollbar-color: rgba(124,58,237,0.3) transparent;
+}
+
+/* 💡 RECONVERTIREA TEXTULUI: Întoarcem textul la normal (Left-to-Right) ca să nu fie inversat */
+.nav-scroll > * {
+  direction: ltr;
+}
+
+/* Stil pentru browserele bazate pe Chromium (Chrome, Edge, Opera) */
+.nav-scroll::-webkit-scrollbar { 
+  width: 5px; 
+}
+.nav-scroll::-webkit-scrollbar-track {
+  background: transparent;
+}
+.nav-scroll::-webkit-scrollbar-thumb { 
+  background: rgba(124,58,237,0.3); 
+  border-radius: 4px; 
+}
+.nav-scroll::-webkit-scrollbar-thumb:hover {
+  background: rgba(124,58,237,0.5); 
+}
+
+.nav-item{display:flex;align-items:center;gap:10px;padding:9px 14px 9px 16px;margin:1px 10px;border-radius:10px;font-size:12.5px;font-weight:500;color:var(--text2);cursor:pointer;transition:all .2s;text-decoration:none;position:relative;}
+.nav-item:hover{background:rgba(124,58,237,0.07);color:var(--accent);}
+.nav-item.active{background:linear-gradient(90deg,rgba(124,58,237,0.12),rgba(236,72,153,0.07));color:var(--accent);font-weight:600;box-shadow:inset 2px 0 0 var(--accent);}
+.nav-num{min-width:22px;height:22px;background:rgba(124,58,237,0.08);border-radius:6px;display:flex;align-items:center;justify-content:center;font-size:10.5px;font-weight:700;color:var(--text3);}
+.nav-item.active .nav-num{background:rgba(124,58,237,0.18);color:var(--accent);}
+.nav-item.locked{opacity:0.45;pointer-events:none;}
+.sidebar-footer{padding:16px 20px;border-top:1px solid var(--border);}
+.prog-label{display:flex;justify-content:space-between;font-size:11.5px;color:var(--text2);margin-bottom:7px;font-weight:500;}
+.prog-label span:last-child{color:var(--accent);font-weight:700;}
+.prog-track{height:5px;background:rgba(124,58,237,0.1);border-radius:3px;overflow:hidden;}
+.prog-fill{height:100%;width:17.4%;background:linear-gradient(90deg,#7c3aed,#ec4899);border-radius:3px;transition:width 1.2s ease;}
+
+/* ── MAIN ── */
+#main{margin-left:var(--sidebar-w);flex:1;min-height:100vh;}
+.topbar{height:60px;background:rgba(255,255,255,0.7);backdrop-filter:blur(20px);border-bottom:1px solid var(--border);display:flex;align-items:center;justify-content:space-between;padding:0 40px;position:sticky;top:0;z-index:50;}
+.breadcrumb{display:flex;align-items:center;gap:8px;font-size:13px;font-weight:500;color:var(--text2);}
+.breadcrumb .current{color:var(--accent);}
+.bc-sep{color:var(--text3);}
+.badge-pill{padding:5px 14px;border-radius:30px;font-size:12px;font-weight:600;background:linear-gradient(90deg,rgba(124,58,237,0.1),rgba(236,72,153,0.08));color:var(--accent);border:1px solid rgba(124,58,237,0.2);}
+
+/* ── HERO ── */
+.hero{position:relative;overflow:hidden;padding:64px 56px 54px;border-bottom:1px solid rgba(200,180,255,.2);min-height:340px;display:flex;flex-direction:column;justify-content:center;}
+.hero::before{content:'';position:absolute;inset:0;background:radial-gradient(ellipse 70% 80% at 10% 20%,rgba(200,180,255,.72) 0%,transparent 60%),radial-gradient(ellipse 55% 65% at 85% 10%,rgba(180,225,255,.65) 0%,transparent 55%),radial-gradient(ellipse 60% 70% at 70% 85%,rgba(255,210,230,.6) 0%,transparent 58%),radial-gradient(ellipse 50% 60% at 30% 90%,rgba(200,240,220,.5) 0%,transparent 55%),#f5f0ff;z-index:0;}
+.hero::after{content:'';position:absolute;inset:0;opacity:.45;background-image:url("data:image/svg+xml,%3Csvg viewBox='0 0 256 256' xmlns='http://www.w3.org/2000/svg'%3E%3Cfilter id='noise'%3E%3CfeTurbulence type='fractalNoise' baseFrequency='0.9' numOctaves='4' stitchTiles='stitch'/%3E%3CfeColorMatrix type='saturate' values='0'/%3E%3C/filter%3E%3Crect width='100%25' height='100%25' filter='url(%23noise)' opacity='0.15'/%3E%3C/svg%3E");background-size:200px 200px;pointer-events:none;z-index:1;mix-blend-mode:overlay;}
+.hero>*{position:relative;z-index:2;}
+.hero-eyebrow{display:inline-flex;align-items:center;gap:7px;padding:6px 18px;border-radius:40px;background:rgba(255,255,255,.55);border:1px solid rgba(255,255,255,.85);font-size:11px;font-weight:600;color:rgba(80,50,160,.75);letter-spacing:.12em;text-transform:uppercase;margin-bottom:22px;backdrop-filter:blur(16px);box-shadow:0 2px 20px rgba(160,120,255,.12),inset 0 1px 0 rgba(255,255,255,.6);width:fit-content;font-family:'Lora',serif;font-style:italic;}
+.hero-eyebrow::before{content:'◆';font-size:7px;font-style:normal;}
+.hero h1{font-family:'Lora',serif;font-size:clamp(34px,4vw,58px);font-weight:400;font-style:italic;line-height:1.08;color:rgba(30,20,70,.82);margin-bottom:18px;letter-spacing:-0.01em;text-shadow:0 2px 40px rgba(160,120,255,.15);}
+.hero h1 span{font-weight:600;font-style:italic;color:transparent;background:linear-gradient(135deg,rgba(110,60,220,.9) 0%,rgba(200,80,180,.85) 50%,rgba(100,180,240,.8) 100%);-webkit-background-clip:text;-webkit-text-fill-color:transparent;background-clip:text;}
+.hero-sub{font-family:'Lora',serif;font-size:15.5px;font-style:italic;color:rgba(60,40,120,.6);max-width:560px;line-height:1.7;margin-bottom:34px;font-weight:400;letter-spacing:.01em;}
+.hero-chips{display:flex;flex-wrap:wrap;gap:10px;}
+.hero-chip{display:flex;align-items:center;gap:9px;background:rgba(255,255,255,.52);border:1px solid rgba(255,255,255,.8);border-radius:14px;padding:9px 18px;font-size:13px;font-weight:500;color:rgba(50,30,100,.75);backdrop-filter:blur(14px);box-shadow:0 2px 16px rgba(160,120,255,.1),inset 0 1px 0 rgba(255,255,255,.6);font-family:'Lora',serif;font-style:italic;transition:all .25s;}
+.hero-chip:hover{background:rgba(255,255,255,.72);transform:translateY(-1px);box-shadow:0 6px 24px rgba(160,120,255,.18);}
+.hero-chip strong{font-family:'Outfit',sans-serif;font-style:normal;font-weight:800;font-size:21px;background:linear-gradient(135deg,#7c3aed,#ec4899);-webkit-background-clip:text;-webkit-text-fill-color:transparent;background-clip:text;line-height:1;}
+
+/* ── TABS ── */
+.tab-bar{display:flex;gap:2px;padding:0 40px;background:rgba(255,255,255,0.6);backdrop-filter:blur(16px);border-bottom:1px solid var(--border);position:sticky;top:60px;z-index:40;overflow-x:auto;}
+.tab-btn{display:flex;align-items:center;gap:7px;padding:14px 18px;background:none;border:none;font-family:'Outfit',sans-serif;font-size:13px;font-weight:600;color:var(--text2);cursor:pointer;border-bottom:2.5px solid transparent;margin-bottom:-1px;transition:all .2s;white-space:nowrap;}
+.tab-btn:hover{color:var(--accent);background:rgba(124,58,237,0.04);border-radius:10px 10px 0 0;}
+.tab-btn.active{color:var(--accent);border-bottom-color:var(--accent);}
+
+/* ── CONTENT ── */
+.content{padding:36px 40px 60px;max-width:1180px;}
+.panel{display:none;}
+.panel.active{display:block;}
+.section-header{margin-bottom:24px;}
+.section-title{font-size:22px;font-weight:800;color:var(--text);margin-bottom:6px;}
+.section-desc{font-size:13.5px;color:var(--text2);line-height:1.6;}
+
+/* ── GLASS CARD ── */
+.gcard{background:var(--surface2);backdrop-filter:blur(20px);border:1px solid var(--border);border-radius:var(--radius);padding:28px;margin-bottom:24px;box-shadow:var(--shadow);transition:box-shadow .3s,transform .2s;}
+.gcard:hover{box-shadow:var(--shadow2);}
+.gcard-title{font-size:16px;font-weight:800;color:var(--text);margin-bottom:20px;display:flex;align-items:center;gap:10px;}
+.ct-icon{width:32px;height:32px;border-radius:9px;display:flex;align-items:center;justify-content:center;font-size:16px;}
+
+/* ── GRIDS ── */
+.g2{display:grid;grid-template-columns:1fr 1fr;gap:20px;}
+.g3{display:grid;grid-template-columns:repeat(3,1fr);gap:16px;}
+.g4{display:grid;grid-template-columns:repeat(4,1fr);gap:14px;}
+
+/* ── HIGHLIGHT BOX ── */
+.hbox{border-radius:12px;padding:16px 20px;margin-bottom:16px;font-size:13px;line-height:1.65;border-left:4px solid;}
+.hbox-blue{background:var(--blue-light);border-color:var(--blue);}
+.hbox-violet{background:var(--violet-light);border-color:var(--violet);}
+.hbox-green{background:var(--green-light);border-color:var(--green);}
+.hbox-pink{background:var(--pink-light);border-color:var(--pink);}
+.hbox-orange{background:var(--orange-light);border-color:var(--orange);}
+.hbox-cyan{background:var(--cyan-light);border-color:var(--cyan);}
+.hbox-rose{background:var(--rose-light);border-color:var(--rose);}
+.hbox-teal{background:var(--teal-light);border-color:var(--teal);}
+.hbox strong{font-weight:700;display:block;margin-bottom:4px;}
+.hbox-blue strong{color:var(--blue);}
+.hbox-violet strong{color:var(--violet);}
+.hbox-green strong{color:var(--green);}
+.hbox-pink strong{color:var(--pink);}
+.hbox-orange strong{color:var(--orange);}
+.hbox-cyan strong{color:var(--cyan);}
+.hbox-rose strong{color:var(--rose);}
+.hbox-teal strong{color:var(--teal);}
+
+/* ── MNEMONIC ── */
+.mnemonic{background:linear-gradient(135deg,#ede9fe,#fce7f3);border:1px solid rgba(124,58,237,0.2);border-radius:14px;padding:18px 22px;margin:16px 0;}
+.mnemonic-title{font-size:12px;font-weight:700;color:var(--accent);letter-spacing:.06em;text-transform:uppercase;margin-bottom:8px;display:flex;align-items:center;gap:6px;}
+.mnemonic-text{font-size:13.5px;color:var(--text);line-height:1.7;}
+.mnemonic-text .em{color:var(--accent);font-weight:800;}
+.mnemonic-text .sub{font-size:12px;color:var(--text2);font-style:italic;display:block;margin-top:4px;}
+
+/* ── TABLE ── */
+.mtable{width:100%;border-collapse:collapse;font-size:13px;}
+.mtable thead tr{background:linear-gradient(90deg,rgba(124,58,237,0.08),rgba(236,72,153,0.05));}
+.mtable th{padding:11px 14px;text-align:left;font-size:11px;font-weight:700;letter-spacing:.06em;text-transform:uppercase;color:var(--accent);border-bottom:2px solid rgba(124,58,237,0.12);}
+.mtable td{padding:10px 14px;border-bottom:1px solid rgba(124,58,237,0.07);color:var(--text2);vertical-align:top;line-height:1.5;}
+.mtable tr:last-child td{border-bottom:none;}
+.mtable tr:hover td{background:rgba(124,58,237,0.03);}
+.mtable .hl{color:var(--text);font-weight:600;}
+
+/* ── TAG PILLS ── */
+.tag{display:inline-block;padding:3px 10px;border-radius:20px;font-size:11px;font-weight:700;}
+.t-blue{background:var(--blue-light);color:var(--blue);}
+.t-violet{background:var(--violet-light);color:var(--violet);}
+.t-green{background:var(--green-light);color:var(--green);}
+.t-pink{background:var(--pink-light);color:var(--pink);}
+.t-orange{background:var(--orange-light);color:var(--orange);}
+.t-cyan{background:var(--cyan-light);color:var(--cyan);}
+.t-rose{background:var(--rose-light);color:var(--rose);}
+.t-teal{background:var(--teal-light);color:var(--teal);}
+
+/* ── TISSUE CARDS (infographic style) ── */
+.tissue-card{background:var(--surface2);border:1px solid var(--border);border-radius:16px;padding:22px;transition:all .3s;cursor:default;position:relative;overflow:hidden;}
+.tissue-card::before{content:'';position:absolute;top:0;left:0;right:0;height:4px;}
+.tissue-card.ep::before{background:linear-gradient(90deg,var(--blue),var(--cyan));}
+.tissue-card.conj::before{background:linear-gradient(90deg,var(--violet),var(--pink));}
+.tissue-card.musc::before{background:linear-gradient(90deg,var(--rose),var(--orange));}
+.tissue-card.nerv::before{background:linear-gradient(90deg,var(--green),var(--teal));}
+.tissue-card:hover{transform:translateY(-4px);box-shadow:var(--shadow2);}
+.tc-icon{font-size:32px;margin-bottom:12px;display:block;}
+.tc-name{font-size:15px;font-weight:800;color:var(--text);margin-bottom:6px;}
+.tc-func{font-size:12px;color:var(--text2);line-height:1.6;margin-bottom:12px;}
+.tc-tags{display:flex;flex-wrap:wrap;gap:4px;}
+
+/* ── INTERACTIVE FLOWCHART ── */
+.flow-wrap{padding:20px 0;}
+.flow-row{display:flex;align-items:center;gap:0;margin-bottom:4px;}
+.fnode{background:var(--surface2);border:1px solid var(--border);border-radius:10px;padding:10px 16px;font-size:12.5px;font-weight:600;color:var(--text);text-align:center;min-width:120px;transition:all .25s;cursor:pointer;}
+.fnode:hover{transform:scale(1.04);box-shadow:var(--shadow);}
+.fnode.ep{border-color:var(--blue);background:var(--blue-light);color:var(--blue);}
+.fnode.conj{border-color:var(--violet);background:var(--violet-light);color:var(--violet);}
+.fnode.musc{border-color:var(--rose);background:var(--rose-light);color:var(--rose);}
+.fnode.nerv{border-color:var(--green);background:var(--green-light);color:var(--green);}
+.fnode.root{background:linear-gradient(135deg,var(--accent),var(--pink));color:#fff;border:none;font-size:14px;font-weight:800;padding:14px 24px;box-shadow:0 4px 20px rgba(124,58,237,0.3);}
+.farrow{font-size:18px;color:var(--text3);padding:0 6px;flex-shrink:0;}
+.fdown{text-align:center;font-size:18px;color:var(--text3);line-height:1;padding:2px 0 2px 52px;}
+.flow-branches{display:flex;gap:16px;padding-left:0;}
+.flow-branch{flex:1;}
+.fbranch-label{font-size:10px;font-weight:700;letter-spacing:.08em;text-transform:uppercase;color:var(--text3);margin-bottom:8px;text-align:center;}
+.fnode-sm{background:var(--surface);border:1px solid var(--border);border-radius:8px;padding:7px 12px;font-size:11.5px;font-weight:600;color:var(--text2);text-align:center;margin-bottom:6px;transition:all .2s;cursor:pointer;}
+.fnode-sm:hover{border-color:var(--accent);color:var(--accent);background:var(--violet-light);}
+
+/* ── ACCORDION ── */
+.acc-item{border:1px solid var(--border);border-radius:12px;margin-bottom:10px;overflow:hidden;}
+.acc-head{display:flex;align-items:center;justify-content:space-between;padding:14px 20px;cursor:pointer;background:var(--surface2);transition:background .2s;}
+.acc-head:hover{background:rgba(124,58,237,0.04);}
+.acc-title{font-size:14px;font-weight:700;color:var(--text);display:flex;align-items:center;gap:10px;}
+.acc-body{max-height:0;overflow:hidden;transition:max-height .4s ease;background:#fff;}
+.acc-body.open{max-height:600px;}
+.acc-inner{padding:20px 22px;font-size:13px;color:var(--text2);line-height:1.7;}
+.acc-chevron{font-size:14px;color:var(--text3);transition:transform .3s;}
+.acc-item.open .acc-chevron{transform:rotate(90deg);}
+
+/* ── JUNCTIONAL SVG INTERACTIVE ── */
+.junct-tabs{display:flex;gap:8px;margin-bottom:16px;}
+.junct-tab{padding:8px 18px;border-radius:20px;border:1px solid var(--border);background:var(--surface);font-size:12.5px;font-weight:600;color:var(--text2);cursor:pointer;transition:all .2s;}
+.junct-tab.active{background:linear-gradient(90deg,var(--accent),var(--pink));color:#fff;border-color:transparent;box-shadow:0 4px 16px rgba(124,58,237,0.25);}
+.junct-panel{display:none;}
+.junct-panel.show{display:flex;gap:24px;align-items:flex-start;}
+.junct-svg{flex-shrink:0;}
+.junct-info{flex:1;}
+.junct-name{font-size:17px;font-weight:800;color:var(--text);margin-bottom:8px;}
+.junct-desc{font-size:13px;color:var(--text2);line-height:1.7;margin-bottom:12px;}
+.junct-prop{display:flex;align-items:center;gap:8px;margin-bottom:7px;font-size:12.5px;}
+.junct-prop-key{font-weight:700;color:var(--accent);min-width:160px;}
+.junct-prop-val{color:var(--text2);}
+
+/* ── EPITHELIUM TYPE CARDS ── */
+.epith-grid{display:grid;grid-template-columns:repeat(auto-fill,minmax(220px,1fr));gap:14px;}
+.epith-card{background:var(--surface2);border:1px solid var(--border);border-radius:14px;padding:16px;transition:all .25s;cursor:pointer;}
+.epith-card:hover{transform:translateY(-3px);box-shadow:var(--shadow2);border-color:var(--violet);}
+.epith-card.selected{border-color:var(--accent);box-shadow:0 0 0 2px rgba(124,58,237,0.2);}
+.epith-svg{width:100%;height:90px;margin-bottom:12px;background:var(--violet-light);border-radius:10px;display:flex;align-items:center;justify-content:center;}
+.epith-name{font-size:13px;font-weight:800;color:var(--text);margin-bottom:4px;}
+.epith-loc{font-size:11.5px;color:var(--text2);margin-bottom:6px;}
+.epith-funcs{display:flex;gap:4px;flex-wrap:wrap;}
+
+/* ── GLAND CLASSIFICATION ── */
+.gland-tree{padding:16px;}
+.gt-root{text-align:center;margin-bottom:16px;}
+.gt-root-box{display:inline-block;background:linear-gradient(135deg,var(--accent),var(--pink));color:#fff;border-radius:12px;padding:10px 28px;font-size:14px;font-weight:800;}
+.gt-branches{display:grid;grid-template-columns:1fr 1fr;gap:20px;margin-top:16px;}
+.gt-branch{background:var(--surface2);border:1px solid var(--border);border-radius:14px;padding:18px;}
+.gt-branch-title{font-size:14px;font-weight:800;margin-bottom:12px;display:flex;align-items:center;gap:8px;}
+.gt-item{background:var(--surface);border:1px solid var(--border);border-radius:10px;padding:10px 14px;margin-bottom:8px;font-size:12.5px;}
+.gt-item-name{font-weight:700;color:var(--text);margin-bottom:3px;}
+.gt-item-desc{color:var(--text2);font-size:11.5px;}
+.gt-item-ex{color:var(--accent);font-size:11px;font-style:italic;margin-top:3px;}
+
+/* ── QUIZ ── */
+.quiz-score{display:flex;justify-content:space-between;align-items:center;background:linear-gradient(90deg,rgba(124,58,237,0.06),rgba(236,72,153,0.04));border:1px solid rgba(124,58,237,0.15);border-radius:12px;padding:14px 20px;margin-bottom:24px;}
+.quiz-score-label{font-size:13px;color:var(--text2);font-weight:600;}
+.quiz-score-val{font-size:22px;font-weight:800;color:var(--accent);}
+.quiz-q{background:var(--surface2);border:1px solid var(--border);border-radius:14px;padding:22px;margin-bottom:16px;}
+.quiz-qtext{font-size:14px;font-weight:700;color:var(--text);margin-bottom:14px;line-height:1.5;}
+.quiz-opts{display:grid;grid-template-columns:1fr 1fr;gap:8px;}
+.quiz-opt{padding:11px 16px;border:1.5px solid var(--border);border-radius:10px;font-size:13px;font-weight:500;color:var(--text2);cursor:pointer;background:var(--surface);transition:all .2s;text-align:left;}
+.quiz-opt:hover:not(.disabled){border-color:var(--violet);color:var(--violet);background:var(--violet-light);}
+.quiz-opt.correct{border-color:var(--green)!important;background:var(--green-light)!important;color:var(--green)!important;font-weight:700;}
+.quiz-opt.wrong{border-color:var(--rose)!important;background:var(--rose-light)!important;color:var(--rose)!important;}
+.quiz-opt.disabled{cursor:default;pointer-events:none;}
+.quiz-explain{margin-top:12px;padding:12px 16px;background:var(--green-light);border-radius:10px;font-size:12.5px;color:var(--green);font-weight:600;display:none;}
+.quiz-explain.show{display:block;}
+.quiz-next-btn{margin-top:16px;padding:10px 24px;background:linear-gradient(135deg,var(--accent),var(--pink));color:#fff;border:none;border-radius:10px;font-family:'Outfit',sans-serif;font-size:13px;font-weight:700;cursor:pointer;display:none;transition:all .2s;}
+.quiz-next-btn:hover{opacity:.88;transform:translateY(-1px);}
+.quiz-next-btn.show{display:inline-block;}
+
+/* ── SVG INTERACTIVE TISSUE DIAGRAM ── */
+.tissue-diagram-wrap{background:var(--surface2);border:1px solid var(--border);border-radius:16px;padding:24px;display:flex;gap:24px;align-items:flex-start;}
+.tissue-diagram-svg{flex-shrink:0;}
+.tissue-diagram-info{flex:1;}
+.tdi-name{font-size:18px;font-weight:800;color:var(--text);margin-bottom:8px;}
+.tdi-desc{font-size:13px;color:var(--text2);line-height:1.7;margin-bottom:12px;}
+.tdi-props{display:grid;grid-template-columns:1fr 1fr;gap:8px;}
+.tdi-prop{background:var(--surface);border:1px solid var(--border);border-radius:10px;padding:10px 14px;}
+.tdi-prop-key{font-size:10px;font-weight:700;text-transform:uppercase;letter-spacing:.06em;color:var(--text3);margin-bottom:3px;}
+.tdi-prop-val{font-size:12.5px;font-weight:600;color:var(--text);}
+.svg-clickable{cursor:pointer;transition:opacity .2s;}
+.svg-clickable:hover{opacity:.8;}
+
+/* ──────── ANIMATIONS (STIL PREMIUM CAP 9) ──────── */
+@keyframes fadeUp { 
+  from { opacity: 0; transform: translateY(6px); } 
+  to { opacity: 1; transform: translateY(0); } 
+}
+.fu { animation: fadeUp 0.5s ease both; }
+.fu-1 { animation-delay: .08s; }
+.fu-2 { animation-delay: .16s; }
+.fu-3 { animation-delay: .24s; }
+.fu-4 { animation-delay: .32s; }
+
+/* Mobile toggle */
+.mob-menu-btn{display:none;position:fixed;bottom:20px;right:20px;z-index:200;background:var(--accent);color:#fff;border:none;width:52px;height:52px;border-radius:50%;font-size:22px;cursor:pointer;box-shadow:0 4px 20px rgba(124,58,237,0.4);}
+@media(max-width:860px){
+  #sidebar{transform:translateX(-100%);transition:transform .3s;}
+  #sidebar.open{transform:translateX(0);}
+  #main{margin-left:0;}
+  .mob-menu-btn{display:flex;align-items:center;justify-content:center;}
+  .hero{padding:40px 28px 36px;}
+  .content{padding:24px 20px 50px;}
+  .quiz-opts{grid-template-columns:1fr;}
+  .g2,.g3,.g4{grid-template-columns:1fr;}
+  .tissue-diagram-wrap{flex-direction:column;}
+  .junct-panel.show{flex-direction:column;}
+  .gt-branches{grid-template-columns:1fr;}
+}
+</style>
+</head>
+<body>
+
+<!-- SIDEBAR -->
+<nav id="sidebar">
+  <div class="sidebar-logo">
+    <img src="medStudy.png" alt="Logo MedStudy" style="width: 42px; height: 42px; object-fit: contain; filter: drop-shadow(0 4px 14px rgba(124,58,237,0.35));">
+    <div>
+      <div class="logo-text">MedStudy</div>
+      <div class="logo-sub">Anatomy Made Easy</div>
+    </div>
+  </div>
+  
+  <div class="nav-scroll" id="chapters-menu">
+  <div class="sidebar-section-label">Capitole</div>
+
+  <a class="nav-item" href="cap1.html"><span class="nav-num">1</span>Introducere în A&B</a>
+  <a class="nav-item" href="cap2.html"><span class="nav-num">2</span>Bazele Chimice</a>
+  <a class="nav-item" href="cap3.html"><span class="nav-num">3</span>Fiziologia celulară</a>
+  <a class="nav-item" href="cap4.html"><span class="nav-num">4</span>Țesuturile</a>
+  <a class="nav-item" href="cap5.html"><span class="nav-num">5</span>Sistemul Tegumentar</a>
+  <a class="nav-item" href="cap6.html"><span class="nav-num">6</span>Oasele și Articulațiile</a>
+  <a class="nav-item" href="cap7.html"><span class="nav-num">7</span>Sistemul Osos</a>
+  <a class="nav-item" href="cap8.html"><span class="nav-num">8</span>Țesutul Muscular</a>
+  <a class="nav-item" href="cap9.html"><span class="nav-num">9</span>Sistemul Muscular</a>
+  <a class="nav-item" href="cap10.html"><span class="nav-num">10</span>Țesutul Nervos</a>
+  <a class="nav-item" href="cap11.html"><span class="nav-num">11</span>Organizarea Sistemului Nervos</a>
+  <a class="nav-item" href="cap12.html"><span class="nav-num">12</span>Organele de Simț</a>
+  <a class="nav-item" href="cap13.html"><span class="nav-num">13</span>Sistemul Endocrin</a>
+  <a class="nav-item" href="cap14.html"><span class="nav-num">14</span>Sângele</a>
+  <a class="nav-item" href="cap15.html"><span class="nav-num">15</span>Sistemul Cardiovascular</a>
+  <a class="nav-item" href="cap16.html"><span class="nav-num">16</span>Sistemul Limfatic</a>
+  <a class="nav-item" href="cap17.html"><span class="nav-num">17</span>Sistemul Respirator</a>
+  <a class="nav-item" href="cap18.html"><span class="nav-num">18</span>Sistemul Digestiv</a>
+  <a class="nav-item" href="cap19.html"><span class="nav-num">19</span>Metabolism & Nutriție</a>
+  <a class="nav-item" href="cap20.html"><span class="nav-num">20</span>Sistemul Urinar</a>
+  <a class="nav-item" href="cap21.html"><span class="nav-num">21</span>Echilibrul Hidro-Electrolitic</a>
+  <a class="nav-item" href="cap22.html"><span class="nav-num">22</span>Sistemul Reproducător Masculin</a>
+  <a class="nav-item" href="cap23.html"><span class="nav-num">23</span>Sistemul Reproducător Feminin</a>
+</div>
+  
+  <div class="sidebar-footer">
+    <div class="prog-label"><span>Progres total</span><span>4/23</span></div>
+    <div class="prog-track"><div class="prog-fill"></div></div>
+  </div>
+</nav>
+
+<button class="mob-menu-btn" onclick="document.getElementById('sidebar').classList.toggle('open')">☰</button>
+
+<!-- MAIN -->
+<div id="main">
+  <div class="topbar">
+    <div class="breadcrumb">
+      <span>A&F Umană</span><span class="bc-sep">›</span>
+      <span>Capitol 4</span><span class="bc-sep">›</span>
+      <span class="current">Țesuturile</span>
+    </div>
+    <div class="badge-pill">🎓 Pregătire Admitere Medicină</div>
+  </div>
+
+  <!-- HERO -->
+<div class="hero">
+    <div class="hero-eyebrow fu fu-1">Capitol 4 · Histologie</div>
+    <h1 class="fu fu-2">Țesuturile<span> Umane </span></h1>
+    <p class="hero-sub fu fu-3">Organizarea celulelor specializate în structuri cu funcții comune — de la epiteliu la nervos, temelia înțelegerii corpului uman.</p>
+    <div class="hero-chips fu fu-4">
+      <div class="hero-chip"><strong>4</strong>tipuri principale</div>
+      <div class="hero-chip"><strong>8</strong>tipuri epiteliale</div>
+      <div class="hero-chip"><strong>3</strong>tipuri de joncțiuni</div>
+      <div class="hero-chip"><strong>6</strong>tipuri cartilaj+os</div>
+    </div>
+  </div>
+
+  <!-- TABS -->
+  <div class="tab-bar">
+    <button class="tab-btn active" onclick="switchTab('infografice',this)">🗺 Infografice</button>
+    <button class="tab-btn" onclick="switchTab('epitelial',this)">🧱 Epitelial</button>
+    <button class="tab-btn" onclick="switchTab('conjunctiv',this)">🕸 Conjunctiv</button>
+    <button class="tab-btn" onclick="switchTab('muscular',this)">💪 Muscular &amp; Nervos</button>
+    <button class="tab-btn" onclick="switchTab('tabele',this)">📊 Tabele</button>
+    <button class="tab-btn" onclick="switchTab('quiz',this)">🎯 Quiz</button>
+  </div>
+
+  <div class="content">
+
+    <!-- ═══════════ TAB: INFOGRAFICE ═══════════ -->
+    <div class="panel active" id="tab-infografice">
+      <div class="section-header">
+        <div class="section-title">Infografice — Vedere de ansamblu</div>
+        <div class="section-desc">Cele 4 tipuri fundamentale de țesuturi, joncțiuni celulare și scheme logice interactive</div>
+      </div>
+
+      <!-- 4 TISSUE OVERVIEW CARDS -->
+      <div class="gcard">
+        <div class="gcard-title"><div class="ct-icon" style="background:#e8eeff">🔬</div>Cele 4 tipuri fundamentale de țesuturi</div>
+        <div class="g4">
+          <div class="tissue-card ep">
+            <span class="tc-icon">🧱</span>
+            <div class="tc-name">Epitelial</div>
+            <div class="tc-func">Acoperă suprafețe și căptușește cavități; formează glande. Protecție, absorbție, secreție.</div>
+            <div class="tc-tags"><span class="tag t-blue">Protecție</span><span class="tag t-cyan">Absorbție</span><span class="tag t-teal">Secreție</span></div>
+          </div>
+          <div class="tissue-card conj">
+            <span class="tc-icon">🕸</span>
+            <div class="tc-name">Conjunctiv</div>
+            <div class="tc-func">Suport și legătură între țesuturi. Matrice + celule + fibre. Cel mai divers grup.</div>
+            <div class="tc-tags"><span class="tag t-violet">Suport</span><span class="tag t-pink">Transport</span><span class="tag t-orange">Depozitare</span></div>
+          </div>
+          <div class="tissue-card musc">
+            <span class="tc-icon">💪</span>
+            <div class="tc-name">Muscular</div>
+            <div class="tc-func">Celule contractile alungite. Produce mișcare și forță. 3 subtipuri: scheletic, neted, cardiac.</div>
+            <div class="tc-tags"><span class="tag t-rose">Contracție</span><span class="tag t-orange">Mișcare</span></div>
+          </div>
+          <div class="tissue-card nerv">
+            <span class="tc-icon">⚡</span>
+            <div class="tc-name">Nervos</div>
+            <div class="tc-func">Recepționează și transmite impulsuri. Neuroni + celule nevroglice (de suport).</div>
+            <div class="tc-tags"><span class="tag t-green">Conducere</span><span class="tag t-teal">Coordonare</span></div>
+          </div>
+        </div>
+      </div>
+
+      <!-- INTERACTIVE FLOWCHART -->
+      <div class="gcard">
+        <div class="gcard-title"><div class="ct-icon" style="background:#ede9fe">🌳</div>Schemă logică — Clasificarea țesuturilor</div>
+        <div class="flow-wrap">
+          <div style="text-align:center;margin-bottom:12px;">
+            <div class="fnode root" style="display:inline-block;">Țesuturi umane</div>
+          </div>
+          <div class="fdown">↓</div>
+          <div class="flow-branches" style="display:grid;grid-template-columns:1fr 1fr 1fr 1fr;gap:12px;">
+            <!-- EPITHELIAL -->
+            <div class="flow-branch">
+              <div class="fbranch-label" style="color:var(--blue)">Epitelial</div>
+              <div class="fnode ep" style="font-size:11.5px;padding:8px 10px;margin-bottom:6px;">Simple</div>
+              <div class="fnode-sm ep-sm" style="border-color:var(--blue);color:var(--blue);">Pavimentos simplu</div>
+              <div class="fnode-sm ep-sm" style="border-color:var(--blue);color:var(--blue);">Cubic simplu</div>
+              <div class="fnode-sm ep-sm" style="border-color:var(--blue);color:var(--blue);">Cilindric simplu</div>
+              <div class="fnode-sm ep-sm" style="border-color:var(--blue);color:var(--blue);">Pseudostratificat</div>
+              <div class="fnode ep" style="font-size:11.5px;padding:8px 10px;margin:8px 0 6px;">Stratificate</div>
+              <div class="fnode-sm ep-sm" style="border-color:var(--blue);color:var(--blue);">Pavimentos stratif.</div>
+              <div class="fnode-sm ep-sm" style="border-color:var(--blue);color:var(--blue);">Cubic stratif.</div>
+              <div class="fnode-sm ep-sm" style="border-color:var(--blue);color:var(--blue);">Uroteliu (tranziț.)</div>
+            </div>
+            <!-- CONJUNCTIV -->
+            <div class="flow-branch">
+              <div class="fbranch-label" style="color:var(--violet)">Conjunctiv</div>
+              <div class="fnode conj" style="font-size:11.5px;padding:8px 10px;margin-bottom:6px;">Propriu-zis</div>
+              <div class="fnode-sm">Lax (areolar)</div>
+              <div class="fnode-sm">Dens (ordonat/neord.)</div>
+              <div class="fnode-sm">Reticulat</div>
+              <div class="fnode-sm">Adipos</div>
+              <div class="fnode-sm">Elastic</div>
+              <div class="fnode-sm">Pigmentar</div>
+              <div class="fnode conj" style="font-size:11.5px;padding:8px 10px;margin:8px 0 6px;">Specializat</div>
+              <div class="fnode-sm">Cartilaj (H/E/F)</div>
+              <div class="fnode-sm">Os</div>
+              <div class="fnode-sm">Sânge</div>
+            </div>
+            <!-- MUSCULAR -->
+            <div class="flow-branch">
+              <div class="fbranch-label" style="color:var(--rose)">Muscular</div>
+              <div class="fnode musc" style="font-size:11.5px;padding:8px 10px;margin-bottom:6px;">Striat scheletic</div>
+              <div style="font-size:11px;color:var(--text3);margin-bottom:6px;padding:0 4px;">Voluntar · Striat · Periferic</div>
+              <div class="fnode musc" style="font-size:11.5px;padding:8px 10px;margin-bottom:6px;">Neted</div>
+              <div style="font-size:11px;color:var(--text3);margin-bottom:6px;padding:0 4px;">Involuntar · Fără striații · Visceral</div>
+              <div class="fnode musc" style="font-size:11.5px;padding:8px 10px;margin-bottom:6px;">Cardiac</div>
+              <div style="font-size:11px;color:var(--text3);padding:0 4px;">Involuntar · Striat · Discuri intercalare</div>
+            </div>
+            <!-- NERVOS -->
+            <div class="flow-branch">
+              <div class="fbranch-label" style="color:var(--green)">Nervos</div>
+              <div class="fnode nerv" style="font-size:11.5px;padding:8px 10px;margin-bottom:6px;">Neuroni</div>
+              <div class="fnode-sm">Senzitivi</div>
+              <div class="fnode-sm">Intercalari (asociație)</div>
+              <div class="fnode-sm">Motori</div>
+              <div class="fnode nerv" style="font-size:11.5px;padding:8px 10px;margin:8px 0 6px;">Nevroglii</div>
+              <div class="fnode-sm">Celule de suport</div>
+              <div class="fnode-sm">Microglia</div>
+              <div class="fnode-sm">Astrocite</div>
+            </div>
+          </div>
+        </div>
+      </div>
+
+      <!-- INTERACTIVE JUNCTION SVG -->
+      <div class="gcard">
+        <div class="gcard-title"><div class="ct-icon" style="background:#d1fae5">🔗</div>Joncțiunile celulare — Infografic interactiv</div>
+        <div class="junct-tabs">
+          <button class="junct-tab active" onclick="showJunct('strans',this)">Joncțiuni strânse</button>
+          <button class="junct-tab" onclick="showJunct('desm',this)">Desmozomi</button>
+          <button class="junct-tab" onclick="showJunct('gap',this)">Joncțiuni gap</button>
+        </div>
+
+        <!-- Joncțiuni strânse -->
+        <div class="junct-panel show" id="junct-strans">
+          <div class="junct-svg">
+            <svg width="240" height="200" viewBox="0 0 240 200">
+              <!-- Cell 1 -->
+              <rect x="20" y="20" width="90" height="160" rx="8" fill="#e8eeff" stroke="#5b8dee" stroke-width="2"/>
+              <!-- Cell 2 -->
+              <rect x="130" y="20" width="90" height="160" rx="8" fill="#e8eeff" stroke="#5b8dee" stroke-width="2"/>
+              <!-- Tight junction bands -->
+              <rect x="108" y="55" width="24" height="8" rx="2" fill="#5b8dee"/>
+              <rect x="108" y="75" width="24" height="8" rx="2" fill="#5b8dee"/>
+              <rect x="108" y="95" width="24" height="8" rx="2" fill="#5b8dee"/>
+              <!-- Arrows -->
+              <text x="120" y="50" font-size="10" fill="#5b8dee" text-anchor="middle" font-weight="bold">Protein bands</text>
+              <!-- Nucleus -->
+              <ellipse cx="65" cy="100" rx="22" ry="16" fill="#5b8dee" opacity="0.3"/>
+              <ellipse cx="175" cy="100" rx="22" ry="16" fill="#5b8dee" opacity="0.3"/>
+              <!-- Label -->
+              <text x="120" y="192" font-size="11" fill="#5b8dee" text-anchor="middle" font-weight="bold">Joncțiune strânsă</text>
+              <!-- Space indicator -->
+              <line x1="110" y1="130" x2="130" y2="130" stroke="#5b8dee" stroke-dasharray="3" stroke-width="1.5"/>
+              <text x="120" y="148" font-size="9" fill="#5b8dee" text-anchor="middle">spațiu → 0</text>
+            </svg>
+          </div>
+          <div class="junct-info">
+            <div class="junct-name">Joncțiunile strânse (Tight Junctions)</div>
+            <div class="junct-desc">Benzi de proteine care înconjoară celulele, legând membranele celulare adiacente. Spațiul intercelular dispare în zonele de fuziune. Formează o <strong>barieră impermeabilă</strong> ce împiedică trecerea substanțelor între celule.</div>
+            <div class="junct-prop"><span class="junct-prop-key">Spațiu intercelular:</span><span class="junct-prop-val">Dispare (0 nm)</span></div>
+            <div class="junct-prop"><span class="junct-prop-key">Structură:</span><span class="junct-prop-val">Benzi proteice de fuziune (lipoproteine)</span></div>
+            <div class="junct-prop"><span class="junct-prop-key">Funcție:</span><span class="junct-prop-val">Barieră — împiedică trecerea substanțelor</span></div>
+            <div class="junct-prop"><span class="junct-prop-key">Localizare:</span><span class="junct-prop-val">Țesuturi epiteliale</span></div>
+            <div class="hbox hbox-blue" style="margin-top:12px;"><strong>💡 De reținut pentru examen</strong>Joncțiunile strânse sunt esențiale în formarea barierei hematoencefalice și a barierei intestinale — previn trecerea toxinelor.</div>
+          </div>
+        </div>
+
+        <!-- Desmozomi -->
+        <div class="junct-panel" id="junct-desm">
+          <div class="junct-svg">
+            <svg width="240" height="200" viewBox="0 0 240 200">
+              <rect x="20" y="20" width="90" height="160" rx="8" fill="#fce7f3" stroke="#ec4899" stroke-width="2"/>
+              <rect x="130" y="20" width="90" height="160" rx="8" fill="#fce7f3" stroke="#ec4899" stroke-width="2"/>
+              <!-- Desmosome structure -->
+              <rect x="106" y="85" width="8" height="30" rx="2" fill="#ec4899"/>
+              <rect x="126" y="85" width="8" height="30" rx="2" fill="#ec4899"/>
+              <!-- Keratin filaments left -->
+              <line x1="80" y1="90" x2="110" y2="95" stroke="#ec4899" stroke-width="1.5" stroke-dasharray="3"/>
+              <line x1="80" y1="105" x2="110" y2="105" stroke="#ec4899" stroke-width="1.5" stroke-dasharray="3"/>
+              <line x1="80" y1="110" x2="110" y2="115" stroke="#ec4899" stroke-width="1.5" stroke-dasharray="3"/>
+              <!-- Keratin filaments right -->
+              <line x1="134" y1="90" x2="160" y2="90" stroke="#ec4899" stroke-width="1.5" stroke-dasharray="3"/>
+              <line x1="134" y1="105" x2="160" y2="100" stroke="#ec4899" stroke-width="1.5" stroke-dasharray="3"/>
+              <line x1="134" y1="115" x2="160" y2="115" stroke="#ec4899" stroke-width="1.5" stroke-dasharray="3"/>
+              <!-- Glycoproteins -->
+              <line x1="114" y1="95" x2="126" y2="95" stroke="#c026d3" stroke-width="2"/>
+              <line x1="114" y1="100" x2="126" y2="100" stroke="#c026d3" stroke-width="2"/>
+              <line x1="114" y1="105" x2="126" y2="105" stroke="#c026d3" stroke-width="2"/>
+              <line x1="114" y1="110" x2="126" y2="110" stroke="#c026d3" stroke-width="2"/>
+              <!-- Nuclei -->
+              <ellipse cx="65" cy="100" rx="22" ry="16" fill="#ec4899" opacity="0.25"/>
+              <ellipse cx="175" cy="100" rx="22" ry="16" fill="#ec4899" opacity="0.25"/>
+              <text x="120" y="192" font-size="11" fill="#ec4899" text-anchor="middle" font-weight="bold">Desmozom</text>
+              <text x="120" y="50" font-size="9" fill="#c026d3" text-anchor="middle">Glicoproteine transmembranare</text>
+              <text x="50" y="80" font-size="8.5" fill="#ec4899" text-anchor="middle">Filamente</text>
+              <text x="50" y="90" font-size="8.5" fill="#ec4899" text-anchor="middle">cheratină</text>
+              <text x="190" y="80" font-size="8.5" fill="#ec4899" text-anchor="middle">Filamente</text>
+              <text x="190" y="90" font-size="8.5" fill="#ec4899" text-anchor="middle">cheratină</text>
+            </svg>
+          </div>
+          <div class="junct-info">
+            <div class="junct-name">Desmozomii (Joncțiuni aderențiale)</div>
+            <div class="junct-desc">Structuri punctiforme între celule cu spațiu intercelular normal. Glicoproteinele transmembranare traversează spațiul intercelular (24 nm), iar filamentele de cheratină ancorează celulele. Asigură <strong>coeziunea mecanică</strong> între celule.</div>
+            <div class="junct-prop"><span class="junct-prop-key">Spațiu intercelular:</span><span class="junct-prop-val">Normal — 24 nm</span></div>
+            <div class="junct-prop"><span class="junct-prop-key">Structură:</span><span class="junct-prop-val">Glicoproteine + filamente cheratină</span></div>
+            <div class="junct-prop"><span class="junct-prop-key">Funcție:</span><span class="junct-prop-val">Cuplează strâns celulele între ele</span></div>
+            <div class="junct-prop"><span class="junct-prop-key">Localizare:</span><span class="junct-prop-val">Epiderm, mucoase supuse stresului mecanic</span></div>
+            <div class="hbox hbox-pink" style="margin-top:12px;"><strong>💡 Clinică relevantă</strong>Leziunile desmozomilor în pemfigus vulgaris duc la decolarea straturilor epidermice — important pentru examen!</div>
+          </div>
+        </div>
+
+        <!-- Gap junctions -->
+        <div class="junct-panel" id="junct-gap">
+          <div class="junct-svg">
+            <svg width="240" height="200" viewBox="0 0 240 200">
+              <rect x="20" y="20" width="90" height="160" rx="8" fill="#d1fae5" stroke="#10b981" stroke-width="2"/>
+              <rect x="130" y="20" width="90" height="160" rx="8" fill="#d1fae5" stroke="#10b981" stroke-width="2"/>
+              <!-- Gap junction channels -->
+              <circle cx="120" cy="80" r="7" fill="#10b981" opacity="0.8"/>
+              <circle cx="120" cy="100" r="7" fill="#10b981" opacity="0.8"/>
+              <circle cx="120" cy="120" r="7" fill="#10b981" opacity="0.8"/>
+              <!-- Connexin proteins -->
+              <rect x="108" y="76" width="10" height="8" rx="2" fill="#059669"/>
+              <rect x="122" y="76" width="10" height="8" rx="2" fill="#059669"/>
+              <rect x="108" y="96" width="10" height="8" rx="2" fill="#059669"/>
+              <rect x="122" y="96" width="10" height="8" rx="2" fill="#059669"/>
+              <rect x="108" y="116" width="10" height="8" rx="2" fill="#059669"/>
+              <rect x="122" y="116" width="10" height="8" rx="2" fill="#059669"/>
+              <!-- Arrows showing ion transfer -->
+              <text x="60" y="100" font-size="16" fill="#10b981" text-anchor="middle">→</text>
+              <text x="40" y="100" font-size="9" fill="#10b981" text-anchor="middle">ioni</text>
+              <text x="185" y="100" font-size="16" fill="#10b981" text-anchor="middle">→</text>
+              <!-- Nuclei -->
+              <ellipse cx="65" cy="130" rx="20" ry="14" fill="#10b981" opacity="0.2"/>
+              <ellipse cx="175" cy="130" rx="20" ry="14" fill="#10b981" opacity="0.2"/>
+              <!-- Space label -->
+              <text x="120" y="68" font-size="9" fill="#059669" text-anchor="middle">Proteine membranare</text>
+              <line x1="115" y1="155" x2="125" y2="155" stroke="#10b981" stroke-width="2"/>
+              <text x="120" y="168" font-size="9" fill="#10b981" text-anchor="middle">2 nm</text>
+              <text x="120" y="192" font-size="11" fill="#10b981" text-anchor="middle" font-weight="bold">Joncțiune gap</text>
+            </svg>
+          </div>
+          <div class="junct-info">
+            <div class="junct-name">Joncțiunile gap (Comunicante)</div>
+            <div class="junct-desc">Canale tubulare proteice (conexoni) între celulele adiacente cu spațiu de 2 nm. Permit trecerea directă a ionilor și moleculelor mici. Facilitează <strong>comunicarea electrică</strong> directă între celule.</div>
+            <div class="junct-prop"><span class="junct-prop-key">Spațiu intercelular:</span><span class="junct-prop-val">Mult redus — 2 nm</span></div>
+            <div class="junct-prop"><span class="junct-prop-key">Structură:</span><span class="junct-prop-val">Proteine membranare (conexoni)</span></div>
+            <div class="junct-prop"><span class="junct-prop-key">Funcție:</span><span class="junct-prop-val">Comunicare electrică, transfer ioni/molecule</span></div>
+            <div class="junct-prop"><span class="junct-prop-key">Localizare:</span><span class="junct-prop-val">Mușchi neted, mușchi cardiac (NU epitelial!)</span></div>
+            <div class="hbox hbox-green" style="margin-top:12px;"><strong>💡 De reținut</strong>Joncțiunile gap sunt esențiale pentru contracția sincronizată a miocardului — impulsul electric se propagă rapid prin inimă via aceste canale. NU apar în epitelii!</div>
+          </div>
+        </div>
+      </div>
+
+      <!-- MNEMONIC -->
+      <div class="mnemonic">
+        <div class="mnemonic-title">🧠 Memotecnică — Joncțiunile</div>
+        <div class="mnemonic-text">
+          <span class="em">S</span>trânse — <span class="em">S</span>igurează bariera (spațiu = 0)<br>
+          <span class="em">D</span>esmozomi — <span class="em">D</span>upă 24 nm se unesc mecanic<br>
+          <span class="em">G</span>ap — <span class="em">G</span>ăuri de 2 nm pentru ioni
+          <span class="sub">SDG → Strânse · Desmozomi · Gap — în ordine crescătoare a spațiului intercelular: 0 → 24 → 2 nm (gap este cel mai mic!)</span>
+        </div>
+      </div>
+
+    </div><!-- /tab infografice -->
+
+
+    <!-- ═══════════ TAB: EPITELIAL ═══════════ -->
+    <div class="panel" id="tab-epitelial">
+      <div class="section-header">
+        <div class="section-title">Țesutul Epitelial</div>
+        <div class="section-desc">Acoperă suprafețe, căptușește cavități, formează glande. Avascular — hrănit prin difuziune din conjunctivul subiacent.</div>
+      </div>
+
+      <!-- KEY PROPERTIES -->
+      <div class="g2" style="margin-bottom:24px;">
+        <div class="hbox hbox-blue">
+          <strong>🔑 Proprietăți esențiale ale epiteliului</strong>
+          ✦ Celule strâns unite (joncțiuni strânse + desmozomi)<br>
+          ✦ Avascular — nutrienți prin difuziune din conjunctiv<br>
+          ✦ Ancorat de conjunctiv prin <strong>membrana bazală</strong><br>
+          ✦ Se divid prin <strong>mitoză</strong> — capacitate mare de regenerare<br>
+          ✦ O față liberă în contact cu aer sau fluide
+        </div>
+        <div class="hbox hbox-violet">
+          <strong>🏗 Membrana bazală</strong>
+          Structură non-celulară care ancorează epiteliul de conjunctivul subiacent. Compusă din:<br>
+          ✦ <strong>Glicoproteine</strong> — secretate de celulele epiteliale<br>
+          ✦ <strong>Fibre de colagen</strong> — aparținând conjunctivului<br><br>
+          <em>Funcție: suport mecanic + filtru molecular</em>
+        </div>
+      </div>
+
+      <!-- EPITHELIUM TYPES INTERACTIVE -->
+      <div class="gcard">
+        <div class="gcard-title"><div class="ct-icon" style="background:#e8eeff">🧱</div>Tipuri de epitelii — Click pentru detalii</div>
+        <div class="epith-grid" id="epith-grid">
+
+          <div class="epith-card" onclick="selectEpith(this,'simplu-pav')">
+            <div class="epith-svg">
+              <svg width="160" height="80" viewBox="0 0 160 80">
+                <rect x="10" y="25" width="30" height="12" rx="2" fill="#5b8dee" opacity="0.7"/>
+                <rect x="45" y="27" width="30" height="10" rx="2" fill="#5b8dee" opacity="0.7"/>
+                <rect x="80" y="25" width="30" height="12" rx="2" fill="#5b8dee" opacity="0.7"/>
+                <rect x="115" y="26" width="30" height="11" rx="2" fill="#5b8dee" opacity="0.7"/>
+                <!-- Nuclei -->
+                <ellipse cx="25" cy="31" rx="5" ry="3" fill="#1d4ed8"/>
+                <ellipse cx="60" cy="32" rx="5" ry="3" fill="#1d4ed8"/>
+                <ellipse cx="95" cy="31" rx="5" ry="3" fill="#1d4ed8"/>
+                <ellipse cx="130" cy="31.5" rx="5" ry="3" fill="#1d4ed8"/>
+                <!-- Basement membrane -->
+                <rect x="10" y="38" width="140" height="4" rx="2" fill="#93c5fd"/>
+                <text x="80" y="60" font-size="9" fill="#3b82f6" text-anchor="middle">Membrană bazală</text>
+              </svg>
+            </div>
+            <div class="epith-name">Simplu pavimentos</div>
+            <div class="epith-loc">Vase sânge, cavități, tubi renali</div>
+            <div class="epith-funcs"><span class="tag t-blue">Protecție</span><span class="tag t-cyan">Absorbție</span></div>
+          </div>
+
+          <div class="epith-card" onclick="selectEpith(this,'simplu-cub')">
+            <div class="epith-svg">
+              <svg width="160" height="80" viewBox="0 0 160 80">
+                <rect x="10" y="15" width="32" height="30" rx="3" fill="#8b5cf6" opacity="0.6"/>
+                <rect x="46" y="15" width="32" height="30" rx="3" fill="#8b5cf6" opacity="0.6"/>
+                <rect x="82" y="15" width="32" height="30" rx="3" fill="#8b5cf6" opacity="0.6"/>
+                <rect x="118" y="15" width="32" height="30" rx="3" fill="#8b5cf6" opacity="0.6"/>
+                <ellipse cx="26" cy="30" rx="7" ry="7" fill="#6d28d9"/>
+                <ellipse cx="62" cy="30" rx="7" ry="7" fill="#6d28d9"/>
+                <ellipse cx="98" cy="30" rx="7" ry="7" fill="#6d28d9"/>
+                <ellipse cx="134" cy="30" rx="7" ry="7" fill="#6d28d9"/>
+                <rect x="10" y="45" width="140" height="4" rx="2" fill="#c4b5fd"/>
+                <text x="80" y="62" font-size="9" fill="#7c3aed" text-anchor="middle">Nucleu central</text>
+              </svg>
+            </div>
+            <div class="epith-name">Simplu cubic</div>
+            <div class="epith-loc">Glande, tubi renali, retină</div>
+            <div class="epith-funcs"><span class="tag t-violet">Secreție</span><span class="tag t-blue">Protecție</span></div>
+          </div>
+
+          <div class="epith-card" onclick="selectEpith(this,'simplu-cil')">
+            <div class="epith-svg">
+              <svg width="160" height="80" viewBox="0 0 160 80">
+                <rect x="10" y="8" width="30" height="38" rx="3" fill="#10b981" opacity="0.6"/>
+                <rect x="44" y="8" width="30" height="38" rx="3" fill="#10b981" opacity="0.6"/>
+                <rect x="78" y="8" width="30" height="38" rx="3" fill="#10b981" opacity="0.6"/>
+                <rect x="112" y="8" width="30" height="38" rx="3" fill="#10b981" opacity="0.6"/>
+                <ellipse cx="25" cy="40" rx="7" ry="4" fill="#047857"/>
+                <ellipse cx="59" cy="40" rx="7" ry="4" fill="#047857"/>
+                <ellipse cx="93" cy="40" rx="7" ry="4" fill="#047857"/>
+                <ellipse cx="127" cy="40" rx="7" ry="4" fill="#047857"/>
+                <rect x="10" y="46" width="140" height="4" rx="2" fill="#6ee7b7"/>
+                <text x="80" y="62" font-size="9" fill="#059669" text-anchor="middle">Nucleu bazal</text>
+              </svg>
+            </div>
+            <div class="epith-name">Simplu cilindric</div>
+            <div class="epith-loc">Tract GI, trompe uterine, glande</div>
+            <div class="epith-funcs"><span class="tag t-green">Absorbție</span><span class="tag t-teal">Secreție</span><span class="tag t-blue">Protecție</span></div>
+          </div>
+
+          <div class="epith-card" onclick="selectEpith(this,'pseudo')">
+            <div class="epith-svg">
+              <svg width="160" height="80" viewBox="0 0 160 80">
+                <!-- Tall and short cells alternating -->
+                <rect x="10" y="5" width="25" height="40" rx="3" fill="#06b6d4" opacity="0.6"/>
+                <rect x="38" y="18" width="20" height="27" rx="3" fill="#06b6d4" opacity="0.5"/>
+                <rect x="62" y="5" width="25" height="40" rx="3" fill="#06b6d4" opacity="0.6"/>
+                <rect x="90" y="20" width="20" height="25" rx="3" fill="#06b6d4" opacity="0.5"/>
+                <rect x="115" y="5" width="25" height="40" rx="3" fill="#06b6d4" opacity="0.6"/>
+                <!-- Nuclei at different heights -->
+                <circle cx="22" cy="20" r="5" fill="#0e7490"/>
+                <circle cx="48" cy="28" r="4" fill="#0e7490"/>
+                <circle cx="74" cy="20" r="5" fill="#0e7490"/>
+                <circle cx="100" cy="30" r="4" fill="#0e7490"/>
+                <circle cx="127" cy="20" r="5" fill="#0e7490"/>
+                <rect x="10" y="45" width="140" height="4" rx="2" fill="#67e8f9"/>
+                <text x="80" y="62" font-size="9" fill="#0891b2" text-anchor="middle">Toate celulele ating MB</text>
+              </svg>
+            </div>
+            <div class="epith-name">Pseudostratificat cilindric</div>
+            <div class="epith-loc">Trahee, arbore bronșic, căi reprod.</div>
+            <div class="epith-funcs"><span class="tag t-cyan">Protecție</span><span class="tag t-teal">Secreție</span></div>
+          </div>
+
+          <div class="epith-card" onclick="selectEpith(this,'strat-pav')">
+            <div class="epith-svg">
+              <svg width="160" height="80" viewBox="0 0 160 80">
+                <!-- Multiple layers -->
+                <rect x="10" y="35" width="140" height="10" rx="1" fill="#ec4899" opacity="0.4"/>
+                <rect x="10" y="25" width="140" height="10" rx="1" fill="#ec4899" opacity="0.5"/>
+                <rect x="10" y="15" width="140" height="10" rx="1" fill="#ec4899" opacity="0.6"/>
+                <rect x="10" y="8" width="140" height="7" rx="1" fill="#ec4899" opacity="0.7"/>
+                <!-- Flat top cells -->
+                <text x="80" y="12" font-size="8" fill="#9d174d" text-anchor="middle">→ plat (la suprafață)</text>
+                <text x="80" y="22" font-size="8" fill="#9d174d" text-anchor="middle">→ cubic (intermediar)</text>
+                <text x="80" y="32" font-size="8" fill="#9d174d" text-anchor="middle">→ cubic (intermediar)</text>
+                <text x="80" y="42" font-size="8" fill="#9d174d" text-anchor="middle">→ cubo-cilindric (bază)</text>
+                <rect x="10" y="45" width="140" height="4" rx="2" fill="#fbcfe8"/>
+              </svg>
+            </div>
+            <div class="epith-name">Stratificat pavimentos</div>
+            <div class="epith-loc">Epiderm, cavitate orală, esofag, vagin</div>
+            <div class="epith-funcs"><span class="tag t-pink">Protecție</span></div>
+          </div>
+
+          <div class="epith-card" onclick="selectEpith(this,'uroteliu')">
+            <div class="epith-svg">
+              <svg width="160" height="80" viewBox="0 0 160 80">
+                <!-- Relaxed state -->
+                <rect x="10" y="5" width="25" height="38" rx="8" fill="#f59e0b" opacity="0.6"/>
+                <rect x="40" y="8" width="25" height="35" rx="8" fill="#f59e0b" opacity="0.6"/>
+                <rect x="70" y="5" width="25" height="38" rx="8" fill="#f59e0b" opacity="0.6"/>
+                <rect x="100" y="8" width="25" height="35" rx="8" fill="#f59e0b" opacity="0.6"/>
+                <rect x="130" y="5" width="25" height="38" rx="8" fill="#f59e0b" opacity="0.6"/>
+                <rect x="10" y="43" width="140" height="4" rx="2" fill="#fde68a"/>
+                <text x="80" y="60" font-size="9" fill="#b45309" text-anchor="middle">6-7 straturi (relaxat)</text>
+                <text x="80" y="73" font-size="8" fill="#d97706" text-anchor="middle">→ aplatizat când vezica e plină</text>
+              </svg>
+            </div>
+            <div class="epith-name">Uroteliu (tranziţional)</div>
+            <div class="epith-loc">Uretere, vezică urinară</div>
+            <div class="epith-funcs"><span class="tag t-orange">Protecție</span></div>
+          </div>
+
+        </div>
+
+        <!-- Detail panel -->
+        <div id="epith-detail" style="display:none;margin-top:20px;padding:20px;background:var(--violet-light);border-radius:14px;border:1px solid rgba(124,58,237,0.2);">
+          <div id="epith-detail-content"></div>
+        </div>
+      </div>
+
+      <!-- GLANDS -->
+      <div class="gcard">
+        <div class="gcard-title"><div class="ct-icon" style="background:#fce7f3">🏭</div>Tipuri de glande — Clasificare completă</div>
+        
+        <div class="gland-tree">
+          <div class="gt-root">
+            <div class="gt-root-box">GLANDE</div>
+          </div>
+          <div style="text-align:center;font-size:20px;color:var(--text3);margin:8px 0;">↓</div>
+          <div class="gt-branches">
+            <!-- ENDOCRINE -->
+            <div class="gt-branch">
+              <div class="gt-branch-title" style="color:var(--rose);">♦ Glande Endocrine <span class="tag t-rose" style="margin-left:8px;">Fără duct</span></div>
+              <div class="gt-item">
+                <div class="gt-item-name">Secreție internă</div>
+                <div class="gt-item-desc">Secretă <strong>hormoni</strong> direct în sânge</div>
+                <div class="gt-item-ex">Ex: Hipofiză, tiroidă, suprarenale, pancreas endocrin</div>
+              </div>
+              <div class="hbox hbox-rose" style="margin-top:12px;font-size:12px;">
+                <strong>🔑 Cheie admitere</strong>
+                Endocrine = ductless = secreție internă = hormoni în sânge
+              </div>
+            </div>
+            <!-- EXOCRINE -->
+            <div class="gt-branch">
+              <div class="gt-branch-title" style="color:var(--blue);">♦ Glande Exocrine <span class="tag t-blue" style="margin-left:8px;">Cu duct</span></div>
+              
+              <div style="font-size:11px;font-weight:700;color:var(--text3);text-transform:uppercase;letter-spacing:.06em;margin-bottom:8px;">Clasificare după număr celule:</div>
+              <div class="gt-item">
+                <div class="gt-item-name">Unicelulare</div>
+                <div class="gt-item-desc">O singură celulă secretoare</div>
+                <div class="gt-item-ex">Ex: Celula caliciformă (mucus în tract digestiv)</div>
+              </div>
+              <div class="gt-item">
+                <div class="gt-item-name">Pluricelulare simple</div>
+                <div class="gt-item-desc">Duct neramificat: tubulare, tubulare încolăcite, tubulare ramificate, acinoase ramificate</div>
+                <div class="gt-item-ex">Ex: gl. intestinale, sudoripare, gastrice, sebacee</div>
+              </div>
+              <div class="gt-item">
+                <div class="gt-item-name">Pluricelulare compuse</div>
+                <div class="gt-item-desc">Duct ramificat: tubulare, acinoase, tubulo-acinoase</div>
+                <div class="gt-item-ex">Ex: pancreas, gl. salivare, gl. parotidă</div>
+              </div>
+
+              <div style="font-size:11px;font-weight:700;color:var(--text3);text-transform:uppercase;letter-spacing:.06em;margin:12px 0 8px;">Clasificare după tip secreție:</div>
+              <div style="display:grid;grid-template-columns:1fr 1fr;gap:8px;">
+                <div class="gt-item">
+                  <div class="gt-item-name">Mucoase</div>
+                  <div class="gt-item-desc">Mucus — polizaharide + proteine</div>
+                </div>
+                <div class="gt-item">
+                  <div class="gt-item-name">Seroase</div>
+                  <div class="gt-item-desc">Material proteic apos cu enzime</div>
+                </div>
+                <div class="gt-item" style="grid-column:1/-1;">
+                  <div class="gt-item-name">Seromucoase</div>
+                  <div class="gt-item-desc">Ambele tipuri — ex: glande salivare</div>
+                </div>
+              </div>
+
+              <div style="font-size:11px;font-weight:700;color:var(--text3);text-transform:uppercase;letter-spacing:.06em;margin:12px 0 8px;">Clasificare după activitate:</div>
+              <div style="display:grid;grid-template-columns:1fr 1fr 1fr;gap:8px;">
+                <div class="gt-item">
+                  <div class="gt-item-name" style="color:var(--green);">Merocrine</div>
+                  <div class="gt-item-desc">Celula rămâne intactă</div>
+                  <div class="gt-item-ex">Sudoripare, salivare</div>
+                </div>
+                <div class="gt-item">
+                  <div class="gt-item-name" style="color:var(--blue);">Apocrine</div>
+                  <div class="gt-item-desc">Exocitoză — celula intactă</div>
+                  <div class="gt-item-ex">Mamare, ceruminoase</div>
+                </div>
+                <div class="gt-item">
+                  <div class="gt-item-name" style="color:var(--rose);">Holocrine</div>
+                  <div class="gt-item-desc">Celula se dezintegrează</div>
+                  <div class="gt-item-ex">Sebacee (piele)</div>
+                </div>
+              </div>
+            </div>
+          </div>
+        </div>
+
+        <div class="mnemonic">
+          <div class="mnemonic-title">🧠 Memotecnică — Glande exocrine după activitate</div>
+          <div class="mnemonic-text">
+            <span class="em">M</span>erocrine — <span class="em">M</span>enține celula intactă (nu pierde nimic)<br>
+            <span class="em">A</span>pocrine — <span class="em">A</span>runcă secreția prin exocitoză<br>
+            <span class="em">H</span>olocrine — <span class="em">H</span>olocaust celular (celula se distruge)
+            <span class="sub">MAH → Merocrine · Apocrine · Holocrine — intensitate crescătoare a "sacrificiului" celular</span>
+          </div>
+        </div>
+      </div>
+
+      <!-- MEMBRANES -->
+      <div class="g2">
+        <div class="hbox hbox-blue" style="border-radius:14px;padding:20px;">
+          <strong>🛡 Membrane mucoase</strong>
+          Căptușesc căile de acces spre exterior (resp., urinare, digestive).<br><br>
+          <strong>3 straturi:</strong><br>
+          1. <strong>Epiteliu</strong> — simplu/pseudostrat./stratificat<br>
+          2. <strong>Lamina propria (corion)</strong> — conjunctiv bogat în vase<br>
+          3. <strong>Musculara mucoasei</strong> — straturi circulare+longitudinale<br><br>
+          <em>Funcție: protecție + lubrifiere</em>
+        </div>
+        <div class="hbox hbox-teal" style="border-radius:14px;padding:20px;">
+          <strong>🫁 Membrane seroase</strong>
+          Căptușesc cavitățile și acoperă suprafața viscerelor.<br><br>
+          <strong>Exemple:</strong><br>
+          ✦ <strong>Pleura</strong> — cavitatea pleurală (plămâni)<br>
+          ✦ <strong>Pericardul</strong> — cavitatea pericardică (inimă)<br>
+          ✦ <strong>Peritoneul</strong> — cavitatea abdominală<br><br>
+          <em>Funcție: lubrifiere → mișcări fără fricțiune</em>
+        </div>
+      </div>
+
+    </div><!-- /tab epitelial -->
+
+
+    <!-- ═══════════ TAB: CONJUNCTIV ═══════════ -->
+    <div class="panel" id="tab-conjunctiv">
+      <div class="section-header">
+        <div class="section-title">Țesuturile Conjunctive</div>
+        <div class="section-desc">Cel mai divers grup tisular — celule + matrice (fibre + substanță fundamentală). Funcții: suport, protecție, transport, depozitare.</div>
+      </div>
+
+      <div class="hbox hbox-violet">
+        <strong>📐 Structura generală a țesutului conjunctiv</strong>
+        <strong>Celule</strong> dispuse în <strong>Matrice</strong> = Fibre + Substanță fundamentală<br>
+        ✦ Substanța fundamentală poate fi: lichidă (sânge) | semilichidă (conjunctiv lax) | semidură (cartilaj) | dură mineralizată (os)
+      </div>
+
+      <!-- PROPRIU-ZIS -->
+      <div class="gcard">
+        <div class="gcard-title"><div class="ct-icon" style="background:#ede9fe">🕸</div>Țesut conjunctiv propriu-zis — 6 tipuri</div>
+        
+        <div class="acc-item open" onclick="toggleAcc(this)">
+          <div class="acc-head">
+            <div class="acc-title"><span style="width:28px;height:28px;background:var(--blue-light);border-radius:8px;display:flex;align-items:center;justify-content:center;font-size:14px;">1</span>Lax (Areolar)</div>
+            <span class="acc-chevron">›</span>
+          </div>
+          <div class="acc-body open">
+            <div class="acc-inner">
+              <div class="g2">
+                <div>
+                  <strong style="color:var(--text);">Localizare:</strong> Sub piele, între mușchi, sub majoritatea epiteliilor<br><br>
+                  <strong style="color:var(--text);">Funcție:</strong> Menține integritatea organelor, conține fluide tisulare<br><br>
+                  <strong style="color:var(--text);">Celule prezente:</strong><br>
+                  • <strong>Fibroblaste</strong> — sintetizează fibre proteice + mucopolizaharide (acid hialuronic)<br>
+                  • <strong>Macrofage</strong> — fagocite, distrug substanțe străine<br>
+                  • <strong>Mastocite</strong> — granule cu histamină (alergii, inflamații)<br>
+                  • <strong>Limfocite</strong> — rol imun
+                </div>
+                <div>
+                  <strong style="color:var(--text);">Fibre:</strong><br>
+                  • <strong>Colagen</strong> — rezistență mare la rupere, flexibile<br>
+                  • <strong>Elastice</strong> — conțin elastină; se întind și revin<br>
+                  • <strong>Reticulare</strong> — fine, suport pentru capilare și fibre nervoase<br><br>
+                  <div class="hbox hbox-blue" style="margin:0;font-size:12px;"><strong>💡 Important!</strong>Fibroblastele sunt celulele "arhitecți" ale conjunctivului — ele construiesc matricea.</div>
+                </div>
+              </div>
+            </div>
+          </div>
+        </div>
+
+        <div class="acc-item" onclick="toggleAcc(this)">
+          <div class="acc-head">
+            <div class="acc-title"><span style="width:28px;height:28px;background:var(--violet-light);border-radius:8px;display:flex;align-items:center;justify-content:center;font-size:14px;">2</span>Dens (Ordonat / Neordonat)</div>
+            <span class="acc-chevron">›</span>
+          </div>
+          <div class="acc-body">
+            <div class="acc-inner">
+              <div class="g2">
+                <div>
+                  <strong>Dens ordonat:</strong> Fibre de colagen în fascicule paralele<br>
+                  Localizare: tendoane, ligamente, aponevroze<br><br>
+                  <strong>Dens neordonat:</strong> Fibre cu traiecte aleatorii<br>
+                  Localizare: acoperă mușchi, oase, cartilaje; capsule de organe
+                </div>
+                <div>
+                  <div class="hbox hbox-violet" style="margin:0;font-size:12px;"><strong>Diferența cheie:</strong>Ordonat = fibre paralele = rezistență unidirecțională (tendoane)<br>Neordonat = fibre haotice = rezistență multidirecțională (dermă)</div>
+                </div>
+              </div>
+            </div>
+          </div>
+        </div>
+
+        <div class="acc-item" onclick="toggleAcc(this)">
+          <div class="acc-head">
+            <div class="acc-title"><span style="width:28px;height:28px;background:var(--green-light);border-radius:8px;display:flex;align-items:center;justify-content:center;font-size:14px;">3</span>Reticulat</div>
+            <span class="acc-chevron">›</span>
+          </div>
+          <div class="acc-body">
+            <div class="acc-inner">
+              Fibre delicate → rețea numită <strong>reticul</strong>. Localizare: ficat, splină, noduli limfatici. Funcție: suport pentru celulele acestor organe. Fibrele sunt sintetizate de <strong>celulele reticulare</strong>.
+            </div>
+          </div>
+        </div>
+
+        <div class="acc-item" onclick="toggleAcc(this)">
+          <div class="acc-head">
+            <div class="acc-title"><span style="width:28px;height:28px;background:var(--orange-light);border-radius:8px;display:flex;align-items:center;justify-content:center;font-size:14px;">4</span>Adipos (Gras)</div>
+            <span class="acc-chevron">›</span>
+          </div>
+          <div class="acc-body">
+            <div class="acc-inner">
+              <strong>Celulele adipoase</strong> acumulează picături de grăsime ce împing citoplasma și nucleul spre periferie → celula capătă formă de <strong>inel cu pecete</strong>.<br>
+              Localizare: sub piele, jurul rinichilor, spatele globilor oculari, suprafața inimii, mușchi striați.<br>
+              Funcții: protecție mecanică, izolare termică, rezervă de energie.
+            </div>
+          </div>
+        </div>
+
+        <div class="acc-item" onclick="toggleAcc(this)">
+          <div class="acc-head">
+            <div class="acc-title"><span style="width:28px;height:28px;background:var(--cyan-light);border-radius:8px;display:flex;align-items:center;justify-content:center;font-size:14px;">5</span>Elastic</div>
+            <span class="acc-chevron">›</span>
+          </div>
+          <div class="acc-body">
+            <div class="acc-inner">
+              Fibre elastice ramificate în fascicule paralele sau rețea + fibroblaste. Localizare: ligamente elastice (între vertebre), corzi vocale, pereți artere mari (aortă). Funcție: capacitate de întindere și revenire.
+            </div>
+          </div>
+        </div>
+
+        <div class="acc-item" onclick="toggleAcc(this)">
+          <div class="acc-head">
+            <div class="acc-title"><span style="width:28px;height:28px;background:var(--pink-light);border-radius:8px;display:flex;align-items:center;justify-content:center;font-size:14px;">6</span>Pigmentar</div>
+            <span class="acc-chevron">›</span>
+          </div>
+          <div class="acc-body">
+            <div class="acc-inner">
+              Conține celule care depozitează pigmenți — de regulă <strong>melanina</strong> (culoare închisă). Localizare: structuri ale ochiului (epiteliu pigmentar al retinei). Funcție: depozit de pigment, fotoprotecție.
+            </div>
+          </div>
+        </div>
+      </div>
+
+      <!-- CARTILAJ -->
+      <div class="gcard">
+        <div class="gcard-title"><div class="ct-icon" style="background:#e0f7fb">🦴</div>Cartilajul — 3 tipuri</div>
+        <div class="hbox hbox-cyan" style="margin-bottom:16px;">
+          <strong>📐 Structura cartilajului</strong>
+          Celule: <strong>Condroblaste</strong> (active, sintetizează fibre) → devin <strong>Condrocite</strong> (inactive, înglobate în lacune)<br>
+          Substanța fundamentală: consistență cauciuc — proteine + proteoglicani | Avascular → hrănit prin difuziune
+        </div>
+        <div class="g3">
+          <div style="background:var(--blue-light);border:1px solid var(--blue);border-radius:14px;padding:18px;">
+            <div style="font-size:15px;font-weight:800;color:var(--blue);margin-bottom:8px;">Hialin</div>
+            <div style="font-size:12px;color:var(--text2);line-height:1.7;margin-bottom:10px;">Cel mai răspândit dar <strong>cel mai puțin rezistent</strong>. Condrocite în lacune. Aspect vitros.</div>
+            <div style="font-size:11.5px;color:var(--text2);">📍 Extremități oase lungi, nas, laringe, trahee, bronhii, ureche externă, schelet fetal</div>
+          </div>
+          <div style="background:var(--green-light);border:1px solid var(--green);border-radius:14px;padding:18px;">
+            <div style="font-size:15px;font-weight:800;color:var(--green);margin-bottom:8px;">Elastic</div>
+            <div style="font-size:12px;color:var(--text2);line-height:1.7;margin-bottom:10px;">Conține <strong>fibre elastice ramificate</strong>. Mai flexibil decât hialinul.</div>
+            <div style="font-size:11.5px;color:var(--text2);">📍 Epiglotă, ureche externă, trompa lui Eustachio</div>
+          </div>
+          <div style="background:var(--rose-light);border:1px solid var(--rose);border-radius:14px;padding:18px;">
+            <div style="font-size:15px;font-weight:800;color:var(--rose);margin-bottom:8px;">Fibros</div>
+            <div style="font-size:12px;color:var(--text2);line-height:1.7;margin-bottom:10px;"><strong>Cel mai rezistent</strong>. Fibre dense de colagen + puțină substanță fundamentală. Rezistență mare la tensiune.</div>
+            <div style="font-size:11.5px;color:var(--text2);">📍 Simfiză pubiană, discuri intervertebrale, meniscuri genunchi, oase craniene</div>
+          </div>
+        </div>
+        <div class="mnemonic" style="margin-top:16px;">
+          <div class="mnemonic-title">🧠 Memotecnică — Cartilaje (rezistență)</div>
+          <div class="mnemonic-text">
+            <span class="em">H</span>ialin = cel mai <span class="em">H</span>ard de localizat (mai puțin rezistent, cel mai comun)<br>
+            <span class="em">E</span>lastic = <span class="em">E</span>lasticit<br>
+            <span class="em">F</span>ibros = cel mai <span class="em">F</span>orte (mai rezistent, discuri intervertebrale)
+            <span class="sub">Ordinea rezistenței: Hialin &lt; Elastic &lt; Fibros</span>
+          </div>
+        </div>
+      </div>
+
+      <!-- OS + SANGE -->
+      <div class="g2">
+        <div class="gcard" style="margin-bottom:0;">
+          <div class="gcard-title"><div class="ct-icon" style="background:#fef3c7">🦴</div>Osul</div>
+          <div class="hbox hbox-orange" style="font-size:12.5px;">
+            <strong>Cel mai dur țesut conjunctiv</strong>
+            Conține: celule + fibre colagen + <strong>substanță fundamentală mineralizată</strong> (săruri Ca²⁺ + fosfați) = duritate
+          </div>
+          <div style="font-size:13px;color:var(--text2);line-height:1.7;margin-bottom:12px;">
+            <strong style="color:var(--text);">Celule osoase:</strong><br>
+            • <strong>Osteoblaste</strong> — sintetizează os, se transformă în osteocite<br>
+            • <strong>Osteocite</strong> — celule mature în lacune osoase<br>
+            • <strong>Osteoclaste</strong> — resorbție și remodelare osoasă<br><br>
+            <strong style="color:var(--text);">Substanță fundamentală:</strong> Hidroxiapatită (fosfat de calciu)<br><br>
+            <strong style="color:var(--text);">Tipuri:</strong><br>
+            • <strong>Os compact (dens)</strong> — diafiză oase lungi; unitate = <strong>osteon</strong><br>
+            • <strong>Os spongios</strong> — epifize + oase late; trabecule + măduvă roșie
+          </div>
+        </div>
+        <div class="gcard" style="margin-bottom:0;">
+          <div class="gcard-title"><div class="ct-icon" style="background:#ffe4e6">🩸</div>Sângele</div>
+          <div class="hbox hbox-rose" style="font-size:12.5px;">
+            <strong>Țesut conjunctiv special — substanță fundamentală LICHIDĂ</strong>
+            Plasmă (matrix) nu e produsă de celulele sanguine — vine din exterior + proteine hepatice
+          </div>
+          <div style="font-size:13px;color:var(--text2);line-height:1.7;">
+            <strong style="color:var(--text);">Funcții:</strong><br>
+            • Transport nutrimente, gaze, produse reziduale<br>
+            • Transport hormoni și anticorpi<br>
+            • Procese de apărare imunitară<br><br>
+            <strong style="color:var(--text);">Componente:</strong><br>
+            • Eritrocite (hematii) — transport O₂<br>
+            • Leucocite — apărare<br>
+            • Trombocite — coagulare<br>
+            • Plasmă — matrice lichidă<br><br>
+            <em style="font-size:12px;">→ Detalii în Capitolul 14</em>
+          </div>
+        </div>
+      </div>
+    </div><!-- /tab conjunctiv -->
+
+
+    <!-- ═══════════ TAB: MUSCULAR & NERVOS ═══════════ -->
+    <div class="panel" id="tab-muscular">
+      <div class="section-header">
+        <div class="section-title">Țesuturile Muscular și Nervos</div>
+        <div class="section-desc">Al treilea și al patrulea tip major de țesuturi — mișcare și comunicare</div>
+      </div>
+
+      <!-- MUSCLE COMPARISON -->
+      <div class="gcard">
+        <div class="gcard-title"><div class="ct-icon" style="background:#ffe4e6">💪</div>Comparație — Cele 3 tipuri de mușchi</div>
+        <div class="g3">
+          <div style="background:var(--rose-light);border:2px solid var(--rose);border-radius:16px;padding:20px;">
+            <div style="font-size:16px;font-weight:800;color:var(--rose);margin-bottom:12px;">💪 Scheletic</div>
+            <div style="font-size:12.5px;color:var(--text2);line-height:1.8;">
+              <span class="tag t-rose" style="margin-bottom:8px;display:inline-block;">Voluntar</span>
+              <span class="tag t-rose" style="margin-left:4px;margin-bottom:8px;display:inline-block;">Striat</span><br>
+              ✦ Atașat de oase<br>
+              ✦ Sub control nervos <strong>conștient</strong><br>
+              ✦ Celule alungite cu striații microscopice<br>
+              ✦ Multinucleat<br>
+              ✦ Contracție rapidă, oboseste repede
+            </div>
+          </div>
+          <div style="background:#fff7ed;border:2px solid var(--orange);border-radius:16px;padding:20px;">
+            <div style="font-size:16px;font-weight:800;color:var(--orange);margin-bottom:12px;">🌀 Neted</div>
+            <div style="font-size:12.5px;color:var(--text2);line-height:1.8;">
+              <span class="tag t-orange" style="margin-bottom:8px;display:inline-block;">Involuntar</span>
+              <span class="tag t-orange" style="margin-left:4px;margin-bottom:8px;display:inline-block;">Fără striații</span><br>
+              ✦ Organe interne (visceral)<br>
+              ✦ Pereți: căi resp., urinare, vase sânge, tract digestiv<br>
+              ✦ Fusifor, mononucleat<br>
+              ✦ Nu necesită control voluntar<br>
+              ✦ Contracție lentă, susținută
+            </div>
+          </div>
+          <div style="background:#f0fdf4;border:2px solid var(--green);border-radius:16px;padding:20px;">
+            <div style="font-size:16px;font-weight:800;color:var(--green);margin-bottom:12px;">❤️ Cardiac</div>
+            <div style="font-size:12.5px;color:var(--text2);line-height:1.8;">
+              <span class="tag t-green" style="margin-bottom:8px;display:inline-block;">Involuntar</span>
+              <span class="tag t-green" style="margin-left:4px;margin-bottom:8px;display:inline-block;">Striat</span><br>
+              ✦ Peretele inimii<br>
+              ✦ Striat, dar <strong>involuntar</strong><br>
+              ✦ Celule unite prin <strong>discuri intercalare</strong><br>
+              ✦ Discurile = joncțiuni gap → sincronizare<br>
+              ✦ Ritmic, continuu
+            </div>
+          </div>
+        </div>
+
+        <div class="mnemonic" style="margin-top:16px;">
+          <div class="mnemonic-title">🧠 Memotecnică — Striații vs Control</div>
+          <div class="mnemonic-text">
+            Striat: <span class="em">S</span>cheletic (voluntar) + <span class="em">C</span>ardiac (involuntar)<br>
+            Neted: fără striații, involuntar<br>
+            <span class="sub">→ "Striat ≠ Voluntar" — cardiarul este striat DAR involuntar! Această distincție apare des la examen.</span>
+          </div>
+        </div>
+      </div>
+
+      <!-- NERVOUS TISSUE -->
+      <div class="gcard">
+        <div class="gcard-title"><div class="ct-icon" style="background:#d1fae5">⚡</div>Țesutul Nervos</div>
+        
+        <div class="hbox hbox-green">
+          <strong>2 tipuri de celule în țesutul nervos</strong>
+          1. <strong>Celule nevroglice</strong> — de suport (nu conduc impulsuri)<br>
+          2. <strong>Neuroni</strong> — specializați în generarea și conducerea impulsurilor nervoase
+        </div>
+
+        <div class="g3" style="margin-top:16px;">
+          <div class="tissue-card nerv" style="padding:18px;">
+            <div class="tc-name">🔵 Neuroni Senzitivi</div>
+            <div class="tc-func" style="margin-top:8px;">Recepționează impulsuri din mediul extern → transmit spre <strong>SNC</strong> (encefal + măduvă spinării)</div>
+            <span class="tag t-green">Aferenți</span>
+          </div>
+          <div class="tissue-card nerv" style="padding:18px;">
+            <div class="tc-name">🟡 Neuroni Intercalari</div>
+            <div class="tc-func" style="margin-top:8px;">Neuroni de asociație. Interpretează stimulii și transmit răspunsul adecvat. Localizați în SNC.</div>
+            <span class="tag t-teal">Asociativi</span>
+          </div>
+          <div class="tissue-card nerv" style="padding:18px;">
+            <div class="tc-name">🔴 Neuroni Motori</div>
+            <div class="tc-func" style="margin-top:8px;">Transmit impulsuri <strong>de la SNC</strong> spre mușchi și glande pentru a obține răspuns.</div>
+            <span class="tag t-green">Eferenți</span>
+          </div>
+        </div>
+
+        <div class="hbox hbox-teal" style="margin-top:16px;">
+          <strong>🧠 Structura neuronului</strong>
+          Corp celular (pericarion) + Dendrite (recepție) + Axon (transmisie) + Terminații axonale<br>
+          Neuronii au <strong>numeroase prelungiri</strong> ce permit recepționarea și transmiterea stimulilor în mai multe direcții simultan.
+        </div>
+
+        <div class="mnemonic">
+          <div class="mnemonic-title">🧠 Calea reflexului nervos</div>
+          <div class="mnemonic-text">
+            <span class="em">S</span>timul → Neuron <span class="em">S</span>enzitiv → Neuron <span class="em">I</span>ntercalar (SNC) → Neuron <span class="em">M</span>otor → <span class="em">E</span>fector
+            <span class="sub">SIM-E → Senzitiv-Intercalar-Motor-Efector (arc reflex simplu)</span>
+          </div>
+        </div>
+      </div>
+
+    </div><!-- /tab muscular -->
+
+
+    <!-- ═══════════ TAB: TABELE ═══════════ -->
+    <div class="panel" id="tab-tabele">
+      <div class="section-header">
+        <div class="section-title">Tabele comparative — Referință rapidă</div>
+        <div class="section-desc">Toate informațiile esențiale organizate în tabele pentru studiu eficient</div>
+      </div>
+
+      <div class="gcard">
+        <div class="gcard-title">Tabelul 4.1 — Țesuturile umane și funcțiile lor</div>
+        <table class="mtable">
+          <thead><tr><th>Țesut</th><th>Subtip</th><th>Funcția</th></tr></thead>
+          <tbody>
+            <tr><td class="hl">Epitelial</td><td>—</td><td>Protecție și suport; acoperă și căptușește organe</td></tr>
+            <tr><td class="hl" rowspan="5">Conjunctiv</td><td>General</td><td>Unește zone specializate ale organismului</td></tr>
+            <tr><td>Os</td><td>Suport structural</td></tr>
+            <tr><td>Cartilaj</td><td>Flexibilitate, amortizarea șocurilor</td></tr>
+            <tr><td>Țesut conjunctiv fibros</td><td>Conectează mușchi de oase și oasele între ele</td></tr>
+            <tr><td>Sânge</td><td>Transportă O₂, nutrimente, reziduuri, anticorpi, hormoni</td></tr>
+            <tr><td class="hl">Muscular</td><td>—</td><td>Se contractă pentru mișcările corpului sau componentelor sale</td></tr>
+            <tr><td class="hl">Nervos</td><td>—</td><td>Conduce impulsuri electrice între părțile corpului și mediul extern</td></tr>
+          </tbody>
+        </table>
+      </div>
+
+      <div class="gcard">
+        <div class="gcard-title">Tabelul 4.2 — Joncțiunile intercelulare</div>
+        <table class="mtable">
+          <thead><tr><th>Denumire</th><th>Structură</th><th>Spațiu intercelular</th><th>Funcție</th><th>Localizare</th></tr></thead>
+          <tbody>
+            <tr>
+              <td class="hl">Joncțiuni strânse</td>
+              <td>Benzi proteice de fuziune (lipoproteine)</td>
+              <td><span class="tag t-rose">0 nm — dispare</span></td>
+              <td>Barieră impermeabilă</td>
+              <td>Epitelii</td>
+            </tr>
+            <tr>
+              <td class="hl">Desmozomi (aderențiale)</td>
+              <td>Glicoproteine transmembranare + filamente cheratină</td>
+              <td><span class="tag t-blue">24 nm — normală</span></td>
+              <td>Cuplează mecanic celulele</td>
+              <td>Epiderm, mucoase</td>
+            </tr>
+            <tr>
+              <td class="hl">Joncțiuni gap (comunicante)</td>
+              <td>Canale/pori proteici prin membrane (conexoni)</td>
+              <td><span class="tag t-green">2 nm — mult redusă</span></td>
+              <td>Comunicare electrică, transfer ioni</td>
+              <td>Mușchi neted, cardiac (NU epitelial)</td>
+            </tr>
+          </tbody>
+        </table>
+      </div>
+
+      <div class="gcard">
+        <div class="gcard-title">Tabelul 4.3 — Caracteristicile țesuturilor epiteliale</div>
+        <table class="mtable">
+          <thead><tr><th>Tip epiteliu</th><th>Localizare</th><th>Funcții</th></tr></thead>
+          <tbody>
+            <tr><td class="hl">Simplu pavimentos</td><td>Vase sânge (endoteliu), cavități interne (mezoteliu), tubi renali, glande mici</td><td><span class="tag t-blue">Protecție</span> <span class="tag t-cyan">Absorbție</span></td></tr>
+            <tr><td class="hl">Simplu cubic</td><td>Porțiunea secretoare și ductele glandelor, tubi renali, suprafața ovarului, cristalin, retină</td><td><span class="tag t-violet">Secreție</span> <span class="tag t-blue">Protecție</span></td></tr>
+            <tr><td class="hl">Simplu cilindric</td><td>Tract gastrointestinal, trompe uterine, uter, glande (celule caliciforme = mucus)</td><td><span class="tag t-green">Absorbție</span> <span class="tag t-blue">Protecție</span> <span class="tag t-teal">Secreție</span></td></tr>
+            <tr><td class="hl">Pseudostratificat cilindric</td><td>Trahee, arbore bronșic superior, căi reproductive masculine, uretră masculină</td><td><span class="tag t-blue">Protecție</span> <span class="tag t-teal">Secreție</span></td></tr>
+            <tr><td class="hl">Stratificat pavimentos</td><td>Epiderm, cavitate orală, esofag, vagin, anus, urechi (cu keratină în epiderm)</td><td><span class="tag t-pink">Protecție</span></td></tr>
+            <tr><td class="hl">Stratificat cubic</td><td>Canale glande sudoripare, tubi testiculari, foliculi ovarieni</td><td><span class="tag t-blue">Protecție</span></td></tr>
+            <tr><td class="hl">Stratificat cilindric</td><td>Uretră masculină (rar)</td><td><span class="tag t-blue">Protecție</span></td></tr>
+            <tr><td class="hl">Uroteliu (tranziţional)</td><td>Uretere, vezică urinară (6-7 straturi relaxat → aplatizat distensat)</td><td><span class="tag t-orange">Protecție</span></td></tr>
+          </tbody>
+        </table>
+      </div>
+
+      <div class="gcard">
+        <div class="gcard-title">Tabelul 4.4 — Glandele exocrine</div>
+        <table class="mtable">
+          <thead><tr><th>Tip</th><th>Subtip</th><th>Descriere</th><th>Exemple</th></tr></thead>
+          <tbody>
+            <tr><td class="hl">Unicelulare</td><td>—</td><td>O singură celulă; secretă mucină (glicoproteină + apă = mucus)</td><td>Celula caliciformă</td></tr>
+            <tr><td class="hl" rowspan="4">Pluricelulare simple</td><td>Tubulară</td><td>Tub drept → suprafață; fără canal</td><td>Gl. intestinale</td></tr>
+            <tr><td>Tubulară încolăcită</td><td>Tub încolăcit + canal tubular neramificat</td><td>Gl. sudoripare</td></tr>
+            <tr><td>Tubulară ramificată</td><td>Porțiune secretorie ramificată; canal poate lipsi</td><td>Gl. gastrice, uterine</td></tr>
+            <tr><td>Acinoasă ramificată</td><td>Formă de săculeț (acini) de-a lungul unui canal</td><td>Gl. sebacee</td></tr>
+            <tr><td class="hl" rowspan="3">Pluricelulare compuse</td><td>Tubulară</td><td>Duct ramificat; unit. secretorie tubulară</td><td>Intestin, testicul</td></tr>
+            <tr><td>Acinoasă</td><td>Duct ramificat; unit. secretorie = săculeț</td><td>Gl. salivare (submandibulară, sublinguală)</td></tr>
+            <tr><td>Tubulo-acinoasă</td><td>Ambele tipuri de unități secretorii</td><td>Pancreas, gl. parotidă</td></tr>
+          </tbody>
+        </table>
+      </div>
+
+      <div class="gcard">
+        <div class="gcard-title">Tabelul 4.5 — Caracteristicile țesuturilor conjunctive</div>
+        <table class="mtable">
+          <thead><tr><th>Țesut conjunctiv</th><th>Localizare</th><th>Funcții</th></tr></thead>
+          <tbody>
+            <tr><td class="hl">Lax (areolar)</td><td>Sub piele, între mușchi, sub epitelii</td><td>Integritate organe, fluide tisulare</td></tr>
+            <tr><td class="hl">Dens</td><td>Tendoane, ligamente, aponevroze, capsule</td><td>Unește organe, suport mecanic</td></tr>
+            <tr><td class="hl">Reticulat</td><td>Ficat, splină, noduli limfatici</td><td>Suport celular</td></tr>
+            <tr><td class="hl">Adipos</td><td>Sub piele, jurul rinichilor, inimă, mușchi striați</td><td>Protecție, izolare termică, rezervă energie</td></tr>
+            <tr><td class="hl">Elastic</td><td>Ligamente elastice (vertebre), corzi vocale, aortă</td><td>Extensibilitate</td></tr>
+            <tr><td class="hl">Pigmentar</td><td>Ochi (epiteliu pigmentar retinian)</td><td>Depozit pigment (melanină)</td></tr>
+            <tr><td class="hl">Cartilaj hialin</td><td>Extremități oase, nas, trahee, bronhii, schelet fetal</td><td>Suport, protecție, susținere</td></tr>
+            <tr><td class="hl">Cartilaj elastic</td><td>Ureche externă, epiglotă, trompa Eustachio</td><td>Suport flexibil</td></tr>
+            <tr><td class="hl">Cartilaj fibros</td><td>Simfiză pubiană, discuri intervertebrale, meniscuri</td><td>Suport, protecție (cel mai rezistent)</td></tr>
+            <tr><td class="hl">Os</td><td>Schelet</td><td>Suport, protecție, mișcare</td></tr>
+            <tr><td class="hl">Sânge</td><td>Sistemul circulator</td><td>Transport, apărare imunitară</td></tr>
+          </tbody>
+        </table>
+      </div>
+
+      <div class="gcard">
+        <div class="gcard-title">Mușchi — Comparație completă</div>
+        <table class="mtable">
+          <thead><tr><th>Caracteristică</th><th>Scheletic</th><th>Neted</th><th>Cardiac</th></tr></thead>
+          <tbody>
+            <tr><td class="hl">Control</td><td><span class="tag t-rose">Voluntar</span></td><td><span class="tag t-green">Involuntar</span></td><td><span class="tag t-green">Involuntar</span></td></tr>
+            <tr><td class="hl">Striații</td><td><span class="tag t-rose">Da</span></td><td><span class="tag t-blue">Nu</span></td><td><span class="tag t-rose">Da</span></td></tr>
+            <tr><td class="hl">Nuclei</td><td>Multipli, periferici</td><td>Unic, central</td><td>1-2, centrali</td></tr>
+            <tr><td class="hl">Localizare</td><td>Ataşat de os</td><td>Organe interne, vase</td><td>Peretele inimii</td></tr>
+            <tr><td class="hl">Joncțiuni speciale</td><td>—</td><td>Joncțiuni gap</td><td>Discuri intercalare (joncțiuni gap)</td></tr>
+            <tr><td class="hl">Viteza contracției</td><td>Rapidă</td><td>Lentă</td><td>Ritmică</td></tr>
+          </tbody>
+        </table>
+      </div>
+
+    </div><!-- /tab tabele -->
+
+
+    <!-- ═══════════ TAB: QUIZ ═══════════ -->
+    <div class="panel" id="tab-quiz">
+      <div class="section-header">
+        <div class="section-title">Quiz — Capitol 4: Țesuturile</div>
+        <div class="section-desc">Testează-ți cunoștințele cu întrebări tip admitere medicină</div>
+      </div>
+
+      <div class="quiz-score">
+        <div class="quiz-score-label">Scor curent</div>
+        <div class="quiz-score-val" id="quiz-score-display">0 / 10</div>
+        <button onclick="resetQuiz()" style="padding:8px 18px;border-radius:10px;border:1px solid var(--border);background:var(--surface);font-family:'Outfit',sans-serif;font-size:12px;font-weight:600;cursor:pointer;color:var(--text2);">↺ Restart</button>
+      </div>
+
+      <div id="quiz-container"></div>
+    </div><!-- /tab quiz -->
+
+  </div><!-- /content -->
+</div><!-- /main -->
+
+<script>
+// ── TAB SWITCHING ──
+function switchTab(id, btn) {
+  document.querySelectorAll('.panel').forEach(p => p.classList.remove('active'));
+  document.querySelectorAll('.tab-btn').forEach(b => b.classList.remove('active'));
+  document.getElementById('tab-' + id).classList.add('active');
+  btn.classList.add('active');
+}
+
+// ── JUNCTION TABS ──
+function showJunct(id, btn) {
+  document.querySelectorAll('.junct-panel').forEach(p => p.classList.remove('show'));
+  document.querySelectorAll('.junct-tab').forEach(b => b.classList.remove('active'));
+  document.getElementById('junct-' + id).classList.add('show');
+  btn.classList.add('active');
+}
+
+// ── ACCORDION ──
+function toggleAcc(item) {
+  const body = item.querySelector('.acc-body');
+  const isOpen = item.classList.contains('open');
+  item.classList.toggle('open');
+  body.classList.toggle('open');
+}
+
+// ── EPITHELIUM DETAIL ──
+const epithData = {
+  'simplu-pav': {
+    name: 'Epiteliu simplu pavimentos',
+    desc: 'Un singur strat de celule turtite (plate). Celulele sunt atât de plate încât nucleii le bombează suprafața.',
+    loc: 'Vase de sânge și limfatice (endoteliu), cavități interne (mezoteliu), canale mici ale glandelor, anumite porțiuni ale tubilor renali, porțiuni terminale ale sistemului respirator.',
+    func: 'Protecție, absorbție',
+    note: 'Endoteliu = epiteliu simplu pav. al vaselor | Mezoteliu = epiteliu simplu pav. al cavităților'
+  },
+  'simplu-cub': {
+    name: 'Epiteliu simplu cubic',
+    desc: 'Un strat de celule cubice cu nucleul dispus central (rotund, proeminent).',
+    loc: 'Porțiunea secretorie și ductele multor glande, tubi renali, suprafața ovarului, fața anterioară a cristalinului, epiteliu pigmentar al retinei.',
+    func: 'Protecție, secreție',
+    note: 'Nucleu central, rotund = marker distinctiv față de epiteliul cilindric (nucleu bazal)'
+  },
+  'simplu-cil': {
+    name: 'Epiteliu simplu cilindric',
+    desc: 'Un strat de celule înalte (cilindrice) cu nucleii localizați în porțiunea bazală. Poate prezenta microvili (absorbție) sau cili (mișcare mucus).',
+    loc: 'Tractul gastrointestinal, trompe uterine, uter, porțiuni ale tractului respirator, multiple glande. Celule caliciforme (mucus) între celule cilindrice în tractul digestiv.',
+    func: 'Protecție, secreție, absorbție',
+    note: 'Celulele caliciforme sunt glande unicelulare intercalate — secretă mucus protector'
+  },
+  'pseudo': {
+    name: 'Epiteliu pseudostratificat cilindric',
+    desc: 'Pare stratificat (nuclei la înălțimi diferite) dar este de fapt UN SINGUR strat. Toate celulele ating membrana bazală.',
+    loc: 'Trahee, arbore bronșic superior, anumite porțiuni ale sistemului reproducător și uretrei masculine.',
+    func: 'Protecție, secreție',
+    note: '⚠️ CHEIE EXAMEN: Pseudo = fals stratificat. Toate celulele ating MB dar nu ajung toate la suprafață → nuclei la niveluri diferite = aspect fals stratificat'
+  },
+  'strat-pav': {
+    name: 'Epiteliu stratificat pavimentos',
+    desc: 'Multiple straturi: cubo-cilindrice la bază, cubice intermediar, pavimentoase la suprafață. Poate fi keratinizat (epiderm) sau nekeratinizat (mucoase).',
+    loc: 'Epidermul pielii (keratinizat), cavitate orală, anus, orificii uretrală, urechi, vagin (nekeratinizate).',
+    func: 'Protecție principală',
+    note: 'Epidermul este keratinizat (cheratina = proteină dură impermeabilă). Toate deschiderile spre exterior au epiteliu stratificat pavimentos!'
+  },
+  'uroteliu': {
+    name: 'Uroteliu (Epiteliu tranziţional)',
+    desc: 'Celulele își modifică forma în funcție de distensie. Relaxat: 6-7 straturi de celule rotunjite, "bombate". Distensat: celule aplatizate, mai puține straturi.',
+    loc: 'Uretere și vezică urinară.',
+    func: 'Protecție (rezistă la mediu hipertonic urinar)',
+    note: 'Singurul epiteliu care se adaptează la distensie — perfect pentru vezica urinară care se umple și se golește'
+  }
+};
+
+function selectEpith(card, key) {
+  document.querySelectorAll('.epith-card').forEach(c => c.classList.remove('selected'));
+  card.classList.add('selected');
+  const d = epithData[key];
+  if (!d) return;
+  const detail = document.getElementById('epith-detail');
+  document.getElementById('epith-detail-content').innerHTML = `
+    <div style="font-size:16px;font-weight:800;color:var(--text);margin-bottom:10px;">${d.name}</div>
+    <div style="display:grid;grid-template-columns:1fr 1fr 1fr;gap:12px;">
+      <div><div style="font-size:10px;font-weight:700;color:var(--text3);text-transform:uppercase;letter-spacing:.06em;margin-bottom:4px;">Descriere</div><div style="font-size:12.5px;color:var(--text2);">${d.desc}</div></div>
+      <div><div style="font-size:10px;font-weight:700;color:var(--text3);text-transform:uppercase;letter-spacing:.06em;margin-bottom:4px;">Localizare</div><div style="font-size:12.5px;color:var(--text2);">${d.loc}</div></div>
+      <div>
+        <div style="font-size:10px;font-weight:700;color:var(--text3);text-transform:uppercase;letter-spacing:.06em;margin-bottom:4px;">Funcții</div>
+        <div style="font-size:12.5px;color:var(--text2);margin-bottom:12px;">${d.func}</div>
+        <div style="background:var(--violet-light);border-left:3px solid var(--accent);border-radius:8px;padding:10px;font-size:12px;color:var(--accent);font-weight:600;">${d.note}</div>
+      </div>
+    </div>
+  `;
+  detail.style.display = 'block';
+}
+
+// ── QUIZ ──
+const quizQuestions = [
+  {
+    q: "Care dintre cele 4 tipuri de țesuturi este avascular (fără vase de sânge)?",
+    opts: ["Conjunctiv", "Nervos", "Epitelial", "Muscular"],
+    correct: 2,
+    explain: "Țesutul epitelial este avascular — hrănit prin difuziune din vasele conjunctivului subiacent. Are membrana bazală care îl ancorează de conjunctiv."
+  },
+  {
+    q: "Joncțiunile GAP (comunicante) se găsesc în:",
+    opts: ["Epiteliu stratificat pavimentos", "Mușchi neted și cardiac", "Cartilaj hialin", "Țesut conjunctiv lax"],
+    correct: 1,
+    explain: "Joncțiunile gap apar în mușchiul neted și cardiac (discuri intercalare), NU în epitelii. Permit comunicare electrică directă prin canale de 2 nm."
+  },
+  {
+    q: "Care tip de cartilaj este cel mai REZISTENT?",
+    opts: ["Hialin", "Elastic", "Fibros", "Toate sunt la fel de rezistente"],
+    correct: 2,
+    explain: "Cartilajul fibros este cel mai rezistent, cu fibre dense de colagen. Se găsește la discuri intervertebrale, simfiză pubiană. Hialin = cel mai puțin rezistent dar cel mai răspândit."
+  },
+  {
+    q: "Celulele adipoase au formă de inel deoarece:",
+    opts: ["Au nucleu mare central", "Picăturile de grăsime împing citoplasma și nucleul la periferie", "Au formă naturală rotundă", "Sunt celule moarte"],
+    correct: 1,
+    explain: "Celulele adipoase (adipocitele) acumulează picături de grăsime care ocupă tot volumul, împingând citoplasma și nucleul spre periferie sub forma unui inel subțire."
+  },
+  {
+    q: "Glandele HOLOCRINE se caracterizează prin:",
+    opts: ["Secreție prin exocitoză (celula intactă)", "Celula se dezintegrează pentru a elibera secreția", "Secreție difuzând din celulă intactă", "Canal de excreție ramificat"],
+    correct: 1,
+    explain: "Glandele holocrine (ex: sebacee) = celulele se dezintegrează pentru a elibera produsul de secreție. Merocrine = intacte (ex: sudoripare). Apocrine = tip de merocrine, exocitoză."
+  },
+  {
+    q: "Epiteliul pseudostratificat diferă de cel stratificat prin:",
+    opts: ["Are mai multe straturi de celule", "Toate celulele ating membrana bazală", "Nu are celule cilindrice", "Nu are nuclei"],
+    correct: 1,
+    explain: "Epiteliul pseudostratificat este de fapt UN singur strat — TOATE celulele ating membrana bazală, dar nucleii sunt la înălțimi diferite → aspect fals de stratificare."
+  },
+  {
+    q: "Osteoblastele din țesutul osos se transformă în:",
+    opts: ["Osteoclaste", "Condrocite", "Osteocite", "Fibroblaste"],
+    correct: 2,
+    explain: "Osteoblastele sintetizează componentele osului, după care rămân înglobate în matricea pe care au sintetizat-o și devin celule mature inactive numite osteocite (localizate în lacune osoase)."
+  },
+  {
+    q: "Mușchiul CARDIAC se deosebește de cel scheletic prin:",
+    opts: ["Mușchiul cardiac nu este striat", "Mușchiul cardiac este voluntar", "Mușchiul cardiac are discuri intercalare și este involuntar", "Mușchiul cardiac nu se contractă"],
+    correct: 2,
+    explain: "Mușchiul cardiac este striat (ca și scheleticul) DAR este involuntar (ca și netedul). Celulele cardiace sunt unite prin discuri intercalare (joncțiuni gap specializate) pentru sincronizarea contracției."
+  },
+  {
+    q: "Care tip de țesut conjunctiv conține substanță fundamentală LICHIDĂ?",
+    opts: ["Cartilaj hialin", "Țesut lax", "Sângele", "Țesut adipos"],
+    correct: 2,
+    explain: "Sângele este singurul țesut conjunctiv cu substanță fundamentală lichidă (plasma). Aceasta nu este produsă de celulele sanguine, ci preluată din exterior și suplimentată cu proteine hepatice."
+  },
+  {
+    q: "Membrana bazală a epiteliului este alcătuită din:",
+    opts: ["Numai fibre de colagen", "Glicoproteine secretate de celulele epiteliale + fibre de colagen din conjunctiv", "Numai glicoproteine", "Celule epiteliale aplatizate"],
+    correct: 1,
+    explain: "Membrana bazală este o structură non-celulară compusă din: (1) glicoproteine secretate de celulele epiteliale și (2) o rețea de fibre de colagen aparținând conjunctivului subiacent."
+  }
+];
+
+let quizAnswered = new Array(quizQuestions.length).fill(false);
+let quizScore = 0;
+
+function renderQuiz() {
+  const container = document.getElementById('quiz-container');
+  container.innerHTML = quizQuestions.map((q, i) => `
+    <div class="quiz-q" id="qq-${i}">
+      <div class="quiz-qtext">${i+1}. ${q.q}</div>
+      <div class="quiz-opts">
+        ${q.opts.map((opt, j) => `<button class="quiz-opt" onclick="answerQuiz(${i},${j})">${opt}</button>`).join('')}
+      </div>
+      <div class="quiz-explain" id="qexp-${i}">✅ ${q.explain}</div>
+      <button class="quiz-next-btn" id="qnext-${i}" onclick="nextQ(${i})">Întrebarea ${i+2 <= quizQuestions.length ? i+2 : '→ Final'} ›</button>
+    </div>
+  `).join('');
+  // Show only first question
+  for (let i = 1; i < quizQuestions.length; i++) {
+    document.getElementById('qq-' + i).style.display = 'none';
+  }
+}
+
+function answerQuiz(qi, optIdx) {
+  if (quizAnswered[qi]) return;
+  quizAnswered[qi] = true;
+  const q = quizQuestions[qi];
+  const opts = document.querySelectorAll(`#qq-${qi} .quiz-opt`);
+  opts.forEach((opt, j) => {
+    opt.classList.add('disabled');
+    if (j === q.correct) opt.classList.add('correct');
+    else if (j === optIdx && optIdx !== q.correct) opt.classList.add('wrong');
+  });
+  if (optIdx === q.correct) quizScore++;
+  document.getElementById('quiz-score-display').textContent = quizScore + ' / ' + quizQuestions.length;
+  document.getElementById('qexp-' + qi).classList.add('show');
+  const nextBtn = document.getElementById('qnext-' + qi);
+  nextBtn.classList.add('show');
+  if (qi === quizQuestions.length - 1) {
+    nextBtn.textContent = '🎯 Finalizat! Scor: ' + quizScore + '/' + quizQuestions.length;
+    nextBtn.onclick = null;
+  }
+}
+
+function nextQ(qi) {
+  document.getElementById('qq-' + qi).style.display = 'none';
+  const next = document.getElementById('qq-' + (qi+1));
+  if (next) { next.style.display = 'block'; next.scrollIntoView({behavior:'smooth', block:'start'}); }
+}
+
+function resetQuiz() {
+  quizAnswered = new Array(quizQuestions.length).fill(false);
+  quizScore = 0;
+  document.getElementById('quiz-score-display').textContent = '0 / ' + quizQuestions.length;
+  renderQuiz();
+}
+
+// Init
+renderQuiz();
+
+document.addEventListener("DOMContentLoaded", function () {
+  // 1. Detectează automat numele fișierului curent (ex: cap1.html)
+  const currentFile = window.location.pathname.split("/").pop() || "cap1.html";
+  
+  const menuContainer = document.getElementById("chapters-menu");
+  const menuItems = menuContainer.querySelectorAll(".nav-item");
+  let currentChapterNumber = 1;
+  let activeItem = null;
+
+  // 2. Parcurge toate capitolele din meniu pentru a le aplica stilul corect
+  menuItems.forEach((item) => {
+    const fileHref = item.getAttribute("href");
+    
+    if (fileHref === currentFile) {
+      // Dacă este capitolul curent, îl face activ
+      item.classList.add("active");
+      activeItem = item; // Salvăm elementul activ pentru a-l folosi la scroll
+      currentChapterNumber = parseInt(item.querySelector(".nav-num").textContent);
+    }
+  });
+
+  // 3. 💡 AUTO-SCROLL LA CAPITOLUL CURENT (Soluția pentru problema ta)
+  if (activeItem && menuContainer) {
+    // Așteptăm un timp foarte scurt (50ms) ca browserul să randeze stilurile, apoi mutăm scroll-ul
+    setTimeout(() => {
+      activeItem.scrollIntoView({
+        behavior: "smooth", // Efect de derulare fină (schimbă cu "auto" dacă vrei să fie instant)
+        block: "nearest"    // Îl aduce la vedere doar dacă nu este vizibil în container
+      });
+    }, 50);
+  }
+
+  // 4. Actualizează automat bara de progres din footer-ul sidebar-ului
+  const totalChapters = menuItems.length; // Va număra automat 23
+  
+  const progTextContainer = document.querySelector(".prog-label");
+  if (progTextContainer) {
+    progTextContainer.innerHTML = `<span>Progres curs</span><span>${currentChapterNumber} / ${totalChapters}</span>`;
+  }
+  
+  const progFill = document.querySelector(".prog-fill");
+  if (progFill) {
+    const percentage = (currentChapterNumber / totalChapters) * 100;
+    progFill.style.width = `${percentage}%`;
+  }
+});
+</script>
+</body>
+</html>

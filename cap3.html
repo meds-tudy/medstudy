@@ -1,0 +1,1770 @@
+<!DOCTYPE html>
+<html lang="ro">
+<head>
+<meta charset="UTF-8">
+
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>MedStudy — Capitol 3: Celulele și Fiziologia Celulară</title>
+<link href="https://fonts.googleapis.com/css2?family=Outfit:wght@300;400;500;600;700;800;900&family=Lora:ital,wght@0,400;0,600;1,400&display=swap" rel="stylesheet">
+<style>
+:root {
+  --bg-main: #f0f4ff;
+  --bg-sidebar: rgba(255,255,255,0.85);
+  --surface: rgba(255,255,255,0.75);
+  --surface2: rgba(255,255,255,0.92);
+  --border: rgba(180,160,220,0.25);
+  --blue: #5b8dee; --blue-light: #e8eeff;
+  --violet: #8b5cf6; --violet-light: #ede9fe;
+  --cyan: #06b6d4; --cyan-light: #e0f7fb;
+  --pink: #ec4899; --pink-light: #fce7f3;
+  --green: #10b981; --green-light: #d1fae5;
+  --orange: #f59e0b; --orange-light: #fef3c7;
+  --teal: #14b8a6; --teal-light: #ccfbf1;
+  --rose: #f43f5e;
+  --text: #1e1b4b; --text2: #6b7280; --text3: #9ca3af;
+  --accent: #7c3aed;
+  --sidebar-w: 268px;
+  --radius: 16px;
+  --shadow: 0 4px 24px rgba(100,80,200,0.10);
+  --shadow2: 0 8px 40px rgba(100,80,200,0.14);
+}
+*{margin:0;padding:0;box-sizing:border-box;}
+body{font-family:'Outfit',sans-serif;background:var(--bg-main);color:var(--text);min-height:100vh;display:flex;overflow-x:hidden;}
+body::before{content:'';position:fixed;inset:0;background:radial-gradient(ellipse 800px 600px at 20% 10%,rgba(180,200,255,.55) 0%,transparent 70%),radial-gradient(ellipse 600px 500px at 80% 5%,rgba(200,180,255,.45) 0%,transparent 65%),radial-gradient(ellipse 700px 400px at 60% 90%,rgba(255,200,230,.4) 0%,transparent 70%),radial-gradient(ellipse 500px 500px at 5% 80%,rgba(180,230,255,.35) 0%,transparent 65%),#f0f4ff;z-index:-1;pointer-events:none;}
+
+/* ── SIDEBAR ── */
+#sidebar{width:var(--sidebar-w);min-height:100vh;background:var(--bg-sidebar);backdrop-filter:blur(24px);-webkit-backdrop-filter:blur(24px);border-right:1px solid var(--border);position:fixed;top:0;left:0;z-index:100;display:flex;flex-direction:column;box-shadow:4px 0 30px rgba(100,80,200,.07);}
+.sidebar-logo{padding:26px 22px 20px;border-bottom:1px solid var(--border);display:flex;align-items:center;gap:12px;}
+.logo-icon{width:42px;height:42px;background:linear-gradient(135deg,#7c3aed,#ec4899);border-radius:12px;display:flex;align-items:center;justify-content:center;font-size:20px;box-shadow:0 4px 14px rgba(124,58,237,.35);}
+.logo-text{font-size:17px;font-weight:800;color:var(--text);line-height:1.2;}
+.logo-sub{font-size:10px;color:var(--text3);font-weight:400;letter-spacing:.08em;text-transform:uppercase;margin-top:2px;}
+.sidebar-section-label{padding:18px 20px 8px;font-size:9.5px;letter-spacing:.14em;text-transform:uppercase;color:var(--text3);font-weight:600;}
+.nav-scroll { 
+  flex: 1; 
+  overflow-y: auto; 
+  padding-bottom: 16px; 
+  max-height: calc(100vh - 140px);
+  
+  /* 💡 TRUCUL PENTRU MUTAREA BAREI PE STÂNGA: */
+  direction: rtl; /* Muta scrollbar-ul pe stânga (Right-to-Left) */
+  
+  scrollbar-width: thin;
+  scrollbar-color: rgba(124,58,237,0.3) transparent;
+}
+
+/* 💡 RECONVERTIREA TEXTULUI: Întoarcem textul la normal (Left-to-Right) ca să nu fie inversat */
+.nav-scroll > * {
+  direction: ltr;
+}
+
+/* Stil pentru browserele bazate pe Chromium (Chrome, Edge, Opera) */
+.nav-scroll::-webkit-scrollbar { 
+  width: 5px; 
+}
+.nav-scroll::-webkit-scrollbar-track {
+  background: transparent;
+}
+.nav-scroll::-webkit-scrollbar-thumb { 
+  background: rgba(124,58,237,0.3); 
+  border-radius: 4px; 
+}
+.nav-scroll::-webkit-scrollbar-thumb:hover {
+  background: rgba(124,58,237,0.5); 
+}
+
+.nav-item{display:flex;align-items:center;gap:10px;padding:9px 14px 9px 16px;margin:1px 10px;border-radius:10px;font-size:12.5px;font-weight:500;color:var(--text2);cursor:pointer;transition:all .2s;text-decoration:none;position:relative;}
+.nav-item:hover{background:rgba(124,58,237,.07);color:var(--accent);}
+.nav-item.active{background:linear-gradient(90deg,rgba(124,58,237,.12),rgba(236,72,153,.07));color:var(--accent);font-weight:600;box-shadow:inset 2px 0 0 var(--accent);}
+.nav-num{min-width:22px;height:22px;background:rgba(124,58,237,.08);border-radius:6px;display:flex;align-items:center;justify-content:center;font-size:10.5px;font-weight:700;color:var(--text3);}
+.nav-item.active .nav-num{background:rgba(124,58,237,.18);color:var(--accent);}
+.nav-item.locked{opacity:.45;pointer-events:none;}
+.sidebar-footer{padding:16px 20px;border-top:1px solid var(--border);}
+.prog-label{display:flex;justify-content:space-between;font-size:11.5px;color:var(--text2);margin-bottom:7px;font-weight:500;}
+.prog-label span:last-child{color:var(--accent);font-weight:700;}
+.prog-track{height:5px;background:rgba(124,58,237,.1);border-radius:3px;overflow:hidden;}
+.prog-fill{height:100%;width:13.04%;background:linear-gradient(90deg,#7c3aed,#ec4899);border-radius:3px;transition:width 1.2s ease;}
+
+/* ── MAIN ── */
+#main{margin-left:var(--sidebar-w);flex:1;min-height:100vh;}
+.topbar{height:60px;background:rgba(255,255,255,.7);backdrop-filter:blur(20px);border-bottom:1px solid var(--border);display:flex;align-items:center;justify-content:space-between;padding:0 40px;position:sticky;top:0;z-index:50;}
+.breadcrumb{display:flex;align-items:center;gap:8px;font-size:13px;font-weight:500;color:var(--text2);}
+.breadcrumb .current{color:var(--accent);}
+.bc-sep{color:var(--text3);}
+.badge-pill{padding:5px 14px;border-radius:30px;font-size:12px;font-weight:600;background:linear-gradient(90deg,rgba(124,58,237,.1),rgba(236,72,153,.08));color:var(--accent);border:1px solid rgba(124,58,237,.2);}
+
+/* ── HERO — Aura Pastel ── */
+.hero{position:relative;overflow:hidden;padding:64px 56px 54px;border-bottom:1px solid rgba(200,180,255,.2);min-height:340px;display:flex;flex-direction:column;justify-content:center;}
+.hero::after{content:'';position:absolute;inset:0;opacity:.45;background-image:url("data:image/svg+xml,%3Csvg viewBox='0 0 256 256' xmlns='http://www.w3.org/2000/svg'%3E%3Cfilter id='noise'%3E%3CfeTurbulence type='fractalNoise' baseFrequency='0.9' numOctaves='4' stitchTiles='stitch'/%3E%3CfeColorMatrix type='saturate' values='0'/%3E%3C/filter%3E%3Crect width='100%25' height='100%25' filter='url(%23noise)' opacity='0.15'/%3E%3C/svg%3E");background-size:200px 200px;pointer-events:none;z-index:1;mix-blend-mode:overlay;}
+.hero>*{position:relative;z-index:2;}
+.hero-eyebrow{display:inline-flex;align-items:center;gap:7px;padding:6px 18px;border-radius:40px;background:rgba(255,255,255,.55);border:1px solid rgba(255,255,255,.85);font-size:11px;font-weight:600;color:rgba(30,80,160,.75);letter-spacing:.12em;text-transform:uppercase;margin-bottom:22px;backdrop-filter:blur(16px);-webkit-backdrop-filter:blur(16px);box-shadow:0 2px 20px rgba(80,120,255,.12),inset 0 1px 0 rgba(255,255,255,.6);width:fit-content;font-family:'Lora',serif;font-style:italic;}
+.hero-eyebrow::before{content:'◆';font-size:7px;font-style:normal;}
+.hero h1{font-family:'Lora',serif;font-size:clamp(34px,4vw,58px);font-weight:400;font-style:italic;line-height:1.08;color:rgba(20,40,90,.82);margin-bottom:18px;letter-spacing:-0.01em;text-shadow:0 2px 40px rgba(80,120,255,.15);}
+.hero h1 span{font-weight:600;font-style:italic;color:transparent;background:linear-gradient(135deg,rgba(30,100,240,.9) 0%,rgba(80,180,200,.85) 50%,rgba(50,160,130,.8) 100%);-webkit-background-clip:text;-webkit-text-fill-color:transparent;background-clip:text;}
+.hero-sub{font-family:'Lora',serif;font-size:15.5px;font-style:italic;color:rgba(20,50,120,.6);max-width:560px;line-height:1.7;margin-bottom:34px;font-weight:400;letter-spacing:.01em;}
+.hero-chips{display:flex;flex-wrap:wrap;gap:10px;}
+.hero-chip{display:flex;align-items:center;gap:9px;background:rgba(255,255,255,.52);border:1px solid rgba(255,255,255,.8);border-radius:14px;padding:9px 18px;font-size:13px;font-weight:500;color:rgba(20,50,120,.75);backdrop-filter:blur(14px);-webkit-backdrop-filter:blur(14px);box-shadow:0 2px 16px rgba(80,120,255,.1),inset 0 1px 0 rgba(255,255,255,.6);font-family:'Lora',serif;font-style:italic;transition:all .25s;}
+.hero-chip:hover{background:rgba(255,255,255,.72);transform:translateY(-1px);box-shadow:0 6px 24px rgba(80,120,255,.18);}
+.hero-chip strong{font-family:'Outfit',sans-serif;font-style:normal;font-weight:800;font-size:21px;background:linear-gradient(135deg,#1e64f0,#06b6d4);-webkit-background-clip:text;-webkit-text-fill-color:transparent;background-clip:text;line-height:1;}
+
+/* ── TABS ── */
+.tab-bar{display:flex;gap:2px;padding:0 40px;background:rgba(255,255,255,.6);backdrop-filter:blur(16px);border-bottom:1px solid var(--border);position:sticky;top:60px;z-index:40;overflow-x:auto;}
+.tab-btn{display:flex;align-items:center;gap:7px;padding:14px 18px;background:none;border:none;font-family:'Outfit',sans-serif;font-size:13px;font-weight:600;color:var(--text2);cursor:pointer;border-bottom:2.5px solid transparent;margin-bottom:-1px;transition:all .2s;white-space:nowrap;}
+.tab-btn:hover{color:var(--blue);background:rgba(30,100,240,.04);border-radius:10px 10px 0 0;}
+.tab-btn.active{color:var(--blue);border-bottom-color:var(--blue);}
+
+/* ── CONTENT ── */
+.content{padding:36px 40px 60px;max-width:1200px;}
+.panel{display:none;}
+.panel.active{display:block;}
+
+/* ── CARDS ── */
+.gcard{background:var(--surface);backdrop-filter:blur(20px);border:1px solid var(--border);border-radius:var(--radius);padding:28px;margin-bottom:24px;box-shadow:var(--shadow);transition:box-shadow .3s;}
+.gcard:hover{box-shadow:var(--shadow2);}
+.gcard-title{display:flex;align-items:center;gap:12px;font-size:16px;font-weight:700;color:var(--text);margin-bottom:18px;}
+.ct-icon{width:34px;height:34px;border-radius:10px;display:flex;align-items:center;justify-content:center;font-size:16px;flex-shrink:0;}
+.g2{display:grid;grid-template-columns:1fr 1fr;gap:20px;}
+.g3{display:grid;grid-template-columns:1fr 1fr 1fr;gap:16px;}
+.g4{display:grid;grid-template-columns:repeat(4,1fr);gap:14px;}
+
+/* ──────── ANIMATIONS ──────── */
+@keyframes fadeUp { 
+  from { opacity: 0; transform: translateY(6px); } 
+  to { opacity: 1; transform: translateY(0); } 
+}
+.fu { animation: fadeUp 0.5s ease both; }
+.fu-1 { animation-delay: .08s; }
+.fu-2 { animation-delay: .16s; }
+.fu-3 { animation-delay: .24s; }
+.fu-4 { animation-delay: .32s; }
+
+/* ── HBOXES ── */
+.hbox{border-radius:12px;padding:14px 16px;font-size:13.5px;line-height:1.65;margin-bottom:12px;display:flex;flex-direction:column;gap:6px;}
+.hbox-blue{background:var(--blue-light);border-left:3px solid var(--blue);}
+.hbox-violet{background:var(--violet-light);border-left:3px solid var(--violet);}
+.hbox-green{background:var(--green-light);border-left:3px solid var(--green);}
+.hbox-orange{background:var(--orange-light);border-left:3px solid var(--orange);}
+.hbox-cyan{background:var(--cyan-light);border-left:3px solid var(--cyan);}
+.hbox-pink{background:var(--pink-light);border-left:3px solid var(--pink);}
+.hbox-teal{background:var(--teal-light);border-left:3px solid var(--teal);}
+.hbox strong{font-weight:700;}
+
+/* ── TAGS ── */
+.tag{display:inline-flex;align-items:center;padding:3px 10px;border-radius:20px;font-size:11.5px;font-weight:600;margin:2px;}
+.tag-blue{background:var(--blue-light);color:var(--blue);}
+.tag-green{background:var(--green-light);color:var(--green);}
+.tag-violet{background:var(--violet-light);color:var(--violet);}
+.tag-orange{background:var(--orange-light);color:var(--orange);}
+.tag-cyan{background:var(--cyan-light);color:var(--cyan);}
+.tag-pink{background:var(--pink-light);color:var(--pink);}
+
+/* ── MNEMONIC ── */
+.mnemonic{background:linear-gradient(135deg,rgba(91,141,238,.12),rgba(139,92,246,.1));border:1px solid rgba(139,92,246,.2);border-radius:14px;padding:16px 20px;margin-top:14px;}
+.mnemonic-title{font-size:12px;font-weight:700;color:var(--violet);letter-spacing:.08em;text-transform:uppercase;margin-bottom:8px;}
+.mnemonic-text{font-size:14px;color:var(--text);line-height:1.6;}
+.mnemonic-text .em{font-weight:800;color:var(--blue);font-size:16px;}
+.mnemonic-text .sub{display:block;font-size:12px;color:var(--text2);margin-top:4px;}
+
+/* ── ACCORDION ── */
+.level-row{background:var(--surface2);border:1px solid var(--border);border-radius:12px;margin-bottom:10px;overflow:hidden;cursor:pointer;transition:all .2s;}
+.level-row:hover{border-color:rgba(91,141,238,.35);}
+.level-bar{width:4px;height:100%;position:absolute;left:0;top:0;border-radius:2px;}
+.level-body{position:relative;padding-left:4px;}
+.level-head{display:flex;align-items:center;gap:12px;padding:14px 16px;}
+.level-num{min-width:28px;height:28px;border-radius:8px;display:flex;align-items:center;justify-content:center;font-size:13px;font-weight:800;flex-shrink:0;}
+.level-info{flex:1;}
+.level-name{font-size:14px;font-weight:700;color:var(--text);}
+.level-short{font-size:12px;color:var(--text2);margin-top:2px;}
+.level-chevron{font-size:18px;color:var(--text3);transition:transform .3s;margin-left:auto;}
+.level-row.open .level-chevron{transform:rotate(90deg);}
+.level-detail-panel{max-height:0;overflow:hidden;transition:max-height .4s ease,padding .3s;font-size:13px;color:var(--text2);line-height:1.7;padding:0 16px;}
+.level-row.open .level-detail-panel{max-height:600px;padding:0 16px 16px;}
+
+/* ── TABLES ── */
+.med-table{width:100%;border-collapse:collapse;font-size:13px;margin-top:8px;}
+.med-table th{background:linear-gradient(90deg,rgba(91,141,238,.12),rgba(139,92,246,.08));color:var(--text);font-weight:700;padding:11px 14px;text-align:left;border-bottom:2px solid rgba(91,141,238,.2);}
+.med-table td{padding:10px 14px;border-bottom:1px solid var(--border);color:var(--text2);vertical-align:top;}
+.med-table tr:hover td{background:rgba(91,141,238,.04);}
+.med-table tr:last-child td{border-bottom:none;}
+
+/* ── FLOW NODES ── */
+.flow-chain{display:flex;flex-direction:column;gap:0;align-items:flex-start;margin:16px 0;}
+.flow-node-item{display:flex;align-items:center;gap:12px;position:relative;width:100%;}
+.flow-node{padding:10px 18px;border-radius:10px;font-size:13px;font-weight:600;color:white;flex-shrink:0;min-width:200px;text-align:center;transition:all .2s;cursor:default;}
+.flow-node:hover{transform:translateX(4px);box-shadow:0 4px 16px rgba(0,0,0,.15);}
+.flow-desc{font-size:12px;color:var(--text2);padding:4px 0;}
+.flow-arrow{width:3px;height:28px;background:linear-gradient(to bottom,rgba(91,141,238,.3),rgba(139,92,246,.3));margin-left:27px;border-radius:2px;}
+
+/* ── ORGANITE CARDS ── */
+.org-card{background:var(--surface2);border:1px solid var(--border);border-radius:12px;padding:14px;display:flex;flex-direction:column;gap:8px;cursor:pointer;transition:all .25s;}
+.org-card:hover{transform:translateY(-3px);box-shadow:0 8px 24px rgba(100,80,200,.12);}
+.org-icon{font-size:24px;}
+.org-name{font-size:13px;font-weight:700;color:var(--text);}
+.org-func{font-size:11.5px;color:var(--text2);line-height:1.5;}
+.org-detail{display:none;font-size:12px;color:var(--text2);margin-top:6px;padding-top:8px;border-top:1px solid var(--border);line-height:1.6;}
+.org-card.expanded .org-detail{display:block;}
+
+/* ── TRANSPORT CARDS ── */
+.transport-card{border-radius:12px;padding:16px;cursor:pointer;transition:all .25s;border:2px solid transparent;}
+.transport-card:hover{transform:translateY(-2px);}
+.transport-card.selected{border-color:var(--blue);}
+.tc-title{font-size:14px;font-weight:800;margin-bottom:6px;}
+.tc-sub{font-size:12px;opacity:.8;line-height:1.5;}
+
+/* ── CELL SVG CONTAINER ── */
+.cell-container{position:relative;width:100%;background:rgba(255,255,255,.6);border-radius:16px;border:1px solid var(--border);overflow:hidden;}
+.cell-label{position:absolute;font-size:10.5px;font-weight:700;color:var(--text);background:rgba(255,255,255,.9);padding:3px 8px;border-radius:6px;pointer-events:none;box-shadow:0 2px 8px rgba(0,0,0,.1);}
+
+/* ── QUIZ ── */
+.quiz-q{background:var(--surface2);border:1px solid var(--border);border-radius:14px;padding:20px;margin-bottom:18px;}
+.quiz-q-text{font-size:14.5px;font-weight:700;color:var(--text);margin-bottom:14px;line-height:1.5;}
+.quiz-opts{display:flex;flex-direction:column;gap:8px;}
+.quiz-opt{padding:10px 16px;border-radius:10px;border:1.5px solid var(--border);background:rgba(255,255,255,.7);font-size:13.5px;cursor:pointer;transition:all .2s;text-align:left;}
+.quiz-opt:hover:not(:disabled){border-color:var(--blue);background:var(--blue-light);}
+.quiz-opt.correct{border-color:var(--green);background:var(--green-light);color:#065f46;font-weight:700;}
+.quiz-opt.wrong{border-color:#ef4444;background:#fee2e2;color:#991b1b;}
+.quiz-explain{font-size:13px;color:var(--text2);margin-top:12px;padding:12px;background:rgba(91,141,238,.06);border-radius:10px;border-left:3px solid var(--blue);display:none;line-height:1.6;}
+.quiz-explain.show{display:block;}
+#quiz-score{font-size:18px;font-weight:800;color:var(--blue);text-align:center;padding:18px;background:var(--blue-light);border-radius:12px;margin-bottom:20px;}
+
+/* ── OSMOSIS SVG ── */
+.osmosis-svg text{font-family:'Outfit',sans-serif;}
+
+/* ── MITOZA steps ── */
+.mitoza-step{background:var(--surface2);border-radius:12px;padding:16px;border:2px solid transparent;cursor:pointer;transition:all .25s;text-align:center;}
+.mitoza-step.active-step{border-color:var(--blue);background:var(--blue-light);}
+.mitoza-step:hover{border-color:rgba(91,141,238,.4);}
+.ms-num{width:32px;height:32px;border-radius:50%;background:var(--blue);color:white;font-weight:800;font-size:14px;display:flex;align-items:center;justify-content:center;margin:0 auto 8px;}
+.ms-name{font-size:13px;font-weight:700;color:var(--text);margin-bottom:4px;}
+.ms-desc{font-size:11.5px;color:var(--text2);line-height:1.5;}
+
+/* ── RESPONSIVE ── */
+@media(max-width:960px){
+  #sidebar{transform:translateX(-100%);transition:transform .3s;}
+  #main{margin-left:0;}
+  .g2,.g3,.g4{grid-template-columns:1fr;}
+  .hero{padding:40px 24px 32px;}
+  .content{padding:20px 16px 40px;}
+  .tab-bar{padding:0 16px;}
+}
+</style>
+</head>
+<body>
+
+<!-- ═══════════ SIDEBAR ═══════════ -->
+<aside id="sidebar">
+  <div class="sidebar-logo">
+    <img src="medStudy.png" alt="Logo MedStudy" style="width: 42px; height: 42px; object-fit: contain; filter: drop-shadow(0 4px 14px rgba(124,58,237,0.35));">
+    <div>
+      <div class="logo-text">MedStudy</div>
+      <div class="logo-sub">Anatomy Made Easy</div>
+    </div>
+  </div>
+  
+  <div class="nav-scroll" id="chapters-menu">
+  <div class="sidebar-section-label">Capitole</div>
+
+  <a class="nav-item" href="cap1.html"><span class="nav-num">1</span>Introducere în A&B</a>
+  <a class="nav-item" href="cap2.html"><span class="nav-num">2</span>Bazele Chimice</a>
+  <a class="nav-item" href="cap3.html"><span class="nav-num">3</span>Fiziologia celulară</a>
+  <a class="nav-item" href="cap4.html"><span class="nav-num">4</span>Țesuturile</a>
+  <a class="nav-item" href="cap5.html"><span class="nav-num">5</span>Sistemul Tegumentar</a>
+  <a class="nav-item" href="cap6.html"><span class="nav-num">6</span>Oasele și Articulațiile</a>
+  <a class="nav-item" href="cap7.html"><span class="nav-num">7</span>Sistemul Osos</a>
+  <a class="nav-item" href="cap8.html"><span class="nav-num">8</span>Țesutul Muscular</a>
+  <a class="nav-item" href="cap9.html"><span class="nav-num">9</span>Sistemul Muscular</a>
+  <a class="nav-item" href="cap10.html"><span class="nav-num">10</span>Țesutul Nervos</a>
+  <a class="nav-item" href="cap11.html"><span class="nav-num">11</span>Organizarea Sistemului Nervos</a>
+  <a class="nav-item" href="cap12.html"><span class="nav-num">12</span>Organele de Simț</a>
+  <a class="nav-item" href="cap13.html"><span class="nav-num">13</span>Sistemul Endocrin</a>
+  <a class="nav-item" href="cap14.html"><span class="nav-num">14</span>Sângele</a>
+  <a class="nav-item" href="cap15.html"><span class="nav-num">15</span>Sistemul Cardiovascular</a>
+  <a class="nav-item" href="cap16.html"><span class="nav-num">16</span>Sistemul Limfatic</a>
+  <a class="nav-item" href="cap17.html"><span class="nav-num">17</span>Sistemul Respirator</a>
+  <a class="nav-item" href="cap18.html"><span class="nav-num">18</span>Sistemul Digestiv</a>
+  <a class="nav-item" href="cap19.html"><span class="nav-num">19</span>Metabolism & Nutriție</a>
+  <a class="nav-item" href="cap20.html"><span class="nav-num">20</span>Sistemul Urinar</a>
+  <a class="nav-item" href="cap21.html"><span class="nav-num">21</span>Echilibrul Hidro-Electrolitic</a>
+  <a class="nav-item" href="cap22.html"><span class="nav-num">22</span>Sistemul Reproducător Masculin</a>
+  <a class="nav-item" href="cap23.html"><span class="nav-num">23</span>Sistemul Reproducător Feminin</a>
+</div>
+  
+  <div class="sidebar-footer">
+    <div class="prog-label"><span>Progres curs</span><span>3 / 23</span></div>
+    <div class="prog-track"><div class="prog-fill"></div></div>
+  </div>
+</aside>
+
+<!-- ═══════════ MAIN ═══════════ -->
+<main id="main">
+  <nav class="topbar">
+    <div class="breadcrumb">
+      <span>A&F Umană</span><span class="bc-sep">›</span>
+      <span>Capitol 3</span><span class="bc-sep">›</span>
+      <span class="current">Celulele & Fiziologia Celulară</span>
+    </div>
+    <span class="badge-pill">🎓 Pregătire Admitere Medicină</span>
+  </nav>
+
+  <header class="hero">
+    <div class="hero-eyebrow fu fu-1">Capitol 3 — Fiziologie celulară</div>
+    <h1 class="fu fu-2">Celulele și<br><span>Fiziologia Celulară</span></h1>
+    <p class="hero-sub fu fu-3">
+      Studiul detaliat al unității structurale și funcționale a vieții: structura membranei plasmatice, mecanismele de transport celular, organitele citoplasmatice, sinteza proteinelor, ciclul celular, mitoza și metabolismul celular.
+    </p>
+    <div class="hero-chips fu fu-4">
+      <div class="hero-chip"><strong>3</strong> Componente majore</div>
+      <div class="hero-chip"><strong>2</strong> Tipuri de transport</div>
+      <div class="hero-chip"><strong>10+</strong> Organite celulare</div>
+      <div class="hero-chip"><strong>4</strong> Faze ale mitozei</div>
+    </div>
+  </header>
+
+  <!-- TABS -->
+  <div class="tab-bar">
+    <button class="tab-btn active" onclick="showPanel('infografice',this)">🔬 Infografice & SVG</button>
+    <button class="tab-btn" onclick="showPanel('transport',this)">🔄 Transport Membranar</button>
+    <button class="tab-btn" onclick="showPanel('organite',this)">⚙️ Organite</button>
+    <button class="tab-btn" onclick="showPanel('diviziune',this)">🔀 Diviziune Celulară</button>
+    <button class="tab-btn" onclick="showPanel('tabele',this)">📊 Tabele</button>
+    <button class="tab-btn" onclick="showPanel('quiz',this)">✏️ Test (12 Q)</button>
+  </div>
+
+  <div class="content">
+
+  <!-- ══════════════════════════════════════════
+       PANEL 1 — INFOGRAFICE
+  ══════════════════════════════════════════ -->
+  <div class="panel active" id="panel-infografice">
+
+    <!-- CELULA SVG INTERACTIVA -->
+    <div class="gcard fu fu-1">
+      <div class="gcard-title">
+        <div class="ct-icon" style="background:var(--blue-light)">🔬</div>
+        Celula Umană Tipică — Click pe organite pentru detalii
+      </div>
+      <div class="g2">
+        <div>
+          <div class="cell-container" style="height:420px;">
+            <svg width="100%" height="420" viewBox="0 0 420 420" id="cell-svg">
+              <!-- Membrana celulara -->
+              <ellipse cx="210" cy="210" rx="195" ry="185" fill="rgba(200,220,255,0.25)" stroke="#5b8dee" stroke-width="6" stroke-dasharray="0" opacity="0.8"/>
+              <!-- Citoplasma background -->
+              <ellipse cx="210" cy="210" rx="189" ry="179" fill="rgba(230,240,255,0.4)"/>
+              <!-- Nucleu -->
+              <ellipse cx="210" cy="195" rx="68" ry="60" fill="rgba(139,92,246,0.18)" stroke="#8b5cf6" stroke-width="3" class="cell-org" onclick="showOrgInfo('nucleu')" style="cursor:pointer;" id="org-nucleu"/>
+              <text x="210" y="190" text-anchor="middle" font-size="12" font-weight="800" fill="#7c3aed" style="pointer-events:none">Nucleu</text>
+              <text x="210" y="205" text-anchor="middle" font-size="9.5" fill="#8b5cf6" style="pointer-events:none">ADN + Histone</text>
+              <!-- Nucleol -->
+              <circle cx="210" cy="185" r="14" fill="rgba(139,92,246,0.35)" stroke="#8b5cf6" stroke-width="1.5" class="cell-org" onclick="showOrgInfo('nucleol')" style="cursor:pointer;"/>
+              <text x="210" y="220" text-anchor="middle" font-size="9" fill="#6d28d9" style="pointer-events:none">Nucleol</text>
+              <!-- Mitocondrii -->
+              <ellipse cx="100" cy="150" rx="28" ry="14" fill="rgba(16,185,129,0.25)" stroke="#10b981" stroke-width="2" class="cell-org" onclick="showOrgInfo('mitocondrie')" style="cursor:pointer;"/>
+              <ellipse cx="320" cy="260" rx="28" ry="14" fill="rgba(16,185,129,0.25)" stroke="#10b981" stroke-width="2" class="cell-org" onclick="showOrgInfo('mitocondrie')" style="cursor:pointer;"/>
+              <text x="100" y="153" text-anchor="middle" font-size="8.5" font-weight="700" fill="#065f46" style="pointer-events:none">Mitocondrie</text>
+              <text x="320" y="263" text-anchor="middle" font-size="8.5" font-weight="700" fill="#065f46" style="pointer-events:none">Mitocondrie</text>
+              <!-- RE rugos -->
+              <path d="M270,160 Q300,155 310,175 Q320,195 300,200 Q280,205 270,185 Z" fill="rgba(91,141,238,0.2)" stroke="#5b8dee" stroke-width="2" class="cell-org" onclick="showOrgInfo('re-rugos')" style="cursor:pointer;"/>
+              <text x="295" y="182" text-anchor="middle" font-size="8" font-weight="700" fill="#1e40af" style="pointer-events:none">RE rugos</text>
+              <!-- RE neted -->
+              <path d="M270,215 Q300,210 308,228 Q315,246 295,250 Q275,254 270,236 Z" fill="rgba(6,182,212,0.2)" stroke="#06b6d4" stroke-width="2" class="cell-org" onclick="showOrgInfo('re-neted')" style="cursor:pointer;"/>
+              <text x="291" y="233" text-anchor="middle" font-size="8" font-weight="700" fill="#0e7490" style="pointer-events:none">RE neted</text>
+              <!-- Aparat Golgi -->
+              <g class="cell-org" onclick="showOrgInfo('golgi')" style="cursor:pointer;">
+                <path d="M130,240 Q160,235 165,248 Q170,260 140,263 Q110,266 130,240" fill="rgba(245,158,11,0.2)" stroke="#f59e0b" stroke-width="1.8"/>
+                <path d="M128,252 Q158,247 163,260 Q168,272 138,275 Q108,278 128,252" fill="rgba(245,158,11,0.15)" stroke="#f59e0b" stroke-width="1.5"/>
+                <text x="148" y="258" text-anchor="middle" font-size="8.5" font-weight="700" fill="#92400e" style="pointer-events:none">Golgi</text>
+              </g>
+              <!-- Lizozom -->
+              <circle cx="170" cy="295" r="15" fill="rgba(244,63,94,0.2)" stroke="#f43f5e" stroke-width="2" class="cell-org" onclick="showOrgInfo('lizozom')" style="cursor:pointer;"/>
+              <text x="170" y="298" text-anchor="middle" font-size="8" font-weight="700" fill="#9f1239" style="pointer-events:none">Lizozom</text>
+              <!-- Vacuola -->
+              <ellipse cx="340" cy="155" rx="22" ry="18" fill="rgba(20,184,166,0.15)" stroke="#14b8a6" stroke-width="2" class="cell-org" onclick="showOrgInfo('vacuola')" style="cursor:pointer;"/>
+              <text x="340" y="158" text-anchor="middle" font-size="8" font-weight="700" fill="#0f766e" style="pointer-events:none">Vacuolă</text>
+              <!-- Centriol -->
+              <rect x="232" y="260" width="18" height="12" rx="3" fill="rgba(236,72,153,0.25)" stroke="#ec4899" stroke-width="2" class="cell-org" onclick="showOrgInfo('centriol')" style="cursor:pointer;"/>
+              <text x="241" y="283" text-anchor="middle" font-size="8" font-weight="700" fill="#9d174d" style="pointer-events:none">Centriol</text>
+              <!-- Ribozomi dots -->
+              <circle cx="80" cy="200" r="4" fill="#6366f1" opacity="0.7" class="cell-org" onclick="showOrgInfo('ribozom')" style="cursor:pointer;"/>
+              <circle cx="95" cy="210" r="4" fill="#6366f1" opacity="0.7" class="cell-org" onclick="showOrgInfo('ribozom')" style="cursor:pointer;"/>
+              <circle cx="88" cy="222" r="4" fill="#6366f1" opacity="0.7"/>
+              <text x="82" y="238" text-anchor="middle" font-size="8" font-weight="700" fill="#4338ca" style="pointer-events:none">Ribozomi</text>
+              <!-- Membrana label -->
+              <text x="50" y="80" text-anchor="middle" font-size="9.5" font-weight="700" fill="#1e40af" style="pointer-events:none">Membrană</text>
+              <text x="50" y="92" text-anchor="middle" font-size="9.5" font-weight="700" fill="#1e40af" style="pointer-events:none">plasmatică</text>
+              <line x1="75" y1="90" x2="108" y2="110" stroke="#5b8dee" stroke-width="1.2" opacity="0.6"/>
+              <!-- Citoplasma label -->
+              <text x="355" y="330" text-anchor="middle" font-size="9.5" font-weight="700" fill="#0e7490" style="pointer-events:none">Citoplasmă</text>
+            </svg>
+          </div>
+          <!-- Info box -->
+          <div id="cell-info" style="margin-top:14px;padding:14px;background:var(--blue-light);border-radius:12px;font-size:13px;color:var(--text2);min-height:80px;transition:all .3s;">
+            👆 Click pe orice organit pentru a vedea detalii...
+          </div>
+        </div>
+        <div>
+          <div class="hbox hbox-blue">
+            <strong>Teoria Celulară — Principiu fundamental al biologiei</strong>
+            Toate organismele vii sunt alcătuite din celule. Celula este unitatea structurală și funcțională a vieții. Corpul uman conține ~37 trilioane de celule.
+          </div>
+          <div class="hbox hbox-green">
+            <strong>Procariote vs Eucariote</strong>
+            <div style="display:flex;gap:8px;flex-wrap:wrap;margin-top:4px;">
+              <span class="tag tag-orange">Procariote: fără nucleu · fără organite · nu fac mitoză · ex: bacterii</span>
+              <span class="tag tag-blue">Eucariote: au nucleu · au organite · fac mitoză · ex: plante, animale, oameni</span>
+            </div>
+          </div>
+          <div class="hbox hbox-violet">
+            <strong>Componentele de bază ale oricărei celule</strong>
+            <span class="tag tag-violet">Citoplasmă</span>
+            <span class="tag tag-blue">Membrană plasmatică</span>
+            <span class="tag tag-violet">Nucleu (la eucariote)</span>
+          </div>
+
+          <!-- MEMBRANA SVG -->
+          <div style="margin-top:14px;font-size:13px;font-weight:700;color:var(--text);margin-bottom:8px;">🧱 Membrana Plasmatică — Modelul Mozaicului Fluid</div>
+          <svg width="100%" height="160" viewBox="0 0 400 160" style="background:rgba(255,255,255,.5);border-radius:12px;border:1px solid var(--border);">
+            <!-- Outer water label -->
+            <text x="200" y="18" text-anchor="middle" font-size="10" fill="#0e7490" font-weight="700">EXTERIOR CELULĂ (APĂ)</text>
+            <!-- Outer heads (hydrophilic) -->
+            <g>
+              <circle cx="30" cy="38" r="10" fill="#5b8dee" opacity=".85"/>
+              <circle cx="60" cy="38" r="10" fill="#5b8dee" opacity=".85"/>
+              <circle cx="90" cy="38" r="10" fill="#5b8dee" opacity=".85"/>
+              <circle cx="120" cy="38" r="10" fill="#5b8dee" opacity=".85"/>
+              <circle cx="150" cy="38" r="10" fill="#5b8dee" opacity=".85"/>
+              <circle cx="180" cy="38" r="10" fill="#5b8dee" opacity=".85"/>
+              <circle cx="210" cy="38" r="10" fill="#5b8dee" opacity=".85"/>
+              <circle cx="240" cy="38" r="10" fill="#5b8dee" opacity=".85"/>
+              <circle cx="270" cy="38" r="10" fill="#5b8dee" opacity=".85"/>
+              <circle cx="300" cy="38" r="10" fill="#5b8dee" opacity=".85"/>
+              <circle cx="330" cy="38" r="10" fill="#5b8dee" opacity=".85"/>
+              <circle cx="360" cy="38" r="10" fill="#5b8dee" opacity=".85"/>
+            </g>
+            <!-- Outer tails -->
+            <g stroke="#ec4899" stroke-width="2.5" opacity=".7">
+              <line x1="30" y1="48" x2="30" y2="72"/><line x1="60" y1="48" x2="60" y2="72"/>
+              <line x1="90" y1="48" x2="90" y2="72"/><line x1="120" y1="48" x2="120" y2="72"/>
+              <line x1="150" y1="48" x2="150" y2="72"/><line x1="180" y1="48" x2="180" y2="72"/>
+              <line x1="210" y1="48" x2="210" y2="72"/><line x1="240" y1="48" x2="240" y2="72"/>
+              <line x1="270" y1="48" x2="270" y2="72"/><line x1="300" y1="48" x2="300" y2="72"/>
+              <line x1="330" y1="48" x2="330" y2="72"/><line x1="360" y1="48" x2="360" y2="72"/>
+            </g>
+            <!-- Hydrophobic zone label -->
+            <rect x="0" y="72" width="400" height="18" fill="rgba(236,72,153,0.06)"/>
+            <text x="200" y="84" text-anchor="middle" font-size="9" fill="#9d174d" font-weight="700">ZONĂ HIDROFOBĂ (acizi grași — resping apa)</text>
+            <!-- Inner tails -->
+            <g stroke="#ec4899" stroke-width="2.5" opacity=".7">
+              <line x1="30" y1="90" x2="30" y2="114"/><line x1="60" y1="90" x2="60" y2="114"/>
+              <line x1="90" y1="90" x2="90" y2="114"/><line x1="120" y1="90" x2="120" y2="114"/>
+              <line x1="150" y1="90" x2="150" y2="114"/><line x1="180" y1="90" x2="180" y2="114"/>
+              <line x1="210" y1="90" x2="210" y2="114"/><line x1="240" y1="90" x2="240" y2="114"/>
+              <line x1="270" y1="90" x2="270" y2="114"/><line x1="300" y1="90" x2="300" y2="114"/>
+              <line x1="330" y1="90" x2="330" y2="114"/><line x1="360" y1="90" x2="360" y2="114"/>
+            </g>
+            <!-- Inner heads -->
+            <g>
+              <circle cx="30" cy="122" r="10" fill="#5b8dee" opacity=".85"/>
+              <circle cx="60" cy="122" r="10" fill="#5b8dee" opacity=".85"/>
+              <circle cx="90" cy="122" r="10" fill="#5b8dee" opacity=".85"/>
+              <circle cx="120" cy="122" r="10" fill="#5b8dee" opacity=".85"/>
+              <circle cx="150" cy="122" r="10" fill="#5b8dee" opacity=".85"/>
+              <circle cx="180" cy="122" r="10" fill="#5b8dee" opacity=".85"/>
+              <circle cx="210" cy="122" r="10" fill="#5b8dee" opacity=".85"/>
+              <circle cx="240" cy="122" r="10" fill="#5b8dee" opacity=".85"/>
+              <circle cx="270" cy="122" r="10" fill="#5b8dee" opacity=".85"/>
+              <circle cx="300" cy="122" r="10" fill="#5b8dee" opacity=".85"/>
+              <circle cx="330" cy="122" r="10" fill="#5b8dee" opacity=".85"/>
+              <circle cx="360" cy="122" r="10" fill="#5b8dee" opacity=".85"/>
+            </g>
+            <!-- Protein transmembranara -->
+            <rect x="155" y="30" width="22" height="100" rx="6" fill="rgba(139,92,246,0.6)" stroke="#8b5cf6" stroke-width="1.5"/>
+            <text x="166" y="82" text-anchor="middle" font-size="8" fill="white" font-weight="700" transform="rotate(-90,166,82)">Prot. transmembranară</text>
+            <!-- Colesterol -->
+            <polygon points="320,90 330,72 340,90" fill="rgba(245,158,11,0.7)" stroke="#f59e0b" stroke-width="1.5"/>
+            <text x="330" y="105" text-anchor="middle" font-size="8" fill="#92400e" font-weight="700">Colesterol</text>
+            <!-- Inner water label -->
+            <text x="200" y="148" text-anchor="middle" font-size="10" fill="#0e7490" font-weight="700">INTERIOR CELULĂ (APĂ — CITOPLASMĂ)</text>
+            <!-- Heads label -->
+            <text x="200" y="32" text-anchor="middle" font-size="8.5" fill="#1e40af">● Cap hidrofil (fosfor + glicerol — atrage apa)</text>
+          </svg>
+
+          <div class="mnemonic" style="margin-top:14px;">
+            <div class="mnemonic-title">🧠 Mnemonicul Membranei</div>
+            <div class="mnemonic-text">
+              <span class="em">M</span>ozaic <span class="em">F</span>luid = <span class="em">F</span>osfolipide bistrat + <span class="em">P</span>roteine globulare care plutesc
+              <span class="sub">Hidrofil = iubește apa (cap) · Hidrofob = urăște apa (coadă) · Colesterol = stabilizator</span>
+            </div>
+          </div>
+        </div>
+      </div>
+    </div>
+
+    <!-- SCHEMA LOGICA ORGANIZARE CELULARA -->
+    <div class="gcard fu fu-2">
+      <div class="gcard-title">
+        <div class="ct-icon" style="background:var(--green-light)">🌿</div>
+        Schema Logică — Organizarea Celulară (Flowchart)
+      </div>
+      <div class="g2">
+        <div>
+          <div class="flow-chain">
+            <div class="flow-node-item">
+              <div class="flow-node" style="background:#5b8dee;">🌍 ORGANISM</div>
+              <div class="flow-desc">Corpul uman — unitate complexă vie</div>
+            </div>
+            <div class="flow-arrow"></div>
+            <div class="flow-node-item">
+              <div class="flow-node" style="background:#6366f1;">🔬 ORGANE & SISTEME</div>
+              <div class="flow-desc">Inimă, plămâni, rinichi etc.</div>
+            </div>
+            <div class="flow-arrow"></div>
+            <div class="flow-node-item">
+              <div class="flow-node" style="background:#8b5cf6;">🧬 ȚESUTURI</div>
+              <div class="flow-desc">Epitelial, conjunctiv, muscular, nervos</div>
+            </div>
+            <div class="flow-arrow"></div>
+            <div class="flow-node-item">
+              <div class="flow-node" style="background:#ec4899;">🔴 CELULE</div>
+              <div class="flow-desc">Unitatea de bază a vieții — ~37 trilioane</div>
+            </div>
+            <div class="flow-arrow"></div>
+            <div class="flow-node-item">
+              <div class="flow-node" style="background:#10b981;">⚙️ ORGANITE</div>
+              <div class="flow-desc">Mitocondrie, nucleu, RE, Golgi...</div>
+            </div>
+            <div class="flow-arrow"></div>
+            <div class="flow-node-item">
+              <div class="flow-node" style="background:#06b6d4;">🧪 MOLECULE</div>
+              <div class="flow-desc">Proteine, lipide, ADN, ATP</div>
+            </div>
+          </div>
+        </div>
+        <div>
+          <div class="hbox hbox-orange" style="margin-bottom:12px;">
+            <strong>⚡ Celulele și Energia</strong>
+            Viața există numai dacă moleculele și celulele rămân organizate. Această organizare necesită energie continuă din hrană.
+          </div>
+          <div class="level-row" onclick="toggleLevel(this)">
+            <div class="level-body">
+              <div class="level-head">
+                <div class="level-num" style="background:var(--orange-light);color:var(--orange)">⚡</div>
+                <div class="level-info">
+                  <div class="level-name">Energia de activare</div>
+                  <div class="level-short">Necesară pentru a iniția orice reacție chimică</div>
+                </div>
+                <span class="level-chevron">›</span>
+              </div>
+              <div class="level-detail-panel">
+                Reacțiile chimice nu pornesc spontan — au nevoie de un aport inițial de energie. <strong>Enzimele</strong> scad energia de activare necesară, accelerând reacțiile de mii de ori. De ex: H₂ + O₂ → H₂O necesită energie de activare, chiar dacă reacția este exergonică.
+              </div>
+            </div>
+          </div>
+          <div class="level-row" onclick="toggleLevel(this)">
+            <div class="level-body">
+              <div class="level-head">
+                <div class="level-num" style="background:var(--green-light);color:var(--green)">🔥</div>
+                <div class="level-info">
+                  <div class="level-name">Reacții exergonice vs endergonice</div>
+                  <div class="level-short">Eliberare vs stocare de energie</div>
+                </div>
+                <span class="level-chevron">›</span>
+              </div>
+              <div class="level-detail-panel">
+                <strong>Exergonice</strong> = eliberează energie (produși au mai puțină energie decât reactanții) → catabolism<br>
+                <strong>Endergonice</strong> = absorb energie din surse externe → anabolism (sinteza moleculelor mari)<br>
+                <div style="margin-top:8px;padding:8px;background:var(--green-light);border-radius:8px;font-size:12px;color:#065f46">📌 ATP este moneda energetică: leagă reacțiile exergonice (catabolism) de cele endergonice (anabolism)</div>
+              </div>
+            </div>
+          </div>
+          <div class="level-row" onclick="toggleLevel(this)">
+            <div class="level-body">
+              <div class="level-head">
+                <div class="level-num" style="background:var(--blue-light);color:var(--blue)">🔑</div>
+                <div class="level-info">
+                  <div class="level-name">Enzimele — catalizatori biologici</div>
+                  <div class="level-short">Proteine care accelerează reacțiile fără a fi consumate</div>
+                </div>
+                <span class="level-chevron">›</span>
+              </div>
+              <div class="level-detail-panel">
+                <strong>Substrat</strong> → se leagă de <strong>zona activă</strong> a enzimei → formare complex enzimă-substrat → eliberare <strong>produși finali</strong> → enzima reutilizată<br><br>
+                Fiecare enzimă catalizează o singură reacție (specificitate). Viteza depinde de: concentrația substratului, pH, temperatură. Excesul de căldură → <strong>denaturare</strong> (pierderea structurii 3D).<br><br>
+                Exemple: amilaza (amidon→glucoză), peptidaza (proteine→aminoacizi), catalaza (H₂O₂→H₂O+O₂)
+              </div>
+            </div>
+          </div>
+
+          <!-- ATP SVG -->
+          <div style="margin-top:14px;font-size:13px;font-weight:700;color:var(--text);margin-bottom:8px;">⚡ Molecula ATP</div>
+          <svg width="100%" height="90" viewBox="0 0 400 90" style="background:rgba(255,255,255,.5);border-radius:12px;border:1px solid var(--border);padding:4px;">
+            <!-- Adenina -->
+            <rect x="10" y="25" width="70" height="40" rx="8" fill="rgba(139,92,246,0.2)" stroke="#8b5cf6" stroke-width="2"/>
+            <text x="45" y="48" text-anchor="middle" font-size="11" font-weight="800" fill="#7c3aed">Adenină</text>
+            <!-- Riboza -->
+            <rect x="88" y="25" width="60" height="40" rx="8" fill="rgba(91,141,238,0.2)" stroke="#5b8dee" stroke-width="2"/>
+            <text x="118" y="48" text-anchor="middle" font-size="11" font-weight="800" fill="#1e40af">Riboză</text>
+            <!-- Legaturi -->
+            <text x="157" y="48" font-size="11" fill="#6b7280">—</text>
+            <!-- P1 -->
+            <circle cx="178" cy="45" r="16" fill="rgba(245,158,11,0.25)" stroke="#f59e0b" stroke-width="2"/>
+            <text x="178" y="49" text-anchor="middle" font-size="11" font-weight="800" fill="#92400e">P₁</text>
+            <!-- wavy bond -->
+            <path d="M194,45 Q202,38 210,45" stroke="#f43f5e" stroke-width="2.5" fill="none"/>
+            <!-- P2 -->
+            <circle cx="226" cy="45" r="16" fill="rgba(245,158,11,0.25)" stroke="#f59e0b" stroke-width="2"/>
+            <text x="226" y="49" text-anchor="middle" font-size="11" font-weight="800" fill="#92400e">P₂</text>
+            <!-- wavy bond -->
+            <path d="M242,45 Q250,38 258,45" stroke="#f43f5e" stroke-width="2.5" fill="none"/>
+            <!-- P3 terminal -->
+            <circle cx="274" cy="45" r="16" fill="rgba(244,63,94,0.3)" stroke="#f43f5e" stroke-width="2.5"/>
+            <text x="274" y="49" text-anchor="middle" font-size="11" font-weight="800" fill="#9f1239">P₃</text>
+            <!-- Arrow hydrolysis -->
+            <path d="M292,45 L340,45" stroke="#10b981" stroke-width="2" marker-end="url(#arr-atp)"/>
+            <defs><marker id="arr-atp" markerWidth="8" markerHeight="8" refX="6" refY="3" orient="auto"><path d="M0,0 L0,6 L8,3 z" fill="#10b981"/></marker></defs>
+            <text x="316" y="38" text-anchor="middle" font-size="8.5" fill="#065f46" font-weight="700">Hidroliză</text>
+            <text x="316" y="59" text-anchor="middle" font-size="8" fill="#065f46">+7.3 kcal/mol</text>
+            <text x="360" y="49" font-size="10" fill="#10b981" font-weight="700">ADP+Pi</text>
+            <!-- Labels -->
+            <text x="205" y="82" text-anchor="middle" font-size="9" fill="#f43f5e" font-weight="700">≈≈ Legături fosfat covalente cu energie înaltă ≈≈</text>
+          </svg>
+        </div>
+      </div>
+    </div>
+  </div><!-- end panel-infografice -->
+
+  <!-- ══════════════════════════════════════════
+       PANEL 2 — TRANSPORT MEMBRANAR
+  ══════════════════════════════════════════ -->
+  <div class="panel" id="panel-transport">
+
+    <div class="gcard fu fu-1">
+      <div class="gcard-title">
+        <div class="ct-icon" style="background:var(--cyan-light)">🔄</div>
+        Mecanismele de Transport prin Membrana Celulară — Click pentru detalii
+      </div>
+      <div class="g3" style="margin-bottom:20px;">
+        <div class="transport-card" id="tc-difuziune" onclick="selectTransport('difuziune')" style="background:var(--blue-light);">
+          <div class="tc-title" style="color:var(--blue)">→ Difuziune</div>
+          <div class="tc-sub" style="color:#1e40af">Pasivă · fără energie · gradient conc.</div>
+        </div>
+        <div class="transport-card" id="tc-osmoza" onclick="selectTransport('osmoza')" style="background:var(--cyan-light);">
+          <div class="tc-title" style="color:var(--cyan)">💧 Osmoză</div>
+          <div class="tc-sub" style="color:#0e7490">Difuzia apei · membrană semipermeabilă</div>
+        </div>
+        <div class="transport-card" id="tc-facilitata" onclick="selectTransport('facilitata')" style="background:var(--green-light);">
+          <div class="tc-title" style="color:var(--green)">🚪 Difuziune Facilitată</div>
+          <div class="tc-sub" style="color:#065f46">Pasivă · proteină transportoare</div>
+        </div>
+        <div class="transport-card" id="tc-activ" onclick="selectTransport('activ')" style="background:var(--orange-light);">
+          <div class="tc-title" style="color:var(--orange)">⚡ Transport Activ</div>
+          <div class="tc-sub" style="color:#92400e">Activ · ATP · contra gradient</div>
+        </div>
+        <div class="transport-card" id="tc-endocitoza" onclick="selectTransport('endocitoza')" style="background:var(--violet-light);">
+          <div class="tc-title" style="color:var(--violet)">📥 Endocitoză</div>
+          <div class="tc-sub" style="color:#5b21b6">Fagocitoză · Pinocitoză · vezicule</div>
+        </div>
+        <div class="transport-card" id="tc-exocitoza" onclick="selectTransport('exocitoza')" style="background:var(--pink-light);">
+          <div class="tc-title" style="color:var(--pink)">📤 Exocitoză</div>
+          <div class="tc-sub" style="color:#9d174d">Secreție · fuziune veziculă</div>
+        </div>
+      </div>
+
+      <!-- Detail panel -->
+      <div id="transport-detail" style="display:none;padding:18px;border-radius:14px;border:2px solid var(--blue);background:rgba(255,255,255,.8);">
+        <div id="transport-detail-content"></div>
+      </div>
+
+      <!-- OSMOSIS SVG INTERACTIVE -->
+      <div style="margin-top:24px;">
+        <div style="font-size:14px;font-weight:700;color:var(--text);margin-bottom:12px;">💧 Osmoza — Efectul soluțiilor (hover pentru detalii)</div>
+        <div class="g3">
+          <!-- Hiperton -->
+          <div style="text-align:center;cursor:pointer;" onmouseenter="showOsmoInfo('hiperton',this)" onmouseleave="hideOsmoInfo(this)">
+            <svg width="100%" height="160" viewBox="0 0 160 160" style="background:rgba(239,68,68,0.05);border-radius:12px;border:1px solid rgba(239,68,68,.2);">
+              <!-- Container -->
+              <rect x="20" y="20" width="120" height="120" rx="8" fill="none" stroke="#ef4444" stroke-width="2"/>
+              <!-- Membrane line -->
+              <line x1="20" y1="80" x2="140" y2="80" stroke="#ef4444" stroke-width="1.5" stroke-dasharray="4,3"/>
+              <!-- Water arrows going out -->
+              <path d="M80,60 L80,30" stroke="#3b82f6" stroke-width="2.5" marker-end="url(#arr-out1)"/>
+              <path d="M60,65 L40,40" stroke="#3b82f6" stroke-width="2" marker-end="url(#arr-out2)"/>
+              <path d="M100,65 L120,40" stroke="#3b82f6" stroke-width="2" marker-end="url(#arr-out3)"/>
+              <defs>
+                <marker id="arr-out1" markerWidth="7" markerHeight="7" refX="5" refY="3" orient="auto"><path d="M0,0 L0,6 L7,3 z" fill="#3b82f6"/></marker>
+                <marker id="arr-out2" markerWidth="7" markerHeight="7" refX="5" refY="3" orient="auto"><path d="M0,0 L0,6 L7,3 z" fill="#3b82f6"/></marker>
+                <marker id="arr-out3" markerWidth="7" markerHeight="7" refX="5" refY="3" orient="auto"><path d="M0,0 L0,6 L7,3 z" fill="#3b82f6"/></marker>
+              </defs>
+              <!-- Shrunken cell -->
+              <ellipse cx="80" cy="105" rx="28" ry="22" fill="rgba(239,68,68,0.2)" stroke="#ef4444" stroke-width="2"/>
+              <!-- Salt dots outside -->
+              <circle cx="35" cy="38" r="3" fill="#ef4444" opacity=".6"/>
+              <circle cx="55" cy="32" r="3" fill="#ef4444" opacity=".6"/>
+              <circle cx="105" cy="35" r="3" fill="#ef4444" opacity=".6"/>
+              <circle cx="125" cy="42" r="3" fill="#ef4444" opacity=".6"/>
+              <!-- Labels -->
+              <text x="80" y="108" text-anchor="middle" font-size="8.5" font-weight="700" fill="#9f1239">Celulă zbârcită</text>
+            </svg>
+            <div style="font-size:13px;font-weight:700;color:#ef4444;margin-top:6px;">Soluție HIPERTONĂ</div>
+            <div style="font-size:11.5px;color:var(--text2)">Sare &gt; 1% exterior → apa iese → crenare</div>
+          </div>
+          <!-- Hipoton -->
+          <div style="text-align:center;cursor:pointer;" onmouseenter="showOsmoInfo('hipoton',this)" onmouseleave="hideOsmoInfo(this)">
+            <svg width="100%" height="160" viewBox="0 0 160 160" style="background:rgba(59,130,246,0.05);border-radius:12px;border:1px solid rgba(59,130,246,.2);">
+              <rect x="20" y="20" width="120" height="120" rx="8" fill="none" stroke="#3b82f6" stroke-width="2"/>
+              <line x1="20" y1="80" x2="140" y2="80" stroke="#3b82f6" stroke-width="1.5" stroke-dasharray="4,3"/>
+              <!-- Water arrows going in -->
+              <path d="M80,30 L80,58" stroke="#3b82f6" stroke-width="2.5" marker-end="url(#arr-in1)"/>
+              <path d="M40,42 L62,62" stroke="#3b82f6" stroke-width="2" marker-end="url(#arr-in2)"/>
+              <path d="M120,42 L98,62" stroke="#3b82f6" stroke-width="2" marker-end="url(#arr-in3)"/>
+              <defs>
+                <marker id="arr-in1" markerWidth="7" markerHeight="7" refX="5" refY="3" orient="auto"><path d="M0,0 L0,6 L7,3 z" fill="#3b82f6"/></marker>
+                <marker id="arr-in2" markerWidth="7" markerHeight="7" refX="5" refY="3" orient="auto"><path d="M0,0 L0,6 L7,3 z" fill="#3b82f6"/></marker>
+                <marker id="arr-in3" markerWidth="7" markerHeight="7" refX="5" refY="3" orient="auto"><path d="M0,0 L0,6 L7,3 z" fill="#3b82f6"/></marker>
+              </defs>
+              <!-- Swollen cell -->
+              <ellipse cx="80" cy="100" rx="48" ry="42" fill="rgba(59,130,246,0.2)" stroke="#3b82f6" stroke-width="2.5"/>
+              <text x="80" y="104" text-anchor="middle" font-size="8.5" font-weight="700" fill="#1e40af">Celulă umflată/lizată</text>
+            </svg>
+            <div style="font-size:13px;font-weight:700;color:#3b82f6;margin-top:6px;">Soluție HIPOTONĂ</div>
+            <div style="font-size:11.5px;color:var(--text2)">Sare &lt; 1% exterior → apa intră → liză</div>
+          </div>
+          <!-- Izoton -->
+          <div style="text-align:center;">
+            <svg width="100%" height="160" viewBox="0 0 160 160" style="background:rgba(16,185,129,0.05);border-radius:12px;border:1px solid rgba(16,185,129,.2);">
+              <rect x="20" y="20" width="120" height="120" rx="8" fill="none" stroke="#10b981" stroke-width="2"/>
+              <line x1="20" y1="80" x2="140" y2="80" stroke="#10b981" stroke-width="1.5" stroke-dasharray="4,3"/>
+              <!-- No movement arrows (balanced) -->
+              <path d="M70,50 L90,50" stroke="#10b981" stroke-width="2" marker-end="url(#arr-eq1)" opacity=".5"/>
+              <path d="M90,60 L70,60" stroke="#10b981" stroke-width="2" marker-end="url(#arr-eq2)" opacity=".5"/>
+              <defs>
+                <marker id="arr-eq1" markerWidth="7" markerHeight="7" refX="5" refY="3" orient="auto"><path d="M0,0 L0,6 L7,3 z" fill="#10b981"/></marker>
+                <marker id="arr-eq2" markerWidth="7" markerHeight="7" refX="5" refY="3" orient="auto"><path d="M0,0 L0,6 L7,3 z" fill="#10b981"/></marker>
+              </defs>
+              <!-- Normal cell -->
+              <ellipse cx="80" cy="108" rx="40" ry="34" fill="rgba(16,185,129,0.2)" stroke="#10b981" stroke-width="2"/>
+              <text x="80" y="111" text-anchor="middle" font-size="8.5" font-weight="700" fill="#065f46">Celulă normală</text>
+            </svg>
+            <div style="font-size:13px;font-weight:700;color:#10b981;margin-top:6px;">Soluție IZOTONĂ</div>
+            <div style="font-size:11.5px;color:var(--text2)">Sare = 0.9% → echilibru → fără modificare</div>
+          </div>
+        </div>
+      </div>
+
+      <div class="hbox hbox-orange" style="margin-top:18px;">
+        <strong>📌 De reținut — Soluția fiziologică NaCl 0.9%</strong>
+        Perfuziile intravenoase folosesc soluție <strong>izotonă de NaCl 0.9%</strong> pentru a nu deteriora celulele roșii. Soluția hipertonă le zbârcește, cea hipotonă le lizează!
+      </div>
+    </div>
+  </div><!-- end panel-transport -->
+
+  <!-- ══════════════════════════════════════════
+       PANEL 3 — ORGANITE
+  ══════════════════════════════════════════ -->
+  <div class="panel" id="panel-organite">
+    <div class="gcard fu fu-1">
+      <div class="gcard-title">
+        <div class="ct-icon" style="background:var(--green-light)">⚙️</div>
+        Organitele Celulare — Click pentru detalii extinse
+      </div>
+      <p style="font-size:13px;color:var(--text2);margin-bottom:20px;">Citoplasma conține organite — "mici organe" specializate care realizează funcții vitale ale celulei.</p>
+      <div class="g4">
+        <div class="org-card" onclick="expandOrg(this)">
+          <div class="org-icon">🧬</div>
+          <div class="org-name">Nucleu</div>
+          <div class="org-func">Control celular · ADN + Histone · 46 cromozomi</div>
+          <div class="org-detail">Înconjurat de <strong>înveliș nuclear dublu</strong> cu pori. Conține <strong>~30.000 gene</strong>. ADN-ul se înfășoară în jurul histonelor → <strong>nucleozomi</strong> → cromozomi. Excepție: globulele roșii nu au nucleu. Nucleolii din interior produc ARNr pentru ribozomi.</div>
+        </div>
+        <div class="org-card" onclick="expandOrg(this)">
+          <div class="org-icon">⚡</div>
+          <div class="org-name">Mitocondrie</div>
+          <div class="org-func">"Generatorul celulei" · produce ATP · respirație celulară</div>
+          <div class="org-detail">Organit cu <strong>membrană dublă</strong> (externă netedă + internă plisată = <strong>criste</strong>). Degradează glucide, lipide, proteine → <strong>ATP</strong>. O₂ + H → H₂O. Fără O₂ → insuficient ATP → moartea celulei → moartea organismului.</div>
+        </div>
+        <div class="org-card" onclick="expandOrg(this)">
+          <div class="org-icon">🏭</div>
+          <div class="org-name">RE Rugos</div>
+          <div class="org-func">Sinteză proteică · ribozomi pe suprafață</div>
+          <div class="org-detail">Rețea de membrane cu <strong>ribozomi atașați</strong> pe suprafața externă. Sediul principal al sintezei proteinelor destinate exportului celular. Ribozomii = mașinile de asamblat proteine (aminoacizi → lanț polipeptidic).</div>
+        </div>
+        <div class="org-card" onclick="expandOrg(this)">
+          <div class="org-icon">🌊</div>
+          <div class="org-name">RE Neted</div>
+          <div class="org-func">Sinteza lipidelor · depozitare Ca²⁺</div>
+          <div class="org-detail">Fără ribozomi pe suprafață. Sintetizează <strong>lipide și membrane</strong>. Depozitează <strong>ioni de calciu</strong> (importanți în contracția musculară). Detoxifiere în celulele hepatice.</div>
+        </div>
+        <div class="org-card" onclick="expandOrg(this)">
+          <div class="org-icon">📦</div>
+          <div class="org-name">Aparat Golgi</div>
+          <div class="org-func">Împachetare · secreție · transport final</div>
+          <div class="org-detail">Saci turtiti stivuiți (<strong>cisterne</strong>). Primește proteine din RE rugos → le <strong>procesează, modifică și împachetează</strong> în vezicule → le trimite la destinație (membrană, lizozomi, exterior). "Poșta celulei".</div>
+        </div>
+        <div class="org-card" onclick="expandOrg(this)">
+          <div class="org-icon">💀</div>
+          <div class="org-name">Lizozomi</div>
+          <div class="org-func">Digestie intracelulară · enzime hidrolitice</div>
+          <div class="org-detail">Derivați din sacii Golgi. Conțin <strong>enzime hidrolitice</strong> care degradează bacterii, organite deteriorate, macromolecule. Leucocitele folosesc lizozomii pentru <strong>fagocitoză</strong>. pH acid intern (~5). "Sistemul digestiv al celulei".</div>
+        </div>
+        <div class="org-card" onclick="expandOrg(this)">
+          <div class="org-icon">⚫</div>
+          <div class="org-name">Ribozomi</div>
+          <div class="org-func">Sinteza proteinelor · ARNr + proteine</div>
+          <div class="org-detail">Compuși din <strong>ARN ribozomal + proteine</strong>. Liberi în citoplasmă sau atașați de RE rugos. Citesc <strong>ARNm</strong> și asamblează aminoacizii în lanțuri proteice conform codului genetic. Cele mai numeroase organite din celulă.</div>
+        </div>
+        <div class="org-card" onclick="expandOrg(this)">
+          <div class="org-icon">🎯</div>
+          <div class="org-name">Centrozom</div>
+          <div class="org-func">Organizarea fusului de diviziune · 2 centrioli</div>
+          <div class="org-detail">Format din <strong>2 centrioli</strong> (structuri cilindrice de microtubuli). Organizează <strong>fusul mitotic</strong> în timpul diviziunii celulare. Inițiază formarea cililor și flagelilor. Absent în celulele nervoase mature (de aceea nu se regenerează!).</div>
+        </div>
+        <div class="org-card" onclick="expandOrg(this)">
+          <div class="org-icon">🪢</div>
+          <div class="org-name">Citoschelet</div>
+          <div class="org-func">Suport · mișcare · structură internă</div>
+          <div class="org-detail">Rețea de: <strong>Microtubuli</strong> (tubulină, cei mai mari, formează fusul mitotic), <strong>Microfilamente</strong> (actină, contracție), <strong>Filamente intermediare</strong> (rezistență mecanică). Toate din subunități proteice.</div>
+        </div>
+        <div class="org-card" onclick="expandOrg(this)">
+          <div class="org-icon">💦</div>
+          <div class="org-name">Vacuole</div>
+          <div class="org-func">Stocare temporară · substanțe diverse</div>
+          <div class="org-detail">Saci membranoși care depozitează temporar substanțe transportate în celulă. Mai mari la celulele vegetale. La animale — mai mici, cu rol în endocitoză/exocitoză.</div>
+        </div>
+        <div class="org-card" onclick="expandOrg(this)">
+          <div class="org-icon">🌊</div>
+          <div class="org-name">Cili & Flageli</div>
+          <div class="org-func">Mișcare celulară · transport de substanțe</div>
+          <div class="org-detail"><strong>Cilii</strong>: scurți, numeroși, mișcare sincronă → deplasează mucusul pe căile respiratorii. <strong>Flagelii</strong>: lungi, 1-2, propulsie → spermatozoizi. Ambii din microtubuli dispuși 9+2.</div>
+        </div>
+        <div class="org-card" onclick="expandOrg(this)">
+          <div class="org-icon">🏠</div>
+          <div class="org-name">Membrană Celulară</div>
+          <div class="org-func">Barieră selectivă · comunicare · transport</div>
+          <div class="org-detail">Bistrat fosfolipidic (hidrofil exterior + hidrofob interior) + proteine globulare transmembranare și periferice. Conține <strong>colesterol</strong> (stabilizare), <strong>glicoproteine</strong> (recunoaștere, receptori hormonali), <strong>glicolipide</strong> (recunoaștere).</div>
+        </div>
+      </div>
+
+      <div class="mnemonic" style="margin-top:20px;">
+        <div class="mnemonic-title">🧠 Mnemonicul Organitelor</div>
+        <div class="mnemonic-text">
+          <span class="em">N</span>ucleu, <span class="em">M</span>itocondrie, <span class="em">R</span>E, <span class="em">G</span>olgi, <span class="em">L</span>izozom, <span class="em">R</span>ibozomi = <span class="em">N</span>u <span class="em">M</span>ă <span class="em">R</span>epet — <span class="em">G</span>ata, <span class="em">L</span>ăsați <span class="em">R</span>epaus!
+          <span class="sub">Mitocondria = energia · Golgi = poșta · Lizozom = coșul de gunoi</span>
+        </div>
+      </div>
+    </div>
+  </div><!-- end panel-organite -->
+
+  <!-- ══════════════════════════════════════════
+       PANEL 4 — DIVIZIUNE CELULARĂ
+  ══════════════════════════════════════════ -->
+  <div class="panel" id="panel-diviziune">
+    <div class="gcard fu fu-1">
+      <div class="gcard-title">
+        <div class="ct-icon" style="background:var(--violet-light)">🔀</div>
+        Ciclul Celular & Mitoza — Schema interactivă
+      </div>
+
+      <!-- Ciclul celular SVG -->
+      <div class="g2">
+        <div>
+          <svg width="100%" height="320" viewBox="0 0 320 320" style="background:rgba(255,255,255,.5);border-radius:14px;border:1px solid var(--border);">
+            <!-- Background circle -->
+            <circle cx="160" cy="160" r="130" fill="none" stroke="rgba(139,92,246,.15)" stroke-width="30"/>
+            <!-- G1 arc -->
+            <path d="M160,30 A130,130 0 0,1 278,218" fill="none" stroke="rgba(91,141,238,.6)" stroke-width="32"/>
+            <text x="90" y="90" font-size="11" font-weight="800" fill="#1e40af" text-anchor="middle">Faza G₁</text>
+            <text x="90" y="104" font-size="9.5" fill="#1e40af" text-anchor="middle">creștere, sinteza</text>
+            <text x="90" y="116" font-size="9.5" fill="#1e40af" text-anchor="middle">proteinelor</text>
+            <!-- S arc -->
+            <path d="M278,218 A130,130 0 0,1 160,290" fill="none" stroke="rgba(16,185,129,.6)" stroke-width="32"/>
+            <text x="250" y="278" font-size="11" font-weight="800" fill="#065f46" text-anchor="middle">Faza S</text>
+            <text x="250" y="292" font-size="9.5" fill="#065f46" text-anchor="middle">sinteza ADN</text>
+            <!-- G2 arc -->
+            <path d="M160,290 A130,130 0 0,1 42,218" fill="none" stroke="rgba(245,158,11,.6)" stroke-width="32"/>
+            <text x="70" y="278" font-size="11" font-weight="800" fill="#92400e" text-anchor="middle">Faza G₂</text>
+            <text x="70" y="292" font-size="9.5" fill="#92400e" text-anchor="middle">pregătire mitoză</text>
+            <!-- Mitoza arc (top-left small) -->
+            <path d="M42,218 A130,130 0 0,1 160,30" fill="none" stroke="rgba(236,72,153,.7)" stroke-width="32"/>
+            <text x="40" y="155" font-size="11" font-weight="800" fill="#9d174d" text-anchor="middle">MITOZĂ</text>
+            <text x="40" y="168" font-size="9" fill="#9d174d" text-anchor="middle">Pro·Meta·Ana·Telo</text>
+            <!-- Center labels -->
+            <circle cx="160" cy="160" r="65" fill="rgba(255,255,255,.9)" stroke="rgba(139,92,246,.2)" stroke-width="2"/>
+            <text x="160" y="148" text-anchor="middle" font-size="14" font-weight="900" fill="#7c3aed">INTERFAZA</text>
+            <text x="160" y="165" text-anchor="middle" font-size="11" fill="#6b7280">G₁ + S + G₂</text>
+            <text x="160" y="180" text-anchor="middle" font-size="9.5" fill="#9ca3af">cel mai lung</text>
+            <!-- Divison indicator -->
+            <text x="160" y="200" text-anchor="middle" font-size="9" fill="#ec4899" font-weight="700">→ CITOKINEZĂ →</text>
+          </svg>
+        </div>
+        <div>
+          <div class="hbox hbox-violet">
+            <strong>Ciclul Celular — Interfaza + Mitoza</strong>
+            <div style="display:flex;flex-direction:column;gap:6px;margin-top:8px;">
+              <div style="display:flex;align-items:flex-start;gap:10px;">
+                <span style="min-width:22px;height:22px;background:#5b8dee;color:white;border-radius:50%;display:flex;align-items:center;justify-content:center;font-size:11px;font-weight:800;flex-shrink:0;">G₁</span>
+                <span>Creștere celulară, sinteza proteinelor și enzimelor. ADN sub formă de cromatină despiralizată.</span>
+              </div>
+              <div style="display:flex;align-items:flex-start;gap:10px;">
+                <span style="min-width:22px;height:22px;background:#10b981;color:white;border-radius:50%;display:flex;align-items:center;justify-content:center;font-size:11px;font-weight:800;flex-shrink:0;">S</span>
+                <span>Replicarea ADN-ului. 46 cromozomi (1 cromatidă) → 46 cromozomi (2 cromatide surori fiecare).</span>
+              </div>
+              <div style="display:flex;align-items:flex-start;gap:10px;">
+                <span style="min-width:22px;height:22px;background:#f59e0b;color:white;border-radius:50%;display:flex;align-items:center;justify-content:center;font-size:11px;font-weight:800;flex-shrink:0;">G₂</span>
+                <span>Creștere continuă, proteinele microtubulilor formează fusul de diviziune. Cromatina se condensează.</span>
+              </div>
+            </div>
+          </div>
+
+          <div style="margin-top:14px;font-size:13px;font-weight:700;color:var(--text);margin-bottom:10px;">🔬 Fazele Mitozei — Click pentru animație</div>
+          <div style="display:grid;grid-template-columns:1fr 1fr;gap:10px;" id="mitoza-grid">
+            <div class="mitoza-step" onclick="showMitoza('profaza',this)" id="ms-profaza">
+              <div class="ms-num">1</div>
+              <div class="ms-name">🧶 Profaza</div>
+              <div class="ms-desc">Cromatina se condensează → cromozomi vizibili. Nucleolul dispare. Fus de diviziune se formează.</div>
+            </div>
+            <div class="mitoza-step" onclick="showMitoza('metafaza',this)" id="ms-metafaza">
+              <div class="ms-num">2</div>
+              <div class="ms-name">⚖️ Metafaza</div>
+              <div class="ms-desc">Cromozomii se aliniază pe placa ecuatorială (metafazică). Centromerii în centrul celulei.</div>
+            </div>
+            <div class="mitoza-step" onclick="showMitoza('anafaza',this)" id="ms-anafaza">
+              <div class="ms-num">3</div>
+              <div class="ms-name">↕️ Anafaza</div>
+              <div class="ms-desc">Centromerii se clivează. Cromatidele surori migrează spre polii opuși ai celulei.</div>
+            </div>
+            <div class="mitoza-step" onclick="showMitoza('telofaza',this)" id="ms-telofaza">
+              <div class="ms-num">4</div>
+              <div class="ms-name">✅ Telofaza</div>
+              <div class="ms-desc">Cromozomii se despiralizează. Nucleu nou format. Citokineza completează diviziunea → 2 celule fiice.</div>
+            </div>
+          </div>
+        </div>
+      </div>
+
+      <!-- Mitoza detail panel -->
+      <div id="mitoza-detail" style="display:none;margin-top:20px;padding:18px;background:var(--blue-light);border-radius:14px;border:2px solid var(--blue);">
+        <div id="mitoza-detail-content"></div>
+      </div>
+
+      <!-- Mitoza SVG animata -->
+      <div style="margin-top:20px;font-size:14px;font-weight:700;color:var(--text);margin-bottom:12px;">🎬 Procesul Mitozei — Vizualizare</div>
+      <div class="g4" style="gap:12px;">
+        <!-- Interfaza -->
+        <div style="text-align:center;">
+          <svg width="100%" height="120" viewBox="0 0 120 120" style="background:rgba(255,255,255,.5);border-radius:12px;border:1px solid var(--border);">
+            <ellipse cx="60" cy="60" rx="52" ry="48" fill="rgba(200,220,255,0.3)" stroke="#5b8dee" stroke-width="2"/>
+            <ellipse cx="60" cy="58" rx="20" ry="18" fill="rgba(139,92,246,0.25)" stroke="#8b5cf6" stroke-width="1.5"/>
+            <text x="60" y="62" text-anchor="middle" font-size="8.5" fill="#7c3aed" font-weight="700">Nucleu</text>
+            <!-- Cromatina as dots -->
+            <circle cx="54" cy="55" r="3" fill="#8b5cf6" opacity=".5"/>
+            <circle cx="60" cy="53" r="3" fill="#8b5cf6" opacity=".5"/>
+            <circle cx="66" cy="56" r="3" fill="#8b5cf6" opacity=".5"/>
+          </svg>
+          <div style="font-size:11px;font-weight:700;color:var(--text2);margin-top:4px;">Interfază</div>
+        </div>
+        <!-- Profaza -->
+        <div style="text-align:center;">
+          <svg width="100%" height="120" viewBox="0 0 120 120" style="background:rgba(255,255,255,.5);border-radius:12px;border:1px solid var(--border);">
+            <ellipse cx="60" cy="60" rx="52" ry="48" fill="rgba(200,220,255,0.3)" stroke="#5b8dee" stroke-width="2"/>
+            <!-- Condensed chromosomes -->
+            <ellipse cx="48" cy="52" rx="8" ry="14" fill="rgba(236,72,153,0.5)" stroke="#ec4899" stroke-width="1.5" transform="rotate(-20,48,52)"/>
+            <ellipse cx="72" cy="52" rx="8" ry="14" fill="rgba(236,72,153,0.5)" stroke="#ec4899" stroke-width="1.5" transform="rotate(20,72,52)"/>
+            <ellipse cx="60" cy="72" rx="8" ry="14" fill="rgba(236,72,153,0.5)" stroke="#ec4899" stroke-width="1.5"/>
+            <!-- Spindle forming -->
+            <circle cx="60" cy="15" r="5" fill="#f59e0b" opacity=".8"/>
+            <circle cx="60" cy="105" r="5" fill="#f59e0b" opacity=".8"/>
+          </svg>
+          <div style="font-size:11px;font-weight:700;color:var(--text2);margin-top:4px;">Profază</div>
+        </div>
+        <!-- Metafaza -->
+        <div style="text-align:center;">
+          <svg width="100%" height="120" viewBox="0 0 120 120" style="background:rgba(255,255,255,.5);border-radius:12px;border:1px solid var(--border);">
+            <ellipse cx="60" cy="60" rx="52" ry="48" fill="rgba(200,220,255,0.3)" stroke="#5b8dee" stroke-width="2"/>
+            <!-- Equatorial plate line -->
+            <line x1="8" y1="60" x2="112" y2="60" stroke="rgba(245,158,11,.5)" stroke-width="1.5" stroke-dasharray="4,2"/>
+            <!-- Aligned chromosomes -->
+            <ellipse cx="44" cy="60" rx="8" ry="14" fill="rgba(236,72,153,0.5)" stroke="#ec4899" stroke-width="1.5"/>
+            <ellipse cx="60" cy="60" rx="8" ry="14" fill="rgba(236,72,153,0.5)" stroke="#ec4899" stroke-width="1.5"/>
+            <ellipse cx="76" cy="60" rx="8" ry="14" fill="rgba(236,72,153,0.5)" stroke="#ec4899" stroke-width="1.5"/>
+            <!-- Centrioli -->
+            <circle cx="60" cy="14" r="5" fill="#f59e0b" opacity=".8"/>
+            <circle cx="60" cy="106" r="5" fill="#f59e0b" opacity=".8"/>
+            <!-- Spindle lines -->
+            <line x1="60" y1="19" x2="44" y2="48" stroke="rgba(245,158,11,.4)" stroke-width="1"/>
+            <line x1="60" y1="101" x2="44" y2="72" stroke="rgba(245,158,11,.4)" stroke-width="1"/>
+          </svg>
+          <div style="font-size:11px;font-weight:700;color:var(--text2);margin-top:4px;">Metafază</div>
+        </div>
+        <!-- Telofaza -->
+        <div style="text-align:center;">
+          <svg width="100%" height="120" viewBox="0 0 120 120" style="background:rgba(255,255,255,.5);border-radius:12px;border:1px solid var(--border);">
+            <!-- Two new cells -->
+            <ellipse cx="60" cy="30" rx="46" ry="24" fill="rgba(16,185,129,0.2)" stroke="#10b981" stroke-width="2"/>
+            <ellipse cx="60" cy="90" rx="46" ry="24" fill="rgba(16,185,129,0.2)" stroke="#10b981" stroke-width="2"/>
+            <!-- Cleavage furrow -->
+            <line x1="14" y1="60" x2="106" y2="60" stroke="#10b981" stroke-width="2" stroke-dasharray="3,2"/>
+            <!-- Nuclei in each -->
+            <ellipse cx="60" cy="30" rx="12" ry="8" fill="rgba(139,92,246,0.3)" stroke="#8b5cf6" stroke-width="1.5"/>
+            <ellipse cx="60" cy="90" rx="12" ry="8" fill="rgba(139,92,246,0.3)" stroke="#8b5cf6" stroke-width="1.5"/>
+            <text x="60" y="60" text-anchor="middle" font-size="8" fill="#065f46" font-weight="700">Citokineză</text>
+          </svg>
+          <div style="font-size:11px;font-weight:700;color:var(--text2);margin-top:4px;">Telofază+Citokineză</div>
+        </div>
+      </div>
+
+      <div class="mnemonic" style="margin-top:18px;">
+        <div class="mnemonic-title">🧠 Mnemonicul Mitozei</div>
+        <div class="mnemonic-text">
+          <span class="em">P</span>rofaza — <span class="em">M</span>etafaza — <span class="em">A</span>nafaza — <span class="em">T</span>elofaza = <span class="em">P</span>ărinții <span class="em">M</span>ai <span class="em">A</span>u <span class="em">T</span>imp
+          <span class="sub">Rezultat final: 2 celule fiice identice cu celula mamă (46 cromozomi fiecare)</span>
+        </div>
+      </div>
+    </div>
+
+    <!-- SINTEZA PROTEICA -->
+    <div class="gcard fu fu-2">
+      <div class="gcard-title">
+        <div class="ct-icon" style="background:var(--orange-light)">🔤</div>
+        Sinteza Proteică — Transcripție & Translație
+      </div>
+      <div class="g2">
+        <div>
+          <div class="flow-chain">
+            <div class="flow-node-item">
+              <div class="flow-node" style="background:#7c3aed;min-width:180px;">🧬 ADN (în nucleu)</div>
+              <div class="flow-desc">Matriță pentru ARNm</div>
+            </div>
+            <div class="flow-arrow"></div>
+            <div class="flow-node-item">
+              <div class="flow-node" style="background:#ec4899;min-width:180px;">✍️ TRANSCRIPȚIE</div>
+              <div class="flow-desc">ARN polimeraza copiază gena → ARNm</div>
+            </div>
+            <div class="flow-arrow"></div>
+            <div class="flow-node-item">
+              <div class="flow-node" style="background:#5b8dee;min-width:180px;">📨 ARNm (mesager)</div>
+              <div class="flow-desc">Iese din nucleu prin pori → citoplasmă</div>
+            </div>
+            <div class="flow-arrow"></div>
+            <div class="flow-node-item">
+              <div class="flow-node" style="background:#10b981;min-width:180px;">🏭 TRANSLAȚIE</div>
+              <div class="flow-desc">Ribozom citește ARNm codon cu codon</div>
+            </div>
+            <div class="flow-arrow"></div>
+            <div class="flow-node-item">
+              <div class="flow-node" style="background:#f59e0b;min-width:180px;">🚚 ARNt (transfer)</div>
+              <div class="flow-desc">Aduce aminoacizii specifici</div>
+            </div>
+            <div class="flow-arrow"></div>
+            <div class="flow-node-item">
+              <div class="flow-node" style="background:#06b6d4;min-width:180px;">🧪 PROTEINA</div>
+              <div class="flow-desc">Lanț de aminoacizi → funcție specifică</div>
+            </div>
+          </div>
+        </div>
+        <div>
+          <div class="hbox hbox-violet">
+            <strong>Cele 3 tipuri de ARN</strong>
+            <div style="margin-top:8px;display:flex;flex-direction:column;gap:8px;">
+              <div style="padding:10px;background:white;border-radius:10px;border-left:3px solid var(--violet);">
+                <div style="font-weight:700;color:var(--violet);font-size:13px;">ARNm — Mesager</div>
+                <div style="font-size:12px;color:var(--text2);margin-top:3px;">Copiază informația din ADN și o transportă la ribozom. Conține codonii (tripleți de baze).</div>
+              </div>
+              <div style="padding:10px;background:white;border-radius:10px;border-left:3px solid var(--blue);">
+                <div style="font-weight:700;color:var(--blue);font-size:13px;">ARNr — Ribozomal</div>
+                <div style="font-size:12px;color:var(--text2);margin-top:3px;">Componenta structurală a ribozomilor. Produs în nucleoli. Cel mai abundent ARN din celulă.</div>
+              </div>
+              <div style="padding:10px;background:white;border-radius:10px;border-left:3px solid var(--green);">
+                <div style="font-weight:700;color:var(--green);font-size:13px;">ARNt — Transfer</div>
+                <div style="font-size:12px;color:var(--text2);margin-top:3px;">Aduce aminoacidul corect la ribozom. Are anticodon complementar codonului de pe ARNm.</div>
+              </div>
+            </div>
+          </div>
+          <div class="hbox hbox-orange" style="margin-top:12px;">
+            <strong>📌 Dogma centrală a biologiei moleculare</strong>
+            <span style="font-family:'Lora',serif;font-size:15px;font-weight:600;color:var(--orange);text-align:center;padding:8px 0;">ADN → ARNm → Proteină</span>
+            ADN-ul rămâne în nucleu și nu iese niciodată. ARNm este copiat (transcripție) și pleacă în citoplasmă unde este citit de ribozomi (translație) pentru a produce proteine.
+          </div>
+          <div class="mnemonic" style="margin-top:12px;">
+            <div class="mnemonic-title">🧠 Mnemonic Sinteza Proteică</div>
+            <div class="mnemonic-text">
+              <span class="em">T</span>ranscripție → <span class="em">T</span>ranslație = <span class="em">T</span>ext → <span class="em">T</span>ipărit
+              <span class="sub">ADN = fișierul original · ARNm = copia · Ribozom = imprimanta · Proteina = produsul final</span>
+            </div>
+          </div>
+        </div>
+      </div>
+    </div>
+  </div><!-- end panel-diviziune -->
+
+  <!-- ══════════════════════════════════════════
+       PANEL 5 — TABELE
+  ══════════════════════════════════════════ -->
+  <div class="panel" id="panel-tabele">
+
+    <!-- Tabel organite -->
+    <div class="gcard fu fu-1">
+      <div class="gcard-title">
+        <div class="ct-icon" style="background:var(--blue-light)">📋</div>
+        Tabelul 3.1 — Structura și Funcția Organitelor Celulare
+      </div>
+      <div style="overflow-x:auto;">
+        <table class="med-table">
+          <tr><th>Organit/Component</th><th>Structura</th><th>Funcții</th><th>Importanță Admitere</th></tr>
+          <tr>
+            <td><strong>Membrană celulară</strong></td>
+            <td>Bistrat fosfolipidic + proteine globulare (mozaic fluid)</td>
+            <td>Barieră selectivă; controlează intrările/ieșirile; comunicare</td>
+            <td><span class="tag tag-orange">Esențial</span> Hidrofil/hidrofob, colesterol, glicoproteine</td>
+          </tr>
+          <tr>
+            <td><strong>Nucleu</strong></td>
+            <td>Înveliș nuclear dublu cu pori; nucleoli; cromatină</td>
+            <td>Control celular; ADN → sinteza proteinelor; ereditate</td>
+            <td><span class="tag tag-orange">Esențial</span> 46 cromozomi; excepție: hematii</td>
+          </tr>
+          <tr>
+            <td><strong>Mitocondrie</strong></td>
+            <td>Membrană dublă; criste interne; ADN propriu</td>
+            <td>Respirație celulară; sinteză ATP (7.3 kcal/mol); "generatorul celulei"</td>
+            <td><span class="tag tag-orange">Esențial</span> Fără O₂ → fără ATP → moarte celulară</td>
+          </tr>
+          <tr>
+            <td><strong>RE Rugos</strong></td>
+            <td>Membrane cu ribozomi atașați</td>
+            <td>Sinteza proteinelor destinate exportului sau membranei</td>
+            <td><span class="tag tag-blue">Important</span></td>
+          </tr>
+          <tr>
+            <td><strong>RE Neted</strong></td>
+            <td>Membrane fără ribozomi</td>
+            <td>Sinteza lipidelor; depozitare Ca²⁺; detoxifiere (ficat)</td>
+            <td><span class="tag tag-blue">Important</span></td>
+          </tr>
+          <tr>
+            <td><strong>Aparat Golgi</strong></td>
+            <td>Cisterne turtite stivuite; vezicule</td>
+            <td>Procesare, modificare, împachetare, secreție proteine/lipide</td>
+            <td><span class="tag tag-blue">Important</span> "Poșta celulei"</td>
+          </tr>
+          <tr>
+            <td><strong>Lizozomi</strong></td>
+            <td>Vezicule cu pH acid (5); enzime hidrolitice</td>
+            <td>Digestie intracelulară; degradare bacterii, organite uzate</td>
+            <td><span class="tag tag-blue">Important</span> Leucocite = fagocitoză</td>
+          </tr>
+          <tr>
+            <td><strong>Ribozomi</strong></td>
+            <td>ARNr + proteine; subunitate mică + mare</td>
+            <td>Sinteza tuturor proteinelor celulare</td>
+            <td><span class="tag tag-orange">Esențial</span> Cei mai numeroși</td>
+          </tr>
+          <tr>
+            <td><strong>Centrozom</strong></td>
+            <td>2 centrioli (9 triplete microtubuli)</td>
+            <td>Organizează fusul mitotic; formarea cililor/flagelilor</td>
+            <td><span class="tag tag-blue">Important</span> Absent în neuroni maturi!</td>
+          </tr>
+          <tr>
+            <td><strong>Citoschelet</strong></td>
+            <td>Microtubuli (tubulină) + Microfilamente (actină) + FI</td>
+            <td>Suport structural; mișcare organite; formarea fusului</td>
+            <td><span class="tag tag-cyan">De știut</span></td>
+          </tr>
+          <tr>
+            <td><strong>Vacuole</strong></td>
+            <td>Saci membranoși</td>
+            <td>Depozitare substanțe; mai mari la plante</td>
+            <td><span class="tag tag-cyan">De știut</span></td>
+          </tr>
+          <tr>
+            <td><strong>Nucleol</strong></td>
+            <td>Corp dens, fără membrană; ARN + proteine</td>
+            <td>Produce subunități ribozomale (ARNr)</td>
+            <td><span class="tag tag-blue">Important</span></td>
+          </tr>
+        </table>
+      </div>
+    </div>
+
+    <!-- Tabel transport membranar -->
+    <div class="gcard fu fu-2">
+      <div class="gcard-title">
+        <div class="ct-icon" style="background:var(--cyan-light)">🔄</div>
+        Tabelul 3.2 — Mecanismele de Transport Membranar
+      </div>
+      <div style="overflow-x:auto;">
+        <table class="med-table">
+          <tr><th>Mecanism</th><th>Tip</th><th>Energie ATP</th><th>Direcție gradient</th><th>Proteină</th><th>Exemplu clinic</th></tr>
+          <tr>
+            <td><strong style="color:var(--blue)">Difuziune</strong></td>
+            <td>Pasiv</td>
+            <td><span class="tag tag-green">NU</span></td>
+            <td>Conc. mare → mică (conform)</td>
+            <td>Nu</td>
+            <td>O₂ din alveole → capilare; CO₂ invers</td>
+          </tr>
+          <tr>
+            <td><strong style="color:var(--cyan)">Osmoză</strong></td>
+            <td>Pasiv</td>
+            <td><span class="tag tag-green">NU</span></td>
+            <td>Apă: solvit mic → solvit mare</td>
+            <td>Nu (Aquaporine opt.)</td>
+            <td>Reabsorbția apei la nivelul tubilor renali</td>
+          </tr>
+          <tr>
+            <td><strong style="color:var(--green)">Difuziune facilitată</strong></td>
+            <td>Pasiv</td>
+            <td><span class="tag tag-green">NU</span></td>
+            <td>Conc. mare → mică (conform)</td>
+            <td><strong>DA</strong></td>
+            <td>Glucoza în hematii (GLUT1-4)</td>
+          </tr>
+          <tr>
+            <td><strong style="color:var(--orange)">Transport activ</strong></td>
+            <td>Activ</td>
+            <td><span class="tag tag-orange">DA</span></td>
+            <td>Conc. mică → mare (contra)</td>
+            <td><strong>DA</strong></td>
+            <td>Pompa Na⁺/K⁺ (3Na⁺ afară, 2K⁺ înăuntru)</td>
+          </tr>
+          <tr>
+            <td><strong style="color:var(--violet)">Endocitoză</strong></td>
+            <td>Activ</td>
+            <td><span class="tag tag-orange">DA</span></td>
+            <td>Exterior → interior</td>
+            <td>Membrană</td>
+            <td>Fagocitoză: leucocite înghit bacterii; Pinocitoză: picături lichid</td>
+          </tr>
+          <tr>
+            <td><strong style="color:var(--pink)">Exocitoză</strong></td>
+            <td>Activ</td>
+            <td><span class="tag tag-orange">DA</span></td>
+            <td>Interior → exterior</td>
+            <td>Membrană</td>
+            <td>Secreția neurotransmițătorilor; secreția hormonilor</td>
+          </tr>
+        </table>
+      </div>
+    </div>
+
+    <!-- Tabel ciclu celular -->
+    <div class="gcard fu fu-3">
+      <div class="gcard-title">
+        <div class="ct-icon" style="background:var(--violet-light)">🔀</div>
+        Tabelul 3.3 — Ciclul Celular Complet
+      </div>
+      <div style="overflow-x:auto;">
+        <table class="med-table">
+          <tr><th>Faza</th><th>Denumire</th><th>Evenimente principale</th><th>ADN/Cromozomi</th></tr>
+          <tr style="background:rgba(91,141,238,.05)">
+            <td rowspan="3"><strong>INTERFAZA</strong></td>
+            <td><strong style="color:var(--blue)">G₁ (Gap 1)</strong></td>
+            <td>Creștere celulară, sinteza proteinelor și enzimelor, activitate metabolică normală</td>
+            <td>46 cromozomi, 1 cromatidă/cromozom (2n)</td>
+          </tr>
+          <tr style="background:rgba(16,185,129,.05)">
+            <td><strong style="color:var(--green)">S (Sinteză)</strong></td>
+            <td>Replicarea ADN-ului, sinteza histonelor și centriolilor</td>
+            <td>46 cromozomi → 46 × 2 cromatide surori</td>
+          </tr>
+          <tr style="background:rgba(245,158,11,.05)">
+            <td><strong style="color:var(--orange)">G₂ (Gap 2)</strong></td>
+            <td>Creștere continuă, formarea fusului de diviziune, condensarea cromatinei</td>
+            <td>46 cromozomi, 2 cromatide/cromozom</td>
+          </tr>
+          <tr style="background:rgba(236,72,153,.05)">
+            <td rowspan="4"><strong>MITOZA</strong></td>
+            <td><strong style="color:var(--pink)">Profaza</strong></td>
+            <td>Condensarea cromatinei → cromozomi vizibili, nucleolul dispare, membrana nucleară se dezasamblează, fusul format</td>
+            <td>Cromatide surori vizibile, atașate la centromer</td>
+          </tr>
+          <tr style="background:rgba(236,72,153,.04)">
+            <td><strong style="color:var(--pink)">Metafaza</strong></td>
+            <td>Cromozomii se aliniază pe placa ecuatorială (metafazică), kinetocorii atașați la fus</td>
+            <td>46 cromozomi pe linia mediană</td>
+          </tr>
+          <tr style="background:rgba(236,72,153,.03)">
+            <td><strong style="color:var(--pink)">Anafaza</strong></td>
+            <td>Centromerii se clivează, cromatidele surori se separă și migrează spre polii opuși</td>
+            <td>92 cromatide (46 spre fiecare pol)</td>
+          </tr>
+          <tr style="background:rgba(236,72,153,.02)">
+            <td><strong style="color:var(--pink)">Telofaza</strong></td>
+            <td>Cromozomii se despiralizează, nucleul și nucleolul se reformează, fusul dispare</td>
+            <td>2 × 46 cromozomi (câte 46 în fiecare celulă fiică)</td>
+          </tr>
+          <tr style="background:rgba(20,184,166,.06)">
+            <td colspan="1"><strong>CITOKINEZĂ</strong></td>
+            <td colspan="1">Citoplasmă</td>
+            <td colspan="2">Formarea șanțului de clivaj prin contracția microfilamentelor de actomiozinaă → 2 celule fiice identice</td>
+          </tr>
+        </table>
+      </div>
+    </div>
+
+    <!-- Tabel comparativ ADN vs ARN -->
+    <div class="gcard fu fu-4">
+      <div class="gcard-title">
+        <div class="ct-icon" style="background:var(--orange-light)">🔤</div>
+        Tabelul 3.4 — Comparație ADN vs ARN și Tipurile de ARN
+      </div>
+      <div class="g2">
+        <div style="overflow-x:auto;">
+          <table class="med-table">
+            <tr><th>Caracteristică</th><th>ADN</th><th>ARN</th></tr>
+            <tr><td>Zahar</td><td>Dezoxiriboză</td><td>Riboză</td></tr>
+            <tr><td>Baze azotate</td><td>A, G, C, T (Timina)</td><td>A, G, C, U (Uracil)</td></tr>
+            <tr><td>Structura</td><td>Dublu helix (Watson-Crick)</td><td>Monocatenar (un singur lanț)</td></tr>
+            <tr><td>Localizare</td><td>Nucleu (cromozomi)</td><td>Nucleu + citoplasmă</td></tr>
+            <tr><td>Funcție</td><td>Stocare informație genetică</td><td>Sinteza proteinelor</td></tr>
+            <tr><td>Stabilitate</td><td>Foarte stabilă</td><td>Instabilă, degradată rapid</td></tr>
+            <tr><td>Replicare</td><td>Semiconservativă</td><td>Nu se replică (se sintetizează din ADN)</td></tr>
+          </table>
+        </div>
+        <div style="overflow-x:auto;">
+          <table class="med-table">
+            <tr><th>Tip ARN</th><th>Funcție</th><th>Importanță</th></tr>
+            <tr><td><strong style="color:var(--violet)">ARNm (mesager)</strong></td><td>Transportă codul genetic din nucleu la ribozom</td><td><span class="tag tag-orange">Esențial</span></td></tr>
+            <tr><td><strong style="color:var(--blue)">ARNr (ribozomal)</strong></td><td>Structura ribozomilor; cel mai abundent tip</td><td><span class="tag tag-blue">Important</span></td></tr>
+            <tr><td><strong style="color:var(--green)">ARNt (transfer)</strong></td><td>Aduce aminoacizii specifici; are anticodon</td><td><span class="tag tag-blue">Important</span></td></tr>
+          </table>
+        </div>
+      </div>
+    </div>
+  </div><!-- end panel-tabele -->
+
+  <!-- ══════════════════════════════════════════
+       PANEL 6 — QUIZ
+  ══════════════════════════════════════════ -->
+  <div class="panel" id="panel-quiz">
+    <div class="gcard fu fu-1">
+      <div class="gcard-title">
+        <div class="ct-icon" style="background:var(--violet-light)">✏️</div>
+        Test Rapid — Capitol 3 (12 Întrebări)
+      </div>
+      <div id="quiz-score" style="display:none;"></div>
+      <div id="quiz-container"></div>
+      <div style="display:flex;gap:12px;margin-top:20px;flex-wrap:wrap;">
+        <button onclick="resetQuiz()" style="padding:10px 24px;background:linear-gradient(90deg,#7c3aed,#ec4899);color:white;border:none;border-radius:10px;font-size:14px;font-weight:700;cursor:pointer;font-family:'Outfit',sans-serif;">🔄 Reîncepe testul</button>
+        <button onclick="showAllAnswers()" style="padding:10px 24px;background:rgba(91,141,238,.1);color:var(--blue);border:1px solid rgba(91,141,238,.3);border-radius:10px;font-size:14px;font-weight:700;cursor:pointer;font-family:'Outfit',sans-serif;">👁️ Arată toate răspunsurile</button>
+      </div>
+    </div>
+  </div><!-- end panel-quiz -->
+
+  </div><!-- end content -->
+</main>
+
+<script>
+// ════════════════════════════════
+//  TAB SWITCHING
+// ════════════════════════════════
+function showPanel(name, btn) {
+  document.querySelectorAll('.panel').forEach(p => p.classList.remove('active'));
+  document.querySelectorAll('.tab-btn').forEach(b => b.classList.remove('active'));
+  document.getElementById('panel-'+name).classList.add('active');
+  btn.classList.add('active');
+}
+
+// ════════════════════════════════
+//  ACCORDION
+// ════════════════════════════════
+function toggleLevel(row) {
+  row.classList.toggle('open');
+}
+
+// ════════════════════════════════
+//  CELL ORGANITE INFO
+// ════════════════════════════════
+const orgData = {
+  'nucleu': {bg:'#ede9fe', color:'#7c3aed', title:'🧬 Nucleu', text:'Centro de control al celulei. Conține ADN organizat în 46 cromozomi și ~30.000 gene. Înconjurat de înveliș nuclear dublu cu pori. Histonele sprijină ADN-ul → nucleozomi → cromozomi. <strong>Excepție: hematiile (globule roșii) nu au nucleu!</strong> Nucleolii din interior produc ARNr.'},
+  'nucleol': {bg:'#ede9fe', color:'#6d28d9', title:'⚫ Nucleol', text:'Corpuscul dens din interiorul nucleului, fără membrană proprie. Conține ARN + proteine. Produce <strong>subunitățile ribozomale</strong> care sunt exportate în citoplasmă.'},
+  'mitocondrie': {bg:'#d1fae5', color:'#065f46', title:'⚡ Mitocondrie', text:'"Generatorul celulei". Degradează glucide, lipide, proteine → sintetizează <strong>ATP (7.3 kcal/mol)</strong>. Are membrană dublă (criste interne = suprafață mare). Folosește O₂ → H₂O. <strong>Fără O₂ → insuficient ATP → moarte celulară → moarte organism.</strong>'},
+  're-rugos': {bg:'#e8eeff', color:'#1e40af', title:'🏭 Reticul Endoplasmatic Rugos', text:'Rețea de membrane cu <strong>ribozomi atașați</strong>. Sediul principal al sintezei proteinelor destinate exportului, membranei sau lizozomilor. Ribozomii asamblează aminoacizii conform codului de pe ARNm.'},
+  're-neted': {bg:'#e0f7fb', color:'#0e7490', title:'🌊 Reticul Endoplasmatic Neted', text:'Fără ribozomi. Sintetizează <strong>lipide și membrane celulare</strong>. Depozitează <strong>ioni de calciu</strong> (esențiali pentru contracția musculară). În hepatocite = detoxifiere.'},
+  'golgi': {bg:'#fef3c7', color:'#92400e', title:'📦 Aparatul Golgi', text:'"Poșta celulei". Saci turtiti stivuiti (cisterne). Primește proteine de la RE rugos → le <strong>modifică, sortează, împachetează</strong> în vezicule → le trimite la destinație (membrană, lizozomi, secreție).'},
+  'lizozom': {bg:'#fce7f3', color:'#9f1239', title:'💀 Lizozom', text:'Derivați din sacii Golgi. pH acid (~5). Conțin enzime hidrolitice care <strong>degradează bacterii, organite deteriorate, macromolecule.</strong> Leucocitele folosesc lizozomi în fagocitoză.'},
+  'vacuola': {bg:'#ccfbf1', color:'#0f766e', title:'💦 Vacuolă', text:'Saci membranoși cu rol de depozitare temporară. Mai mari la plante. La animale implicate în endo/exocitoză.'},
+  'centriol': {bg:'#fce7f3', color:'#9d174d', title:'🎯 Centriol', text:'Structuri cilindrice din 9 triplete de microtubuli. 2 centrioli = 1 centrozom. Organizează fusul mitotic și inițiază formarea cililor/flagelilor. <strong>Absent în neuroni maturi</strong> (nu se pot regenera!).'},
+  'ribozom': {bg:'#e8eeff', color:'#4338ca', title:'⚫ Ribozomi', text:'Cei mai numeroși organite. Compuși din ARNr + proteine. Liberi în citoplasmă sau pe RE rugos. <strong>Citesc ARNm și asamblează aminoacizii în proteine.</strong> Subunitate mică + subunitate mare.'}
+};
+
+function showOrgInfo(id) {
+  const info = orgData[id];
+  if (!info) return;
+  const box = document.getElementById('cell-info');
+  box.style.background = info.bg;
+  box.innerHTML = `<strong style="color:${info.color};font-size:14px;">${info.title}</strong><br><span style="color:#374151;font-size:13px;line-height:1.6;">${info.text}</span>`;
+}
+
+// ════════════════════════════════
+//  TRANSPORT MEMBRANAR
+// ════════════════════════════════
+const transportData = {
+  'difuziune': {
+    title:'→ Difuziune Simplă',
+    color:'#5b8dee', bg:'#e8eeff',
+    content:`<strong style="color:#1e40af;font-size:15px;">→ Difuziune simplă (pasivă)</strong>
+    <div style="margin-top:12px;font-size:13.5px;color:#374151;line-height:1.7;">
+    Moleculele mici și lipidele (O₂, CO₂, apă, alcool) trec <strong>fără proteină, fără energie</strong>, dintr-o zonă cu concentrație mare spre una cu concentrație mică (<strong>conform gradientului de concentrație</strong>).
+    <div style="margin-top:10px;padding:10px;background:white;border-radius:8px;">
+    <strong>Exemple clinice:</strong><br>
+    • O₂ din alveole → capilare sanguine<br>
+    • CO₂ din capilare → alveole (schimb gazos)<br>
+    • Alcool → absorbție rapidă prin stomac
+    </div>
+    <div style="margin-top:8px;padding:8px;background:var(--blue-light);border-radius:8px;font-size:12px;color:#1e40af;">📌 Rata difuziunii ↑ cu: temperatura ↑, gradientul de concentrație ↑, suprafața membranei ↑</div>
+    </div>`
+  },
+  'osmoza': {
+    title:'💧 Osmoză',
+    color:'#06b6d4', bg:'#e0f7fb',
+    content:`<strong style="color:#0e7490;font-size:15px;">💧 Osmoza — difuzia apei</strong>
+    <div style="margin-top:12px;font-size:13.5px;color:#374151;line-height:1.7;">
+    Apa trece printr-o membrană semipermeabilă din zona cu <strong>concentrație mică de solvit</strong> spre zona cu <strong>concentrație mare de solvit</strong>.
+    <div style="margin-top:10px;padding:10px;background:white;border-radius:8px;">
+    <strong>Tipuri de soluții:</strong><br>
+    • <strong>Hipertonă</strong> (sare &gt;1%): apa iese din celulă → zbârcire (crenatere)<br>
+    • <strong>Hipotonă</strong> (sare &lt;1%): apa intră în celulă → umflare → liză<br>
+    • <strong>Izotonă</strong> (sare ≈0.9%): echilibru, celula normală
+    </div>
+    <div style="margin-top:8px;padding:8px;background:var(--cyan-light);border-radius:8px;font-size:12px;color:#0e7490;">📌 Soluțiile perfuzabile IV sunt izotone (NaCl 0.9% sau glucoză 5%) pentru a nu deteriora hematiile!</div>
+    </div>`
+  },
+  'facilitata': {
+    title:'🚪 Difuziune Facilitată',
+    color:'#10b981', bg:'#d1fae5',
+    content:`<strong style="color:#065f46;font-size:15px;">🚪 Difuziune Facilitată (pasivă)</strong>
+    <div style="margin-top:12px;font-size:13.5px;color:#374151;line-height:1.7;">
+    Moleculele mai mari (glucoză, aminoacizi) traversează membrana <strong>cu ajutorul proteinelor transportoare</strong>, fără consum de ATP, conform gradientului de concentrație.
+    <div style="margin-top:10px;padding:10px;background:white;border-radius:8px;">
+    <strong>Exemple:</strong><br>
+    • Glucoza → hematii prin transportori GLUT<br>
+    • Aminoacizi → celulele intestinale<br>
+    • Rata limitată de numărul proteinelor transportoare disponibile
+    </div>
+    <div style="margin-top:8px;padding:8px;background:var(--green-light);border-radius:8px;font-size:12px;color:#065f46;">📌 Insulina crește expresia GLUT4 în celulele musculare și adipoase → mai multă glucoză intră!</div>
+    </div>`
+  },
+  'activ': {
+    title:'⚡ Transport Activ',
+    color:'#f59e0b', bg:'#fef3c7',
+    content:`<strong style="color:#92400e;font-size:15px;">⚡ Transport Activ</strong>
+    <div style="margin-top:12px;font-size:13.5px;color:#374151;line-height:1.7;">
+    Moleculele sunt transportate <strong>CONTRA gradientului de concentrație</strong> (din zona diluată spre cea concentrată). Necesită <strong>ATP + proteină transportoare</strong>.
+    <div style="margin-top:10px;padding:10px;background:white;border-radius:8px;">
+    <strong>Exemplul clasic — Pompa Na⁺/K⁺:</strong><br>
+    • 3 Na⁺ ies din celulă (concentrație mare afară)<br>
+    • 2 K⁺ intră în celulă (concentrație mare înăuntru)<br>
+    • Esențială pentru potențialul de repaus neuronal (-70mV)<br>
+    • Consumă 30% din ATP total al celulei nervoase!
+    </div>
+    <div style="margin-top:8px;padding:8px;background:var(--orange-light);border-radius:8px;font-size:12px;color:#92400e;">📌 Admitere: Transportul activ necesită ATP, este contra gradientului și are proteină specific.</div>
+    </div>`
+  },
+  'endocitoza': {
+    title:'📥 Endocitoză',
+    color:'#8b5cf6', bg:'#ede9fe',
+    content:`<strong style="color:#6d28d9;font-size:15px;">📥 Endocitoza — ingestie celulară</strong>
+    <div style="margin-top:12px;font-size:13.5px;color:#374151;line-height:1.7;">
+    Membrana celulară se pliază în jurul particulelor sau lichidului și formează o <strong>veziculă</strong> care migrează în citoplasmă.
+    <div style="margin-top:10px;padding:10px;background:white;border-radius:8px;">
+    <strong>Tipuri de endocitoză:</strong><br>
+    • <strong>Fagocitoză</strong> (mâncare solidă): leucocitele înghit bacterii și resturi celulare<br>
+    • <strong>Pinocitoză</strong> (mâncare lichidă): celula preia picături de lichid cu substanțe dizolvate<br>
+    • Ambele necesită energie (ATP)
+    </div>
+    <div style="margin-top:8px;padding:8px;background:var(--violet-light);border-radius:8px;font-size:12px;color:#5b21b6;">📌 Fagocitoza = imunitate: macrofagele și neutrofilele elimină patogenii prin fagocitoză + lizozomi!</div>
+    </div>`
+  },
+  'exocitoza': {
+    title:'📤 Exocitoză',
+    color:'#ec4899', bg:'#fce7f3',
+    content:`<strong style="color:#9d174d;font-size:15px;">📤 Exocitoza — secreție celulară</strong>
+    <div style="margin-top:12px;font-size:13.5px;color:#374151;line-height:1.7;">
+    Vezicule citoplasmatice fuzionează cu membrana celulară și eliberează conținutul <strong>în afara celulei</strong>. Procesul invers endocitozei.
+    <div style="margin-top:10px;padding:10px;background:white;border-radius:8px;">
+    <strong>Exemple clinice esențiale:</strong><br>
+    • Neurotransmițători: eliberați de celulele nervoase în sinapsă<br>
+    • Hormoni: insulina din celulele β pancreatice<br>
+    • Mucus: secretat de celulele caliciforme din căile respiratorii<br>
+    • Enzime digestive: din celulele acinare pancreatice
+    </div>
+    <div style="margin-top:8px;padding:8px;background:var(--pink-light);border-radius:8px;font-size:12px;color:#9d174d;">📌 Exocitoza = mecanismul de secreție al tuturor glandelor exocrine și endocrine!</div>
+    </div>`
+  }
+};
+
+function selectTransport(type) {
+  document.querySelectorAll('.transport-card').forEach(c => c.classList.remove('selected'));
+  document.getElementById('tc-'+type).classList.add('selected');
+  const data = transportData[type];
+  const detail = document.getElementById('transport-detail');
+  detail.style.display = 'block';
+  detail.style.borderColor = data.color;
+  detail.style.background = data.bg;
+  document.getElementById('transport-detail-content').innerHTML = data.content;
+  detail.scrollIntoView({behavior:'smooth', block:'nearest'});
+}
+
+// ════════════════════════════════
+//  ORGANITE EXPAND
+// ════════════════════════════════
+function expandOrg(card) {
+  const isExpanded = card.classList.contains('expanded');
+  document.querySelectorAll('.org-card').forEach(c => c.classList.remove('expanded'));
+  if (!isExpanded) card.classList.add('expanded');
+}
+
+// ════════════════════════════════
+//  MITOZA STEPS
+// ════════════════════════════════
+const mitszaData = {
+  'profaza': {
+    title:'🧶 Profaza — Prima fază a mitozei',
+    content:`<strong>Ce se întâmplă în profază:</strong>
+    <ul style="margin-top:10px;padding-left:20px;font-size:13.5px;line-height:1.8;color:#374151;">
+      <li>Cromatina se <strong>condensează</strong> → cromozomii devin vizibili (ca niște bastoane)</li>
+      <li>Fiecare cromozom este format din <strong>2 cromatide surori</strong> unite la <strong>centromer</strong></li>
+      <li>Centriolii migrează spre polii opuși ai celulei → formează <strong>asterul</strong> (microtubuli radiari)</li>
+      <li>Filamentele fusului de diviziune se extind între poli</li>
+      <li><strong>Nucleolii dispar</strong>; membrana nucleară se dezasamblează</li>
+      <li>Cromatidele se atașează de fus prin <strong>kinetocori</strong> (proteină motorie)</li>
+    </ul>
+    <div style="margin-top:10px;padding:10px;background:var(--violet-light);border-radius:10px;font-size:12.5px;color:#5b21b6;">📌 Profaza timpurie: cromatina condensată · Profaza târzie: membrana nucleară dispare complet</div>`
+  },
+  'metafaza': {
+    title:'⚖️ Metafaza — A doua fază',
+    content:`<strong>Ce se întâmplă în metafază:</strong>
+    <ul style="margin-top:10px;padding-left:20px;font-size:13.5px;line-height:1.8;color:#374151;">
+      <li>Cromozomii se <strong>aliniază perfect</strong> pe <strong>placa ecuatorială/metafazică</strong> (linia mediană a celulei)</li>
+      <li>Centromerii sunt exact în centrul celulei</li>
+      <li>Filamentele fusului atașate la kinetocorii fiecărui centromer</li>
+      <li>Aceasta este faza în care cromozomii sunt cel mai bine vizibili la microscop</li>
+      <li>Se poate determina <strong>cariotipul</strong> (analiza cromozomilor) din celulele în metafază</li>
+    </ul>
+    <div style="margin-top:10px;padding:10px;background:var(--violet-light);border-radius:10px;font-size:12.5px;color:#5b21b6;">📌 Cariotipul uman normal: 46 cromozomi (23 perechi). Trisomia 21 (Sindrom Down) poate fi detectată!</div>`
+  },
+  'anafaza': {
+    title:'↕️ Anafaza — A treia fază',
+    content:`<strong>Ce se întâmplă în anafază:</strong>
+    <ul style="margin-top:10px;padding-left:20px;font-size:13.5px;line-height:1.8;color:#374151;">
+      <li><strong>Centromerii se clivează</strong> → cromatidele surori se separă</li>
+      <li>Cromatidele (acum numite din nou <strong>cromozomi</strong>) migrează spre polii opuși</li>
+      <li>Kinetocorii "trag" cromozomii prin scurtarea filamentelor fusului</li>
+      <li>Celula se alungește</li>
+      <li>La finalul anafazei: 46 cromozomi la fiecare pol</li>
+    </ul>
+    <div style="margin-top:10px;padding:10px;background:var(--violet-light);border-radius:10px;font-size:12.5px;color:#5b21b6;">📌 Nedisjuncția în anafază = cromozomii nu se separă corect → aneuploidie (ex: trisomie, monosomie)</div>`
+  },
+  'telofaza': {
+    title:'✅ Telofaza & Citokineză',
+    content:`<strong>Ce se întâmplă în telofază și citokineza:</strong>
+    <ul style="margin-top:10px;padding-left:20px;font-size:13.5px;line-height:1.8;color:#374151;">
+      <li>Cromozomii se <strong>despiralizează</strong> înapoi la cromatină</li>
+      <li>Membrana nucleară se <strong>reformează</strong> în jurul fiecărui set de cromozomi</li>
+      <li>Nucleolii reapar</li>
+      <li>Fusul de diviziune se dezasamblează</li>
+      <li><strong>Citokineză</strong>: șanțul de clivaj se formează prin contracția microfilamentelor de actomiozinaă → citoplasma se divide</li>
+      <li>Rezultat final: <strong>2 celule fiice identice cu celula mamă</strong> (46 cromozomi, 1 cromatidă/cromozom)</li>
+    </ul>
+    <div style="margin-top:10px;padding:10px;background:var(--green-light);border-radius:10px;font-size:12.5px;color:#065f46;">📌 Celulele nervoase mature și cardiomiocitele nu se mai divid → când sunt pierdute, nu se regenerează!</div>`
+  }
+};
+
+function showMitoza(faza, el) {
+  document.querySelectorAll('.mitoza-step').forEach(s => s.classList.remove('active-step'));
+  el.classList.add('active-step');
+  const data = mitszaData[faza];
+  const detail = document.getElementById('mitoza-detail');
+  detail.style.display = 'block';
+  detail.innerHTML = `<div style="font-size:15px;font-weight:800;color:var(--blue);margin-bottom:12px;">${data.title}</div><div>${data.content}</div>`;
+  detail.scrollIntoView({behavior:'smooth', block:'nearest'});
+}
+
+// ════════════════════════════════
+//  QUIZ
+// ════════════════════════════════
+const quizData = [
+  {q:'Care organit este "generatorul celulei" — produce ATP prin respirație celulară?', opts:['Aparatul Golgi','Mitocondria','Lizozomul','Reticulul endoplasmatic neted'], correct:1, exp:'Mitocondria degradează glucide, lipide și proteine pentru a forma ATP (7.3 kcal/mol per ATP). Fără oxigen, mitocondria produce insuficient ATP → moartea celulei.'},
+  {q:'Ce se întâmplă cu o hematia plasată în soluție hipertonă (5% NaCl)?', opts:['Se umflă și lisează','Rămâne neschimbată','Se zbârcește (crenatere)','Se divide'], correct:2, exp:'Într-o soluție hipertonă concentrația solvitului (sare) este mai mare în exterior. Apa iese din celulă prin osmoză → celula se zbârcește. Soluția fiziologică izotonă = NaCl 0.9%.'},
+  {q:'Care tip de transport necesită ATP și se desfășoară CONTRA gradientului de concentrație?', opts:['Difuziunea simplă','Osmoza','Difuziunea facilitată','Transportul activ'], correct:3, exp:'Transportul activ mișcă molecule din zona diluată spre zona concentrată (contra gradientului), necesitând energie (ATP) și proteine transportoare. Exemplu clasic: pompa Na⁺/K⁺.'},
+  {q:'Fagocitoza și pinocitoza sunt forme de:', opts:['Exocitoză','Difuziune facilitată','Endocitoză','Transport activ'], correct:2, exp:'Endocitoza implică invaginarea membranei celulare pentru a engloba particule solide (fagocitoză) sau picături de lichid (pinocitoză). Leucocitele folosesc fagocitoza pentru a elimina bacterii.'},
+  {q:'Care este ordinea corectă a fazelor mitozei?', opts:['Meta → Pro → Ana → Telo','Pro → Meta → Ana → Telo','Pro → Ana → Meta → Telo','Ana → Pro → Meta → Telo'], correct:1, exp:'PMAT: Profaza (condensare cromatine) → Metafaza (aliniere pe placă ecuatorială) → Anafaza (separare cromatide) → Telofaza (reformare nucleu). Mnemonic: Părinții Mai Au Timp.'},
+  {q:'Câți cromozomi există în faza G1 a ciclului celular uman?', opts:['23','46','92','1'], correct:1, exp:'Celulele somatice umane sunt diploide (2n=46). În faza G1, există 46 cromozomi, fiecare cu o singură cromatidă. După faza S (replicare ADN), există tot 46 cromozomi, dar fiecare cu 2 cromatide surori.'},
+  {q:'Reticulul endoplasmatic rugos este sediul:', opts:['Sintezei lipidelor','Sintezei ATP','Sintezei proteinelor','Stocării calciului'], correct:2, exp:'RE rugos are ribozomi atașați pe suprafața sa, care sintetizează proteine destinate exportului celular, membranei plasmatice sau lizozomilor. RE neted sintetizează lipide și stochează Ca²⁺.'},
+  {q:'Dogma centrală a biologiei moleculare stabilește că informația genetică curge în direcția:', opts:['Proteina → ARN → ADN','ADN → ARN → Proteină','ARN → ADN → Proteină','Proteina → ADN → ARN'], correct:1, exp:'ADN → ARNm (transcripție în nucleu) → Proteina (translație pe ribozomi în citoplasmă). ADN-ul rămâne în nucleu și nu iese niciodată în citoplasmă.'},
+  {q:'Care tip de ARN aduce aminoacizii specifici la ribozom în timpul translației?', opts:['ARNm (mesager)','ARNr (ribozomal)','ARNt (transfer)','ARN viral'], correct:2, exp:'ARNt (de transfer) recunoaște codonul de pe ARNm prin anticodonul său complementar și aduce aminoacidul specific. ARNm transportă mesajul din nucleu, ARNr formează structura ribozomilor.'},
+  {q:'Lizozomii au un pH acid (~5) și conțin enzime hidrolitice. Care este rolul lor principal?', opts:['Sinteza ATP','Producerea ARNm','Digestia intracelulară și distrugerea bacteriilor','Formarea fusului mitotic'], correct:2, exp:'Lizozomii sunt "sistemul digestiv" al celulei. Degradează bacterii, organite uzate, macromolecule. Leucocitele (fagocitele) le folosesc pentru a distruge microbii înghițiți prin fagocitoză.'},
+  {q:'Membrana plasmatică are o structură de "mozaic fluid" deoarece:', opts:['Are o compoziție chimică uniformă','Lipidele și proteinele sunt fixate rigid','Proteinele globulare "plutesc" în bistratrul fosfolipidic mobil','Este alcătuită doar din lipide'], correct:2, exp:'Proteinele globulare (transmembranare și periferice) se pot mișca lateral în bistratrul fosfolipidic fluid, ca niște iceberg-uri plutind pe mare. Colesterolul stabilizează fluiditatea membranei.'},
+  {q:'Care este diferența ESENȚIALĂ dintre celulele procariote și eucariote?', opts:['Procariotelele sunt mai mari','Eucariotele nu au membrană plasmatică','Procariotele nu au nucleu delimitat de membrană','Eucariotele nu au ADN'], correct:2, exp:'Procariotele (bacterii, arhee) nu au nucleu delimitat de membrană nucleară și nu au organite membranare. Eucariotele (plante, animale, fungi) au nucleu și organite specializate. Procariotele nu fac mitoză.'}
+];
+
+let score = 0;
+let answered = new Array(quizData.length).fill(false);
+
+function buildQuiz() {
+  const container = document.getElementById('quiz-container');
+  container.innerHTML = '';
+  quizData.forEach((q, qi) => {
+    const qDiv = document.createElement('div');
+    qDiv.className = 'quiz-q';
+    qDiv.id = `q-${qi}`;
+    qDiv.innerHTML = `<div class="quiz-q-text">${qi+1}. ${q.q}</div>
+      <div class="quiz-opts">${q.opts.map((o,oi)=>`<button class="quiz-opt" onclick="checkAnswer(${qi},${oi},this)">${o}</button>`).join('')}</div>
+      <div class="quiz-explain" id="exp-${qi}">${q.exp}</div>`;
+    container.appendChild(qDiv);
+  });
+  updateScore();
+}
+
+function checkAnswer(qi, oi, btn) {
+  if (answered[qi]) return;
+  answered[qi] = true;
+  const q = quizData[qi];
+  const opts = btn.parentElement.querySelectorAll('.quiz-opt');
+  opts.forEach(b => b.disabled = true);
+  if (oi === q.correct) {
+    btn.classList.add('correct');
+    score++;
+  } else {
+    btn.classList.add('wrong');
+    opts[q.correct].classList.add('correct');
+  }
+  document.getElementById(`exp-${qi}`).classList.add('show');
+  updateScore();
+}
+
+function updateScore() {
+  const done = answered.filter(Boolean).length;
+  const scoreEl = document.getElementById('quiz-score');
+  if (done > 0) {
+    const pct = Math.round(score/done*100);
+    scoreEl.style.display = 'block';
+    scoreEl.innerHTML = `Scor: <span style="font-size:24px;">${score}</span> / ${done} răspunsuri — ${pct}% corect ${pct>=80?'🏆':pct>=60?'📚':'💪'}`;
+  }
+}
+
+function resetQuiz() {
+  score = 0;
+  answered = new Array(quizData.length).fill(false);
+  document.getElementById('quiz-score').style.display = 'none';
+  buildQuiz();
+}
+
+function showAllAnswers() {
+  quizData.forEach((q, qi) => {
+    if (!answered[qi]) {
+      const opts = document.querySelectorAll(`#q-${qi} .quiz-opt`);
+      opts.forEach(b => b.disabled = true);
+      opts[q.correct].classList.add('correct');
+      document.getElementById(`exp-${qi}`).classList.add('show');
+      answered[qi] = true;
+    }
+  });
+}
+
+// ════════════════════════════════
+//  INIT
+// ════════════════════════════════
+buildQuiz();
+
+// ══════════════════════════════════════════════════
+//  VERIFICARE ABONAMENT ÎN PAGINILE DE CAPITOL
+// ══════════════════════════════════════════════════
+
+// Verificăm dacă utilizatorul are abonament activ în localStorage
+// Dacă nu → redirecționăm la index.html (protecție pagini premium)
+function verificaAccesCap() {
+  const accesActiv    = localStorage.getItem('medstudy_access') === 'true';
+  const dataActivare  = parseInt(localStorage.getItem('medstudy_access_date') || '0', 10);
+  const zileCumparate = parseInt(localStorage.getItem('medstudy_duration_days') || '0', 10);
+
+  if (!accesActiv || dataActivare === 0 || zileCumparate === 0) {
+    window.location.replace('index.html#pricing');
+    return;
+  }
+
+  const acum = Date.now();
+  const zileInMs = zileCumparate * 86400000;
+
+  if (acum - dataActivare > zileInMs) {
+    localStorage.removeItem('medstudy_access');
+    localStorage.removeItem('medstudy_access_date');
+    localStorage.removeItem('medstudy_duration_days');
+    window.location.replace('index.html#pricing');
+  }
+}
+
+// Rulează verificarea IMEDIAT (sincron) — înainte ca pagina să fie randată
+verificaAccesCap();
+
+// Deblocăm link-urile blocate din sidebar (cap 3–23)
+
+document.addEventListener("DOMContentLoaded", function () {
+  verificaAccesCap();
+
+function unlockSidebarLinks() {
+  const accesActiv    = localStorage.getItem('medstudy_access') === 'true';
+  const dataActivare  = parseInt(localStorage.getItem('medstudy_access_date') || '0', 10);
+  const zileCumparate = parseInt(localStorage.getItem('medstudy_duration_days') || '0', 10);
+
+  if (!accesActiv || dataActivare === 0) return;
+
+  const acum = Date.now();
+  if (acum - dataActivare > zileCumparate * 86400000) return; // Expirat
+
+  // Deblocăm toate elementele cu clasa "locked" din sidebar
+  document.querySelectorAll('.nav-item.locked').forEach(item => {
+    item.classList.remove('locked');
+    item.style.pointerEvents = 'auto';
+    item.style.opacity = '1';
+  });
+}
+}
+
+document.addEventListener("DOMContentLoaded", function () {
+  // 1. Deblocăm sidebar-ul dacă utilizatorul are abonament activ
+  unlockSidebarLinks();
+
+  // 2. Detectează automat numele fișierului curent
+  const currentFile = window.location.pathname.split("/").pop() || "cap3.html";
+  
+  const menuContainer = document.getElementById("chapters-menu");
+  if (!menuContainer) return;
+  const menuItems = menuContainer.querySelectorAll(".nav-item");
+  let currentChapterNumber = 3; // Default pentru cap3
+  let activeItem = null;
+
+  // 3. Marchează capitolul curent ca activ
+  menuItems.forEach((item) => {
+    const fileHref = item.getAttribute("href");
+    if (fileHref === currentFile) {
+      item.classList.add("active");
+      activeItem = item;
+      const numEl = item.querySelector(".nav-num");
+      if (numEl) currentChapterNumber = parseInt(numEl.textContent) || currentChapterNumber;
+    }
+  });
+
+  // 4. Auto-scroll la capitolul curent în sidebar
+  if (activeItem && menuContainer) {
+    setTimeout(() => {
+      activeItem.scrollIntoView({ behavior: "smooth", block: "nearest" });
+    }, 50);
+  }
+
+  // 5. Actualizare bara de progres
+  const totalChapters = menuItems.length;
+  
+  const progTextContainer = document.querySelector(".prog-label");
+  if (progTextContainer) {
+    progTextContainer.innerHTML = `<span>Progres curs</span><span>${currentChapterNumber} / ${totalChapters}</span>`;
+  }
+  
+  const progFill = document.querySelector(".prog-fill");
+  if (progFill) {
+    const percentage = (currentChapterNumber / totalChapters) * 100;
+    progFill.style.width = `${percentage}%`;
+  }
+});
+</script>
+</body>
+</html>

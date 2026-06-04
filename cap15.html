@@ -1,0 +1,2072 @@
+<!DOCTYPE html>
+<html lang="ro">
+<head>
+<meta charset="UTF-8">
+
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>MedStudy — Capitol 15: Sistemul Cardiovascular</title>
+<link href="https://fonts.googleapis.com/css2?family=Outfit:wght@300;400;500;600;700;800;900&family=Lora:ital,wght@0,400;0,600;1,400&display=swap" rel="stylesheet">
+<style>
+:root {
+  --bg-main: #f0f4ff;
+  --bg-sidebar: rgba(255,255,255,0.85);
+  --surface: rgba(255,255,255,0.75);
+  --surface2: rgba(255,255,255,0.92);
+  --border: rgba(180,160,220,0.25);
+  --blue: #5b8dee;
+  --blue-light: #e8eeff;
+  --violet: #8b5cf6;
+  --violet-light: #ede9fe;
+  --cyan: #06b6d4;
+  --cyan-light: #e0f7fb;
+  --pink: #ec4899;
+  --pink-light: #fce7f3;
+  --green: #10b981;
+  --green-light: #d1fae5;
+  --orange: #f59e0b;
+  --orange-light: #fef3c7;
+  --rose: #f43f5e;
+  --red: #ef4444;
+  --red-light: #fee2e2;
+  --text: #1e1b4b;
+  --text2: #6b7280;
+  --text3: #9ca3af;
+  --accent: #7c3aed;
+  --sidebar-w: 268px;
+  --radius: 16px;
+  --shadow: 0 4px 24px rgba(100,80,200,0.10);
+  --shadow2: 0 8px 40px rgba(100,80,200,0.14);
+  /* Chapter 15 accent — deep cardiovascular red */
+  --cv: #dc2626;
+  --cv2: #b91c1c;
+  --cv-light: #fee2e2;
+  --cv-grad: linear-gradient(135deg,#dc2626,#9333ea);
+}
+* { margin:0; padding:0; box-sizing:border-box; }
+body {
+  font-family: 'Outfit', sans-serif;
+  background: var(--bg-main);
+  color: var(--text);
+  min-height: 100vh;
+  display: flex;
+  overflow-x: hidden;
+}
+body::before {
+  content:'';
+  position:fixed; inset:0;
+  background:
+    radial-gradient(ellipse 800px 600px at 20% 10%, rgba(220,38,38,0.22) 0%, transparent 70%),
+    radial-gradient(ellipse 600px 500px at 80% 5%, rgba(147,51,234,0.18) 0%, transparent 65%),
+    radial-gradient(ellipse 700px 400px at 60% 90%, rgba(220,38,38,0.15) 0%, transparent 70%),
+    radial-gradient(ellipse 500px 500px at 5% 80%, rgba(147,51,234,0.12) 0%, transparent 65%),
+    #f0f4ff;
+  z-index:-1; pointer-events:none;
+}
+
+/* ═══════ SIDEBAR ═══════ */
+#sidebar {
+  width: var(--sidebar-w);
+  min-height: 100vh;
+  background: var(--bg-sidebar);
+  backdrop-filter: blur(24px);
+  border-right: 1px solid var(--border);
+  position: fixed; top:0; left:0; z-index:100;
+  display: flex; flex-direction: column;
+  box-shadow: 4px 0 30px rgba(100,80,200,0.07);
+}
+.sidebar-logo {
+  padding: 26px 22px 20px;
+  border-bottom: 1px solid var(--border);
+  display:flex; align-items:center; gap:12px;
+}
+.logo-icon {
+  width:42px; height:42px;
+  background: linear-gradient(135deg,#dc2626,#9333ea);
+  border-radius:12px;
+  display:flex; align-items:center; justify-content:center;
+  font-size:20px;
+  box-shadow: 0 4px 14px rgba(220,38,38,0.35);
+}
+.logo-text { font-size:17px; font-weight:800; color:var(--text); line-height:1.2; }
+.logo-sub { font-size:10px; color:var(--text3); font-weight:400; letter-spacing:.08em; text-transform:uppercase; margin-top:2px; }
+.sidebar-section-label { padding:18px 20px 8px; font-size:9.5px; letter-spacing:.14em; text-transform:uppercase; color:var(--text3); font-weight:600; }
+.nav-scroll { 
+  flex: 1; 
+  overflow-y: auto; 
+  padding-bottom: 16px; 
+  max-height: calc(100vh - 140px);
+  
+  /* 💡 TRUCUL PENTRU MUTAREA BAREI PE STÂNGA: */
+  direction: rtl; /* Muta scrollbar-ul pe stânga (Right-to-Left) */
+  
+  scrollbar-width: thin;
+  scrollbar-color: rgba(124,58,237,0.3) transparent;
+}
+
+/* 💡 RECONVERTIREA TEXTULUI: Întoarcem textul la normal (Left-to-Right) ca să nu fie inversat */
+.nav-scroll > * {
+  direction: ltr;
+}
+
+/* Stil pentru browserele bazate pe Chromium (Chrome, Edge, Opera) */
+.nav-scroll::-webkit-scrollbar { 
+  width: 5px; 
+}
+.nav-scroll::-webkit-scrollbar-track {
+  background: transparent;
+}
+.nav-scroll::-webkit-scrollbar-thumb { 
+  background: rgba(124,58,237,0.3); 
+  border-radius: 4px; 
+}
+.nav-scroll::-webkit-scrollbar-thumb:hover {
+  background: rgba(124,58,237,0.5); 
+}
+
+.nav-item {
+  display:flex; align-items:center; gap:10px;
+  padding:9px 14px 9px 16px; margin:1px 10px;
+  border-radius:10px; font-size:12.5px; font-weight:500;
+  color:var(--text2); cursor:pointer; transition:all .2s;
+  text-decoration:none; position:relative;
+}
+.nav-item:hover { background:rgba(220,38,38,0.07); color:var(--cv); }
+.nav-item.active {
+  background:linear-gradient(90deg,rgba(220,38,38,0.12),rgba(147,51,234,0.07));
+  color:var(--cv2); font-weight:600;
+  box-shadow:inset 2px 0 0 var(--cv);
+}
+.nav-num {
+  min-width:22px; height:22px; background:rgba(220,38,38,0.08);
+  border-radius:6px; display:flex; align-items:center; justify-content:center;
+  font-size:10.5px; font-weight:700; color:var(--text3);
+}
+.nav-item.active .nav-num { background:rgba(220,38,38,0.18); color:var(--cv2); }
+.nav-item.locked { opacity:0.42; pointer-events:none; }
+.sidebar-footer { padding:16px 20px; border-top:1px solid var(--border); }
+.prog-label { display:flex; justify-content:space-between; font-size:11.5px; color:var(--text2); margin-bottom:7px; font-weight:500; }
+.prog-label span:last-child { color:var(--cv); font-weight:700; }
+.prog-track { height:5px; background:rgba(220,38,38,0.1); border-radius:3px; overflow:hidden; }
+.prog-fill { height:100%; width:65.2%; background:linear-gradient(90deg,#dc2626,#9333ea); border-radius:3px; transition:width 1.2s ease; }
+
+/* ═══════ MAIN ═══════ */
+#main { margin-left:var(--sidebar-w); flex:1; min-height:100vh; }
+.topbar {
+  height:60px; background:rgba(255,255,255,0.7);
+  backdrop-filter:blur(20px); border-bottom:1px solid var(--border);
+  display:flex; align-items:center; justify-content:space-between;
+  padding:0 40px; position:sticky; top:0; z-index:50;
+}
+.breadcrumb { display:flex; align-items:center; gap:8px; font-size:13px; font-weight:500; color:var(--text2); }
+.breadcrumb .current { color:var(--cv2); }
+.bc-sep { color:var(--text3); }
+.badge-pill {
+  padding:5px 14px; border-radius:30px; font-size:12px; font-weight:600;
+  background:linear-gradient(90deg,rgba(220,38,38,0.1),rgba(147,51,234,0.08));
+  color:var(--cv2); border:1px solid rgba(220,38,38,0.2);
+}
+
+/* ═══════ HERO ═══════ */
+.hero {
+  position:relative; overflow:hidden;
+  padding:64px 56px 54px; border-bottom:1px solid rgba(220,80,80,.18);
+  min-height:340px; display:flex; flex-direction:column; justify-content:center;
+}
+.hero::before {
+  content:''; position:absolute; inset:0;
+  background:
+    radial-gradient(ellipse 70% 80% at 10% 20%, rgba(220,38,38,.45) 0%, transparent 60%),
+    radial-gradient(ellipse 55% 65% at 85% 10%, rgba(147,51,234,.35) 0%, transparent 55%),
+    radial-gradient(ellipse 60% 70% at 70% 85%, rgba(220,38,38,.3) 0%, transparent 58%),
+    radial-gradient(ellipse 50% 60% at 30% 90%, rgba(255,160,160,.4) 0%, transparent 55%),
+    #fff5f5;
+  z-index:0;
+}
+.hero > * { position:relative; z-index:2; }
+.hero-eyebrow {
+  display:inline-flex; align-items:center; gap:7px;
+  padding:6px 18px; border-radius:40px;
+  background:rgba(255,255,255,.55); border:1px solid rgba(255,255,255,.85);
+  font-size:11px; font-weight:600; color:rgba(140,20,20,.75);
+  letter-spacing:.12em; text-transform:uppercase; margin-bottom:22px;
+  backdrop-filter:blur(16px); box-shadow:0 2px 20px rgba(220,38,38,.12),inset 0 1px 0 rgba(255,255,255,.6);
+  width:fit-content; font-family:'Lora',serif; font-style:italic;
+}
+.hero-eyebrow::before { content:'♥'; font-size:10px; font-style:normal; }
+.hero h1 {
+  font-family:'Lora',serif; font-size:clamp(34px,4vw,58px);
+  font-weight:400; font-style:italic; line-height:1.08;
+  color:rgba(60,10,10,.82); margin-bottom:18px;
+}
+.hero h1 span {
+  font-weight:600; font-style:italic; color:transparent;
+  background:linear-gradient(135deg,rgba(180,10,10,.9) 0%,rgba(220,38,38,.85) 40%,rgba(147,51,234,.8) 100%);
+  -webkit-background-clip:text; -webkit-text-fill-color:transparent; background-clip:text;
+}
+.hero-sub {
+  font-family:'Lora',serif; font-size:15.5px; font-style:italic;
+  color:rgba(100,20,20,.6); max-width:560px; line-height:1.7;
+  margin-bottom:34px; font-weight:400;
+}
+.hero-chips { display:flex; flex-wrap:wrap; gap:10px; }
+.hero-chip {
+  display:flex; align-items:center; gap:9px;
+  background:rgba(255,255,255,.52); border:1px solid rgba(255,255,255,.8);
+  border-radius:14px; padding:9px 18px; font-size:13px; font-weight:500;
+  color:rgba(100,20,20,.75); backdrop-filter:blur(14px);
+  box-shadow:0 2px 16px rgba(220,38,38,.1),inset 0 1px 0 rgba(255,255,255,.6);
+  font-family:'Lora',serif; font-style:italic; transition:all .25s;
+}
+.hero-chip:hover { background:rgba(255,255,255,.72); transform:translateY(-1px); }
+.hero-chip strong {
+  font-family:'Outfit',sans-serif; font-style:normal; font-weight:800; font-size:21px;
+  background:linear-gradient(135deg,#dc2626,#9333ea);
+  -webkit-background-clip:text; -webkit-text-fill-color:transparent; background-clip:text; line-height:1;
+}
+
+/* ═══════ TABS ═══════ */
+.tab-bar {
+  display:flex; gap:2px; padding:0 40px;
+  background:rgba(255,255,255,0.6); backdrop-filter:blur(16px);
+  border-bottom:1px solid var(--border); position:sticky; top:60px; z-index:40;
+  overflow-x:auto;
+}
+.tab-btn {
+  display:flex; align-items:center; gap:7px; padding:14px 18px;
+  background:none; border:none; font-family:'Outfit',sans-serif;
+  font-size:12.5px; font-weight:600; color:var(--text2); cursor:pointer;
+  border-bottom:2.5px solid transparent; margin-bottom:-1px;
+  transition:all .2s; white-space:nowrap;
+}
+.tab-btn:hover { color:var(--cv2); background:rgba(220,38,38,0.04); border-radius:10px 10px 0 0; }
+.tab-btn.active { color:var(--cv2); border-bottom-color:var(--cv); }
+
+/* ═══════ CONTENT ═══════ */
+.content { padding:36px 40px 60px; max-width:1200px; }
+.panel { display:none; }
+.panel.active { display:block; }
+
+/* ═══════ SECTION HEADER ═══════ */
+.section-header { margin-bottom:24px; }
+.section-title { font-size:22px; font-weight:800; color:var(--text); margin-bottom:6px; }
+.section-desc { font-size:13.5px; color:var(--text2); line-height:1.6; }
+
+/* ═══════ GLASS CARD ═══════ */
+.gcard {
+  background:var(--surface2); backdrop-filter:blur(20px);
+  border:1px solid var(--border); border-radius:var(--radius);
+  padding:28px; margin-bottom:24px; box-shadow:var(--shadow);
+  transition:box-shadow .3s;
+}
+.gcard:hover { box-shadow:var(--shadow2); }
+.gcard-title {
+  font-size:16px; font-weight:800; color:var(--text);
+  margin-bottom:20px; display:flex; align-items:center; gap:10px;
+}
+.ct-icon { width:32px; height:32px; border-radius:9px; display:flex; align-items:center; justify-content:center; font-size:16px; }
+
+/* ═══════ GRIDS ═══════ */
+.g2 { display:grid; grid-template-columns:1fr 1fr; gap:20px; }
+.g3 { display:grid; grid-template-columns:repeat(3,1fr); gap:16px; }
+.g4 { display:grid; grid-template-columns:repeat(4,1fr); gap:14px; }
+
+/* ═══════ HIGHLIGHT BOX ═══════ */
+.hbox { border-radius:12px; padding:16px 20px; margin-bottom:16px; font-size:13px; line-height:1.65; border-left:4px solid; }
+.hbox-blue { background:var(--blue-light); border-color:var(--blue); }
+.hbox-violet { background:var(--violet-light); border-color:var(--violet); }
+.hbox-green { background:var(--green-light); border-color:var(--green); }
+.hbox-pink { background:var(--pink-light); border-color:var(--pink); }
+.hbox-orange { background:var(--orange-light); border-color:var(--orange); }
+.hbox-red { background:var(--red-light); border-color:var(--red); }
+.hbox-cyan { background:var(--cyan-light); border-color:var(--cyan); }
+.hbox strong { font-weight:700; display:block; margin-bottom:4px; }
+.hbox-red strong { color:var(--cv); }
+.hbox-blue strong { color:var(--blue); }
+.hbox-violet strong { color:var(--violet); }
+.hbox-green strong { color:var(--green); }
+.hbox-orange strong { color:var(--orange); }
+
+/* ═══════ MNEMONIC ═══════ */
+.mnemonic {
+  background:linear-gradient(135deg,#fff0f0,#f3e8ff);
+  border:1px solid rgba(220,38,38,0.2); border-radius:14px;
+  padding:18px 22px; margin:16px 0;
+}
+.mnemonic-title { font-size:12px; font-weight:700; color:var(--cv2); letter-spacing:.06em; text-transform:uppercase; margin-bottom:8px; display:flex; align-items:center; gap:6px; }
+.mnemonic-text { font-size:13.5px; color:var(--text); line-height:1.7; }
+.mnemonic-text .em { color:var(--cv); font-weight:800; }
+
+/* ═══════ TABLE ═══════ */
+.mtable { width:100%; border-collapse:collapse; font-size:13px; }
+.mtable thead tr { background:linear-gradient(90deg,rgba(220,38,38,0.08),rgba(147,51,234,0.05)); }
+.mtable th { padding:11px 14px; text-align:left; font-size:11px; font-weight:700; letter-spacing:.06em; text-transform:uppercase; color:var(--cv2); border-bottom:2px solid rgba(220,38,38,0.12); }
+.mtable td { padding:10px 14px; border-bottom:1px solid rgba(220,38,38,0.07); color:var(--text2); vertical-align:top; line-height:1.5; }
+.mtable tr:last-child td { border-bottom:none; }
+.mtable tr:hover td { background:rgba(220,38,38,0.03); }
+.mtable .hl { color:var(--text); font-weight:600; }
+
+/* ═══════ TAG PILLS ═══════ */
+.tag { display:inline-block; padding:3px 10px; border-radius:20px; font-size:11px; font-weight:700; }
+.t-red { background:var(--red-light); color:var(--red); }
+.t-blue { background:var(--blue-light); color:var(--blue); }
+.t-green { background:var(--green-light); color:var(--green); }
+.t-violet { background:var(--violet-light); color:var(--violet); }
+.t-orange { background:var(--orange-light); color:var(--orange); }
+.t-pink { background:var(--pink-light); color:var(--pink); }
+.t-cyan { background:var(--cyan-light); color:var(--cyan); }
+
+/* ═══════ EXPAND ROWS ═══════ */
+.level-row { display:flex; align-items:stretch; gap:12px; margin-bottom:6px; cursor:pointer; }
+.level-bar { width:5px; border-radius:3px; flex-shrink:0; }
+.level-body { flex:1; background:var(--surface); border:1px solid var(--border); border-radius:12px; padding:14px 18px; transition:all .25s; }
+.level-row:hover .level-body, .level-row.open .level-body { box-shadow:0 4px 20px rgba(220,38,38,0.12); border-color:rgba(220,38,38,0.3); }
+.level-head { display:flex; align-items:center; gap:12px; }
+.level-num { min-width:30px; height:30px; border-radius:8px; display:flex; align-items:center; justify-content:center; font-size:13px; font-weight:800; }
+.level-info { flex:1; }
+.level-name { font-size:14px; font-weight:700; color:var(--text); }
+.level-short { font-size:12px; color:var(--text2); margin-top:2px; }
+.level-chevron { font-size:14px; color:var(--text3); transition:transform .3s; }
+.level-row.open .level-chevron { transform:rotate(90deg); }
+.level-detail-panel { max-height:0; overflow:hidden; transition:max-height .4s ease, padding .3s; font-size:13px; color:var(--text2); line-height:1.65; }
+.level-row.open .level-detail-panel { max-height:600px; padding-top:12px; border-top:1px dashed rgba(220,38,38,0.15); margin-top:12px; }
+
+/* ═══════ FLOWCHART ═══════ */
+.flow-node {
+  background:var(--surface2); border:1px solid var(--border); border-radius:12px;
+  padding:14px 18px; text-align:center;
+}
+.flow-node.start { background:linear-gradient(135deg,#fee2e2,#fecaca); border-color:#ef4444; }
+.flow-node.end { background:linear-gradient(135deg,#d1fae5,#a7f3d0); border-color:var(--green); }
+.flow-node.process { background:linear-gradient(135deg,#e0f7fb,#b2ebf2); border-color:var(--cyan); }
+.flow-node.decision { background:linear-gradient(135deg,#fef3c7,#fde68a); border-color:var(--orange); border-radius:50%; padding:12px; }
+.flow-arrow { text-align:center; padding:4px 0; color:var(--text3); font-size:20px; line-height:1; }
+.flow-title { font-size:13px; font-weight:700; color:var(--text); }
+.flow-sub { font-size:11.5px; color:var(--text2); margin-top:3px; }
+.fc-row { display:flex; align-items:center; gap:10px; justify-content:center; flex-wrap:wrap; margin:8px 0; }
+.fc-box {
+  padding:10px 16px; border-radius:10px; font-size:12.5px; font-weight:600;
+  text-align:center; border:1.5px solid; min-width:130px;
+}
+.fc-arrow { font-size:18px; color:var(--text3); flex-shrink:0; }
+
+/* ═══════ QUIZ ═══════ */
+.qblock { background:var(--surface2); border:1px solid var(--border); border-radius:14px; padding:22px; margin-bottom:18px; }
+.qblock p { font-size:14px; font-weight:500; color:var(--text); margin-bottom:16px; line-height:1.6; }
+.qblock p strong { color:var(--cv2); }
+.qopt {
+  display:flex; align-items:flex-start; gap:10px; padding:11px 16px;
+  border-radius:10px; border:1.5px solid var(--border); cursor:pointer;
+  margin-bottom:8px; font-size:13px; color:var(--text2); font-weight:500;
+  transition:all .2s; background:var(--surface);
+}
+.qopt:hover { border-color:var(--cv); color:var(--text); background:rgba(220,38,38,0.04); }
+.qopt.correct { border-color:var(--green); background:var(--green-light); color:#065f46; }
+.qopt.wrong { border-color:var(--rose); background:#fff1f2; color:#9f1239; }
+.qopt.disabled { pointer-events:none; }
+.opt-l { min-width:24px; height:24px; border-radius:6px; background:rgba(220,38,38,0.08); color:var(--cv2); display:flex; align-items:center; justify-content:center; font-size:11px; font-weight:800; flex-shrink:0; }
+.qfb { border-radius:8px; padding:10px 14px; font-size:12.5px; line-height:1.6; display:none; margin-top:8px; }
+.qfb.ok { background:var(--green-light); color:#065f46; display:block; }
+.qfb.err { background:#fff1f2; color:#9f1239; display:block; }
+.quiz-score { display:flex; justify-content:space-between; align-items:center; background:linear-gradient(90deg,rgba(220,38,38,0.06),rgba(147,51,234,0.04)); border:1px solid rgba(220,38,38,0.15); border-radius:12px; padding:14px 20px; margin-bottom:24px; }
+.quiz-score-label { font-size:13px; color:var(--text2); font-weight:600; }
+.quiz-score-num { font-size:22px; font-weight:900; color:var(--cv); }
+.quiz-reset { background:linear-gradient(90deg,#dc2626,#9333ea); color:#fff; border:none; border-radius:10px; padding:12px 28px; font-family:'Outfit',sans-serif; font-size:14px; font-weight:700; cursor:pointer; box-shadow:0 4px 16px rgba(220,38,38,0.3); transition:all .2s; }
+.quiz-reset:hover { transform:translateY(-2px); box-shadow:0 6px 20px rgba(220,38,38,0.4); }
+
+/* ═══════ TOOLTIP ═══════ */
+.tooltip-box {
+  position:fixed; background:white; border:1px solid rgba(220,38,38,0.2);
+  border-radius:12px; padding:14px 18px; box-shadow:0 8px 30px rgba(0,0,0,0.12);
+  font-size:13px; line-height:1.6; color:var(--text2); max-width:280px;
+  pointer-events:none; opacity:0; transition:opacity .2s; z-index:500;
+}
+.tooltip-box.show { opacity:1; }
+.tooltip-title { font-weight:800; color:var(--text); font-size:14px; margin-bottom:6px; }
+
+/* ═══════ SVG interactive ═══════ */
+.svg-label { cursor:pointer; }
+.svg-label:hover rect, .svg-label:hover ellipse, .svg-label:hover path { opacity:.85; filter:brightness(1.05); }
+.svg-label text { pointer-events:none; }
+
+/* ═══════ PROGRESS BAR ═══════ */
+.pbar-row { display:flex; align-items:center; gap:12px; margin-bottom:10px; }
+.pbar-label { min-width:120px; font-size:12.5px; font-weight:600; color:var(--text); }
+.pbar-track { flex:1; height:12px; background:rgba(220,38,38,0.1); border-radius:6px; overflow:hidden; }
+.pbar-fill { height:100%; border-radius:6px; transition:width 1.2s ease .3s; }
+.pbar-val { min-width:45px; font-size:12.5px; font-weight:700; text-align:right; }
+
+/* ═══════ ANIMATIONS (STIL PREMIUM CAP 9) ═══════ */
+@keyframes fadeUp { 
+  from { opacity: 0; transform: translateY(6px); } 
+  to { opacity: 1; transform: translateY(0); } 
+}
+@keyframes pulse { 0%,100%{transform:scale(1)} 50%{transform:scale(1.08)} }
+@keyframes heartbeat { 0%,100%{transform:scale(1)} 14%{transform:scale(1.15)} 28%{transform:scale(1)} 42%{transform:scale(1.1)} 56%{transform:scale(1)} }
+.fu { animation: fadeUp 0.5s ease both; }
+.fu-1 { animation-delay: .08s; }
+.fu-2 { animation-delay: .16s; }
+.fu-3 { animation-delay: .24s; }
+.fu-4 { animation-delay: .32s; }
+.heartbeat { animation: heartbeat 1.4s ease infinite; display: inline-block; }
+
+/* ═══════ VALVE CARD ═══════ */
+.valve-card {
+  background:var(--surface2); border:1px solid var(--border); border-radius:14px;
+  padding:18px; text-align:center; transition:all .25s; cursor:pointer;
+}
+.valve-card:hover { transform:translateY(-4px); box-shadow:var(--shadow2); border-color:rgba(220,38,38,0.3); }
+.valve-icon { font-size:28px; margin-bottom:10px; display:block; }
+.valve-name { font-size:14px; font-weight:800; color:var(--text); margin-bottom:6px; }
+.valve-loc { font-size:11.5px; color:var(--text2); margin-bottom:8px; line-height:1.4; }
+
+/* ═══════ ECOG ═══════ */
+.ecg-container { background:#0f172a; border-radius:14px; padding:20px; position:relative; overflow:hidden; }
+.ecg-label { color:#64748b; font-size:11px; font-weight:600; letter-spacing:.08em; text-transform:uppercase; margin-bottom:12px; }
+.ecg-grid { display:grid; grid-template-columns:repeat(3,1fr); gap:16px; margin-top:16px; }
+.ecg-wave-box { background:rgba(255,255,255,0.05); border-radius:10px; padding:14px; text-align:center; border:1px solid rgba(255,255,255,0.08); }
+.ecg-wave-name { font-size:24px; font-weight:900; color:#ef4444; }
+.ecg-wave-info { font-size:11.5px; color:#94a3b8; margin-top:6px; line-height:1.5; }
+
+/* ═══════ RESPONSIVE ═══════ */
+@media(max-width:960px){
+  :root{--sidebar-w:0px}
+  #sidebar{transform:translateX(-268px)}
+  #main{margin-left:0}
+  .g2,.g3,.g4{grid-template-columns:1fr}
+  .content,.topbar,.tab-bar,.hero{padding-left:20px;padding-right:20px}
+}
+</style>
+</head>
+<body>
+
+<!-- TOOLTIP -->
+<div class="tooltip-box" id="tt"></div>
+
+<!-- ═══════════════ SIDEBAR ═══════════════ -->
+<aside id="sidebar">
+  <div class="sidebar-logo">
+    <img src="medStudy.png" alt="Logo MedStudy" style="width: 42px; height: 42px; object-fit: contain; filter: drop-shadow(0 4px 14px rgba(124,58,237,0.35));">
+    <div>
+      <div class="logo-text">MedStudy</div>
+      <div class="logo-sub">Anatomy Made Easy</div>
+    </div>
+  </div>
+
+  <div class="nav-scroll" id="chapters-menu">
+  <div class="sidebar-section-label">Capitole</div>
+
+  <a class="nav-item" href="cap1.html"><span class="nav-num">1</span>Introducere în A&B</a>
+  <a class="nav-item" href="cap2.html"><span class="nav-num">2</span>Bazele Chimice</a>
+  <a class="nav-item" href="cap3.html"><span class="nav-num">3</span>Fiziologia celulară</a>
+  <a class="nav-item" href="cap4.html"><span class="nav-num">4</span>Țesuturile</a>
+  <a class="nav-item" href="cap5.html"><span class="nav-num">5</span>Sistemul Tegumentar</a>
+  <a class="nav-item" href="cap6.html"><span class="nav-num">6</span>Oasele și Articulațiile</a>
+  <a class="nav-item" href="cap7.html"><span class="nav-num">7</span>Sistemul Osos</a>
+  <a class="nav-item" href="cap8.html"><span class="nav-num">8</span>Țesutul Muscular</a>
+  <a class="nav-item" href="cap9.html"><span class="nav-num">9</span>Sistemul Muscular</a>
+  <a class="nav-item" href="cap10.html"><span class="nav-num">10</span>Țesutul Nervos</a>
+  <a class="nav-item" href="cap11.html"><span class="nav-num">11</span>Organizarea Sistemului Nervos</a>
+  <a class="nav-item" href="cap12.html"><span class="nav-num">12</span>Organele de Simț</a>
+  <a class="nav-item" href="cap13.html"><span class="nav-num">13</span>Sistemul Endocrin</a>
+  <a class="nav-item" href="cap14.html"><span class="nav-num">14</span>Sângele</a>
+  <a class="nav-item" href="cap15.html"><span class="nav-num">15</span>Sistemul Cardiovascular</a>
+  <a class="nav-item" href="cap16.html"><span class="nav-num">16</span>Sistemul Limfatic</a>
+  <a class="nav-item" href="cap17.html"><span class="nav-num">17</span>Sistemul Respirator</a>
+  <a class="nav-item" href="cap18.html"><span class="nav-num">18</span>Sistemul Digestiv</a>
+  <a class="nav-item" href="cap19.html"><span class="nav-num">19</span>Metabolism & Nutriție</a>
+  <a class="nav-item" href="cap20.html"><span class="nav-num">20</span>Sistemul Urinar</a>
+  <a class="nav-item" href="cap21.html"><span class="nav-num">21</span>Echilibrul Hidro-Electrolitic</a>
+  <a class="nav-item" href="cap22.html"><span class="nav-num">22</span>Sistemul Reproducător Masculin</a>
+  <a class="nav-item" href="cap23.html"><span class="nav-num">23</span>Sistemul Reproducător Feminin</a>
+</div>
+
+  <div class="sidebar-footer">
+    <div class="prog-label"><span>Progres curs</span><span>15/23</span></div>
+    <div class="prog-track"><div class="prog-fill"></div></div>
+  </div>
+</aside>
+
+<!-- ═══════════════ MAIN ═══════════════ -->
+<main id="main">
+
+  <!-- TOP BAR -->
+  <nav class="topbar">
+    <div class="breadcrumb">
+      <span>A&F Umană</span>
+      <span class="bc-sep">›</span>
+      <span>Capitol 15</span>
+      <span class="bc-sep">›</span>
+      <span class="current">Sistemul Cardiovascular</span>
+    </div>
+    <span class="badge-pill">🎓 Pregătire Admitere Medicină</span>
+  </nav>
+
+  <!-- HERO -->
+  <header class="hero">
+    <div class="hero-eyebrow fu fu-1">Capitol 15 — Pompă & Vase</div>
+    <h1 class="fu fu-2"><span class="heartbeat">♥</span> Sistemul Cardiovascular —<br><span>Inima, Vasele Sanguine & Circulația</span></h1>
+    <p class="hero-sub fu fu-3">
+      Anatomia inimii, ciclul cardiac, valvele, sistemul excitoconductor, ECG, vasele sanguine, presiunea arterială — tot ce trebuie să știi pentru admiterea la medicină.
+    </p>
+    <div class="hero-chips fu fu-4">
+      <div class="hero-chip"><strong>4</strong> Cavități cardiace</div>
+      <div class="hero-chip"><strong>4</strong> Valve cardiace</div>
+      <div class="hero-chip"><strong>70</strong> Bătăi/minut</div>
+      <div class="hero-chip"><strong>5L</strong> Volum sanguin</div>
+      <div class="hero-chip"><strong>120/80</strong> TA normală (mmHg)</div>
+      <div class="hero-chip"><strong>2</strong> Circuite principale</div>
+    </div>
+  </header>
+
+  <!-- TABS -->
+  <div class="tab-bar">
+    <button class="tab-btn active" onclick="showPanel('infografice',this)">🫀 Infografice SVG</button>
+    <button class="tab-btn" onclick="showPanel('scheme',this)">🔗 Scheme logice</button>
+    <button class="tab-btn" onclick="showPanel('tabele',this)">📊 Tabele comparative</button>
+    <button class="tab-btn" onclick="showPanel('ecg',this)">📈 ECG & Excitoconductor</button>
+    <button class="tab-btn" onclick="showPanel('quiz',this)">✏️ Test rapid (12 Q)</button>
+  </div>
+
+  <div class="content">
+
+  <!-- ══════════════════════════════════════
+       PANEL 1 — INFOGRAFICE SVG INTERACTIVE
+  ══════════════════════════════════════ -->
+  <div class="panel active" id="panel-infografice">
+
+    <!-- SVG INIMA SECȚIUNE LONGITUDINALĂ -->
+    <div class="gcard fu fu-1">
+      <div class="gcard-title">
+        <div class="ct-icon" style="background:#fee2e2">🫀</div>
+        Secțiune longitudinală prin inimă — Infografic interactiv (hover/click pe structuri)
+      </div>
+      <p style="font-size:13px;color:var(--text2);margin-bottom:16px">Click pe orice structură pentru a afla detalii. Inima are ~mărimea unui pumn, cântărește &lt;500g, situată în mediastin între coasta 2–5.</p>
+
+      <div style="position:relative;display:inline-block;width:100%">
+        <svg id="heart-svg" viewBox="0 0 900 520" style="width:100%;max-width:900px;display:block;font-family:'Outfit',sans-serif">
+          <defs>
+            <radialGradient id="rg1" cx="50%" cy="40%"><stop offset="0%" stop-color="#fff5f5"/><stop offset="100%" stop-color="#fde8e8"/></radialGradient>
+            <radialGradient id="rg2" cx="50%" cy="40%"><stop offset="0%" stop-color="#fce4e4"/><stop offset="100%" stop-color="#fca5a5"/></radialGradient>
+            <radialGradient id="rg3" cx="50%" cy="40%"><stop offset="0%" stop-color="#dbeafe"/><stop offset="100%" stop-color="#93c5fd"/></radialGradient>
+            <radialGradient id="rg4" cx="50%" cy="40%"><stop offset="0%" stop-color="#bfdbfe"/><stop offset="100%" stop-color="#60a5fa"/></radialGradient>
+          </defs>
+
+          <!-- Background -->
+          <rect width="900" height="520" rx="20" fill="#fff8f8" stroke="rgba(220,38,38,0.1)" stroke-width="1.5"/>
+
+          <!-- Title -->
+          <text x="450" y="32" text-anchor="middle" font-size="15" font-weight="800" fill="#1e1b4b">SECȚIUNE LONGITUDINALĂ PRIN INIMĂ</text>
+          <line x1="120" y1="44" x2="780" y2="44" stroke="rgba(220,38,38,0.12)" stroke-width="1"/>
+
+          <!-- HEART BODY SHAPE -->
+          <!-- Right atrium -->
+          <ellipse cx="310" cy="175" rx="85" ry="70" fill="url(#rg3)" stroke="#3b82f6" stroke-width="2"/>
+          <!-- Right ventricle -->
+          <path d="M230 220 Q220 320 280 380 Q330 430 380 420 Q340 340 355 260 Z" fill="url(#rg4)" stroke="#2563eb" stroke-width="2"/>
+          <!-- Left atrium -->
+          <ellipse cx="570" cy="165" rx="90" ry="72" fill="url(#rg2)" stroke="#dc2626" stroke-width="2"/>
+          <!-- Left ventricle -->
+          <path d="M490 220 Q475 320 500 400 Q530 460 580 455 Q620 450 650 380 Q680 310 650 240 Z" fill="url(#rg1)" stroke="#b91c1c" stroke-width="2"/>
+          <!-- Interventricular septum -->
+          <path d="M380 200 Q390 300 390 400 Q400 420 415 400 Q420 300 420 200 Z" fill="rgba(180,30,30,0.25)" stroke="#9b1c1c" stroke-width="1.5" stroke-dasharray="5,3"/>
+
+          <!-- Valves -->
+          <!-- Tricuspid -->
+          <ellipse cx="360" cy="230" rx="22" ry="12" fill="#fbbf24" stroke="#d97706" stroke-width="2"/>
+          <!-- Mitral -->
+          <ellipse cx="500" cy="228" rx="20" ry="11" fill="#f87171" stroke="#dc2626" stroke-width="2"/>
+          <!-- Pulmonary -->
+          <ellipse cx="290" cy="135" rx="16" ry="9" fill="#34d399" stroke="#059669" stroke-width="2"/>
+          <!-- Aortic -->
+          <ellipse cx="595" cy="128" rx="16" ry="9" fill="#a78bfa" stroke="#7c3aed" stroke-width="2"/>
+
+          <!-- Vessels -->
+          <!-- Vena cava superior -->
+          <rect x="240" y="60" width="36" height="90" rx="8" fill="#93c5fd" stroke="#3b82f6" stroke-width="2"/>
+          <!-- Vena cava inferior -->
+          <rect x="248" y="360" width="32" height="80" rx="8" fill="#93c5fd" stroke="#3b82f6" stroke-width="2"/>
+          <!-- Pulmonary trunk -->
+          <path d="M278 120 Q260 80 230 60 Q200 40 170 50" stroke="#059669" stroke-width="14" fill="none" stroke-linecap="round"/>
+          <!-- Aorta -->
+          <path d="M606 110 Q650 70 690 60 Q730 50 760 70" stroke="#dc2626" stroke-width="14" fill="none" stroke-linecap="round"/>
+          <!-- Pulmonary veins -->
+          <path d="M640 175 Q680 155 700 160" stroke="#f87171" stroke-width="10" fill="none" stroke-linecap="round"/>
+          <path d="M638 200 Q680 200 700 210" stroke="#f87171" stroke-width="10" fill="none" stroke-linecap="round"/>
+
+          <!-- Chordae tendineae (simplified) -->
+          <line x1="360" y1="242" x2="335" y2="310" stroke="#d97706" stroke-width="1.5" stroke-dasharray="3,2"/>
+          <line x1="360" y1="242" x2="360" y2="318" stroke="#d97706" stroke-width="1.5" stroke-dasharray="3,2"/>
+          <line x1="360" y1="242" x2="385" y2="310" stroke="#d97706" stroke-width="1.5" stroke-dasharray="3,2"/>
+          <line x1="500" y1="239" x2="480" y2="310" stroke="#dc2626" stroke-width="1.5" stroke-dasharray="3,2"/>
+          <line x1="500" y1="239" x2="510" y2="315" stroke="#dc2626" stroke-width="1.5" stroke-dasharray="3,2"/>
+
+          <!-- Papillary muscles -->
+          <ellipse cx="335" cy="320" rx="12" ry="8" fill="#7c3aed" stroke="#6d28d9" stroke-width="1.5"/>
+          <ellipse cx="365" cy="328" rx="12" ry="8" fill="#7c3aed" stroke="#6d28d9" stroke-width="1.5"/>
+          <ellipse cx="480" cy="320" rx="12" ry="8" fill="#9b1c1c" stroke="#7f1d1d" stroke-width="1.5"/>
+          <ellipse cx="510" cy="325" rx="12" ry="8" fill="#9b1c1c" stroke="#7f1d1d" stroke-width="1.5"/>
+
+          <!-- INTERACTIVE CLICKABLE LABELS -->
+          <!-- Right atrium -->
+          <g class="svg-label" onclick="showTooltip(event,'Atriul drept','Cavitate de umplere. Primește sânge dezoxigenat prin: vena cavă superioară (cap/gât), vena cavă inferioară (corp inferior), sinusul coronarian (miocard). Conține nodul SA — pacemaker-ul cardiac.')">
+            <rect x="250" y="147" width="130" height="40" rx="8" fill="rgba(59,130,246,0.15)" stroke="rgba(59,130,246,0.5)" stroke-width="1.5"/>
+            <text x="315" y="163" text-anchor="middle" font-size="12" font-weight="700" fill="#1d4ed8">Atriu drept</text>
+            <text x="315" y="178" text-anchor="middle" font-size="11" fill="#3b82f6">Umplere (dezoxi)</text>
+          </g>
+
+          <!-- Left atrium -->
+          <g class="svg-label" onclick="showTooltip(event,'Atriul stâng','Primește sânge OXIGENAT de la plămâni prin cele 4 vene pulmonare. Conține nodul AV. Are pereți mai groși decât atriul drept.')">
+            <rect x="510" y="137" width="130" height="40" rx="8" fill="rgba(220,38,38,0.15)" stroke="rgba(220,38,38,0.5)" stroke-width="1.5"/>
+            <text x="575" y="153" text-anchor="middle" font-size="12" font-weight="700" fill="#b91c1c">Atriu stâng</text>
+            <text x="575" y="168" text-anchor="middle" font-size="11" fill="#dc2626">Umplere (oxi)</text>
+          </g>
+
+          <!-- Right ventricle -->
+          <g class="svg-label" onclick="showTooltip(event,'Ventriculul drept','Pompă cu presiune MICĂ. Trimite sânge dezoxigenat prin trunchiul pulmonar → arterele pulmonare → plămâni (circulația pulmonară). Perete mai subțire decât VS.')">
+            <rect x="195" y="290" width="120" height="40" rx="8" fill="rgba(59,130,246,0.15)" stroke="rgba(59,130,246,0.5)" stroke-width="1.5"/>
+            <text x="255" y="306" text-anchor="middle" font-size="12" font-weight="700" fill="#1d4ed8">Ventricul drept</text>
+            <text x="255" y="321" text-anchor="middle" font-size="11" fill="#3b82f6">Pompă mică (pulm.)</text>
+          </g>
+
+          <!-- Left ventricle -->
+          <g class="svg-label" onclick="showTooltip(event,'Ventriculul stâng','Pompă cu presiune MARE (6x mai mare decât VD). Trimite sânge oxigenat în AORTĂ → circulația sistemică. Peretele cel mai gros (1cm). Constituie 2/3 din masa cardiacă.')">
+            <rect x="565" y="300" width="130" height="40" rx="8" fill="rgba(220,38,38,0.15)" stroke="rgba(220,38,38,0.5)" stroke-width="1.5"/>
+            <text x="630" y="316" text-anchor="middle" font-size="12" font-weight="700" fill="#b91c1c">Ventricul stâng</text>
+            <text x="630" y="331" text-anchor="middle" font-size="11" fill="#dc2626">Pompă mare (sist.)</text>
+          </g>
+
+          <!-- Tricuspid valve -->
+          <g class="svg-label" onclick="showTooltip(event,'Valva tricuspidă (AV dreaptă)','3 cuspisuri. Situată între AD și VD. PREVINE refluxul în AD la sistolă ventriculară. Ancorată de mușchii papilari prin cordaje tendinoase. Lezarea → regurgitare tricuspidiană.')">
+            <rect x="340" y="248" width="45" height="26" rx="6" fill="rgba(251,191,36,0.3)" stroke="#d97706" stroke-width="1.5"/>
+            <text x="362" y="265" text-anchor="middle" font-size="10" font-weight="700" fill="#92400e">Tricuspidă</text>
+          </g>
+
+          <!-- Mitral valve -->
+          <g class="svg-label" onclick="showTooltip(event,'Valva mitrală/bicuspidă (AV stângă)','2 cuspisuri (bicuspidă). Situată între AS și VS. PREVINE refluxul în AS la sistolă. Prolapsul valvei mitrale = patologie frecventă. Cel mai des afectat de reumatism articular acut.')">
+            <rect x="478" y="246" width="45" height="26" rx="6" fill="rgba(248,113,113,0.3)" stroke="#dc2626" stroke-width="1.5"/>
+            <text x="500" y="263" text-anchor="middle" font-size="10" font-weight="700" fill="#991b1b">Mitrală</text>
+          </g>
+
+          <!-- Pulmonary valve -->
+          <g class="svg-label" onclick="showTooltip(event,'Valva pulmonară (semilunară)','3 cuspisuri semilunare. La emergența trunchiului pulmonar din VD. PREVINE refluxul din AP în VD la diastolă. Stenoza pulmonară → suprasolicitare VD.')">
+            <rect x="252" y="100" width="80" height="26" rx="6" fill="rgba(52,211,153,0.3)" stroke="#059669" stroke-width="1.5"/>
+            <text x="292" y="117" text-anchor="middle" font-size="10" font-weight="700" fill="#065f46">Val. pulmonară</text>
+          </g>
+
+          <!-- Aortic valve -->
+          <g class="svg-label" onclick="showTooltip(event,'Valva aortică (semilunară)','3 cuspisuri semilunare. La emergența aortei din VS. PREVINE refluxul din aortă în VS la diastolă. Stenoza aortică = cea mai frecventă valvulopatie la adulți > 65 ani.')">
+            <rect x="558" y="96" width="80" height="26" rx="6" fill="rgba(167,139,250,0.3)" stroke="#7c3aed" stroke-width="1.5"/>
+            <text x="598" y="113" text-anchor="middle" font-size="10" font-weight="700" fill="#5b21b6">Val. aortică</text>
+          </g>
+
+          <!-- Aorta label -->
+          <g class="svg-label" onclick="showTooltip(event,'Aorta','Cea mai mare arteră din organism. Primește sânge OXIGENAT din VS. Dă naștere: arterelor coronare (la baza aortei), trunchiului brahiocefalic, carotidei comune stângi, subclaviculare stângi → arcul aortic → aorta toracică → aorta abdominală.')">
+            <rect x="690" y="50" width="80" height="30" rx="8" fill="rgba(220,38,38,0.15)" stroke="#dc2626" stroke-width="1.5"/>
+            <text x="730" y="70" text-anchor="middle" font-size="12" font-weight="700" fill="#b91c1c">Aorta</text>
+          </g>
+
+          <!-- Pulmonary trunk label -->
+          <g class="svg-label" onclick="showTooltip(event,'Trunchi pulmonar','Singura arteră care transportă sânge DEZOXIGENAT. Se bifurcă în artera pulmonară dreaptă și stângă → plămâni. Originează din VD.')">
+            <rect x="100" y="42" width="100" height="30" rx="8" fill="rgba(16,185,129,0.15)" stroke="#059669" stroke-width="1.5"/>
+            <text x="150" y="62" text-anchor="middle" font-size="11" font-weight="700" fill="#065f46">Tr. pulmonar</text>
+          </g>
+
+          <!-- IVS label -->
+          <g class="svg-label" onclick="showTooltip(event,'Sept interventricular','Peretele muscular care separă VD de VS. Continuare a septului interatrial. Defect septal ventricular (DSV) = malformație congenitală frecventă, comunicare anormală între ventricule.')">
+            <rect x="397" y="295" width="72" height="32" rx="8" fill="rgba(180,30,30,0.12)" stroke="rgba(180,30,30,0.4)" stroke-width="1.5"/>
+            <text x="433" y="309" text-anchor="middle" font-size="10" font-weight="700" fill="#7f1d1d">Sept IV</text>
+            <text x="433" y="322" text-anchor="middle" font-size="9" fill="#991b1b">muscular</text>
+          </g>
+
+          <!-- Cordae label -->
+          <g class="svg-label" onclick="showTooltip(event,'Cordaje tendinoase','Cordoane de colagen alb care leagă valvele AV de mușchii papilari. PREVIN eversia cuspisurilor în atrii. Ruptura → regurgitare valvulară acută → edem pulmonar.')">
+            <rect x="398" y="355" width="72" height="30" rx="8" fill="rgba(212,159,7,0.15)" stroke="#d97706" stroke-width="1.5"/>
+            <text x="434" y="368" text-anchor="middle" font-size="10" font-weight="700" fill="#92400e">Cordaje</text>
+            <text x="434" y="381" text-anchor="middle" font-size="9" fill="#92400e">tendinoase</text>
+          </g>
+
+          <!-- VCS label -->
+          <text x="270" y="57" text-anchor="middle" font-size="10" fill="#2563eb" font-weight="600">VCS</text>
+          <!-- VCI label -->
+          <text x="276" y="458" text-anchor="middle" font-size="10" fill="#2563eb" font-weight="600">VCI</text>
+          <!-- Vene pulmonare label -->
+          <text x="720" y="155" text-anchor="start" font-size="10" fill="#dc2626" font-weight="600">Vene pulmonare</text>
+          <text x="720" y="168" text-anchor="start" font-size="9" fill="#dc2626">(sânge oxigenat)</text>
+
+          <!-- Legend -->
+          <rect x="30" y="455" width="400" height="50" rx="10" fill="rgba(255,255,255,0.7)" stroke="rgba(220,38,38,0.1)"/>
+          <text x="50" y="473" font-size="11" font-weight="600" fill="#1e1b4b">Legendă:</text>
+          <rect x="110" y="462" width="14" height="10" rx="3" fill="#93c5fd"/>
+          <text x="128" y="472" font-size="10" fill="#2563eb">Sânge dezoxigenat</text>
+          <rect x="240" y="462" width="14" height="10" rx="3" fill="#fca5a5"/>
+          <text x="258" y="472" font-size="10" fill="#dc2626">Sânge oxigenat</text>
+          <text x="50" y="492" font-size="10" fill="#6b7280" font-style="italic">↑ Click pe orice structură pentru detalii și relevanță la admitere</text>
+        </svg>
+        <div id="tt" class="tooltip-box"></div>
+      </div>
+    </div>
+
+    <!-- STRATURILE INIMII SVG -->
+    <div class="gcard fu fu-2">
+      <div class="gcard-title">
+        <div class="ct-icon" style="background:#ede9fe">🔬</div>
+        Straturile peretelui cardiac — Infografic interactiv
+      </div>
+      <div class="g2" style="gap:24px;align-items:start">
+        <div>
+          <svg viewBox="0 0 380 300" style="width:100%;max-width:380px;display:block;font-family:'Outfit',sans-serif">
+            <rect width="380" height="300" rx="16" fill="#fafafe" stroke="rgba(220,38,38,0.08)"/>
+            <!-- Pericardium parietal -->
+            <ellipse cx="190" cy="150" rx="165" ry="130" fill="rgba(245,158,11,0.15)" stroke="#f59e0b" stroke-width="2.5" stroke-dasharray="7,3"/>
+            <!-- Pericardium visceral (epicardium) -->
+            <ellipse cx="190" cy="150" rx="140" ry="108" fill="rgba(16,185,129,0.18)" stroke="#10b981" stroke-width="2"/>
+            <!-- Myocardium -->
+            <ellipse cx="190" cy="150" rx="118" ry="88" fill="rgba(220,38,38,0.22)" stroke="#dc2626" stroke-width="2"/>
+            <!-- Endocardium -->
+            <ellipse cx="190" cy="150" rx="88" ry="62" fill="rgba(147,51,234,0.18)" stroke="#9333ea" stroke-width="2"/>
+            <!-- Cavity -->
+            <ellipse cx="190" cy="150" rx="60" ry="40" fill="rgba(59,130,246,0.25)" stroke="#3b82f6" stroke-width="1.5" stroke-dasharray="4,2"/>
+            <text x="190" y="155" text-anchor="middle" font-size="11" fill="#1d4ed8" font-weight="700">CAVITATE</text>
+
+            <!-- Labels with arrows -->
+            <line x1="30" y1="60" x2="80" y2="100" stroke="#f59e0b" stroke-width="1.5"/>
+            <text x="12" y="52" font-size="11" font-weight="700" fill="#92400e">Pericard</text>
+            <text x="12" y="64" font-size="10" fill="#92400e">parietal</text>
+
+            <line x1="50" y1="170" x2="95" y2="165" stroke="#10b981" stroke-width="1.5"/>
+            <text x="5" y="162" font-size="11" font-weight="700" fill="#065f46">Epicard</text>
+            <text x="5" y="175" font-size="10" fill="#065f46">(pericard visceral)</text>
+
+            <line x1="55" y1="220" x2="115" y2="205" stroke="#dc2626" stroke-width="1.5"/>
+            <text x="5" y="214" font-size="11" font-weight="700" fill="#b91c1c">Miocard</text>
+            <text x="5" y="227" font-size="10" fill="#b91c1c">strat principal</text>
+
+            <line x1="290" y1="240" x2="255" y2="210" stroke="#9333ea" stroke-width="1.5"/>
+            <text x="275" y="252" font-size="11" font-weight="700" fill="#6d28d9">Endocard</text>
+
+            <text x="190" y="284" text-anchor="middle" font-size="10" fill="#6b7280" font-style="italic">Cav. pericardică (lichid) între pericard parietal și visceral</text>
+          </svg>
+        </div>
+        <div>
+          <div class="level-row" onclick="toggleLevel(this)">
+            <div class="level-bar" style="background:#f59e0b"></div>
+            <div class="level-body">
+              <div class="level-head">
+                <div class="level-num" style="background:rgba(245,158,11,0.15);color:#d97706">1</div>
+                <div class="level-info">
+                  <div class="level-name">Pericard parietal — stratul extern</div>
+                  <div class="level-short">Sac fibros protector</div>
+                </div>
+                <span class="level-chevron">›</span>
+              </div>
+              <div class="level-detail-panel">
+                Sac format din două foițe. Cavitatea pericardică = spațiu umplut cu lichid pericardic (lubrifiant → reduce fricțiunea). <strong>Pericardită</strong> = inflamația pericardului → durere toracică, frecare pericardică la auscultație. Tamponada cardiacă = acumulare lichid → comprimă inima → urgență!
+              </div>
+            </div>
+          </div>
+          <div class="level-row" onclick="toggleLevel(this)">
+            <div class="level-bar" style="background:#10b981"></div>
+            <div class="level-body">
+              <div class="level-head">
+                <div class="level-num" style="background:rgba(16,185,129,0.15);color:#059669">2</div>
+                <div class="level-info">
+                  <div class="level-name">Epicard (pericard visceral) — strat extern cardiac</div>
+                  <div class="level-short">Acoperit uneori de grăsime</div>
+                </div>
+                <span class="level-chevron">›</span>
+              </div>
+              <div class="level-detail-panel">
+                Foița internă a sacului pericardic. Face parte din peretele cardiac (strat extern). La vârste înaintate poate fi acoperit de țesut adipos. Conține arterele și venele coronare.
+              </div>
+            </div>
+          </div>
+          <div class="level-row" onclick="toggleLevel(this)">
+            <div class="level-bar" style="background:#dc2626"></div>
+            <div class="level-body">
+              <div class="level-head">
+                <div class="level-num" style="background:rgba(220,38,38,0.15);color:#b91c1c">3</div>
+                <div class="level-info">
+                  <div class="level-name">Miocard — stratul mijlociu (principal)</div>
+                  <div class="level-short">Mușchi cardiac striat involuntar</div>
+                </div>
+                <span class="level-chevron">›</span>
+              </div>
+              <div class="level-detail-panel">
+                Constituit din celule musculare cardiace (cardiomiocite) scurte, late, ramificate, interconectate prin <strong>discuri intercalare</strong>. Discurile intercalare conțin: (1) <strong>joncțiuni gap</strong> = comunicare electrică, (2) <strong>desmozomi</strong> = legătura mecanică. Skeletul fibros = rețea de țesut conjunctiv care consolidează miocardiul. Infarctul miocardic = necroza miocardului prin obstrucție coronară.
+              </div>
+            </div>
+          </div>
+          <div class="level-row" onclick="toggleLevel(this)">
+            <div class="level-bar" style="background:#9333ea"></div>
+            <div class="level-body">
+              <div class="level-head">
+                <div class="level-num" style="background:rgba(147,51,234,0.15);color:#7c3aed">4</div>
+                <div class="level-info">
+                  <div class="level-name">Endocard — stratul intern</div>
+                  <div class="level-short">Epiteliu simplu pavimentos pe țesut conjunctiv</div>
+                </div>
+                <span class="level-chevron">›</span>
+              </div>
+              <div class="level-detail-panel">
+                Delimitează cavitățile inimii și acoperă valvele cardiace. Continuare a endoteliului vascular. <strong>Endocardită</strong> = inflamația endocardului/valvelor → frecvent cauzată de bacterii (ex. Streptococ). Risc la proceduri stomatologice la pacienți cu valve protetice.
+              </div>
+            </div>
+          </div>
+        </div>
+      </div>
+    </div>
+
+    <!-- CIRCULATIA SVG -->
+    <div class="gcard fu fu-3">
+      <div class="gcard-title">
+        <div class="ct-icon" style="background:#d1fae5">🔄</div>
+        Circulația sângelui prin inimă — Schema celor două circuite
+      </div>
+      <div class="g2" style="align-items:start">
+        <div>
+          <svg viewBox="0 0 400 460" style="width:100%;max-width:400px;display:block;font-family:'Outfit',sans-serif">
+            <rect width="400" height="460" rx="16" fill="#fafafe" stroke="rgba(220,38,38,0.08)"/>
+
+            <!-- Title -->
+            <text x="200" y="28" text-anchor="middle" font-size="13" font-weight="800" fill="#1e1b4b">CIRCULAȚIA SÂNGELUI</text>
+
+            <!-- HEART BOX -->
+            <rect x="140" y="170" width="120" height="120" rx="14" fill="rgba(220,38,38,0.1)" stroke="#dc2626" stroke-width="2"/>
+            <text x="200" y="195" text-anchor="middle" font-size="11" font-weight="800" fill="#b91c1c">INIMĂ</text>
+            <!-- AD -->
+            <rect x="148" y="202" width="46" height="32" rx="8" fill="rgba(59,130,246,0.2)" stroke="#3b82f6" stroke-width="1.5"/>
+            <text x="171" y="223" text-anchor="middle" font-size="11" font-weight="700" fill="#1d4ed8">AD</text>
+            <!-- VD -->
+            <rect x="148" y="244" width="46" height="32" rx="8" fill="rgba(59,130,246,0.3)" stroke="#2563eb" stroke-width="1.5"/>
+            <text x="171" y="265" text-anchor="middle" font-size="11" font-weight="700" fill="#1d4ed8">VD</text>
+            <!-- AS -->
+            <rect x="206" y="202" width="46" height="32" rx="8" fill="rgba(220,38,38,0.25)" stroke="#dc2626" stroke-width="1.5"/>
+            <text x="229" y="223" text-anchor="middle" font-size="11" font-weight="700" fill="#b91c1c">AS</text>
+            <!-- VS -->
+            <rect x="206" y="244" width="46" height="32" rx="8" fill="rgba(220,38,38,0.4)" stroke="#b91c1c" stroke-width="1.5"/>
+            <text x="229" y="265" text-anchor="middle" font-size="11" font-weight="700" fill="#991b1b">VS</text>
+
+            <!-- PLÁMÂNI box -->
+            <rect x="100" y="60" width="200" height="70" rx="12" fill="rgba(16,185,129,0.12)" stroke="#10b981" stroke-width="2"/>
+            <text x="200" y="88" text-anchor="middle" font-size="12" font-weight="800" fill="#065f46">PLĂMÂNI</text>
+            <text x="200" y="104" text-anchor="middle" font-size="10" fill="#059669">Schimb gazos O₂/CO₂</text>
+            <text x="200" y="118" text-anchor="middle" font-size="10" fill="#059669">Alveolele pulmonare</text>
+
+            <!-- ORGANISM box -->
+            <rect x="100" y="350" width="200" height="70" rx="12" fill="rgba(147,51,234,0.1)" stroke="#9333ea" stroke-width="2"/>
+            <text x="200" y="378" text-anchor="middle" font-size="12" font-weight="800" fill="#5b21b6">ORGANISM</text>
+            <text x="200" y="394" text-anchor="middle" font-size="10" fill="#7c3aed">Toate celulele și țesuturile</text>
+            <text x="200" y="408" text-anchor="middle" font-size="10" fill="#7c3aed">Eliberare O₂, preluare CO₂</text>
+
+            <!-- ARROWS — Pulmonary circuit (left side, blue) -->
+            <!-- VD → Plămâni -->
+            <path d="M162 244 L90 244 L90 130" stroke="#3b82f6" stroke-width="3" fill="none" stroke-linecap="round"/>
+            <polygon points="90,130 85,145 95,145" fill="#3b82f6"/>
+            <text x="52" y="195" font-size="9" fill="#2563eb" font-weight="600" text-anchor="middle">Artere</text>
+            <text x="52" y="207" font-size="9" fill="#2563eb" font-weight="600" text-anchor="middle">pulmonare</text>
+            <text x="52" y="219" font-size="9" fill="#3b82f6" text-anchor="middle">(dezoxi)</text>
+
+            <!-- Plămâni → AS -->
+            <path d="M300 130 L310 130 L310 202 L252 202" stroke="#dc2626" stroke-width="3" fill="none" stroke-linecap="round"/>
+            <polygon points="252,202 267,197 267,207" fill="#dc2626"/>
+            <text x="348" y="157" font-size="9" fill="#b91c1c" font-weight="600" text-anchor="middle">Vene</text>
+            <text x="348" y="169" font-size="9" fill="#b91c1c" font-weight="600" text-anchor="middle">pulmonare</text>
+            <text x="348" y="181" font-size="9" fill="#dc2626" text-anchor="middle">(oxigenat)</text>
+
+            <!-- ARROWS — Systemic circuit -->
+            <!-- VS → Organism -->
+            <path d="M229 276 L229 310 L300 310 L300 350" stroke="#b91c1c" stroke-width="3" fill="none" stroke-linecap="round"/>
+            <polygon points="300,350 295,335 305,335" fill="#b91c1c"/>
+            <text x="348" y="318" font-size="9" fill="#991b1b" font-weight="600" text-anchor="middle">Aortă &</text>
+            <text x="348" y="330" font-size="9" fill="#991b1b" font-weight="600" text-anchor="middle">artere</text>
+            <text x="348" y="342" font-size="9" fill="#b91c1c" text-anchor="middle">(oxigenat)</text>
+
+            <!-- Organism → AD -->
+            <path d="M100 385 L80 385 L80 230 L148 230" stroke="#3b82f6" stroke-width="3" fill="none" stroke-linecap="round"/>
+            <polygon points="148,230 133,225 133,235" fill="#3b82f6"/>
+            <text x="42" y="325" font-size="9" fill="#1d4ed8" font-weight="600" text-anchor="middle">Vene cave</text>
+            <text x="42" y="337" font-size="9" fill="#1d4ed8" font-weight="600" text-anchor="middle">sup. & inf.</text>
+            <text x="42" y="349" font-size="9" fill="#3b82f6" text-anchor="middle">(dezoxi)</text>
+
+            <!-- Labels for circuits -->
+            <text x="20" y="165" font-size="9" font-weight="800" fill="#059669" text-anchor="middle">CIRC.</text>
+            <text x="20" y="177" font-size="9" font-weight="800" fill="#059669" text-anchor="middle">PULM.</text>
+            <text x="380" y="295" font-size="9" font-weight="800" fill="#9333ea" text-anchor="middle">CIRC.</text>
+            <text x="380" y="307" font-size="9" font-weight="800" fill="#9333ea" text-anchor="middle">SIST.</text>
+
+            <!-- Note -->
+            <rect x="20" y="430" width="360" height="22" rx="8" fill="rgba(220,38,38,0.06)"/>
+            <text x="200" y="445" text-anchor="middle" font-size="9.5" fill="#6b7280">⚠️ Arterele pulmonare = singurele artere cu sânge DEZOXIGENAT</text>
+          </svg>
+        </div>
+        <div>
+          <div class="hbox hbox-blue" style="margin-bottom:12px">
+            <strong>Circulația pulmonară (mică)</strong>
+            VD → Trunchi pulmonar → Artere pulmonare → Plămâni (schimb gazos) → Vene pulmonare → AS<br>
+            <em>Scurtă, presiune mică (~25 mmHg sistolică). Rol: reoxigenare sânge, eliminare CO₂.</em>
+          </div>
+          <div class="hbox hbox-red" style="margin-bottom:12px">
+            <strong>Circulația sistemică (mare)</strong>
+            VS → Aortă → Artere → Arteriole → Capilare → Venule → Vene → Vene cave → AD<br>
+            <em>Lungă, presiune mare (~120 mmHg sistolică). Rol: oxigenare și nutriție toate celulele.</em>
+          </div>
+          <div class="hbox hbox-green">
+            <strong>Circulația coronariană</strong>
+            Artere coronare stângă și dreaptă → irigă miocardiul. Originează din sinusurile aortice (imediat deasupra valvei aortice). Sânge venos cardiac → vene cardiace → sinus coronarian → AD.<br>
+            <em>Tromboză coronariană → infarct miocardic!</em>
+          </div>
+          <div class="hbox hbox-violet" style="margin-top:12px">
+            <strong>Alte circuite speciale</strong>
+            • Circulația cerebrală: Poligonul Willis (anastomoze artere cerebrale)<br>
+            • Sistemul port hepatic: tractul GI + splină → vena portă → ficat → vene hepatice → VCI<br>
+            <em>Ficatul primește dublu: sânge venos (vena portă) + sânge arterial (a. hepatică)</em>
+          </div>
+          <div class="mnemonic" style="margin-top:12px">
+            <div class="mnemonic-title">🧠 Regulă de aur — Admitere</div>
+            <div class="mnemonic-text">
+              <span class="em">SINGURA excepție:</span> Arterele pulmonare transportă sânge DEZOXIGENAT. Venele pulmonare transportă sânge OXIGENAT. Toate celelalte artere = oxigenat, toate celelalte vene = dezoxigenat!
+            </div>
+          </div>
+        </div>
+      </div>
+    </div>
+
+    <!-- VASELE SANGUINE SVG -->
+    <div class="gcard">
+      <div class="gcard-title">
+        <div class="ct-icon" style="background:#e0f7fb">🩸</div>
+        Structura comparativă a vaselor sanguine — Infografic interactiv
+      </div>
+      <svg viewBox="0 0 860 280" style="width:100%;max-width:860px;display:block;font-family:'Outfit',sans-serif;margin-bottom:16px">
+        <rect width="860" height="280" rx="16" fill="#fafafe" stroke="rgba(6,182,212,0.1)"/>
+
+        <!-- ARTERIE -->
+        <g class="svg-label" onclick="showTooltip(event,'Artera','Perete GROS cu 3 tunici: Internă (endoteliu + țesut elastic), Medie (mușchi neted gros + elastic), Externă (colagen + elastic). Rezistă presiunii pulsatile mari. Vasoconstricție/vasodilatație → reglare flux. Nu au valve.')">
+          <rect x="30" y="40" width="160" height="220" rx="14" fill="rgba(220,38,38,0.08)" stroke="#dc2626" stroke-width="2"/>
+          <text x="110" y="62" text-anchor="middle" font-size="13" font-weight="800" fill="#b91c1c">ARTERĂ</text>
+          <!-- Layers -->
+          <ellipse cx="110" cy="140" rx="60" ry="80" fill="rgba(220,38,38,0.2)" stroke="#dc2626" stroke-width="2"/>
+          <ellipse cx="110" cy="140" rx="42" ry="58" fill="rgba(220,38,38,0.35)" stroke="#b91c1c" stroke-width="2"/>
+          <ellipse cx="110" cy="140" rx="24" ry="33" fill="rgba(220,38,38,0.55)" stroke="#991b1b" stroke-width="1.5"/>
+          <ellipse cx="110" cy="140" rx="11" ry="15" fill="#fca5a5" stroke="#dc2626" stroke-width="1"/>
+          <text x="110" y="144" text-anchor="middle" font-size="8" font-weight="700" fill="#7f1d1d">LUMEN</text>
+          <text x="110" y="230" text-anchor="middle" font-size="9" fill="#b91c1c">Perete gros</text>
+          <text x="110" y="244" text-anchor="middle" font-size="9" fill="#b91c1c">Presiune MARE</text>
+        </g>
+
+        <!-- ARTERIOLA -->
+        <g class="svg-label" onclick="showTooltip(event,'Arteriola','Perete mai subțire decât artera dar tot 3 tunici. Arteriolele mici: doar endoteliu + câteva celule musculare netede. Sfincterele precapilare = arteriole terminale cu sfincter muscular circular. Controlează aportul spre patul capilar.')">
+          <rect x="210" y="60" width="140" height="180" rx="14" fill="rgba(249,115,22,0.08)" stroke="#f97316" stroke-width="2"/>
+          <text x="280" y="82" text-anchor="middle" font-size="13" font-weight="800" fill="#ea580c">ARTERIOLĂ</text>
+          <ellipse cx="280" cy="155" rx="44" ry="60" fill="rgba(249,115,22,0.2)" stroke="#f97316" stroke-width="2"/>
+          <ellipse cx="280" cy="155" rx="30" ry="42" fill="rgba(249,115,22,0.35)" stroke="#ea580c" stroke-width="1.5"/>
+          <ellipse cx="280" cy="155" rx="16" ry="23" fill="rgba(249,115,22,0.55)" stroke="#c2410c" stroke-width="1"/>
+          <ellipse cx="280" cy="155" rx="6" ry="9" fill="#fed7aa" stroke="#f97316" stroke-width="1"/>
+          <text x="280" y="215" text-anchor="middle" font-size="9" fill="#ea580c">Control flux</text>
+          <text x="280" y="229" text-anchor="middle" font-size="9" fill="#ea580c">vaso-constricție</text>
+        </g>
+
+        <!-- CAPILAR -->
+        <g class="svg-label" onclick="showTooltip(event,'Capilarul','UN singur strat de endoteliu (tunica internă). Semipermabilă → schimb de O₂, CO₂, nutrienți, deșeuri cu celulele. Sfincter precapilar reglează intrarea în pat capilar. Legea lui Starling: filtrare vs reabsorbție la capilare.')">
+          <rect x="370" y="80" width="120" height="140" rx="14" fill="rgba(16,185,129,0.08)" stroke="#10b981" stroke-width="2"/>
+          <text x="430" y="100" text-anchor="middle" font-size="13" font-weight="800" fill="#059669">CAPILAR</text>
+          <ellipse cx="430" cy="155" rx="28" ry="40" fill="rgba(16,185,129,0.25)" stroke="#10b981" stroke-width="2"/>
+          <ellipse cx="430" cy="155" rx="14" ry="22" fill="rgba(16,185,129,0.6)" stroke="#059669" stroke-width="1.5"/>
+          <ellipse cx="430" cy="155" rx="5" ry="7" fill="#a7f3d0" stroke="#10b981" stroke-width="1"/>
+          <text x="430" y="200" text-anchor="middle" font-size="9" fill="#059669">1 strat celule</text>
+          <text x="430" y="214" text-anchor="middle" font-size="9" fill="#059669">Schimb gazos</text>
+        </g>
+
+        <!-- VENULA -->
+        <g class="svg-label" onclick="showTooltip(event,'Venula','Perete subțire, puțin mușchi neted și elastic față de arteriole. Colectează sângele din patul capilar. Venulele mari → structură similară cu venele.')">
+          <rect x="510" y="68" width="130" height="165" rx="14" fill="rgba(59,130,246,0.08)" stroke="#3b82f6" stroke-width="2"/>
+          <text x="575" y="88" text-anchor="middle" font-size="13" font-weight="800" fill="#2563eb">VENULĂ</text>
+          <ellipse cx="575" cy="155" rx="38" ry="54" fill="rgba(59,130,246,0.2)" stroke="#3b82f6" stroke-width="2"/>
+          <ellipse cx="575" cy="155" rx="22" ry="33" fill="rgba(59,130,246,0.35)" stroke="#2563eb" stroke-width="1.5"/>
+          <ellipse cx="575" cy="155" rx="10" ry="16" fill="rgba(59,130,246,0.5)" stroke="#1d4ed8" stroke-width="1"/>
+          <ellipse cx="575" cy="155" rx="4" ry="7" fill="#bfdbfe" stroke="#3b82f6" stroke-width="1"/>
+          <text x="575" y="210" text-anchor="middle" font-size="9" fill="#2563eb">Colectare</text>
+          <text x="575" y="224" text-anchor="middle" font-size="9" fill="#2563eb">din capilare</text>
+        </g>
+
+        <!-- VENĂ -->
+        <g class="svg-label" onclick="showTooltip(event,'Vena','Perete mai subțire decât artera (tunica medie slabă), tunica externă mai groasă. Sângele curge FĂRĂ presiune (laminată). VALVE = pliuri ale tunicii interne → previn refluxul. 60% din vol. sanguin se află în vene (rezervor). Vene varicoase = valve slăbite.')">
+          <rect x="660" y="40" width="170" height="220" rx="14" fill="rgba(99,102,241,0.08)" stroke="#6366f1" stroke-width="2"/>
+          <text x="745" y="62" text-anchor="middle" font-size="13" font-weight="800" fill="#4f46e5">VENĂ</text>
+          <ellipse cx="745" cy="140" rx="62" ry="83" fill="rgba(99,102,241,0.15)" stroke="#6366f1" stroke-width="2"/>
+          <ellipse cx="745" cy="140" rx="44" ry="60" fill="rgba(99,102,241,0.2)" stroke="#4f46e5" stroke-width="1.5"/>
+          <ellipse cx="745" cy="140" rx="25" ry="35" fill="rgba(99,102,241,0.35)" stroke="#4338ca" stroke-width="1"/>
+          <ellipse cx="745" cy="140" rx="11" ry="15" fill="#c7d2fe" stroke="#6366f1" stroke-width="1"/>
+          <text x="745" y="144" text-anchor="middle" font-size="8" font-weight="700" fill="#3730a3">LUMEN</text>
+          <!-- Valves depicted -->
+          <path d="M720 100 Q740 90 760 100" stroke="#6366f1" stroke-width="2" fill="none"/>
+          <path d="M720 100 L730 120 L745 115 L760 120 L770 100" stroke="#4f46e5" stroke-width="1.5" fill="rgba(99,102,241,0.2)"/>
+          <text x="745" y="230" text-anchor="middle" font-size="9" fill="#4f46e5">Cu VALVE</text>
+          <text x="745" y="244" text-anchor="middle" font-size="9" fill="#4f46e5">Presiune MICĂ</text>
+        </g>
+
+        <!-- Bottom labels -->
+        <text x="430" y="264" text-anchor="middle" font-size="9.5" fill="#6b7280" font-style="italic">↑ Click pe fiecare vas pentru structura și funcția detaliată</text>
+      </svg>
+
+      <div class="hbox hbox-orange">
+        <strong>⚠️ Esențial pentru admitere — Diferențe cheie artere vs vene</strong>
+        Artere: perete gros, elastice, fără valve, cu puls, lumen mic relativ; transportă sânge la PRESIUNE MARE de la inimă.<br>
+        Vene: perete subțire, colababile, cu valve (excepție: venele cave și pulmonare), fără puls; 60% vol. sanguin → rezervor. Vene varicoase = valve incompetente.
+      </div>
+    </div>
+
+  </div><!-- end panel-infografice -->
+
+  <!-- ══════════════════════════════════════
+       PANEL 2 — SCHEME LOGICE (FLOWCHARTS)
+  ══════════════════════════════════════ -->
+  <div class="panel" id="panel-scheme">
+
+    <!-- CICLUL CARDIAC FLOWCHART -->
+    <div class="gcard fu fu-1">
+      <div class="gcard-title">
+        <div class="ct-icon" style="background:#fee2e2">🔄</div>
+        Ciclul cardiac — Schemă logică completă (interactiv)
+      </div>
+
+      <div style="overflow-x:auto">
+        <div style="min-width:700px;padding:8px">
+          <!-- Row 1 -->
+          <div class="fc-row">
+            <div class="fc-box" style="background:linear-gradient(135deg,#fee2e2,#fecaca);border-color:#dc2626;min-width:180px">
+              <div style="font-size:13px;font-weight:800;color:#b91c1c">DIASTOLĂ GENERALĂ</div>
+              <div style="font-size:11px;color:#7f1d1d;margin-top:4px">Inima relaxată. Sângele umple<br>atriile din venele cave și pulmonare</div>
+            </div>
+          </div>
+          <div class="flow-arrow">↓</div>
+
+          <!-- Row 2 -->
+          <div class="fc-row">
+            <div class="fc-box" style="background:linear-gradient(135deg,#fef3c7,#fde68a);border-color:#f59e0b;min-width:200px">
+              <div style="font-size:13px;font-weight:800;color:#92400e">SISTOLĂ ATRIALĂ</div>
+              <div style="font-size:11px;color:#78350f;margin-top:4px">Nodul SA se depolarizează (70-80×/min)<br>→ Undă P pe ECG → Atriile se contractă<br>→ Sânge trece în ventricule (valve AV deschise)</div>
+            </div>
+          </div>
+          <div class="flow-arrow">↓</div>
+
+          <!-- Row 3 -->
+          <div class="fc-row">
+            <div class="fc-box" style="background:linear-gradient(135deg,#e0f2fe,#bae6fd);border-color:#0ea5e9;min-width:200px">
+              <div style="font-size:13px;font-weight:800;color:#0c4a6e">SISTOLĂ VENTRICULARĂ</div>
+              <div style="font-size:11px;color:#075985;margin-top:4px">Complex QRS → Ventriculele se contractă<br>→ Valve AV <strong>ÎNCHISE</strong> (zgomot 1: "LUB")<br>→ Valve semilunare DESCHISE<br>→ Sânge ejectat în Ao și Tr.pulm.</div>
+            </div>
+          </div>
+          <div class="flow-arrow">↓</div>
+
+          <div class="fc-row" style="gap:20px">
+            <div class="fc-box" style="background:rgba(16,185,129,0.15);border-color:#10b981;min-width:160px">
+              <div style="font-size:12px;font-weight:800;color:#065f46">VD → Tr. pulmonar</div>
+              <div style="font-size:11px;color:#047857;margin-top:4px">→ Artere pulmonare<br>→ Plămâni (reoxigenare)<br>→ Vene pulm. → AS</div>
+            </div>
+            <div style="display:flex;align-items:center;font-size:20px;color:#9ca3af">⟵ simultan ⟶</div>
+            <div class="fc-box" style="background:rgba(220,38,38,0.15);border-color:#dc2626;min-width:160px">
+              <div style="font-size:12px;font-weight:800;color:#b91c1c">VS → Aortă</div>
+              <div style="font-size:11px;color:#991b1b;margin-top:4px">→ Artere sistemice<br>→ Capilare (schimb)<br>→ Vene cave → AD</div>
+            </div>
+          </div>
+          <div class="flow-arrow">↓</div>
+
+          <!-- Row 5 -->
+          <div class="fc-row">
+            <div class="fc-box" style="background:linear-gradient(135deg,#f3e8ff,#e9d5ff);border-color:#9333ea;min-width:200px">
+              <div style="font-size:13px;font-weight:800;color:#6b21a8">DIASTOLĂ VENTRICULARĂ</div>
+              <div style="font-size:11px;color:#7e22ce;margin-top:4px">Ventriculele se relaxează<br>→ Valve semilunare ÎNCHISE (zgomot 2: "DUB")<br>→ Undă T pe ECG (repolarizare ventr.)<br>→ Valve AV se deschid → ciclu reia</div>
+            </div>
+          </div>
+          <div class="flow-arrow">↓ ↺ reluare ciclu</div>
+
+          <div style="text-align:center;margin-top:8px">
+            <div style="display:inline-block;background:rgba(220,38,38,0.08);border:1px solid rgba(220,38,38,0.2);border-radius:12px;padding:12px 24px;font-size:12.5px;color:var(--text2)">
+              <strong style="color:var(--cv)">Debitul cardiac</strong> = Volum bătaie (70 ml) × FC (70 bătăi/min) ≈ <strong style="color:var(--cv)">4900–5250 ml/min (~5L/min)</strong><br>
+              Durata unui ciclu cardiac: &lt; 1 secundă la 70 bpm
+            </div>
+          </div>
+        </div>
+      </div>
+    </div>
+
+    <!-- SISTEMUL EXCITOCONDUCTOR FLOWCHART -->
+    <div class="gcard fu fu-2">
+      <div class="gcard-title">
+        <div class="ct-icon" style="background:#fef3c7">⚡</div>
+        Sistemul excitoconductor — Traseul impulsului electric
+      </div>
+
+      <div style="overflow-x:auto">
+        <div style="min-width:600px;padding:8px">
+          <div class="fc-row">
+            <div class="fc-box" style="background:linear-gradient(135deg,#fef9c3,#fef08a);border-color:#eab308;min-width:220px">
+              <div style="font-size:14px;font-weight:900;color:#713f12">1. Nodul SINOATRIAL (SA)</div>
+              <div style="font-size:11px;color:#78350f;margin-top:5px">
+                📍 Perete superior atriu drept<br>
+                ⏱ Depolarizare spontană: 70–80×/min<br>
+                🎯 PACEMAKER-UL cardiac (stimulator cardiac)<br>
+                📊 Generează ritmul sinusal
+              </div>
+            </div>
+          </div>
+          <div class="flow-arrow">↓ impuls se propagă prin atrii (de la celulă la celulă)</div>
+
+          <div class="fc-row" style="gap:16px">
+            <div class="fc-box" style="background:rgba(245,158,11,0.15);border-color:#f59e0b;min-width:150px">
+              <div style="font-size:12px;font-weight:700;color:#92400e">Contracție ATRIALĂ</div>
+              <div style="font-size:10.5px;color:#78350f;margin-top:3px">Unda P pe ECG</div>
+            </div>
+            <div style="font-size:13px;color:#9ca3af">←</div>
+            <div class="fc-box" style="background:rgba(220,38,38,0.08);border-color:#dc2626;min-width:200px">
+              <div style="font-size:14px;font-weight:900;color:#b91c1c">2. Nodul ATRIOVENTRICULAR (AV)</div>
+              <div style="font-size:11px;color:#991b1b;margin-top:4px">
+                📍 Septul interatrial<br>
+                ⏸ Întârziere semnal (0.1s)<br>
+                → Permite umplerea ventriculelor
+              </div>
+            </div>
+          </div>
+          <div class="flow-arrow">↓ semnal → fasciculul His</div>
+
+          <div class="fc-row">
+            <div class="fc-box" style="background:linear-gradient(135deg,#ede9fe,#ddd6fe);border-color:#9333ea;min-width:220px">
+              <div style="font-size:14px;font-weight:900;color:#5b21b6">3. Fasciculul HIS</div>
+              <div style="font-size:11px;color:#6d28d9;margin-top:5px">
+                📍 Septul interventricular<br>
+                🔀 Se divide: ramura DREAPTĂ + ramura STÂNGĂ<br>
+                → Distribuie impulsul spre ventricule
+              </div>
+            </div>
+          </div>
+          <div class="flow-arrow">↓</div>
+
+          <div class="fc-row">
+            <div class="fc-box" style="background:linear-gradient(135deg,#d1fae5,#a7f3d0);border-color:#10b981;min-width:220px">
+              <div style="font-size:14px;font-weight:900;color:#065f46">4. Fibrele PURKINJE</div>
+              <div style="font-size:11px;color:#047857;margin-top:5px">
+                📍 Miocardul ventricular (subendocardic)<br>
+                ⚡ Conducere rapidă spre apex, apoi ascendent<br>
+                🎯 Contracție sincronă ventricule
+              </div>
+            </div>
+          </div>
+          <div class="flow-arrow">↓</div>
+
+          <div class="fc-row">
+            <div class="fc-box" style="background:linear-gradient(135deg,#fee2e2,#fecaca);border-color:#dc2626;min-width:220px">
+              <div style="font-size:13px;font-weight:800;color:#b91c1c">CONTRACȚIE VENTRICULARĂ</div>
+              <div style="font-size:11px;color:#991b1b;margin-top:4px">Complex QRS pe ECG + Undă T (repolarizare)</div>
+            </div>
+          </div>
+        </div>
+      </div>
+
+      <div class="g2" style="margin-top:16px;gap:16px">
+        <div class="hbox hbox-red">
+          <strong>Controlul sistemului nervos autonom</strong>
+          SNS (simpatic): crește FC și forța de contracție (tahicardie)<br>
+          SNPS (parasimpatic, n. vag): scade FC (bradicardie)<br>
+          <em>Deși inima bate autonom, SNA modulează frecvența!</em>
+        </div>
+        <div class="hbox hbox-orange">
+          <strong>Aritmii — când sistemul se defectează</strong>
+          Fibrilație = contracție rapidă și neregulată<br>
+          Fibrilație ventriculară = stop cardiac → defibrilare electrică<br>
+          Flutter atrial = activitate electrică atrială rapidă (250-350/min)<br>
+          Bloc AV = întârzierea/blocarea conduc. la nodul AV
+        </div>
+      </div>
+    </div>
+
+    <!-- REGLAREA TENSIUNII ARTERIALE FLOWCHART -->
+    <div class="gcard fu fu-3">
+      <div class="gcard-title">
+        <div class="ct-icon" style="background:#d1fae5">💉</div>
+        Reglarea tensiunii arteriale — Schemă completă
+      </div>
+
+      <div class="g2" style="align-items:start">
+        <div>
+          <div style="font-size:13px;font-weight:700;color:var(--text);margin-bottom:12px">Factori care determină TA:</div>
+          <div class="pbar-row">
+            <div class="pbar-label">Debit cardiac</div>
+            <div class="pbar-track"><div class="pbar-fill" style="width:85%;background:linear-gradient(90deg,#dc2626,#f87171)"></div></div>
+            <div class="pbar-val" style="color:#dc2626">Major</div>
+          </div>
+          <div class="pbar-row">
+            <div class="pbar-label">Rezistență vasculară</div>
+            <div class="pbar-track"><div class="pbar-fill" style="width:80%;background:linear-gradient(90deg,#dc2626,#f87171)"></div></div>
+            <div class="pbar-val" style="color:#dc2626">Major</div>
+          </div>
+          <div class="pbar-row">
+            <div class="pbar-label">Vol. sanguin (5L)</div>
+            <div class="pbar-track"><div class="pbar-fill" style="width:70%;background:linear-gradient(90deg,#f97316,#fb923c)"></div></div>
+            <div class="pbar-val" style="color:#f97316">Import.</div>
+          </div>
+          <div class="pbar-row">
+            <div class="pbar-label">Vâscozitate sânge</div>
+            <div class="pbar-track"><div class="pbar-fill" style="width:45%;background:linear-gradient(90deg,#f59e0b,#fbbf24)"></div></div>
+            <div class="pbar-val" style="color:#f59e0b">Moderat</div>
+          </div>
+          <div class="pbar-row">
+            <div class="pbar-label">Lungimea vaselor</div>
+            <div class="pbar-track"><div class="pbar-fill" style="width:30%;background:linear-gradient(90deg,#10b981,#34d399)"></div></div>
+            <div class="pbar-val" style="color:#10b981">Scăzut</div>
+          </div>
+
+          <div class="hbox hbox-violet" style="margin-top:16px">
+            <strong>Centrul vasomotor (bulb rahidian)</strong>
+            Neuroni simpatici → controlează diametrul arteriolelor<br>
+            ↑ impulsuri simpatice → vasoconstricție → ↑ TA<br>
+            ↓ impulsuri simpatice → vasodilatație → ↓ TA
+          </div>
+        </div>
+        <div>
+          <div style="font-size:13px;font-weight:700;color:var(--text);margin-bottom:12px">Mecanisme de reglare:</div>
+
+          <div class="level-row" onclick="toggleLevel(this)">
+            <div class="level-bar" style="background:#3b82f6"></div>
+            <div class="level-body">
+              <div class="level-head">
+                <div class="level-num" style="background:rgba(59,130,246,0.15);color:#2563eb">1</div>
+                <div class="level-info">
+                  <div class="level-name">Baroreceptori</div>
+                  <div class="level-short">Aortă, carotide → detectează presiune</div>
+                </div>
+                <span class="level-chevron">›</span>
+              </div>
+              <div class="level-detail-panel">
+                Grupuri de neuroni în aortă și arterele carotide (corp carotidian). Detectează variații de TA. Trimit impulsuri la centrul vasomotor → ajustare imediată FC și diametru vascular. Baroreflexul = mecanism rapid anti-hipertensiv sau anti-hipotensiv.
+              </div>
+            </div>
+          </div>
+
+          <div class="level-row" onclick="toggleLevel(this)">
+            <div class="level-bar" style="background:#10b981"></div>
+            <div class="level-body">
+              <div class="level-head">
+                <div class="level-num" style="background:rgba(16,185,129,0.15);color:#059669">2</div>
+                <div class="level-info">
+                  <div class="level-name">Chemoreceptori</div>
+                  <div class="level-short">Corpusculi carotidieni & aortici</div>
+                </div>
+                <span class="level-chevron">›</span>
+              </div>
+              <div class="level-detail-panel">
+                Detectează: ↓O₂, ↑CO₂, ↑H⁺ (acidoză). Corpusculi carotidieni = la bifurcația a. carotide comune. Corpusculi aortici = lângă aortă. Transmit centru vasomotor → vasodilatație + ↑ FC pentru compensare.
+              </div>
+            </div>
+          </div>
+
+          <div class="level-row" onclick="toggleLevel(this)">
+            <div class="level-bar" style="background:#f97316"></div>
+            <div class="level-body">
+              <div class="level-head">
+                <div class="level-num" style="background:rgba(249,115,22,0.15);color:#c2410c">3</div>
+                <div class="level-info">
+                  <div class="level-name">Hormoni vasoactivi</div>
+                  <div class="level-short">Adrenalina, ADH, Angiotensina II</div>
+                </div>
+                <span class="level-chevron">›</span>
+              </div>
+              <div class="level-detail-panel">
+                <strong>Adrenalina/Noradrenalina</strong> (glandele suprarenale): ↑ FC + vasoconstricție → ↑ TA.<br>
+                <strong>ADH</strong> (hipofiza posterioară): vasoconstricție + retenție apă → ↑ vol. sanguin → ↑ TA.<br>
+                <strong>Angiotensina II</strong> (sistem renin-angiotensină): vasoconstricție puternică + ↑ aldosteron.<br>
+                <strong>Șoc circulator</strong>: TA scăzut, tegumente reci/palide, tahicardie, dezorientare.
+              </div>
+            </div>
+          </div>
+        </div>
+      </div>
+    </div>
+
+  </div><!-- end panel-scheme -->
+
+  <!-- ══════════════════════════════════════
+       PANEL 3 — TABELE COMPARATIVE
+  ══════════════════════════════════════ -->
+  <div class="panel" id="panel-tabele">
+
+    <!-- TABEL VALVE -->
+    <div class="gcard fu fu-1">
+      <div class="gcard-title">
+        <div class="ct-icon" style="background:#fef3c7">🚪</div>
+        Cele 4 valve cardiace — Tabel comparativ complet
+      </div>
+
+      <div class="g4" style="margin-bottom:20px">
+        <div class="valve-card" onclick="showTooltip(event,'Valva tricuspidă','3 cuspisuri. AV dreaptă. Ancorată de mușchi papilari VD. La reumatism → fuziunea cuspisurilor. Patologie: regurgitare tricuspidiană (insuficiență VD, hipertensiune pulmonară).')">
+          <span class="valve-icon">🔶</span>
+          <div class="valve-name">Tricuspidă</div>
+          <div class="valve-loc">Între AD și VD</div>
+          <span class="tag t-blue">AV dreaptă</span><br>
+          <span class="tag t-orange" style="margin-top:4px">3 cuspisuri</span>
+        </div>
+        <div class="valve-card" onclick="showTooltip(event,'Valva pulmonară','Semilunară. 3 cuspisuri semilunare. La emergența tr. pulmonar din VD. Stenoza pulmonară congenitală → suflu sistolic. Nu are cordaje tendinoase.')">
+          <span class="valve-icon">🟢</span>
+          <div class="valve-name">Pulmonară</div>
+          <div class="valve-loc">VD → Trunchi pulmonar</div>
+          <span class="tag t-green">Semilunară</span><br>
+          <span class="tag t-green" style="margin-top:4px">3 cuspisuri</span>
+        </div>
+        <div class="valve-card" onclick="showTooltip(event,'Valva mitrală (bicuspidă)','2 cuspisuri. AV stângă. Cel mai frecvent afectată de reumatism articular acut. Prolaps valvă mitrală = cuspisuri se bulbucă în AS. Cordaje tendinoase → mușchi papilari VS. Stenoză mitrală → dilatare AS.')">
+          <span class="valve-icon">🔴</span>
+          <div class="valve-name">Mitrală (bicuspidă)</div>
+          <div class="valve-loc">Între AS și VS</div>
+          <span class="tag t-red">AV stângă</span><br>
+          <span class="tag t-pink" style="margin-top:4px">2 cuspisuri</span>
+        </div>
+        <div class="valve-card" onclick="showTooltip(event,'Valva aortică','Semilunară. 3 cuspisuri semilunare. La emergența aortei din VS. Sinusurile aortice (Valsalva) = originea arterelor coronare. Stenoza aortică = cea mai frecventă la adulți >65 ani. Regurgitare aortică → VS dilatat.')">
+          <span class="valve-icon">🟣</span>
+          <div class="valve-name">Aortică</div>
+          <div class="valve-loc">VS → Aortă</div>
+          <span class="tag t-violet">Semilunară</span><br>
+          <span class="tag t-violet" style="margin-top:4px">3 cuspisuri</span>
+        </div>
+      </div>
+
+      <table class="mtable">
+        <thead>
+          <tr>
+            <th>Valvă</th>
+            <th>Tip</th>
+            <th>Localizare</th>
+            <th>Se ÎNCHIDE la</th>
+            <th>Previne reflux spre</th>
+            <th>Patologie frecventă</th>
+          </tr>
+        </thead>
+        <tbody>
+          <tr>
+            <td class="hl">Tricuspidă</td>
+            <td><span class="tag t-blue">AV</span></td>
+            <td>AD → VD</td>
+            <td>Sistolă ventriculară</td>
+            <td>AD</td>
+            <td>Regurgitare tricuspidiană, endocardită</td>
+          </tr>
+          <tr>
+            <td class="hl">Pulmonară</td>
+            <td><span class="tag t-green">Semilunară</span></td>
+            <td>VD → Tr. pulmonar</td>
+            <td>Diastolă ventriculară</td>
+            <td>VD</td>
+            <td>Stenoză pulmonară congenitală</td>
+          </tr>
+          <tr>
+            <td class="hl">Mitrală (bicuspidă)</td>
+            <td><span class="tag t-red">AV</span></td>
+            <td>AS → VS</td>
+            <td>Sistolă ventriculară</td>
+            <td>AS</td>
+            <td>Prolaps, stenoză (RAA), regurgitare</td>
+          </tr>
+          <tr>
+            <td class="hl">Aortică</td>
+            <td><span class="tag t-violet">Semilunară</span></td>
+            <td>VS → Aortă</td>
+            <td>Diastolă ventriculară</td>
+            <td>VS</td>
+            <td>Stenoză aortică (degenerativă), regurgitare</td>
+          </tr>
+        </tbody>
+      </table>
+
+      <div class="mnemonic">
+        <div class="mnemonic-title">🧠 Mnemotehnică — Ordinea închiderii valvelor</div>
+        <div class="mnemonic-text">
+          Zgomot 1 <span class="em">"LUB"</span> = valve <span class="em">AV se ÎNCHID</span> (tricuspidă + mitrală) la ÎNCEPUTUL sistolei<br>
+          Zgomot 2 <span class="em">"DUB"</span> = valve <span class="em">SEMILUNARE se ÎNCHID</span> (aortică + pulmonară) la SFÂRȘITUL sistolei
+        </div>
+      </div>
+    </div>
+
+    <!-- TABEL VASE SANGUINE -->
+    <div class="gcard fu fu-2">
+      <div class="gcard-title">
+        <div class="ct-icon" style="background:#d1fae5">🩸</div>
+        Comparație completă a vaselor sanguine
+      </div>
+      <table class="mtable">
+        <thead>
+          <tr>
+            <th>Vas</th>
+            <th>Structura peretelui</th>
+            <th>Presiune</th>
+            <th>Valve</th>
+            <th>Funcție principală</th>
+            <th>Note clinice</th>
+          </tr>
+        </thead>
+        <tbody>
+          <tr>
+            <td class="hl">Arteră</td>
+            <td>3 tunici; tunica medie groasă (mușchi neted + elastic)</td>
+            <td><span class="tag t-red">Mare</span></td>
+            <td>NU</td>
+            <td>Transport la presiune mare de la inimă</td>
+            <td>Ateroscleroză, anevrism</td>
+          </tr>
+          <tr>
+            <td class="hl">Arteriolă</td>
+            <td>3 tunici subțiri; mici = doar endoteliu + câteva CMN</td>
+            <td><span class="tag t-orange">Medie</span></td>
+            <td>NU</td>
+            <td>Rezistența periferică totală; reglare flux</td>
+            <td>Vasoconstricție → hipertensiune</td>
+          </tr>
+          <tr>
+            <td class="hl">Capilar</td>
+            <td>1 strat endoteliu (tunica internă)</td>
+            <td><span class="tag t-green">Mică</span></td>
+            <td>NU</td>
+            <td>Schimb O₂/CO₂, nutrienți, deșeuri</td>
+            <td>Edem = ↑ filtrare capilară</td>
+          </tr>
+          <tr>
+            <td class="hl">Venulă</td>
+            <td>Perete subțire, puțin mușchi neted</td>
+            <td><span class="tag t-cyan">Foarte mică</span></td>
+            <td>NU</td>
+            <td>Colectare din capilare → vene</td>
+            <td>Permeabilitate ↑ în inflamație</td>
+          </tr>
+          <tr>
+            <td class="hl">Venă</td>
+            <td>3 tunici; tunica medie subțire; externă groasă</td>
+            <td><span class="tag t-blue">Minimă</span></td>
+            <td><strong>DA</strong></td>
+            <td>Returul sanguin; rezervor (60% vol.)</td>
+            <td>Vene varicoase, tromboză venoasă</td>
+          </tr>
+        </tbody>
+      </table>
+    </div>
+
+    <!-- TABEL ZGOMOTE CARDIACE + PRESIUNE ARTERIALA -->
+    <div class="g2" style="gap:20px">
+      <div class="gcard fu">
+        <div class="gcard-title">
+          <div class="ct-icon" style="background:#fce7f3">🔊</div>
+          Zgomotele cardiace
+        </div>
+        <table class="mtable">
+          <thead>
+            <tr><th>Zgomot</th><th>Sunet</th><th>Cauza</th><th>Moment</th></tr>
+          </thead>
+          <tbody>
+            <tr>
+              <td class="hl">Z1 (primul)</td>
+              <td><strong style="color:var(--cv)">"LUB"</strong></td>
+              <td>Închiderea valvelor AV (tricuspidă + mitrală)</td>
+              <td>Debut sistolă</td>
+            </tr>
+            <tr>
+              <td class="hl">Z2 (al doilea)</td>
+              <td><strong style="color:var(--blue)">"DUB"</strong></td>
+              <td>Închiderea valvelor semilunare (aortică + pulmonară)</td>
+              <td>Debut diastolă</td>
+            </tr>
+            <tr>
+              <td class="hl">Suflu cardiac</td>
+              <td><em>Turbulență</em></td>
+              <td>Valvă stenozată/incompetentă; DSV</td>
+              <td>Sistolă sau diastolă</td>
+            </tr>
+          </tbody>
+        </table>
+      </div>
+
+      <div class="gcard fu">
+        <div class="gcard-title">
+          <div class="ct-icon" style="background:#e0f7fb">💊</div>
+          Presiunea arterială
+        </div>
+        <table class="mtable">
+          <thead>
+            <tr><th>Parametru</th><th>Valoare normală</th><th>Semnificație</th></tr>
+          </thead>
+          <tbody>
+            <tr>
+              <td class="hl">TA sistolică</td>
+              <td><strong style="color:var(--cv)">120 mmHg</strong></td>
+              <td>Presiunea la contracția VS; zgomote Korotkoff apar</td>
+            </tr>
+            <tr>
+              <td class="hl">TA diastolică</td>
+              <td><strong style="color:var(--blue)">80 mmHg</strong></td>
+              <td>Presiunea în relaxare; zgomote Korotkoff dispar</td>
+            </tr>
+            <tr>
+              <td class="hl">Puls</td>
+              <td>70–75 bătăi/min</td>
+              <td>Undă presiune în artere; măsurat a. radială</td>
+            </tr>
+            <tr>
+              <td class="hl">Tahicardie</td>
+              <td>&gt; 100 bpm</td>
+              <td>Puls rapid; stres, febră, hipertiroidism</td>
+            </tr>
+            <tr>
+              <td class="hl">Bradicardie</td>
+              <td>&lt; 60 bpm</td>
+              <td>Puls lent; sportivi, beta-blocante, nod SA afectat</td>
+            </tr>
+            <tr>
+              <td class="hl">Hipertensiune</td>
+              <td>&gt; 140/90 mmHg</td>
+              <td>Risc: AVC, infarct, ICC, boală renală</td>
+            </tr>
+          </tbody>
+        </table>
+        <div class="hbox hbox-cyan" style="margin-top:14px">
+          <strong>Sfigmomanometru + stetoscop</strong>
+          Manșetă → comprimă a. brahială → dezumflare lentă → prime sunete Korotkoff = TA sistolică; dispariția sunetelor = TA diastolică. Zgomote Korotkoff = curgere turbulentă în arteră parțial comprimată.
+        </div>
+      </div>
+    </div>
+
+  </div><!-- end panel-tabele -->
+
+  <!-- ══════════════════════════════════════
+       PANEL 4 — ECG & EXCITOCONDUCTOR
+  ══════════════════════════════════════ -->
+  <div class="panel" id="panel-ecg">
+
+    <!-- ECG VIZUALIZARE -->
+    <div class="gcard fu fu-1">
+      <div class="gcard-title">
+        <div class="ct-icon" style="background:#0f172a;color:#ef4444">📈</div>
+        Electrocardiograma (ECG) — Undele și semnificația clinică
+      </div>
+
+      <div class="ecg-container">
+        <div class="ecg-label">ECG NORMAL — Ciclu cardiac complet</div>
+        <svg viewBox="0 0 800 200" style="width:100%;max-width:800px;display:block">
+          <!-- Grid -->
+          <defs>
+            <pattern id="small" width="10" height="10" patternUnits="userSpaceOnUse">
+              <path d="M 10 0 L 0 0 0 10" fill="none" stroke="rgba(34,197,94,0.15)" stroke-width="0.5"/>
+            </pattern>
+            <pattern id="large" width="50" height="50" patternUnits="userSpaceOnUse">
+              <rect width="50" height="50" fill="url(#small)"/>
+              <path d="M 50 0 L 0 0 0 50" fill="none" stroke="rgba(34,197,94,0.3)" stroke-width="1"/>
+            </pattern>
+          </defs>
+          <rect width="800" height="200" fill="#0f172a"/>
+          <rect width="800" height="200" fill="url(#large)"/>
+
+          <!-- Baseline -->
+          <line x1="20" y1="110" x2="780" y2="110" stroke="rgba(34,197,94,0.2)" stroke-width="1"/>
+
+          <!-- ECG WAVE 1 -->
+          <!-- Baseline segment -->
+          <path d="M 20 110 L 80 110" stroke="#22c55e" stroke-width="2.5" fill="none"/>
+          <!-- P wave (atrial depolarization) -->
+          <path d="M 80 110 Q 95 75 110 110" stroke="#22c55e" stroke-width="2.5" fill="none"/>
+          <!-- PR segment -->
+          <path d="M 110 110 L 140 110" stroke="#22c55e" stroke-width="2.5" fill="none"/>
+          <!-- QRS complex -->
+          <path d="M 140 110 L 150 125 L 160 45 L 170 125 L 180 110" stroke="#22c55e" stroke-width="2.5" fill="none"/>
+          <!-- ST segment -->
+          <path d="M 180 110 L 210 110" stroke="#22c55e" stroke-width="2.5" fill="none"/>
+          <!-- T wave (ventricular repolarization) -->
+          <path d="M 210 110 Q 240 60 270 110" stroke="#22c55e" stroke-width="2.5" fill="none"/>
+          <!-- TP segment -->
+          <path d="M 270 110 L 330 110" stroke="#22c55e" stroke-width="2.5" fill="none"/>
+
+          <!-- ECG WAVE 2 -->
+          <path d="M 330 110 Q 345 75 360 110" stroke="#22c55e" stroke-width="2.5" fill="none"/>
+          <path d="M 360 110 L 390 110" stroke="#22c55e" stroke-width="2.5" fill="none"/>
+          <path d="M 390 110 L 400 125 L 410 45 L 420 125 L 430 110" stroke="#22c55e" stroke-width="2.5" fill="none"/>
+          <path d="M 430 110 L 460 110" stroke="#22c55e" stroke-width="2.5" fill="none"/>
+          <path d="M 460 110 Q 490 60 520 110" stroke="#22c55e" stroke-width="2.5" fill="none"/>
+          <path d="M 520 110 L 580 110" stroke="#22c55e" stroke-width="2.5" fill="none"/>
+
+          <!-- ECG WAVE 3 -->
+          <path d="M 580 110 Q 595 75 610 110" stroke="#22c55e" stroke-width="2.5" fill="none"/>
+          <path d="M 610 110 L 640 110" stroke="#22c55e" stroke-width="2.5" fill="none"/>
+          <path d="M 640 110 L 650 125 L 660 45 L 670 125 L 680 110" stroke="#22c55e" stroke-width="2.5" fill="none"/>
+          <path d="M 680 110 L 710 110" stroke="#22c55e" stroke-width="2.5" fill="none"/>
+          <path d="M 710 110 Q 740 60 760 110" stroke="#22c55e" stroke-width="2.5" fill="none"/>
+          <path d="M 760 110 L 780 110" stroke="#22c55e" stroke-width="2.5" fill="none"/>
+
+          <!-- LABELS for first cycle -->
+          <!-- P wave label -->
+          <line x1="95" y1="70" x2="95" y2="35" stroke="#facc15" stroke-width="1.5" stroke-dasharray="3,2"/>
+          <text x="95" y="30" text-anchor="middle" font-size="13" font-weight="800" fill="#facc15">P</text>
+
+          <!-- QRS labels -->
+          <line x1="150" y1="130" x2="135" y2="165" stroke="#ef4444" stroke-width="1.5" stroke-dasharray="3,2"/>
+          <text x="130" y="178" text-anchor="middle" font-size="11" font-weight="700" fill="#ef4444">Q</text>
+
+          <line x1="160" y1="40" x2="160" y2="20" stroke="#ef4444" stroke-width="1.5" stroke-dasharray="3,2"/>
+          <text x="160" y="16" text-anchor="middle" font-size="13" font-weight="800" fill="#ef4444">R</text>
+
+          <line x1="170" y1="130" x2="190" y2="165" stroke="#ef4444" stroke-width="1.5" stroke-dasharray="3,2"/>
+          <text x="196" y="178" text-anchor="middle" font-size="11" font-weight="700" fill="#ef4444">S</text>
+
+          <!-- T wave label -->
+          <line x1="240" y1="68" x2="240" y2="35" stroke="#60a5fa" stroke-width="1.5" stroke-dasharray="3,2"/>
+          <text x="240" y="30" text-anchor="middle" font-size="13" font-weight="800" fill="#60a5fa">T</text>
+
+          <!-- Interval labels -->
+          <line x1="80" y1="155" x2="180" y2="155" stroke="rgba(250,204,21,0.5)" stroke-width="1"/>
+          <text x="130" y="170" text-anchor="middle" font-size="9" fill="#facc15">↔ PR interval</text>
+
+          <line x1="140" y1="170" x2="180" y2="170" stroke="rgba(239,68,68,0.6)" stroke-width="1"/>
+          <text x="160" y="185" text-anchor="middle" font-size="9" fill="#ef4444">QRS</text>
+
+          <line x1="140" y1="178" x2="270" y2="178" stroke="rgba(96,165,250,0.5)" stroke-width="1"/>
+          <text x="205" y="196" text-anchor="middle" font-size="9" fill="#60a5fa">QT interval</text>
+        </svg>
+
+        <div class="ecg-grid">
+          <div class="ecg-wave-box">
+            <div class="ecg-wave-name" style="color:#facc15">Unda P</div>
+            <div class="ecg-wave-info">
+              Depolarizarea ATRIALĂ<br>
+              Originată în nodul SA<br>
+              Durată: 0.08–0.12s<br>
+              Contracție atrială urmează
+            </div>
+          </div>
+          <div class="ecg-wave-box">
+            <div class="ecg-wave-name" style="color:#ef4444">Complex QRS</div>
+            <div class="ecg-wave-info">
+              Depolarizarea VENTRICULARĂ<br>
+              Nodul AV → His → Purkinje<br>
+              Durată: 0.06–0.12s<br>
+              Contracție ventriculară urmează<br>
+              <em style="font-size:10px">(+ repolarizare atrială ascunsă)</em>
+            </div>
+          </div>
+          <div class="ecg-wave-box">
+            <div class="ecg-wave-name" style="color:#60a5fa">Unda T</div>
+            <div class="ecg-wave-info">
+              Repolarizarea VENTRICULARĂ<br>
+              Revenire la potențial repaus<br>
+              Inversare unda T = ischemie<br>
+              Durată variabilă
+            </div>
+          </div>
+        </div>
+      </div>
+
+      <div class="g2" style="margin-top:20px;gap:16px">
+        <div class="hbox hbox-red">
+          <strong>Intervalele ECG — semnificație clinică</strong>
+          <strong>PR interval</strong> (0.12–0.20s): conducere AV. Prelungit → bloc AV.<br>
+          <strong>QRS larg</strong> (&gt;0.12s): bloc de ramură sau WPW syndrome.<br>
+          <strong>QT prelungit</strong>: risc de aritmii ventriculare (Torsades de Pointes).
+        </div>
+        <div class="hbox hbox-orange">
+          <strong>Ritm sinusal normal</strong>
+          FC: 60–100 bpm. Fiecare P urmată de QRS. PR constant. QRS &lt; 0.12s. Axă electrică normală (-30° la +90°). Origine: nodul SA → atrii → AV → fasciculul His → Purkinje.
+        </div>
+      </div>
+    </div>
+
+    <!-- POTENTIALUL DE ACTIUNE CARDIAC -->
+    <div class="gcard fu fu-2">
+      <div class="gcard-title">
+        <div class="ct-icon" style="background:#ede9fe">⚡</div>
+        Potențialul de acțiune cardiac vs. scheletic
+      </div>
+      <table class="mtable">
+        <thead>
+          <tr>
+            <th>Caracteristică</th>
+            <th>Mușchi cardiac</th>
+            <th>Mușchi scheletic</th>
+          </tr>
+        </thead>
+        <tbody>
+          <tr>
+            <td class="hl">Inițiere</td>
+            <td>Automatism propriu (nodul SA) – <span class="tag t-red">INVOLUNTAR</span></td>
+            <td>Nerv motor (SNC) – <span class="tag t-blue">VOLUNTAR</span></td>
+          </tr>
+          <tr>
+            <td class="hl">Forma celulei</td>
+            <td>Scurtă, lată, ramificată, interconectată</td>
+            <td>Lungă, cilindrică, neramificată</td>
+          </tr>
+          <tr>
+            <td class="hl">Conexiuni intercelulare</td>
+            <td>Discuri intercalare (gap junctions + desmozomi)</td>
+            <td>Fără conexiuni electrice directe</td>
+          </tr>
+          <tr>
+            <td class="hl">Sumație/tetanos</td>
+            <td>IMPOSIBIL (perioadă refractară absolută lungă)</td>
+            <td>Posibil (perioadă refractară scurtă)</td>
+          </tr>
+          <tr>
+            <td class="hl">Durata PA</td>
+            <td>~300ms (plateau datorat Ca²⁺)</td>
+            <td>~1–5ms</td>
+          </tr>
+          <tr>
+            <td class="hl">Nuclei</td>
+            <td>1–2 nuclei centrali per celulă</td>
+            <td>Multipli nuclei periferici</td>
+          </tr>
+          <tr>
+            <td class="hl">Regenerare</td>
+            <td>LIMITATĂ (celule terminale diferențiate)</td>
+            <td>Prin celule satelit</td>
+          </tr>
+          <tr>
+            <td class="hl">Energie</td>
+            <td>Metabolism aerob predominant (mitocondrii numeroase)</td>
+            <td>Aerob și anaerob</td>
+          </tr>
+        </tbody>
+      </table>
+    </div>
+
+    <!-- CIRCULATIA CORONARIANA -->
+    <div class="gcard fu fu-3">
+      <div class="gcard-title">
+        <div class="ct-icon" style="background:#fee2e2">🫀</div>
+        Circulația coronariană — Anatomie și patologie
+      </div>
+      <div class="g2" style="align-items:start">
+        <div>
+          <div class="hbox hbox-red">
+            <strong>Arterele coronare — originea</strong>
+            Originează din sinusurile aortice (Valsalva) imediat deasupra valvei aortice.<br>
+            <strong>Artera coronară stângă</strong> → se divide în: Artera descendentă anterioară (IVA) + Artera circumflexă<br>
+            <strong>Artera coronară dreaptă</strong> → Artera marginală + Artera descendentă posterioară
+          </div>
+          <div class="hbox hbox-orange">
+            <strong>Irigația zonelor cardiace</strong>
+            • IVA (coronara stângă): perete anterior VS, sept IV anterior, apexul cardiac<br>
+            • Circumflexă: perete lateral VS, AD<br>
+            • Coronara dreaptă: VD, perete inferior VS, nodul SA, nodul AV (dominant drept)
+          </div>
+        </div>
+        <div>
+          <div class="level-row" onclick="toggleLevel(this)">
+            <div class="level-bar" style="background:#dc2626"></div>
+            <div class="level-body">
+              <div class="level-head">
+                <div class="level-num" style="background:rgba(220,38,38,0.15);color:#b91c1c">!</div>
+                <div class="level-info">
+                  <div class="level-name">Tromboză coronariană → Infarct miocardic</div>
+                  <div class="level-short">Urgență medicală majoră</div>
+                </div>
+                <span class="level-chevron">›</span>
+              </div>
+              <div class="level-detail-panel">
+                Obstrucție prelungită → necroză miocardică (moartea cardiomiocitelor). Simptome: durere toracică (angină pectoris), iradiere în brațul stâng/maxilar, transpirații, dispnee. Markeri: Troponina I/T (cel mai specific), CK-MB, LDH. Tratament: angioplastie (PCI), tromboliză, bypass coronarian (CABG). Complicații: aritmii, insuficiență cardiacă, ruptură card.
+              </div>
+            </div>
+          </div>
+          <div class="level-row" onclick="toggleLevel(this)">
+            <div class="level-bar" style="background:#f97316"></div>
+            <div class="level-body">
+              <div class="level-head">
+                <div class="level-num" style="background:rgba(249,115,22,0.15);color:#c2410c">2</div>
+                <div class="level-info">
+                  <div class="level-name">Drenajul venos coronarian</div>
+                  <div class="level-short">Vene cardiace → sinus coronarian → AD</div>
+                </div>
+                <span class="level-chevron">›</span>
+              </div>
+              <div class="level-detail-panel">
+                Vena cardiacă mare, mijlocie și mică → sinusul coronarian (localizat pe fața posterioară a inimii, aproape de venele cave) → atriul drept. Sinusul coronarian este cel mai mare vas venos cardiac.
+              </div>
+            </div>
+          </div>
+          <div class="mnemonic" style="margin-top:8px">
+            <div class="mnemonic-title">🧠 Atenție la admitere</div>
+            <div class="mnemonic-text">
+              Arterele coronare sunt ramuri ale <span class="em">aortei ascendente</span>, nu ale arcului aortic. Se umplu în <span class="em">DIASTOLĂ</span> (când valva aortică este închisă), nu în sistolă!
+            </div>
+          </div>
+        </div>
+      </div>
+    </div>
+
+  </div><!-- end panel-ecg -->
+
+  <!-- ══════════════════════════════════════
+       PANEL 5 — QUIZ
+  ══════════════════════════════════════ -->
+  <div class="panel" id="panel-quiz">
+
+    <div class="quiz-score">
+      <div>
+        <div class="quiz-score-label">Scor curent</div>
+        <div class="quiz-score-num" id="score-display">0 / 12</div>
+      </div>
+      <button class="quiz-reset" onclick="resetQuiz()">🔄 Resetează testul</button>
+    </div>
+
+    <!-- Q1 -->
+    <div class="qblock" id="q1">
+      <p>1. Care dintre următoarele structuri reprezintă <strong>pacemaker-ul cardiac</strong> (stimulatorul cardiac)?</p>
+      <div class="qopt" onclick="answer(this,'q1',false)"><span class="opt-l">A</span> Nodul atrioventricular (AV)</div>
+      <div class="qopt" onclick="answer(this,'q1',true)"><span class="opt-l">B</span> Nodul sinoatrial (SA)</div>
+      <div class="qopt" onclick="answer(this,'q1',false)"><span class="opt-l">C</span> Fasciculul His</div>
+      <div class="qopt" onclick="answer(this,'q1',false)"><span class="opt-l">D</span> Fibrele Purkinje</div>
+      <div class="qfb ok" id="fb-q1-ok">✅ Corect! Nodul SA este localizat în peretele superior al AD și se depolarizează spontan 70–80×/min, stabilind ritmul sinusal. Este considerat pacemaker-ul inimii.</div>
+      <div class="qfb err" id="fb-q1-err">❌ Incorect. Nodul SA (sinoatrial) din peretele superior al AD este pacemaker-ul primar. Celelalte structuri conduc/distribuie impulsul, dar nu-l inițiază în condiții normale.</div>
+    </div>
+
+    <!-- Q2 -->
+    <div class="qblock" id="q2">
+      <p>2. Arterele pulmonare transportă sânge:</p>
+      <div class="qopt" onclick="answer(this,'q2',false)"><span class="opt-l">A</span> Oxigenat, de la plămâni la inimă</div>
+      <div class="qopt" onclick="answer(this,'q2',true)"><span class="opt-l">B</span> Dezoxigenat, de la VD la plămâni</div>
+      <div class="qopt" onclick="answer(this,'q2',false)"><span class="opt-l">C</span> Oxigenat, de la inimă la plămâni</div>
+      <div class="qopt" onclick="answer(this,'q2',false)"><span class="opt-l">D</span> Dezoxigenat, de la AS la plămâni</div>
+      <div class="qfb ok" id="fb-q2-ok">✅ Corect! Arterele pulmonare sunt SINGURELE artere care transportă sânge dezoxigenat — de la ventriculul drept la plămâni pentru reoxigenare. Este excepția clasică la regula "artere = sânge oxigenat".</div>
+      <div class="qfb err" id="fb-q2-err">❌ Incorect. Arterele pulmonare transportă sânge DEZOXIGENAT din VD spre plămâni. Venele pulmonare (nu arterele) transportă sânge oxigenat înapoi spre AS.</div>
+    </div>
+
+    <!-- Q3 -->
+    <div class="qblock" id="q3">
+      <p>3. Valva mitrală (bicuspidă) previne refluxul sângelui din:</p>
+      <div class="qopt" onclick="answer(this,'q3',false)"><span class="opt-l">A</span> Aortă în VS în diastolă</div>
+      <div class="qopt" onclick="answer(this,'q3',false)"><span class="opt-l">B</span> VD în AD în sistolă</div>
+      <div class="qopt" onclick="answer(this,'q3',true)"><span class="opt-l">C</span> VS în AS în sistolă ventriculară</div>
+      <div class="qopt" onclick="answer(this,'q3',false)"><span class="opt-l">D</span> Artera pulmonară în VD în diastolă</div>
+      <div class="qfb ok" id="fb-q3-ok">✅ Corect! Valva mitrală (AV stângă, 2 cuspisuri) previne refluxul sângelui din VS înapoi în AS în timpul sistolei ventriculare. Cordajele tendinoase o ancorează și previn eversia în AS.</div>
+      <div class="qfb err" id="fb-q3-err">❌ Incorect. Valva mitrală = AV stângă = previne refluxul VS → AS la sistolă. Valva aortică previne Ao→VS la diastolă. Valva tricuspidă previne VD→AD la sistolă.</div>
+    </div>
+
+    <!-- Q4 -->
+    <div class="qblock" id="q4">
+      <p>4. Primul zgomot cardiac "LUB" este produs de:</p>
+      <div class="qopt" onclick="answer(this,'q4',true)"><span class="opt-l">A</span> Închiderea valvelor atrioventriculare (tricuspidă + mitrală)</div>
+      <div class="qopt" onclick="answer(this,'q4',false)"><span class="opt-l">B</span> Deschiderea valvelor semilunare (aortică + pulmonară)</div>
+      <div class="qopt" onclick="answer(this,'q4',false)"><span class="opt-l">C</span> Închiderea valvelor semilunare</div>
+      <div class="qopt" onclick="answer(this,'q4',false)"><span class="opt-l">D</span> Deschiderea valvelor atrioventriculare</div>
+      <div class="qfb ok" id="fb-q4-ok">✅ Corect! Z1 "LUB" = închiderea valvelor AV (tricuspidă + mitrală) la debutul sistolei ventriculare. Z2 "DUB" = închiderea valvelor semilunare (aortică + pulmonară) la debutul diastolei.</div>
+      <div class="qfb err" id="fb-q4-err">❌ Incorect. Z1 "LUB" = valvele AV se ÎNCHID (tricuspidă + mitrală) la debut sistolă. Z2 "DUB" = valvele SEMILUNARE se ÎNCHID la debut diastolă.</div>
+    </div>
+
+    <!-- Q5 -->
+    <div class="qblock" id="q5">
+      <p>5. Pe electrocardiogramă (ECG), complexul QRS reprezintă:</p>
+      <div class="qopt" onclick="answer(this,'q5',false)"><span class="opt-l">A</span> Depolarizarea atrială</div>
+      <div class="qopt" onclick="answer(this,'q5',false)"><span class="opt-l">B</span> Repolarizarea ventriculară</div>
+      <div class="qopt" onclick="answer(this,'q5',true)"><span class="opt-l">C</span> Depolarizarea ventriculară</div>
+      <div class="qopt" onclick="answer(this,'q5',false)"><span class="opt-l">D</span> Repolarizarea atrială</div>
+      <div class="qfb ok" id="fb-q5-ok">✅ Corect! QRS = depolarizarea ventriculară (propagată prin His → Purkinje). Unda P = depolarizare atrială. Unda T = repolarizare ventriculară. Repolarizarea atrială este mascată de QRS.</div>
+      <div class="qfb err" id="fb-q5-err">❌ Incorect. QRS = depolarizare VENTRICULARĂ. P = depolarizare atrială. T = repolarizare ventriculară. Repolarizarea atrială este "ascunsă" în interiorul QRS.</div>
+    </div>
+
+    <!-- Q6 -->
+    <div class="qblock" id="q6">
+      <p>6. Sângele din vena cavă superioară intră în inimă prin:</p>
+      <div class="qopt" onclick="answer(this,'q6',false)"><span class="opt-l">A</span> Atriul stâng</div>
+      <div class="qopt" onclick="answer(this,'q6',false)"><span class="opt-l">B</span> Ventriculul drept</div>
+      <div class="qopt" onclick="answer(this,'q6',true)"><span class="opt-l">C</span> Atriul drept</div>
+      <div class="qopt" onclick="answer(this,'q6',false)"><span class="opt-l">D</span> Ventriculul stâng</div>
+      <div class="qfb ok" id="fb-q6-ok">✅ Corect! Atriul drept primește sânge dezoxigenat prin: VCS (cap/gât/membre superioare), VCI (corp inferior/membre inferioare) și sinusul coronarian (miocard). AS primește sânge oxigenat din venele pulmonare.</div>
+      <div class="qfb err" id="fb-q6-err">❌ Incorect. Atriul drept primește VCS + VCI + sinus coronarian (sânge dezoxigenat). Atriul stâng primește vene pulmonare (sânge oxigenat). Ventriculele nu primesc direct din venele sistemice.</div>
+    </div>
+
+    <!-- Q7 -->
+    <div class="qblock" id="q7">
+      <p>7. Debitul cardiac mediu în repaus este aproximativ:</p>
+      <div class="qopt" onclick="answer(this,'q7',false)"><span class="opt-l">A</span> 1–2 litri/minut</div>
+      <div class="qopt" onclick="answer(this,'q7',false)"><span class="opt-l">B</span> 10–12 litri/minut</div>
+      <div class="qopt" onclick="answer(this,'q7',true)"><span class="opt-l">C</span> 5–5,5 litri/minut</div>
+      <div class="qopt" onclick="answer(this,'q7',false)"><span class="opt-l">D</span> 3–3,5 litri/minut</div>
+      <div class="qfb ok" id="fb-q7-ok">✅ Corect! DC = Volum bătaie × FC = 70 ml × 70 bătăi/min = 4900 ml ≈ 5L/min. Volumul bătaie mediu este ~70 ml la adult. În efort fizic maximal poate ajunge la 20–25L/min.</div>
+      <div class="qfb err" id="fb-q7-err">❌ Incorect. DC = VB × FC = 70ml × 70bpm ≈ 5000ml/min ≈ 5L/min. Este egal cu volumul total de sânge (~5L) pompat o dată pe minut în repaus.</div>
+    </div>
+
+    <!-- Q8 -->
+    <div class="qblock" id="q8">
+      <p>8. Sinusul coronarian drenează sângele venos cardiac în:</p>
+      <div class="qopt" onclick="answer(this,'q8',false)"><span class="opt-l">A</span> Ventriculul drept</div>
+      <div class="qopt" onclick="answer(this,'q8',false)"><span class="opt-l">B</span> Atriul stâng</div>
+      <div class="qopt" onclick="answer(this,'q8',true)"><span class="opt-l">C</span> Atriul drept</div>
+      <div class="qopt" onclick="answer(this,'q8',false)"><span class="opt-l">D</span> Vena cavă inferioară</div>
+      <div class="qfb ok" id="fb-q8-ok">✅ Corect! Sinusul coronarian colectează sângele dezoxigenat din venele cardiace (mare, mijlocie, mică) și îl drenează în atriul drept, alături de venele cave.</div>
+      <div class="qfb err" id="fb-q8-err">❌ Incorect. Sinusul coronarian se deschide în ATRIUL DREPT, lângă vărsarea venei cave inferioare. El colectează sângele venos de la miocardiu prin venele cardiace.</div>
+    </div>
+
+    <!-- Q9 -->
+    <div class="qblock" id="q9">
+      <p>9. Tunica medie a arterelor este compusă predominant din:</p>
+      <div class="qopt" onclick="answer(this,'q9',false)"><span class="opt-l">A</span> Epiteliu simplu pavimentos</div>
+      <div class="qopt" onclick="answer(this,'q9',false)"><span class="opt-l">B</span> Fibre de colagen lax</div>
+      <div class="qopt" onclick="answer(this,'q9',true)"><span class="opt-l">C</span> Mușchi neted și fibre elastice</div>
+      <div class="qopt" onclick="answer(this,'q9',false)"><span class="opt-l">D</span> Mușchi striat și colagen</div>
+      <div class="qfb ok" id="fb-q9-ok">✅ Corect! Tunica medie (mijlocie) conține mușchi neted (permite vasoconstricție/vasodilatație) și fibre elastice (permit expansiunea la sistolă). Tunica internă = endoteliu. Tunica externă = colagen lax.</div>
+      <div class="qfb err" id="fb-q9-err">❌ Incorect. Tunica medie = mușchi neted + elastic (permite vaso-reglarea). Tunica internă = endoteliu pavimentos. Tunica externă = colagen fibros. Nu există mușchi striat în vasele sanguine.</div>
+    </div>
+
+    <!-- Q10 -->
+    <div class="qblock" id="q10">
+      <p>10. Valvele din vene au rolul de a:</p>
+      <div class="qopt" onclick="answer(this,'q10',false)"><span class="opt-l">A</span> Crește viteza sângelui</div>
+      <div class="qopt" onclick="answer(this,'q10',true)"><span class="opt-l">B</span> Preveni refluxul sângelui venos</div>
+      <div class="qopt" onclick="answer(this,'q10',false)"><span class="opt-l">C</span> Regla diametrul venei</div>
+      <div class="qopt" onclick="answer(this,'q10',false)"><span class="opt-l">D</span> Filtra sângele de deșeuri</div>
+      <div class="qfb ok" id="fb-q10-ok">✅ Corect! Valvele venoase (pliuri ale tunicii interne) previn refluxul sângelui înapoi, mai ales la membrele inferioare unde sângele trebuie să învingă gravitația. Insuficiența lor → vene varicoase.</div>
+      <div class="qfb err" id="fb-q10-err">❌ Incorect. Valvele venoase previn REFLUXUL sângelui venos (mai ales la membrele inf.). Diametrul venos nu este reglat de valve. Filtrarea se face la capilare.</div>
+    </div>
+
+    <!-- Q11 -->
+    <div class="qblock" id="q11">
+      <p>11. Presiunea arterială diastolică normală este de:</p>
+      <div class="qopt" onclick="answer(this,'q11',false)"><span class="opt-l">A</span> 60 mmHg</div>
+      <div class="qopt" onclick="answer(this,'q11',true)"><span class="opt-l">B</span> 80 mmHg</div>
+      <div class="qopt" onclick="answer(this,'q11',false)"><span class="opt-l">C</span> 100 mmHg</div>
+      <div class="qopt" onclick="answer(this,'q11',false)"><span class="opt-l">D</span> 120 mmHg</div>
+      <div class="qfb ok" id="fb-q11-ok">✅ Corect! Valori normale TA: 120/80 mmHg. Sistolică (120) = presiunea la contracția VS. Diastolică (80) = presiunea în relaxare. Hipertensiune: &gt;140/90 mmHg. Hipotensiune: &lt;90/60 mmHg.</div>
+      <div class="qfb err" id="fb-q11-err">❌ Incorect. TA diastolică normală = 80 mmHg (se notează TA = 120/80). 120 este sistolica. Dispariția zgomotelor Korotkoff la sfigmomanometru marchează TA diastolică.</div>
+    </div>
+
+    <!-- Q12 -->
+    <div class="qblock" id="q12">
+      <p>12. Sistemul port hepatic transportă sânge de la:</p>
+      <div class="qopt" onclick="answer(this,'q12',false)"><span class="opt-l">A</span> Ficat la intestin subțire</div>
+      <div class="qopt" onclick="answer(this,'q12',false)"><span class="opt-l">B</span> Inimă la ficat direct</div>
+      <div class="qopt" onclick="answer(this,'q12',true)"><span class="opt-l">C</span> Tractul gastrointestinal și splină la ficat</div>
+      <div class="qopt" onclick="answer(this,'q12',false)"><span class="opt-l">D</span> Ficat la vena cavă inferioară direct</div>
+      <div class="qfb ok" id="fb-q12-ok">✅ Corect! Sistemul port hepatic: tractul GI (intestine, stomac) + splina → vena portă → ficat (procesarea nutrienților absorbiți) → venele hepatice → VCI → AD. Ficatul primește și sânge oxigenat prin artera hepatică (ramură a trunchiului celiac).</div>
+      <div class="qfb err" id="fb-q12-err">❌ Incorect. Sistemul port hepatic: GI + splina → vena portă → ficat. Scopul: transportul nutrienților absorbiți la ficat pentru procesare. Ficatul mai primește și sânge oxigenat prin artera hepatică.</div>
+    </div>
+
+  </div><!-- end panel-quiz -->
+
+  </div><!-- end content -->
+</main>
+
+<script>
+// ═══════ PANEL SWITCHING ═══════
+function showPanel(name, btn) {
+  document.querySelectorAll('.panel').forEach(p => p.classList.remove('active'));
+  document.querySelectorAll('.tab-btn').forEach(b => b.classList.remove('active'));
+  document.getElementById('panel-' + name).classList.add('active');
+  btn.classList.add('active');
+}
+
+// ═══════ EXPANDABLE ROWS ═══════
+function toggleLevel(row) {
+  row.classList.toggle('open');
+}
+
+// ═══════ TOOLTIP ═══════
+let ttTimeout;
+function showTooltip(event, title, content) {
+  const tt = document.getElementById('tt');
+  tt.innerHTML = '<div class="tooltip-title">' + title + '</div>' + content;
+  const x = event.clientX;
+  const y = event.clientY;
+  const w = 280;
+  const left = Math.min(x + 12, window.innerWidth - w - 20);
+  const top = Math.max(y - 60, 10);
+  tt.style.left = left + 'px';
+  tt.style.top = top + 'px';
+  tt.classList.add('show');
+  clearTimeout(ttTimeout);
+  ttTimeout = setTimeout(() => tt.classList.remove('show'), 5000);
+}
+document.addEventListener('click', function(e) {
+  if (!e.target.closest('.svg-label') && !e.target.closest('.valve-card')) {
+    document.getElementById('tt').classList.remove('show');
+  }
+});
+
+// ═══════ QUIZ ═══════
+let scores = {};
+function answer(opt, qId, correct) {
+  if (scores[qId] !== undefined) return;
+  scores[qId] = correct ? 1 : 0;
+  const qBlock = document.getElementById(qId);
+  qBlock.querySelectorAll('.qopt').forEach(o => o.classList.add('disabled'));
+  if (correct) {
+    opt.classList.add('correct');
+    document.getElementById('fb-' + qId + '-ok').style.display = 'block';
+  } else {
+    opt.classList.add('wrong');
+    document.getElementById('fb-' + qId + '-err').style.display = 'block';
+    // Highlight correct
+    qBlock.querySelectorAll('.qopt').forEach(o => {
+      if (o.onclick && o.onclick.toString().includes('true')) o.classList.add('correct');
+    });
+  }
+  updateScore();
+}
+function updateScore() {
+  const total = Object.values(scores).reduce((a, b) => a + b, 0);
+  const answered = Object.keys(scores).length;
+  document.getElementById('score-display').textContent = total + ' / 12';
+}
+function resetQuiz() {
+  scores = {};
+  document.getElementById('score-display').textContent = '0 / 12';
+  for (let i = 1; i <= 12; i++) {
+    const q = document.getElementById('q' + i);
+    q.querySelectorAll('.qopt').forEach(o => {
+      o.classList.remove('correct', 'wrong', 'disabled');
+    });
+    const okFb = document.getElementById('fb-q' + i + '-ok');
+    const errFb = document.getElementById('fb-q' + i + '-err');
+    if (okFb) okFb.style.display = 'none';
+    if (errFb) errFb.style.display = 'none';
+  }
+}
+
+document.addEventListener("DOMContentLoaded", function () {
+  // 1. Detectează automat numele fișierului curent (ex: cap1.html)
+  const currentFile = window.location.pathname.split("/").pop() || "cap1.html";
+  
+  const menuContainer = document.getElementById("chapters-menu");
+  const menuItems = menuContainer.querySelectorAll(".nav-item");
+  let currentChapterNumber = 1;
+  let activeItem = null;
+
+  // 2. Parcurge toate capitolele din meniu pentru a le aplica stilul corect
+  menuItems.forEach((item) => {
+    const fileHref = item.getAttribute("href");
+    
+    if (fileHref === currentFile) {
+      // Dacă este capitolul curent, îl face activ
+      item.classList.add("active");
+      activeItem = item; // Salvăm elementul activ pentru a-l folosi la scroll
+      currentChapterNumber = parseInt(item.querySelector(".nav-num").textContent);
+    }
+  });
+
+  // 3. 💡 AUTO-SCROLL LA CAPITOLUL CURENT (Soluția pentru problema ta)
+  if (activeItem && menuContainer) {
+    // Așteptăm un timp foarte scurt (50ms) ca browserul să randeze stilurile, apoi mutăm scroll-ul
+    setTimeout(() => {
+      activeItem.scrollIntoView({
+        behavior: "smooth", // Efect de derulare fină (schimbă cu "auto" dacă vrei să fie instant)
+        block: "nearest"    // Îl aduce la vedere doar dacă nu este vizibil în container
+      });
+    }, 50);
+  }
+
+  // 4. Actualizează automat bara de progres din footer-ul sidebar-ului
+  const totalChapters = menuItems.length; // Va număra automat 23
+  
+  const progTextContainer = document.querySelector(".prog-label");
+  if (progTextContainer) {
+    progTextContainer.innerHTML = `<span>Progres curs</span><span>${currentChapterNumber} / ${totalChapters}</span>`;
+  }
+  
+  const progFill = document.querySelector(".prog-fill");
+  if (progFill) {
+    const percentage = (currentChapterNumber / totalChapters) * 100;
+    progFill.style.width = `${percentage}%`;
+  }
+});
+</script>
+</body>
+</html>

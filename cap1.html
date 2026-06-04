@@ -1,0 +1,2159 @@
+<!DOCTYPE html>
+<html lang="ro">
+<head>
+<meta charset="UTF-8">
+
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>MedStudy — Capitol 1: Introducere în Anatomie & Fiziologie</title>
+<link href="https://fonts.googleapis.com/css2?family=Outfit:wght@300;400;500;600;700;800;900&family=Lora:ital,wght@0,400;0,600;1,400&display=swap" rel="stylesheet">
+<style>
+:root {
+  /* Pastel/light palette inspired by vidyo.ai */
+  --bg-main: #f0f4ff;
+  --bg-hero: linear-gradient(135deg, #c8d8ff 0%, #d4c8f8 35%, #f8c8e8 70%, #ffd8c0 100%);
+  --bg-sidebar: rgba(255,255,255,0.85);
+  --surface: rgba(255,255,255,0.75);
+  --surface2: rgba(255,255,255,0.92);
+  --surface-glass: rgba(255,255,255,0.55);
+  --border: rgba(180,160,220,0.25);
+  --border2: rgba(120,100,200,0.15);
+
+  --blue: #5b8dee;
+  --blue-light: #e8eeff;
+  --violet: #8b5cf6;
+  --violet-light: #ede9fe;
+  --cyan: #06b6d4;
+  --cyan-light: #e0f7fb;
+  --pink: #ec4899;
+  --pink-light: #fce7f3;
+  --green: #10b981;
+  --green-light: #d1fae5;
+  --orange: #f59e0b;
+  --orange-light: #fef3c7;
+  --rose: #f43f5e;
+
+  --text: #1e1b4b;
+  --text2: #6b7280;
+  --text3: #9ca3af;
+  --accent: #7c3aed;
+
+  --sidebar-w: 268px;
+  --radius: 16px;
+  --shadow: 0 4px 24px rgba(100,80,200,0.10);
+  --shadow2: 0 8px 40px rgba(100,80,200,0.14);
+}
+
+* { margin:0; padding:0; box-sizing:border-box; }
+
+body {
+  font-family: 'Outfit', sans-serif;
+  background: var(--bg-main);
+  color: var(--text);
+  min-height: 100vh;
+  display: flex;
+  overflow-x: hidden;
+}
+
+/* ──────── MESH BACKGROUND ──────── */
+body::before {
+  content:'';
+  position:fixed;
+  inset:0;
+  background:
+    radial-gradient(ellipse 800px 600px at 20% 10%, rgba(180,200,255,0.55) 0%, transparent 70%),
+    radial-gradient(ellipse 600px 500px at 80% 5%, rgba(200,180,255,0.45) 0%, transparent 65%),
+    radial-gradient(ellipse 700px 400px at 60% 90%, rgba(255,200,230,0.4) 0%, transparent 70%),
+    radial-gradient(ellipse 500px 500px at 5% 80%, rgba(180,230,255,0.35) 0%, transparent 65%),
+    #f0f4ff;
+  z-index:-1;
+  pointer-events:none;
+}
+
+/* ──────── SIDEBAR ──────── */
+#sidebar {
+  width: var(--sidebar-w);
+  min-height: 100vh;
+  background: var(--bg-sidebar);
+  backdrop-filter: blur(24px);
+  -webkit-backdrop-filter: blur(24px);
+  border-right: 1px solid var(--border);
+  position: fixed;
+  top:0; left:0;
+  z-index: 100;
+  display: flex;
+  flex-direction: column;
+  box-shadow: 4px 0 30px rgba(100,80,200,0.07);
+}
+
+.sidebar-logo {
+  padding: 26px 22px 20px;
+  border-bottom: 1px solid var(--border);
+  display: flex; align-items: center; gap: 12px;
+}
+.logo-icon {
+  width: 42px; height: 42px;
+  background: linear-gradient(135deg, #7c3aed, #ec4899);
+  border-radius: 12px;
+  display: flex; align-items: center; justify-content: center;
+  font-size: 20px;
+  box-shadow: 0 4px 14px rgba(124,58,237,0.35);
+}
+.logo-text { font-size: 17px; font-weight: 800; color: var(--text); line-height: 1.2; }
+.logo-sub { font-size: 10px; color: var(--text3); font-weight: 400; letter-spacing: .08em; text-transform: uppercase; margin-top:2px; }
+
+.sidebar-section-label {
+  padding: 18px 20px 8px;
+  font-size: 9.5px; letter-spacing: .14em; text-transform: uppercase;
+  color: var(--text3); font-weight: 600;
+}
+
+.nav-scroll { 
+  flex: 1; 
+  overflow-y: auto; 
+  padding-bottom: 16px; 
+  max-height: calc(100vh - 140px);
+  
+  /* 💡 TRUCUL PENTRU MUTAREA BAREI PE STÂNGA: */
+  direction: rtl; /* Muta scrollbar-ul pe stânga (Right-to-Left) */
+  
+  scrollbar-width: thin;
+  scrollbar-color: rgba(124,58,237,0.3) transparent;
+}
+
+/* 💡 RECONVERTIREA TEXTULUI: Întoarcem textul la normal (Left-to-Right) ca să nu fie inversat */
+.nav-scroll > * {
+  direction: ltr;
+}
+
+/* Stil pentru browserele bazate pe Chromium (Chrome, Edge, Opera) */
+.nav-scroll::-webkit-scrollbar { 
+  width: 5px; 
+}
+.nav-scroll::-webkit-scrollbar-track {
+  background: transparent;
+}
+.nav-scroll::-webkit-scrollbar-thumb { 
+  background: rgba(124,58,237,0.3); 
+  border-radius: 4px; 
+}
+.nav-scroll::-webkit-scrollbar-thumb:hover {
+  background: rgba(124,58,237,0.5); 
+}
+
+
+.nav-item {
+  display: flex; align-items: center; gap: 10px;
+  padding: 9px 14px 9px 16px;
+  margin: 1px 10px;
+  border-radius: 10px;
+  font-size: 12.5px; font-weight: 500;
+  color: var(--text2);
+  cursor: pointer;
+  transition: all .2s;
+  text-decoration: none;
+  position: relative;
+}
+.nav-item:hover { background: rgba(124,58,237,0.07); color: var(--accent); }
+.nav-item.active {
+  background: linear-gradient(90deg, rgba(124,58,237,0.12), rgba(236,72,153,0.07));
+  color: var(--accent);
+  font-weight: 600;
+  box-shadow: inset 2px 0 0 var(--accent);
+}
+.nav-num {
+  min-width: 22px; height: 22px;
+  background: rgba(124,58,237,0.08);
+  border-radius: 6px;
+  display: flex; align-items: center; justify-content: center;
+  font-size: 10.5px; font-weight: 700;
+  color: var(--text3);
+}
+.nav-item.active .nav-num { background: rgba(124,58,237,0.18); color: var(--accent); }
+.nav-item.locked {
+  opacity: 0.5;
+  position: relative;
+}
+.nav-item.locked::after {
+  content: '';
+  font-size: 10px;
+  margin-left: auto;
+  opacity: 0.7;
+}
+
+/* ── LOCK BANNER ── */
+#lock-banner {
+  display: none;
+  position: fixed;
+  bottom: 24px;
+  left: calc(var(--sidebar-w) + 24px);
+  right: 24px;
+  z-index: 9000;
+  background: linear-gradient(135deg, #1e1b4b, #3b1a78);
+  color: white;
+  border-radius: 18px;
+  padding: 18px 28px;
+  box-shadow: 0 12px 48px rgba(100, 60, 200, 0.45);
+  align-items: center;
+  gap: 18px;
+  border: 1px solid rgba(255,255,255,0.12);
+  animation: bannerSlide 0.4s cubic-bezier(0.16, 1, 0.3, 1) both;
+}
+@keyframes bannerSlide {
+  from { transform: translateY(30px); opacity: 0; }
+  to   { transform: translateY(0);    opacity: 1; }
+}
+#lock-banner .lb-icon { font-size: 28px; flex-shrink: 0; }
+#lock-banner .lb-body { flex: 1; }
+#lock-banner .lb-title { font-size: 14px; font-weight: 800; margin-bottom: 3px; }
+#lock-banner .lb-sub   { font-size: 12px; color: rgba(255,255,255,0.65); line-height: 1.4; }
+#lock-banner .lb-btn {
+  background: linear-gradient(135deg, #a78bfa, #ec4899);
+  color: white;
+  border: none;
+  border-radius: 12px;
+  padding: 11px 22px;
+  font-family: 'Outfit', sans-serif;
+  font-size: 13px;
+  font-weight: 800;
+  cursor: pointer;
+  white-space: nowrap;
+  box-shadow: 0 4px 18px rgba(167,139,250,0.45);
+  transition: all 0.2s;
+  flex-shrink: 0;
+}
+#lock-banner .lb-btn:hover { transform: translateY(-2px); box-shadow: 0 8px 28px rgba(167,139,250,0.6); }
+#lock-banner .lb-close {
+  background: none; border: none; color: rgba(255,255,255,0.45);
+  font-size: 18px; cursor: pointer; padding: 4px; flex-shrink: 0;
+  transition: color 0.2s;
+}
+#lock-banner .lb-close:hover { color: white; }
+
+/* ── SUBSCRIBED STATUS PILL in sidebar ── */
+#sub-status-pill {
+  display: none;
+  margin: 10px 14px 4px;
+  padding: 8px 14px;
+  border-radius: 10px;
+  background: linear-gradient(135deg, rgba(124,58,237,.14), rgba(236,72,153,.1));
+  border: 1px solid rgba(124,58,237,.22);
+  font-size: 11.5px;
+  font-weight: 700;
+  color: var(--accent);
+  align-items: center;
+  gap: 7px;
+}
+#sub-status-pill .pill-dot {
+  width: 7px; height: 7px; border-radius: 50%;
+  background: linear-gradient(135deg, #7c3aed, #ec4899);
+  animation: dotPulse 2s ease-in-out infinite;
+  flex-shrink: 0;
+}
+@keyframes dotPulse {
+  0%,100% { transform: scale(1); opacity: 1; }
+  50%      { transform: scale(1.5); opacity: .6; }
+}
+
+.sidebar-footer {
+  padding: 16px 20px;
+  border-top: 1px solid var(--border);
+}
+.prog-label { display:flex; justify-content:space-between; font-size:11.5px; color:var(--text2); margin-bottom:7px; font-weight:500; }
+.prog-label span:last-child { color: var(--accent); font-weight:700; }
+.prog-track { height:5px; background:rgba(124,58,237,0.1); border-radius:3px; overflow:hidden; }
+.prog-fill { height:100%; width:4.17%; background: linear-gradient(90deg, #7c3aed, #ec4899); border-radius:3px; transition:width 1.2s ease; }
+
+/* ──────── MAIN ──────── */
+#main { margin-left: var(--sidebar-w); flex:1; min-height:100vh; }
+
+/* TOP BAR */
+.topbar {
+  height:60px;
+  background: rgba(255,255,255,0.7);
+  backdrop-filter: blur(20px);
+  border-bottom: 1px solid var(--border);
+  display: flex; align-items: center; justify-content: space-between;
+  padding: 0 40px;
+  position: sticky; top:0; z-index:50;
+}
+.breadcrumb { display:flex; align-items:center; gap:8px; font-size:13px; font-weight:500; color:var(--text2); }
+.breadcrumb .current { color: var(--accent); }
+.bc-sep { color: var(--text3); }
+.badge-pill {
+  padding: 5px 14px;
+  border-radius: 30px;
+  font-size: 12px; font-weight: 600;
+  background: linear-gradient(90deg, rgba(124,58,237,0.1), rgba(236,72,153,0.08));
+  color: var(--accent);
+  border: 1px solid rgba(124,58,237,0.2);
+}
+
+/* ──────── HERO — Aura Pastel Design ──────── */
+.hero {
+  position: relative;
+  overflow: hidden;
+  padding: 64px 56px 54px;
+  border-bottom: 1px solid rgba(200,180,255,.2);
+  min-height: 340px;
+  display: flex;
+  flex-direction: column;
+  justify-content: center;
+}
+
+/* Aura multi-orb background */
+.hero::before {
+  content: '';
+  position: absolute;
+  inset: 0;
+  background:
+    radial-gradient(ellipse 70% 80% at 10% 20%, rgba(200,180,255,.72) 0%, transparent 60%),
+    radial-gradient(ellipse 55% 65% at 85% 10%, rgba(180,225,255,.65) 0%, transparent 55%),
+    radial-gradient(ellipse 60% 70% at 70% 85%, rgba(255,210,230,.6) 0%, transparent 58%),
+    radial-gradient(ellipse 50% 60% at 30% 90%, rgba(200,240,220,.5) 0%, transparent 55%),
+    radial-gradient(ellipse 45% 50% at 90% 55%, rgba(255,220,180,.45) 0%, transparent 50%),
+    #f5f0ff;
+  z-index: 0;
+}
+
+/* Grain texture overlay for aura effect */
+.hero::after {
+  content: '';
+  position: absolute;
+  inset: 0;
+  opacity: .45;
+  background-image: url("data:image/svg+xml,%3Csvg viewBox='0 0 256 256' xmlns='http://www.w3.org/2000/svg'%3E%3Cfilter id='noise'%3E%3CfeTurbulence type='fractalNoise' baseFrequency='0.9' numOctaves='4' stitchTiles='stitch'/%3E%3CfeColorMatrix type='saturate' values='0'/%3E%3C/filter%3E%3Crect width='100%25' height='100%25' filter='url(%23noise)' opacity='0.15'/%3E%3C/svg%3E");
+  background-size: 200px 200px;
+  pointer-events: none;
+  z-index: 1;
+  mix-blend-mode: overlay;
+}
+
+.hero > * { position: relative; z-index: 2; }
+
+/* Eyebrow pill */
+.hero-eyebrow {
+  display: inline-flex;
+  align-items: center;
+  gap: 7px;
+  padding: 6px 18px;
+  border-radius: 40px;
+  background: rgba(255,255,255,.55);
+  border: 1px solid rgba(255,255,255,.85);
+  font-size: 11px;
+  font-weight: 600;
+  color: rgba(80,50,160,.75);
+  letter-spacing: .12em;
+  text-transform: uppercase;
+  margin-bottom: 22px;
+  backdrop-filter: blur(16px);
+  -webkit-backdrop-filter: blur(16px);
+  box-shadow: 0 2px 20px rgba(160,120,255,.12), inset 0 1px 0 rgba(255,255,255,.6);
+  width: fit-content;
+  font-family: 'Lora', serif;
+  font-style: italic;
+}
+.hero-eyebrow::before { content: '◆'; font-size: 7px; font-style: normal; }
+
+/* Main headline — elegant serif italic */
+.hero h1 {
+  font-family: 'Lora', serif;
+  font-size: clamp(34px, 4vw, 58px);
+  font-weight: 400;
+  font-style: italic;
+  line-height: 1.08;
+  color: rgba(30,20,70,.82);
+  margin-bottom: 18px;
+  letter-spacing: -0.01em;
+  text-shadow: 0 2px 40px rgba(160,120,255,.15);
+}
+.hero h1 span {
+  font-weight: 600;
+  font-style: italic;
+  color: transparent;
+  background: linear-gradient(135deg, rgba(110,60,220,.9) 0%, rgba(200,80,180,.85) 50%, rgba(100,180,240,.8) 100%);
+  -webkit-background-clip: text;
+  -webkit-text-fill-color: transparent;
+  background-clip: text;
+}
+
+/* Subtitle */
+.hero-sub {
+  font-family: 'Lora', serif;
+  font-size: 15.5px;
+  font-style: italic;
+  color: rgba(60,40,120,.6);
+  max-width: 560px;
+  line-height: 1.7;
+  margin-bottom: 34px;
+  font-weight: 400;
+  letter-spacing: .01em;
+}
+
+/* Chips */
+.hero-chips { display: flex; flex-wrap: wrap; gap: 10px; }
+.hero-chip {
+  display: flex;
+  align-items: center;
+  gap: 9px;
+  background: rgba(255,255,255,.52);
+  border: 1px solid rgba(255,255,255,.8);
+  border-radius: 14px;
+  padding: 9px 18px;
+  font-size: 13px;
+  font-weight: 500;
+  color: rgba(50,30,100,.75);
+  backdrop-filter: blur(14px);
+  -webkit-backdrop-filter: blur(14px);
+  box-shadow: 0 2px 16px rgba(160,120,255,.1), inset 0 1px 0 rgba(255,255,255,.6);
+  font-family: 'Lora', serif;
+  font-style: italic;
+  transition: all .25s;
+}
+.hero-chip:hover {
+  background: rgba(255,255,255,.72);
+  transform: translateY(-1px);
+  box-shadow: 0 6px 24px rgba(160,120,255,.18);
+}
+.hero-chip strong {
+  font-family: 'Outfit', sans-serif;
+  font-style: normal;
+  font-weight: 800;
+  font-size: 21px;
+  background: linear-gradient(135deg, #7c3aed, #ec4899);
+  -webkit-background-clip: text;
+  -webkit-text-fill-color: transparent;
+  background-clip: text;
+  line-height: 1;
+}
+
+/* ──────── TABS ──────── */
+.tab-bar {
+  display:flex; gap:2px;
+  padding: 0 40px;
+  background: rgba(255,255,255,0.6);
+  backdrop-filter: blur(16px);
+  border-bottom: 1px solid var(--border);
+  position: sticky; top:60px; z-index:40;
+}
+.tab-btn {
+  display:flex; align-items:center; gap:7px;
+  padding: 14px 20px;
+  background: none; border: none;
+  font-family:'Outfit',sans-serif;
+  font-size: 13px; font-weight: 600;
+  color: var(--text2);
+  cursor: pointer;
+  border-bottom: 2.5px solid transparent;
+  margin-bottom: -1px;
+  transition: all .2s;
+  white-space: nowrap;
+}
+.tab-btn:hover { color: var(--accent); background: rgba(124,58,237,0.04); border-radius: 10px 10px 0 0; }
+.tab-btn.active { color: var(--accent); border-bottom-color: var(--accent); }
+
+/* ──────── CONTENT ──────── */
+.content { padding: 36px 40px 60px; max-width: 1180px; }
+.panel { display:none; }
+.panel.active { display:block; }
+
+/* ──────── SECTION HEADER ──────── */
+.section-header {
+  margin-bottom: 24px;
+}
+.section-title {
+  font-size: 22px; font-weight: 800;
+  color: var(--text);
+  margin-bottom: 6px;
+}
+.section-desc { font-size: 13.5px; color: var(--text2); line-height:1.6; }
+
+/* ──────── GLASS CARD ──────── */
+.gcard {
+  background: var(--surface2);
+  backdrop-filter: blur(20px);
+  border: 1px solid var(--border);
+  border-radius: var(--radius);
+  padding: 28px;
+  margin-bottom: 24px;
+  box-shadow: var(--shadow);
+  transition: box-shadow .3s, transform .2s;
+}
+.gcard:hover { box-shadow: var(--shadow2); }
+.gcard-title {
+  font-size: 16px; font-weight: 800;
+  color: var(--text);
+  margin-bottom: 20px;
+  display: flex; align-items: center; gap: 10px;
+}
+.ct-icon {
+  width: 32px; height: 32px;
+  border-radius: 9px;
+  display: flex; align-items: center; justify-content: center;
+  font-size: 16px;
+}
+
+/* ──────── GRIDS ──────── */
+.g2 { display:grid; grid-template-columns:1fr 1fr; gap:20px; }
+.g3 { display:grid; grid-template-columns:repeat(3,1fr); gap:16px; }
+
+/* ──────── LEVEL PYRAMID CARDS ──────── */
+.level-row {
+  display:flex; align-items:stretch; gap:12px;
+  margin-bottom:6px;
+  cursor:pointer;
+}
+.level-bar {
+  width:5px; border-radius:3px; flex-shrink:0;
+  transition:width .2s;
+}
+.level-body {
+  flex:1;
+  background:var(--surface);
+  border: 1px solid var(--border);
+  border-radius:12px;
+  padding:14px 18px;
+  transition: all .25s;
+  position:relative;
+}
+.level-row:hover .level-body, .level-row.open .level-body {
+  box-shadow: 0 4px 20px rgba(124,58,237,0.12);
+  border-color: rgba(124,58,237,0.3);
+}
+.level-head { display:flex; align-items:center; gap:12px; }
+.level-num {
+  min-width:30px; height:30px;
+  border-radius:8px;
+  display:flex; align-items:center; justify-content:center;
+  font-size:13px; font-weight:800;
+  font-family:'Outfit',sans-serif;
+}
+.level-info { flex:1; }
+.level-name { font-size:14px; font-weight:700; color:var(--text); }
+.level-short { font-size:12px; color:var(--text2); margin-top:2px; }
+.level-chevron { font-size:14px; color:var(--text3); transition:transform .3s; }
+.level-row.open .level-chevron { transform:rotate(90deg); }
+.level-detail-panel {
+  max-height:0; overflow:hidden;
+  transition: max-height .4s ease, padding .3s;
+  font-size:13px; color:var(--text2); line-height:1.65;
+  padding:0 0;
+}
+.level-row.open .level-detail-panel {
+  max-height:220px;
+  padding-top:12px;
+  border-top:1px dashed rgba(124,58,237,0.15);
+  margin-top:12px;
+}
+
+/* ──────── HIGHLIGHT BOX ──────── */
+.hbox {
+  border-radius: 12px;
+  padding: 16px 20px;
+  margin-bottom: 16px;
+  font-size: 13px;
+  line-height: 1.65;
+  border-left: 4px solid;
+}
+.hbox-blue { background: var(--blue-light); border-color: var(--blue); }
+.hbox-violet { background: var(--violet-light); border-color: var(--violet); }
+.hbox-green { background: var(--green-light); border-color: var(--green); }
+.hbox-pink { background: var(--pink-light); border-color: var(--pink); }
+.hbox-orange { background: var(--orange-light); border-color: var(--orange); }
+.hbox-cyan { background: var(--cyan-light); border-color: var(--cyan); }
+.hbox strong { font-weight: 700; display:block; margin-bottom:4px; }
+.hbox-blue strong { color: var(--blue); }
+.hbox-violet strong { color: var(--violet); }
+.hbox-green strong { color: var(--green); }
+.hbox-pink strong { color: var(--pink); }
+.hbox-orange strong { color: var(--orange); }
+.hbox-cyan strong { color: var(--cyan); }
+
+/* ──────── MNEMONIC ──────── */
+.mnemonic {
+  background: linear-gradient(135deg, #ede9fe, #fce7f3);
+  border: 1px solid rgba(124,58,237,0.2);
+  border-radius: 14px;
+  padding: 18px 22px;
+  margin: 16px 0;
+}
+.mnemonic-title {
+  font-size:12px; font-weight:700; color:var(--accent);
+  letter-spacing:.06em; text-transform:uppercase; margin-bottom:8px;
+  display:flex; align-items:center; gap:6px;
+}
+.mnemonic-text { font-size:13.5px; color:var(--text); line-height:1.7; }
+.mnemonic-text .em { color:var(--accent); font-weight:800; }
+.mnemonic-text .sub { font-size:12px; color:var(--text2); font-style:italic; display:block; margin-top:4px; }
+
+/* ──────── TABLE ──────── */
+.mtable { width:100%; border-collapse:collapse; font-size:13px; }
+.mtable thead tr { background: linear-gradient(90deg, rgba(124,58,237,0.08), rgba(236,72,153,0.05)); }
+.mtable th {
+  padding:11px 14px; text-align:left;
+  font-size:11px; font-weight:700; letter-spacing:.06em; text-transform:uppercase;
+  color: var(--accent);
+  border-bottom: 2px solid rgba(124,58,237,0.12);
+}
+.mtable td {
+  padding:10px 14px;
+  border-bottom: 1px solid rgba(124,58,237,0.07);
+  color: var(--text2);
+  vertical-align: top;
+  line-height:1.5;
+}
+.mtable tr:last-child td { border-bottom:none; }
+.mtable tr:hover td { background: rgba(124,58,237,0.03); }
+.mtable .hl { color:var(--text); font-weight:600; }
+
+/* TAG PILLS */
+.tag {
+  display:inline-block;
+  padding:3px 10px; border-radius:20px;
+  font-size:11px; font-weight:700;
+}
+.t-blue { background:var(--blue-light); color:var(--blue); }
+.t-violet { background:var(--violet-light); color:var(--violet); }
+.t-green { background:var(--green-light); color:var(--green); }
+.t-pink { background:var(--pink-light); color:var(--pink); }
+.t-orange { background:var(--orange-light); color:var(--orange); }
+.t-cyan { background:var(--cyan-light); color:var(--cyan); }
+
+/* ──────── FUNCTION CARDS ──────── */
+.func-card {
+  background: var(--surface2);
+  border: 1px solid var(--border);
+  border-radius: 14px;
+  padding: 20px;
+  text-align: center;
+  transition: all .25s;
+  position:relative; overflow:hidden;
+}
+.func-card::before {
+  content:''; position:absolute; inset:0;
+  opacity:0; transition:opacity .3s;
+}
+.func-card:hover { transform:translateY(-3px); box-shadow:var(--shadow2); }
+.func-icon { font-size:28px; margin-bottom:10px; display:block; }
+.func-name { font-size:13px; font-weight:800; margin-bottom:6px; }
+.func-desc { font-size:12px; color:var(--text2); line-height:1.55; }
+
+/* ──────── HOMEOSTASIS FLOW ──────── */
+.flow-chain {
+  display:flex; flex-direction:column; align-items:stretch; gap:0;
+  max-width:520px;
+}
+.flow-node-item {
+  display:flex; align-items:center; gap:14px;
+  padding:14px 18px;
+  background:var(--surface);
+  border:1px solid var(--border);
+  border-radius:12px;
+  font-size:13px;
+  transition:all .2s;
+}
+.flow-node-item:hover { box-shadow: 0 4px 16px rgba(124,58,237,0.1); }
+.flow-node-item.center { background:linear-gradient(135deg,#d1fae5,#a7f3d0); border-color:var(--green); }
+.flow-arrow { text-align:center; padding:4px 0; color:var(--text3); font-size:18px; }
+.flow-icon-box { width:36px; height:36px; border-radius:9px; display:flex; align-items:center; justify-content:center; font-size:18px; flex-shrink:0; }
+.flow-node-title { font-weight:700; color:var(--text); font-size:13px; }
+.flow-node-sub { font-size:12px; color:var(--text2); margin-top:2px; }
+.flow-back-note {
+  background:var(--green-light);
+  border:1px solid var(--green);
+  border-radius:10px; padding:10px 14px;
+  font-size:12px; color:var(--green);
+  font-weight:600; text-align:center; margin-top:8px;
+}
+
+/* ──────── SVG PLANES ──────── */
+.plane-btns { display:flex; gap:8px; margin-bottom:16px; flex-wrap:wrap; }
+.plane-btn {
+  padding: 7px 16px; border-radius:20px; border: 1px solid;
+  font-family:'Outfit',sans-serif; font-size:12.5px; font-weight:600;
+  cursor:pointer; transition:all .2s;
+}
+.plane-btn-sagital { border-color:var(--blue); color:var(--blue); background:var(--blue-light); }
+.plane-btn-frontal { border-color:var(--violet); color:var(--violet); background:var(--violet-light); }
+.plane-btn-transversal { border-color:var(--green); color:var(--green); background:var(--green-light); }
+.plane-btn.active, .plane-btn:hover { box-shadow:0 2px 10px rgba(0,0,0,0.1); transform:translateY(-1px); }
+.plane-info-block {
+  border-radius:12px; padding:16px 20px;
+  font-size:13px; line-height:1.65;
+  display:none;
+}
+.plane-info-block.show { display:block; }
+
+/* ──────── DIRECTIONAL TERM TABLE ──────── */
+.dir-pair {
+  display:grid; grid-template-columns:1fr 1fr; gap:0;
+  margin-bottom:10px;
+  border-radius:12px; overflow:hidden;
+  border: 1px solid var(--border);
+}
+.dir-cell {
+  padding:13px 16px;
+  font-size:13px;
+  line-height:1.5;
+  position:relative;
+}
+.dir-cell:first-child { border-right:1px solid var(--border); }
+.dir-cell .term { font-weight:700; color:var(--text); font-size:13.5px; margin-bottom:3px; }
+.dir-cell .alt { font-size:11px; color:var(--text3); margin-bottom:5px; }
+.dir-cell .def { color:var(--text2); font-size:12.5px; }
+.dir-cell .ex { font-size:12px; color:var(--accent); font-style:italic; margin-top:4px; }
+
+/* ──────── QUIZ ──────── */
+.quiz-container { }
+.quiz-score {
+  display:flex; justify-content:space-between; align-items:center;
+  background:linear-gradient(90deg,rgba(124,58,237,0.06),rgba(236,72,153,0.04));
+  border:1px solid rgba(124,58,237,0.15);
+  border-radius:12px; padding:14px 20px;
+  margin-bottom:24px;
+}
+.quiz-score-label { font-size:13px; color:var(--text2); font-weight:600; }
+.quiz-score-num { font-size:22px; font-weight:900; color:var(--accent); }
+.qblock { background:var(--surface2); border:1px solid var(--border); border-radius:14px; padding:22px; margin-bottom:18px; }
+.qblock p { font-size:14px; font-weight:500; color:var(--text); margin-bottom:16px; line-height:1.6; }
+.qblock p strong { color:var(--accent); }
+.qopt {
+  display:flex; align-items:flex-start; gap:10px;
+  padding:11px 16px; border-radius:10px;
+  border:1.5px solid var(--border);
+  cursor:pointer; margin-bottom:8px;
+  font-size:13px; color:var(--text2); font-weight:500;
+  transition: all .2s; background:var(--surface);
+}
+.qopt:hover { border-color:var(--accent); color:var(--text); background:rgba(124,58,237,0.04); }
+.qopt.correct { border-color:var(--green); background:var(--green-light); color:var(--green); }
+.qopt.wrong { border-color:var(--rose); background:#fff1f2; color:var(--rose); }
+.qopt.disabled { pointer-events:none; }
+.opt-l {
+  min-width:24px; height:24px; border-radius:6px;
+  background:rgba(124,58,237,0.08); color:var(--accent);
+  display:flex; align-items:center; justify-content:center;
+  font-size:11px; font-weight:800; flex-shrink:0;
+}
+.qfb { border-radius:8px; padding:10px 14px; font-size:12.5px; line-height:1.6; display:none; margin-top:8px; }
+.qfb.ok { background:var(--green-light); color:#065f46; display:block; }
+.qfb.err { background:#fff1f2; color:#9f1239; display:block; }
+.quiz-reset {
+  background:linear-gradient(90deg,var(--accent),#ec4899);
+  color:#fff; border:none; border-radius:10px;
+  padding:12px 28px; font-family:'Outfit',sans-serif;
+  font-size:14px; font-weight:700; cursor:pointer;
+  box-shadow:0 4px 16px rgba(124,58,237,0.3);
+  transition:all .2s; margin-top:4px;
+}
+.quiz-reset:hover { transform:translateY(-2px); box-shadow:0 6px 20px rgba(124,58,237,0.4); }
+
+/* ──────── 9 REGIONS GRID ──────── */
+.reg-grid { display:grid; grid-template-columns:repeat(3,1fr); gap:6px; max-width:480px; }
+.reg-cell {
+  border-radius:10px; padding:12px 10px; text-align:center;
+  border:1px solid; font-size:12px;
+  transition:all .2s; cursor:default;
+}
+.reg-cell:hover { transform:scale(1.03); box-shadow:0 4px 16px rgba(0,0,0,0.1); }
+.reg-cell .rname { font-size:11px; font-weight:800; margin-bottom:3px; display:block; }
+.reg-cell .rorg { font-size:10.5px; line-height:1.4; }
+
+/* ──────── SUMMARY BOX ──────── */
+.sum-box {
+  background:linear-gradient(135deg,rgba(91,141,238,0.08),rgba(6,182,212,0.06));
+  border:1px solid rgba(91,141,238,0.2);
+  border-radius:14px; padding:18px 22px; margin-bottom:20px;
+}
+.sum-box h4 { font-size:14px; font-weight:800; color:var(--blue); margin-bottom:10px; }
+.sum-list { list-style:none; }
+.sum-list li {
+  padding:4px 0; font-size:13px; color:var(--text2);
+  display:flex; align-items:flex-start; gap:8px; line-height:1.55;
+}
+.sum-list li::before { content:'→'; color:var(--blue); font-weight:700; flex-shrink:0; }
+
+/* ──────── ANATOMY POSITION ──────── */
+.pos-grid { display:grid; grid-template-columns:1fr 1fr 1fr; gap:12px; }
+.pos-card {
+  background:var(--surface);
+  border:1px solid var(--border);
+  border-radius:12px; padding:14px;
+  text-align:center;
+}
+.pos-card .picon { font-size:26px; margin-bottom:8px; display:block; }
+.pos-card .pname { font-size:12px; font-weight:800; color:var(--text); margin-bottom:4px; }
+.pos-card .pdesc { font-size:11.5px; color:var(--text2); line-height:1.5; }
+
+/* ──────── ANIMATIONS ──────── */
+@keyframes fadeUp { 
+  from { opacity: 0; transform: translateY(6px); } 
+  to { opacity: 1; transform: translateY(0); } 
+}
+.fu { animation: fadeUp 0.5s ease both; }
+.fu-1 { animation-delay: .08s; }
+.fu-2 { animation-delay: .16s; }
+.fu-3 { animation-delay: .24s; }
+.fu-4 { animation-delay: .32s; }
+
+@media(max-width:960px){
+  :root{--sidebar-w:0px}
+  #sidebar{transform:translateX(-268px)}
+  #main{margin-left:0}
+  .g2,.g3,.pos-grid{grid-template-columns:1fr}
+  .content,.topbar,.tab-bar,.hero{padding-left:20px;padding-right:20px}
+}
+</style>
+</head>
+<body>
+
+<!-- ═════════════ SIDEBAR ═════════════ -->
+<aside id="sidebar">
+  <div class="sidebar-logo">
+    <img src="medStudy.png" alt="Logo MedStudy" style="width: 42px; height: 42px; object-fit: contain; filter: drop-shadow(0 4px 14px rgba(124,58,237,0.35));">
+    <div>
+      <div class="logo-text">MedStudy</div>
+      <div class="logo-sub">Anatomy Made Easy</div>
+    </div>
+  </div>
+
+  <div class="nav-scroll" id="chapters-menu">
+  <div class="sidebar-section-label">Capitole</div>
+
+  <!-- Subscription status pill — shown when active -->
+  <div id="sub-status-pill">
+    <span class="pill-dot"></span>
+    <span id="sub-status-text">Abonat activ</span>
+  </div>
+
+  <a class="nav-item" href="cap1.html"><span class="nav-num">1</span>Introducere în A&B</a>
+  <a class="nav-item" href="cap2.html"><span class="nav-num">2</span>Bazele Chimice</a>
+  <!-- CAP 3-23: locked by default; JS unlocks if subscription is valid -->
+  <a class="nav-item locked-chapter locked" id="nav-cap3"  href="cap3.html"  data-cap="3"><span class="nav-num">3</span>Fiziologia celulară</a>
+  <a class="nav-item locked-chapter locked" id="nav-cap4"  href="cap4.html"  data-cap="4"><span class="nav-num">4</span>Țesuturile</a>
+  <a class="nav-item locked-chapter locked" id="nav-cap5"  href="cap5.html"  data-cap="5"><span class="nav-num">5</span>Sistemul Tegumentar</a>
+  <a class="nav-item locked-chapter locked" id="nav-cap6"  href="cap6.html"  data-cap="6"><span class="nav-num">6</span>Oasele și Articulațiile</a>
+  <a class="nav-item locked-chapter locked" id="nav-cap7"  href="cap7.html"  data-cap="7"><span class="nav-num">7</span>Sistemul Osos</a>
+  <a class="nav-item locked-chapter locked" id="nav-cap8"  href="cap8.html"  data-cap="8"><span class="nav-num">8</span>Țesutul Muscular</a>
+  <a class="nav-item locked-chapter locked" id="nav-cap9"  href="cap9.html"  data-cap="9"><span class="nav-num">9</span>Sistemul Muscular</a>
+  <a class="nav-item locked-chapter locked" id="nav-cap10" href="cap10.html" data-cap="10"><span class="nav-num">10</span>Țesutul Nervos</a>
+  <a class="nav-item locked-chapter locked" id="nav-cap11" href="cap11.html" data-cap="11"><span class="nav-num">11</span>Organizarea Sistemului Nervos</a>
+  <a class="nav-item locked-chapter locked" id="nav-cap12" href="cap12.html" data-cap="12"><span class="nav-num">12</span>Organele de Simț</a>
+  <a class="nav-item locked-chapter locked" id="nav-cap13" href="cap13.html" data-cap="13"><span class="nav-num">13</span>Sistemul Endocrin</a>
+  <a class="nav-item locked-chapter locked" id="nav-cap14" href="cap14.html" data-cap="14"><span class="nav-num">14</span>Sângele</a>
+  <a class="nav-item locked-chapter locked" id="nav-cap15" href="cap15.html" data-cap="15"><span class="nav-num">15</span>Sistemul Cardiovascular</a>
+  <a class="nav-item locked-chapter locked" id="nav-cap16" href="cap16.html" data-cap="16"><span class="nav-num">16</span>Sistemul Limfatic</a>
+  <a class="nav-item locked-chapter locked" id="nav-cap17" href="cap17.html" data-cap="17"><span class="nav-num">17</span>Sistemul Respirator</a>
+  <a class="nav-item locked-chapter locked" id="nav-cap18" href="cap18.html" data-cap="18"><span class="nav-num">18</span>Sistemul Digestiv</a>
+  <a class="nav-item locked-chapter locked" id="nav-cap19" href="cap19.html" data-cap="19"><span class="nav-num">19</span>Metabolism & Nutriție</a>
+  <a class="nav-item locked-chapter locked" id="nav-cap20" href="cap20.html" data-cap="20"><span class="nav-num">20</span>Sistemul Urinar</a>
+  <a class="nav-item locked-chapter locked" id="nav-cap21" href="cap21.html" data-cap="21"><span class="nav-num">21</span>Echilibrul Hidro-Electrolitic</a>
+  <a class="nav-item locked-chapter locked" id="nav-cap22" href="cap22.html" data-cap="22"><span class="nav-num">22</span>Sistemul Reproducător Masculin</a>
+  <a class="nav-item locked-chapter locked" id="nav-cap23" href="cap23.html" data-cap="23"><span class="nav-num">23</span>Sistemul Reproducător Feminin</a>
+</div>
+
+  <div class="sidebar-footer">
+    <div class="prog-label"><span>Progres curs</span><span>1 / 23</span></div>
+    <div class="prog-track"><div class="prog-fill"></div></div>
+  </div>
+</aside>
+
+
+
+<!-- ═════════════ MAIN ═════════════ -->
+<main id="main">
+
+  <!-- TOP BAR -->
+  <nav class="topbar">
+    <div class="breadcrumb">
+      <span>A&F Umană</span>
+      <span class="bc-sep">›</span>
+      <span>Capitol 1</span>
+      <span class="bc-sep">›</span>
+      <span class="current">Introducere</span>
+    </div>
+    <span class="badge-pill">🎓 Pregătire Admitere Medicină</span>
+  </nav>
+
+  <!-- HERO -->
+  <header class="hero">
+    <div class="hero-eyebrow fu fu-1">Capitol 1 — Nivel introductiv</div>
+    <h1 class="fu fu-2">Introducere în<br><span>Anatomie & Fiziologie</span></h1>
+    <p class="hero-sub fu fu-3">
+      Conceptele fundamentale ale A&F: niveluri de organizare structurală, funcțiile vitale ale organismului, homeostazia, terminologia direcțională, planurile corpului, cavitățile și regiunile anatomice.
+    </p>
+    <div class="hero-chips fu fu-4">
+      <div class="hero-chip"><strong>7</strong> Niveluri organizare</div>
+      <div class="hero-chip"><strong>12</strong> Sisteme de organe</div>
+      <div class="hero-chip"><strong>11</strong> Termeni direcționali</div>
+      <div class="hero-chip"><strong>3</strong> Planuri corporale</div>
+      <div class="hero-chip"><strong>9</strong> Regiuni abdominale</div>
+    </div>
+  </header>
+
+  <!-- TABS -->
+  <div class="tab-bar">
+    <button class="tab-btn active" onclick="showPanel('infografice',this)">🫁 Infografice interactive</button>
+    <button class="tab-btn" onclick="showPanel('scheme',this)">🔗 Scheme & Planuri</button>
+    <button class="tab-btn" onclick="showPanel('tabele',this)">📊 Tabele comparative</button>
+    <button class="tab-btn" onclick="showPanel('termeni',this)">🧭 Termeni direcționali</button>
+    <button class="tab-btn" onclick="showPanel('quiz',this)">✏️ Test rapid (10 Q)</button>
+  </div>
+
+  <!-- ════════════════════════════════════════════
+       PANEL 1 — INFOGRAFICE
+  ════════════════════════════════════════════ -->
+  <div class="content">
+
+  <div class="panel active" id="panel-infografice">
+
+    <!-- NIVELURI ORGANIZARE -->
+    <div class="gcard fu fu-1">
+      <div class="gcard-title">
+        <div class="ct-icon" style="background:var(--blue-light)"></div>
+        Niveluri de organizare structurală — Click pentru detalii
+      </div>
+      <p style="font-size:13px;color:var(--text2);margin-bottom:20px">Corpul uman este organizat ierarhic de la cel mai simplu la cel mai complex. Click pe oricare nivel pentru a descoperi importanța clinică.</p>
+
+      <!-- LEVELS -->
+      <div id="levels-container">
+
+        <div class="level-row" onclick="toggleLevel(this)">
+          <div class="level-bar" style="background:#5b8dee"></div>
+          <div class="level-body">
+            <div class="level-head">
+              <div class="level-num" style="background:var(--blue-light);color:var(--blue)">1</div>
+              <div class="level-info">
+                <div class="level-name">Atomi</div>
+                <div class="level-short">Cel mai simplu nivel de organizare materială</div>
+              </div>
+              <span class="level-chevron">›</span>
+            </div>
+            <div class="level-detail-panel">
+              Atomii sunt unități ale elementelor: <strong>oxigen (O)</strong> — respirație celulară, <strong>carbon (C)</strong> — schelet organic, <strong>azot (N)</strong> — aminoacizi/proteine, <strong>calciu (Ca)</strong> — contracție musculară + mineralizare osoasă, <strong>sodiu (Na) & potasiu (K)</strong> — potențial de acțiune nervos, <strong>fier (Fe)</strong> — hemoglobina.
+              <div style="margin-top:8px;padding:8px 12px;background:var(--orange-light);border-radius:8px;font-size:12px;color:#92400e">⚠️ La admitere: <strong>deficitul de Fe</strong> → anemie feriprivă; <strong>deficitul de Ca</strong> → tetanie.</div>
+            </div>
+          </div>
+        </div>
+
+        <div class="level-row" style="margin-top:6px" onclick="toggleLevel(this)">
+          <div class="level-bar" style="background:#06b6d4"></div>
+          <div class="level-body">
+            <div class="level-head">
+              <div class="level-num" style="background:var(--cyan-light);color:var(--cyan)">2</div>
+              <div class="level-info">
+                <div class="level-name">Molecule</div>
+                <div class="level-short">Atomi combinați — apă, glucoză, proteine, lipide, ADN</div>
+              </div>
+              <span class="level-chevron">›</span>
+            </div>
+            <div class="level-detail-panel">
+              Molecule vitale în corpul uman: <strong>Apă (H₂O)</strong> — 60–70% din corp, solvent universal; <strong>ADN</strong> — informație genetică; <strong>Hemoglobina</strong> — transport O₂ (legat de Fe); <strong>Insulina</strong> — reglarea glicemiei; <strong>Colagenul</strong> — rezistența țesutului conjunctiv; <strong>Glucoza</strong> — principalul combustibil celular.
+              <div style="margin-top:8px;padding:8px 12px;background:var(--cyan-light);border-radius:8px;font-size:12px;color:#155e75">💡 Principiu: <strong>forma moleculei = funcția sa</strong> (ex: hemoglobina sferică permite transportul O₂).</div>
+            </div>
+          </div>
+        </div>
+
+        <div class="level-row" style="margin-top:6px" onclick="toggleLevel(this)">
+          <div class="level-bar" style="background:#8b5cf6"></div>
+          <div class="level-body">
+            <div class="level-head">
+              <div class="level-num" style="background:var(--violet-light);color:var(--violet)">3</div>
+              <div class="level-info">
+                <div class="level-name">Celule</div>
+                <div class="level-short">Unitatea fundamentală a vieții — conțin organite specializate</div>
+              </div>
+              <span class="level-chevron">›</span>
+            </div>
+            <div class="level-detail-panel">
+              Celula conține: <strong>nucleu</strong> (ADN + control), <strong>mitocondrii</strong> (producere ATP), <strong>ribozomi</strong> (sinteză proteine), <strong>lizozomi</strong> (digestie celulară). Tipuri importante: <strong>neuroni</strong> — conductibilitate; <strong>eritrocite</strong> — transport O₂ (fără nucleu!); <strong>miocite</strong> — contracție; <strong>hepatocite</strong> — detoxifiere; <strong>osteocite</strong> — menținere os.
+              <div style="margin-top:8px;padding:8px 12px;background:var(--violet-light);border-radius:8px;font-size:12px;color:#5b21b6">📌 Histologia = studiul microscopic al celulelor și țesuturilor (Capitolul 4).</div>
+            </div>
+          </div>
+        </div>
+
+        <div class="level-row" style="margin-top:6px" onclick="toggleLevel(this)">
+          <div class="level-bar" style="background:#10b981"></div>
+          <div class="level-body">
+            <div class="level-head">
+              <div class="level-num" style="background:var(--green-light);color:var(--green)">4</div>
+              <div class="level-info">
+                <div class="level-name">Țesuturi</div>
+                <div class="level-short">4 tipuri — epitelial · conjunctiv · muscular · nervos</div>
+              </div>
+              <span class="level-chevron">›</span>
+            </div>
+            <div class="level-detail-panel">
+              <div style="display:grid;grid-template-columns:1fr 1fr;gap:8px">
+                <div style="background:var(--blue-light);border-radius:8px;padding:8px 10px"><strong style="color:var(--blue);font-size:12px">EPITELIAL</strong><br><span style="font-size:11.5px">Acoperire & protecție. Epiderm, mucoase, glande.</span></div>
+                <div style="background:var(--violet-light);border-radius:8px;padding:8px 10px"><strong style="color:var(--violet);font-size:12px">CONJUNCTIV</strong><br><span style="font-size:11.5px">Susținere & legătură. Sânge, os, cartilaj, grăsime.</span></div>
+                <div style="background:var(--orange-light);border-radius:8px;padding:8px 10px"><strong style="color:var(--orange);font-size:12px">MUSCULAR</strong><br><span style="font-size:11.5px">Contracție & mișcare. Scheletic, neted, cardiac.</span></div>
+                <div style="background:var(--pink-light);border-radius:8px;padding:8px 10px"><strong style="color:var(--pink);font-size:12px">NERVOS</strong><br><span style="font-size:11.5px">Conducere impulsuri. Neuroni + celule gliale.</span></div>
+              </div>
+            </div>
+          </div>
+        </div>
+
+        <div class="level-row" style="margin-top:6px" onclick="toggleLevel(this)">
+          <div class="level-bar" style="background:#f59e0b"></div>
+          <div class="level-body">
+            <div class="level-head">
+              <div class="level-num" style="background:var(--orange-light);color:var(--orange)">5</div>
+              <div class="level-info">
+                <div class="level-name">Organe</div>
+                <div class="level-short">≥ 2 tipuri de țesuturi cu funcție specializată</div>
+              </div>
+              <span class="level-chevron">›</span>
+            </div>
+            <div class="level-detail-panel">
+              Un organ = centru anatomofiziologic specializat. Exemplu clasic: <strong>stomacul</strong> = epitelial (mucoasă secretoare) + muscular neted (peristaltism) + nervos (plexuri Meissner/Auerbach) + conjunctiv (suport). Fiecare tip de țesut contribuie la funcția globală a organului.
+              <div style="margin-top:8px;padding:8px 12px;background:var(--orange-light);border-radius:8px;font-size:12px;color:#92400e">💡 STRUCTURA → FUNCȚIE: forma oricărui organ reflectă ce face. Plămânii = milioane alveole cu pereți subțiri → suprafață maximă pentru schimb gazos.</div>
+            </div>
+          </div>
+        </div>
+
+        <div class="level-row" style="margin-top:6px" onclick="toggleLevel(this)">
+          <div class="level-bar" style="background:#ec4899"></div>
+          <div class="level-body">
+            <div class="level-head">
+              <div class="level-num" style="background:var(--pink-light);color:var(--pink)">6</div>
+              <div class="level-info">
+                <div class="level-name">Sisteme de organe</div>
+                <div class="level-short">Organe cu funcții complementare — 12 sisteme majore</div>
+              </div>
+              <span class="level-chevron">›</span>
+            </div>
+            <div class="level-detail-panel">
+              Sisteme principale: Tegument, Scheletic, Muscular, Nervos, Endocrin, Cardiovascular, Limfatic/Imunitar, Respirator, Digestiv, Urinar, Reproducător. Fiecare cu funcție distinctă, dar toate cooperează pentru homeostaziei.
+              <div style="margin-top:8px;padding:8px 12px;background:var(--pink-light);border-radius:8px;font-size:12px;color:#9d174d">⚠️ Toate sistemele participă la menținerea homeostaziei — vor fi detaliate în capitolele 5–22.</div>
+            </div>
+          </div>
+        </div>
+
+        <div class="level-row" style="margin-top:6px" onclick="toggleLevel(this)">
+          <div class="level-bar" style="background:linear-gradient(#7c3aed,#ec4899)"></div>
+          <div class="level-body">
+            <div class="level-head">
+              <div class="level-num" style="background:linear-gradient(135deg,#ede9fe,#fce7f3);color:var(--accent)">7</div>
+              <div class="level-info">
+                <div class="level-name">Organism</div>
+                <div class="level-short">Cel mai înalt nivel — ființă vie integrată</div>
+              </div>
+              <span class="level-chevron">›</span>
+            </div>
+            <div class="level-detail-panel">
+              Organismul uman este suma tuturor nivelurilor, funcționând ca unitate coerentă. Perturbarea oricărui nivel (atom → sistem) poate afecta întregul organism. Studiul de caz clinic integrează cunoștințe din toate nivelurile.
+              <div style="margin-top:8px;padding:8px 12px;background:linear-gradient(135deg,#ede9fe,#fce7f3);border-radius:8px;font-size:12px;color:var(--accent)">🏆 La admitere: știi să urmărești un fenomen de la nivel molecular → manifestare clinică!</div>
+            </div>
+          </div>
+        </div>
+      </div>
+
+      
+    </div>
+
+    <!-- HOMEOSTAZIA -->
+    <div class="gcard fu fu-2">
+      <div class="gcard-title">
+        <div class="ct-icon" style="background:var(--green-light)"></div>
+        Homeostazia — Mecanism de reglare (Feed-back negativ vs. pozitiv)
+      </div>
+      <div class="g2">
+        <div>
+          <div class="hbox hbox-green">
+            <strong>Ce este homeostazia?</strong>
+            Totalitatea proceselor care mențin <em>parametrii mediului intern</em> în limite normale, indiferent de variațiile mediului extern. Implică menținerea constantă a compoziției chimice și fizice a lichidelor intra- și extracelulare.
+          </div>
+          <div class="hbox hbox-blue">
+            <strong>Componentele unui mecanism de feed-back</strong>
+            <strong style="color:var(--blue)">1. Valoarea de referință</strong> — norma parametrului (ex: 37°C, glicemie 80–120 mg/dL)<br>
+            <strong style="color:var(--blue)">2. Receptor/senzor</strong> — detectează devierea<br>
+            <strong style="color:var(--blue)">3. Centru de control</strong> — integrează, stabilește răspunsul<br>
+            <strong style="color:var(--blue)">4. Efector</strong> — produce răspunsul corectiv
+          </div>
+          <div class="hbox hbox-orange">
+            <strong>Feed-back NEGATIV (principal)</strong>
+            Răspunsul <em>reduce</em> devierea → readuce sistemul la valoarea de referință. Exemplu: glicemie↑ → insulină↑ → glucoza intră în celule → glicemie↓ → insulină↓.
+          </div>
+          <div class="hbox hbox-violet">
+            <strong>Feed-back POZITIV (excepțional)</strong>
+            Răspunsul <em>amplifică</em> devierea până la un răspuns final specific. Exemple: <strong>nașterea</strong> (oxitocina amplifică contracțiile) și <strong>coagularea sângelui</strong> (factori de coagulare se amplifică reciproc).
+          </div>
+        </div>
+
+        <!-- FLOW DIAGRAM -->
+        <div>
+          <p style="font-size:12.5px;font-weight:700;color:var(--text2);margin-bottom:12px;text-transform:uppercase;letter-spacing:.06em">Diagrama feed-back negativ</p>
+          <div class="flow-chain">
+            <div class="flow-node-item center">
+              <div class="flow-icon-box" style="background:var(--green-light)">🏠</div>
+              <div>
+                <div class="flow-node-title" style="color:var(--green)">HOMEOSTAZIE</div>
+                <div class="flow-node-sub">Stare normală — parametri în limite</div>
+              </div>
+            </div>
+            <div class="flow-arrow">↓</div>
+            <div class="flow-node-item">
+              <div class="flow-icon-box" style="background:var(--pink-light)">⚡</div>
+              <div>
+                <div class="flow-node-title">Stimul perturbator</div>
+                <div class="flow-node-sub">Boală, căldură, hipoxie, stres</div>
+              </div>
+            </div>
+            <div class="flow-arrow">↓</div>
+            <div class="flow-node-item">
+              <div class="flow-icon-box" style="background:var(--blue-light)">👁️</div>
+              <div>
+                <div class="flow-node-title">Receptor / Senzor</div>
+                <div class="flow-node-sub">Detectează devierea de la valoarea de referință</div>
+              </div>
+            </div>
+            <div class="flow-arrow">↓</div>
+            <div class="flow-node-item">
+              <div class="flow-icon-box" style="background:var(--violet-light)">🧠</div>
+              <div>
+                <div class="flow-node-title">Centru de control</div>
+                <div class="flow-node-sub">Integrează informațiile, stabilește răspunsul</div>
+              </div>
+            </div>
+            <div class="flow-arrow">↓</div>
+            <div class="flow-node-item">
+              <div class="flow-icon-box" style="background:var(--cyan-light)">⚙️</div>
+              <div>
+                <div class="flow-node-title">Efector</div>
+                <div class="flow-node-sub">Produce răspunsul corectiv</div>
+              </div>
+            </div>
+            <div class="flow-back-note">↩ Feed-back negativ → Homeostazie restaurată ✓</div>
+          </div>
+
+          <!-- GLUCOSE EXAMPLE -->
+          <div style="margin-top:14px;background:var(--green-light);border-radius:12px;padding:14px 16px">
+            <div style="font-size:12px;font-weight:800;color:var(--green);margin-bottom:8px;text-transform:uppercase;letter-spacing:.06em">📘 Exemplu clasic — Reglarea glicemiei</div>
+            <div style="display:flex;flex-wrap:wrap;gap:5px;font-size:11.5px;align-items:center">
+              <span style="background:white;border-radius:6px;padding:3px 8px;color:#065f46">Masă → glicemie↑</span>
+              <span style="color:var(--text3)">→</span>
+              <span style="background:white;border-radius:6px;padding:3px 8px;color:#065f46">Celule β pancreatice</span>
+              <span style="color:var(--text3)">→</span>
+              <span style="background:white;border-radius:6px;padding:3px 8px;color:#065f46">Insulină eliberată</span>
+              <span style="color:var(--text3)">→</span>
+              <span style="background:white;border-radius:6px;padding:3px 8px;color:#065f46">Glucoza intră în celule</span>
+              <span style="color:var(--text3)">→</span>
+              <span style="background:white;border-radius:6px;padding:3px 8px;color:#065f46;font-weight:700">Glicemie↓ = Homeostazie ✓</span>
+            </div>
+          </div>
+        </div>
+      </div>
+    </div>
+
+    <!-- FUNCTII VITALE -->
+    <div class="gcard fu fu-3">
+      <div class="gcard-title">
+        <div class="ct-icon" style="background:var(--orange-light)"></div>
+        Funcțiile vitale ale organismului uman
+      </div>
+      <p style="font-size:13px;color:var(--text2);margin-bottom:18px">Funcțiile care diferențiază materia vie de materia nevie — comune tuturor vieților.</p>
+      <div class="g3">
+        <div class="func-card">
+          <span class="func-icon"></span>
+          <div class="func-name" style="color:var(--blue)">METABOLISM</div>
+          <div class="func-desc">Suma proceselor chimice. <strong>Catabolism</strong> = descompunere + energie. <strong>Anabolism</strong> = sinteză + consum energie.</div>
+        </div>
+        <div class="func-card">
+          <span class="func-icon"></span>
+          <div class="func-name" style="color:var(--green)">MIȘCARE</div>
+          <div class="func-desc">Contracția celulelor musculare. <strong>Voluntară</strong> (schelet) sau <strong>involuntară</strong> (cardiac, neted).</div>
+        </div>
+        <div class="func-card">
+          <span class="func-icon"></span>
+          <div class="func-name" style="color:var(--violet)">CONDUCTIBILITATE</div>
+          <div class="func-desc">Transmiterea stimulilor. Specifică <strong>neuronilor</strong> și <strong>celulelor musculare</strong>.</div>
+        </div>
+        <div class="func-card">
+          <span class="func-icon"></span>
+          <div class="func-name" style="color:var(--cyan)">CREȘTERE</div>
+          <div class="func-desc">Mărirea masei corporale prin asimilarea de substanțe din mediu.</div>
+        </div>
+        <div class="func-card">
+          <span class="func-icon"></span>
+          <div class="func-name" style="color:var(--pink)">REPRODUCERE</div>
+          <div class="func-desc"><strong>Sexuată</strong>: spermatozoid + ovul = zigot. <strong>Asexuată</strong>: diviziune celulară (creștere, reparație).</div>
+        </div>
+        <div class="func-card">
+          <span class="func-icon"></span>
+          <div class="func-name" style="color:var(--orange)">EXCREȚIE</div>
+          <div class="func-desc">Eliminarea produșilor de degradare metabolică. Rinichi, plămâni, piele, ficat.</div>
+        </div>
+      </div>
+    </div>
+
+  </div><!-- /panel-infografice -->
+
+
+  <!-- ════════════════════════════════════════════
+       PANEL 2 — SCHEME & PLANURI
+  ════════════════════════════════════════════ -->
+  <div class="panel" id="panel-scheme">
+
+    <!-- PLANURI CORPORALE -->
+    <div class="gcard">
+      <div class="gcard-title"><div class="ct-icon" style="background:var(--blue-light)"></div>Planurile corpului uman — Interactive</div>
+      <p style="font-size:13px;color:var(--text2);margin-bottom:18px">Selectează un plan pentru a vedea orientarea, descrierea și utilizarea clinică.</p>
+
+      <div class="plane-btns">
+        <button class="plane-btn plane-btn-sagital active" onclick="selectPlane('sagital',this)">Plan Sagital</button>
+        <button class="plane-btn plane-btn-frontal" onclick="selectPlane('frontal',this)">Plan Frontal / Coronal</button>
+        <button class="plane-btn plane-btn-transversal" onclick="selectPlane('transversal',this)">Plan Transversal / Orizontal</button>
+      </div>
+
+      <div class="g2" style="align-items:start">
+        <!-- SVG BODY WITH PLANES -->
+        <div style="text-align:center">
+          <svg id="planes-svg" width="100%" viewBox="0 0 280 400" xmlns="http://www.w3.org/2000/svg">
+            <!-- Soft body silhouette -->
+            <ellipse cx="140" cy="58" rx="40" ry="44" fill="rgba(180,160,255,0.12)" stroke="rgba(124,58,237,0.25)" stroke-width="1.5"/>
+            <rect x="130" y="98" width="20" height="16" fill="rgba(180,160,255,0.12)" stroke="rgba(124,58,237,0.25)" stroke-width="1.5"/>
+            <path d="M 104 114 Q 96 118 94 144 L 90 252 Q 88 262 94 266 L 188 266 Q 194 262 192 252 L 188 144 Q 186 118 178 114 Z" fill="rgba(180,160,255,0.1)" stroke="rgba(124,58,237,0.22)" stroke-width="1.5"/>
+            <path d="M 94 120 Q 76 124 70 160 L 64 232 Q 62 242 68 246 L 86 246 Q 92 242 92 232 L 94 158 Z" fill="rgba(180,160,255,0.08)" stroke="rgba(124,58,237,0.2)" stroke-width="1.5"/>
+            <path d="M 188 120 Q 206 124 212 160 L 218 232 Q 220 242 214 246 L 196 246 Q 190 242 190 232 L 188 158 Z" fill="rgba(180,160,255,0.08)" stroke="rgba(124,58,237,0.2)" stroke-width="1.5"/>
+            <path d="M 90 260 L 86 272 L 82 360 L 92 370 L 110 370 L 118 360 L 114 272 Z" fill="rgba(180,160,255,0.08)" stroke="rgba(124,58,237,0.2)" stroke-width="1.5"/>
+            <path d="M 192 260 L 196 272 L 200 360 L 190 370 L 172 370 L 164 360 L 168 272 Z" fill="rgba(180,160,255,0.08)" stroke="rgba(124,58,237,0.2)" stroke-width="1.5"/>
+
+            <!-- SAGITAL PLANE -->
+            <g id="svg-sagital" style="opacity:1">
+              <rect x="135" y="10" width="10" height="375" rx="2" fill="rgba(91,141,238,0.35)" stroke="#5b8dee" stroke-width="1.5"/>
+              <text x="148" y="395" fill="#5b8dee" font-size="10" font-family="Outfit,sans-serif" font-weight="700">SAGITAL</text>
+            </g>
+
+            <!-- FRONTAL PLANE -->
+            <g id="svg-frontal" style="opacity:0.2">
+              <ellipse cx="140" cy="200" rx="118" ry="178" fill="rgba(139,92,246,0.07)" stroke="#8b5cf6" stroke-width="1.5" stroke-dasharray="7,4"/>
+              <text x="22" y="70" fill="#8b5cf6" font-size="9" font-family="Outfit,sans-serif" font-weight="700" transform="rotate(-90,22,200)">FRONTAL / CORONAL</text>
+            </g>
+
+            <!-- TRANSVERSAL PLANE -->
+            <g id="svg-transversal" style="opacity:0.2">
+              <ellipse cx="140" cy="185" rx="90" ry="13" fill="rgba(16,185,129,0.15)" stroke="#10b981" stroke-width="1.5" stroke-dasharray="6,3"/>
+              <text x="238" y="189" fill="#10b981" font-size="9" font-family="Outfit,sans-serif" font-weight="700">TRANSV.</text>
+            </g>
+
+            <!-- Labels -->
+            <text x="220" y="22" fill="#9ca3af" font-size="10" font-family="Outfit,sans-serif">↑ Superior</text>
+            <text x="220" y="390" fill="#9ca3af" font-size="10" font-family="Outfit,sans-serif">↓ Inferior</text>
+          </svg>
+        </div>
+
+        <div>
+          <div class="plane-info-block show hbox hbox-blue" id="pi-sagital">
+            <strong>Plan SAGITAL</strong>
+            <strong style="color:var(--text)">Orientare:</strong> Vertical. Divide corpul în <strong>stâng ↔ drept</strong>.<br><br>
+            <strong style="color:var(--text)">Mediosagital</strong> = două jumătăți EGALE (planul median central)<br>
+            <strong style="color:var(--text)">Parasagital</strong> = două jumătăți inegale (lateral față de centru)<br><br>
+            <strong style="color:var(--text)">Utilizare clinică:</strong> RMN sagital — vizualizarea coloanei vertebrale, creierului, structurilor mediane.
+          </div>
+          <div class="plane-info-block hbox hbox-violet" id="pi-frontal">
+            <strong>Plan FRONTAL / CORONAL</strong>
+            <strong style="color:var(--text)">Orientare:</strong> Vertical, perpendicular pe sagital (90°). Divide corpul în <strong>anterior ↔ posterior</strong>.<br><br>
+            Sinonim: plan coronal (din „corona" = coroană, trece prin suturile coronale ale craniului).<br><br>
+            <strong style="color:var(--text)">Utilizare clinică:</strong> Radiografia frontală de torace (PA). Vizualizarea raporturilor față-spate.
+          </div>
+          <div class="plane-info-block hbox hbox-green" id="pi-transversal">
+            <strong>Plan TRANSVERSAL / ORIZONTAL</strong>
+            <strong style="color:var(--text)">Orientare:</strong> Orizontal. Divide corpul în <strong>superior ↔ inferior</strong>.<br><br>
+            Secțiunile transversale se obțin prin <strong>CT (tomografie computerizată)</strong> și <strong>IRM axial</strong>.<br><br>
+            <strong style="color:var(--text)">Utilizare clinică:</strong> CT abdominal — cel mai frecvent plan de examinare în urgențe.
+          </div>
+
+          <table class="mtable" style="margin-top:16px;border-radius:10px;overflow:hidden">
+            <thead><tr><th>Plan</th><th>Divide în</th><th>Sinonim</th></tr></thead>
+            <tbody>
+              <tr><td><span class="tag t-blue">Sagital</span></td><td class="hl">Stâng / Drept</td><td>Median, Parasagital</td></tr>
+              <tr><td><span class="tag t-violet">Frontal</span></td><td class="hl">Anterior / Posterior</td><td>Coronal</td></tr>
+              <tr><td><span class="tag t-green">Transversal</span></td><td class="hl">Superior / Inferior</td><td>Orizontal, CT/IRM axial</td></tr>
+            </tbody>
+          </table>
+        </div>
+      </div>
+    </div>
+
+    <!-- CAVITATI -->
+    <div class="gcard">
+      <div class="gcard-title"><div class="ct-icon" style="background:var(--pink-light)"></div>Cavitățile corpului — Schemă completă</div>
+      <div class="g2">
+        <!-- SVG CAVITIES -->
+        <div>
+          <svg width="100%" viewBox="0 0 260 420" xmlns="http://www.w3.org/2000/svg">
+            <!-- Head/Cranial -->
+            <ellipse cx="130" cy="55" rx="54" ry="47" fill="rgba(91,141,238,0.1)" stroke="#5b8dee" stroke-width="1.5"/>
+            <text x="130" y="50" text-anchor="middle" fill="#5b8dee" font-size="10" font-weight="800" font-family="Outfit,sans-serif">CAVITATE</text>
+            <text x="130" y="64" text-anchor="middle" fill="#5b8dee" font-size="10" font-weight="800" font-family="Outfit,sans-serif">CRANIANĂ</text>
+            <!-- Spine -->
+            <line x1="130" y1="104" x2="130" y2="288" stroke="#5b8dee" stroke-width="3" stroke-dasharray="8,4" opacity=".4"/>
+            <text x="144" y="200" fill="#5b8dee" font-size="9" font-family="Outfit,sans-serif" opacity=".7">canal rahidian</text>
+            <!-- DORSAL bracket -->
+            <path d="M30 12 Q18 12 18 55 Q18 195 26 210" fill="none" stroke="#5b8dee" stroke-width="1.5" opacity=".5"/>
+            <text x="2" y="115" fill="#5b8dee" font-size="9" font-family="Outfit,sans-serif" writing-mode="tb" opacity=".7">DORSALĂ</text>
+
+            <!-- Thoracic -->
+            <rect x="66" y="110" width="128" height="90" rx="12" fill="rgba(6,182,212,0.07)" stroke="#06b6d4" stroke-width="1.5"/>
+            <text x="130" y="130" text-anchor="middle" fill="#06b6d4" font-size="10" font-weight="800" font-family="Outfit,sans-serif">CAVITATE TORACICĂ</text>
+            <ellipse cx="98" cy="158" rx="20" ry="24" fill="rgba(6,182,212,0.12)" stroke="#06b6d4" stroke-width="1" stroke-dasharray="3,2"/>
+            <text x="98" y="162" text-anchor="middle" fill="#06b6d4" font-size="8" font-family="Outfit,sans-serif">plămân</text>
+            <ellipse cx="164" cy="158" rx="20" ry="24" fill="rgba(6,182,212,0.12)" stroke="#06b6d4" stroke-width="1" stroke-dasharray="3,2"/>
+            <text x="164" y="162" text-anchor="middle" fill="#06b6d4" font-size="8" font-family="Outfit,sans-serif">plămân</text>
+            <ellipse cx="130" cy="162" rx="13" ry="15" fill="rgba(236,72,153,0.2)" stroke="#ec4899" stroke-width="1.5"/>
+            <text x="130" y="166" text-anchor="middle" fill="#ec4899" font-size="7.5" font-family="Outfit,sans-serif">♥ inimă</text>
+
+            <!-- Diaphragm -->
+            <path d="M66 200 Q98 216 130 212 Q162 216 194 200" fill="none" stroke="#f59e0b" stroke-width="2.5"/>
+            <text x="200" y="214" fill="#f59e0b" font-size="9" font-family="Outfit,sans-serif">diafragmă</text>
+
+            <!-- Abdominal -->
+            <rect x="70" y="208" width="120" height="72" rx="8" fill="rgba(139,92,246,0.07)" stroke="#8b5cf6" stroke-width="1.5" stroke-dasharray="5,3"/>
+            <text x="130" y="228" text-anchor="middle" fill="#8b5cf6" font-size="9.5" font-weight="800" font-family="Outfit,sans-serif">SUBDIV. ABDOMINALĂ</text>
+            <text x="130" y="244" text-anchor="middle" fill="#6b7280" font-size="8.5" font-family="Outfit,sans-serif">stomac, ficat, splină,</text>
+            <text x="130" y="256" text-anchor="middle" fill="#6b7280" font-size="8.5" font-family="Outfit,sans-serif">intestine, pancreas</text>
+            <text x="130" y="268" text-anchor="middle" fill="#6b7280" font-size="8" font-family="Outfit,sans-serif">(= cavitate peritoneală)</text>
+
+            <!-- Pelvic -->
+            <rect x="78" y="282" width="104" height="54" rx="8" fill="rgba(16,185,129,0.07)" stroke="#10b981" stroke-width="1.5" stroke-dasharray="5,3"/>
+            <text x="130" y="302" text-anchor="middle" fill="#10b981" font-size="9.5" font-weight="800" font-family="Outfit,sans-serif">SUBDIV. PELVIANĂ</text>
+            <text x="130" y="318" text-anchor="middle" fill="#6b7280" font-size="8.5" font-family="Outfit,sans-serif">vezică, uter/prostată, rect</text>
+
+            <!-- VENTRAL bracket -->
+            <path d="M238 110 Q252 110 252 210 Q252 300 244 340" fill="none" stroke="#8b5cf6" stroke-width="1.5" opacity=".5"/>
+            <text x="254" y="240" fill="#8b5cf6" font-size="9" font-family="Outfit,sans-serif" writing-mode="tb" opacity=".7">VENTRALĂ</text>
+          </svg>
+        </div>
+
+        <div>
+          <div class="sum-box">
+            <h4>Structura cavităților</h4>
+            <ul class="sum-list">
+              <li><strong>Cavitate posterioară (dorsală)</strong>: de-a lungul suprafeței dorsale → cavitate craniană (encefal) + canal rahidian (măduvă)</li>
+              <li><strong>Cavitate anterioară (ventrală)</strong>: pe fața ventrală → toracică + abdomino-pelviană</li>
+              <li><strong>Cav. toracică</strong>: delimitată de coaste + mușchi intercostali → 2 cavități pleurale + cavitate pericardică + mediastin</li>
+              <li><strong>Mediastin</strong>: spațiul medial toracic → conține inima, esofagul, traheea, bronhiile, timusul, vase mari (NU plămânii!)</li>
+              <li><strong>Cav. abdomino-pelviană</strong>: separată de torace prin diafragmă → subdiv. abdominală + pelviană = cavitate peritoneală</li>
+            </ul>
+          </div>
+
+          <div class="hbox hbox-orange">
+            <strong>Organele retroperitoneale</strong>
+            Acoperite de peritoneu doar anterior (nu învelite complet): rinichi, uretere, pancreas, aortă abdominală, vena cavă inf. Sunt fixe, nu mobile.
+          </div>
+          <div class="hbox hbox-violet">
+            <strong>Cele 3 membrane seroase</strong>
+            <strong style="color:var(--violet)">Pleura</strong> → învelește plămânii<br>
+            <strong style="color:var(--violet)">Pericardul</strong> → învelește inima<br>
+            <strong style="color:var(--violet)">Peritoneul</strong> → învelește organele abdominale<br>
+            <em style="font-size:12px">Foița viscerală acoperă organul; foița parietală căptușește cavitatea. Lichidul seros între ele = lubrifiant.</em>
+          </div>
+        </div>
+      </div>
+    </div>
+
+    <!-- REGIUNI ABDOMINALE -->
+    <div class="gcard">
+      <div class="gcard-title"><div class="ct-icon" style="background:var(--orange-light)"></div>Regiunile abdomino-pelviene — 9 regiuni + 4 cadrane clinice</div>
+      <div class="g2">
+        <!-- 9 regions -->
+        <div>
+          <p style="font-size:12px;font-weight:700;color:var(--text2);margin-bottom:10px;text-transform:uppercase;letter-spacing:.06em">Cele 9 regiuni anatomice</p>
+          <div class="reg-grid">
+            <div class="reg-cell" style="background:#e0f7fb;border-color:#06b6d4;color:#0e7490">
+              <span class="rname" style="color:#06b6d4">Hipocondru Dr.</span>
+              <span class="rorg">Ficat, vezică biliară</span>
+            </div>
+            <div class="reg-cell" style="background:#e0f7fb;border-color:#06b6d4;color:#0e7490">
+              <span class="rname" style="color:#0369a1">Reg. Epigastrică</span>
+              <span class="rorg">Stomac, ficat stg., pancreas</span>
+            </div>
+            <div class="reg-cell" style="background:#e0f7fb;border-color:#06b6d4;color:#0e7490">
+              <span class="rname" style="color:#06b6d4">Hipocondru Stg.</span>
+              <span class="rorg">Splină, stomac stg.</span>
+            </div>
+            <div class="reg-cell" style="background:#ede9fe;border-color:#8b5cf6;color:#5b21b6">
+              <span class="rname" style="color:#8b5cf6">Flanc Drept</span>
+              <span class="rorg">Colon asc., rinichi dr.</span>
+            </div>
+            <div class="reg-cell" style="background:#d1fae5;border-color:#10b981;color:#064e3b;font-size:13px">
+              <span class="rname" style="color:#10b981">Reg. Ombilicală</span>
+              <span class="rorg">Intestin subțire, colon transv.</span>
+            </div>
+            <div class="reg-cell" style="background:#ede9fe;border-color:#8b5cf6;color:#5b21b6">
+              <span class="rname" style="color:#8b5cf6">Flanc Stâng</span>
+              <span class="rorg">Colon desc., rinichi stg.</span>
+            </div>
+            <div class="reg-cell" style="background:#fef3c7;border-color:#f59e0b;color:#78350f">
+              <span class="rname" style="color:#f59e0b">Reg. Iliacă Dr.</span>
+              <span class="rorg">Cecum, apendice ⚡</span>
+            </div>
+            <div class="reg-cell" style="background:#fce7f3;border-color:#ec4899;color:#831843">
+              <span class="rname" style="color:#ec4899">Hipogastru</span>
+              <span class="rorg">Vezică urinară, uter</span>
+            </div>
+            <div class="reg-cell" style="background:#fef3c7;border-color:#f59e0b;color:#78350f">
+              <span class="rname" style="color:#f59e0b">Reg. Iliacă Stg.</span>
+              <span class="rorg">Colon sigmoid</span>
+            </div>
+          </div>
+          <p style="font-size:11px;color:var(--text3);margin-top:8px">⚡ Apendicita → durere în reg. iliacă dreaptă (punctul McBurney)</p>
+        </div>
+        <!-- 4 quadrants -->
+        <div>
+          <p style="font-size:12px;font-weight:700;color:var(--text2);margin-bottom:10px;text-transform:uppercase;letter-spacing:.06em">Cele 4 cadrane clinice</p>
+          <div style="display:grid;grid-template-columns:1fr 1fr;gap:6px;max-width:320px">
+            <div style="background:#e8eeff;border:1px solid #5b8dee;border-radius:12px;padding:14px;font-size:12px">
+              <div style="font-weight:800;color:var(--blue);margin-bottom:4px">Cadran Sup. Drept</div>
+              <div style="color:#374151;line-height:1.5">Ficat, vezică biliară, duoden, pancreas dr., rinichi dr., colon hepatic</div>
+            </div>
+            <div style="background:#ede9fe;border:1px solid #8b5cf6;border-radius:12px;padding:14px;font-size:12px">
+              <div style="font-weight:800;color:var(--violet);margin-bottom:4px">Cadran Sup. Stâng</div>
+              <div style="color:#374151;line-height:1.5">Stomac, splină, pancreas stg., rinichi stg., colon splenic</div>
+            </div>
+            <div style="background:#d1fae5;border:1px solid #10b981;border-radius:12px;padding:14px;font-size:12px">
+              <div style="font-weight:800;color:var(--green);margin-bottom:4px">Cadran Inf. Drept</div>
+              <div style="color:#374151;line-height:1.5">Cecum, apendice vermiform, ovar/tuba dr., ureter dr.</div>
+            </div>
+            <div style="background:#fce7f3;border:1px solid #ec4899;border-radius:12px;padding:14px;font-size:12px">
+              <div style="font-weight:800;color:var(--pink);margin-bottom:4px">Cadran Inf. Stâng</div>
+              <div style="color:#374151;line-height:1.5">Colon sigmoid, ovar/tuba stg., ureter stg.</div>
+            </div>
+          </div>
+          <div class="hbox hbox-blue" style="margin-top:12px">
+            <strong>Importanță clinică a cadranelor</strong>
+            Folosite zilnic în examinarea clinică: "durere în cadranul inferior drept" = suspiciune apendicită; "durere în cadranul superior drept" = colică biliară. <strong>Cadranele sunt obligatorii la admitere!</strong>
+          </div>
+        </div>
+      </div>
+    </div>
+
+  </div><!-- /panel-scheme -->
+
+
+  <!-- ════════════════════════════════════════════
+       PANEL 3 — TABELE
+  ════════════════════════════════════════════ -->
+  <div class="panel" id="panel-tabele">
+
+    <!-- SISTEME DE ORGANE -->
+    <div class="gcard">
+      <div class="gcard-title"><div class="ct-icon" style="background:var(--violet-light)"></div>Cele 12 sisteme de organe — Tabel complet</div>
+      <div style="overflow-x:auto">
+        <table class="mtable" style="border-radius:12px;overflow:hidden">
+          <thead>
+            <tr><th>#</th><th>Sistem</th><th>Rol fiziologic principal</th><th>Componente majore</th><th>Categorie</th></tr>
+          </thead>
+          <tbody>
+            <tr><td style="color:var(--text3)">1</td><td class="hl">Tegument</td><td>Acoperă, protejează, termoregulare, senzații tactile</td><td>Piele, păr, unghii, glande sudoripare & sebacee</td><td><span class="tag t-orange">Protecție</span></td></tr>
+            <tr><td style="color:var(--text3)">2</td><td class="hl">Scheletic</td><td>Structură, suport, protecție organe, hemopoieză (producere sânge)</td><td>Oase (206), cartilaje, ligamente, articulații</td><td><span class="tag t-blue">Suport</span></td></tr>
+            <tr><td style="color:var(--text3)">3</td><td class="hl">Muscular</td><td>Mișcare, postură, producere căldură</td><td>Mușchi striați scheletici, mușchi netezi, mușchi cardiac</td><td><span class="tag t-green">Mișcare</span></td></tr>
+            <tr><td style="color:var(--text3)">4</td><td class="hl">Nervos</td><td>Primește stimuli, integrează, coordonează funcțiile</td><td>Encefal, măduvă spinării, nervi periferici, organe de simț</td><td><span class="tag t-violet">Control</span></td></tr>
+            <tr><td style="color:var(--text3)">5</td><td class="hl">Endocrin</td><td>Coordonare chimică prin hormoni</td><td>Hipofiză, tiroidă, suprarenale, pancreas endocrin, gonade</td><td><span class="tag t-pink">Reglare</span></td></tr>
+            <tr><td style="color:var(--text3)">6</td><td class="hl">Cardiovascular</td><td>Transport O₂, nutrienți, hormoni, CO₂, deșeuri</td><td>Inimă, artere, vene, capilare, sânge</td><td><span class="tag t-cyan">Transport</span></td></tr>
+            <tr><td style="color:var(--text3)">7</td><td class="hl">Limfatic/Imunitar</td><td>Apărare față de patogeni; imunitate; drenaj limfatic</td><td>Limfocite T&B, macrofage, ganglioni, splină, timus, măduvă</td><td><span class="tag t-green">Apărare</span></td></tr>
+            <tr><td style="color:var(--text3)">8</td><td class="hl">Respirator</td><td>Schimb gazos O₂/CO₂; reglarea pH-ului sanguin</td><td>Plămâni, trahee, bronhii, faringe, laringe, diafragmă</td><td><span class="tag t-blue">Schimb gazos</span></td></tr>
+            <tr><td style="color:var(--text3)">9</td><td class="hl">Digestiv</td><td>Digestia alimentelor, absorbția nutrienților</td><td>Dinți, glande salivare, esofag, stomac, intestine, ficat, pancreas</td><td><span class="tag t-orange">Nutriție</span></td></tr>
+            <tr><td style="color:var(--text3)">10</td><td class="hl">Urinar</td><td>Filtrare sânge; eliminare deșeuri; echilibru hidroelectrolitic</td><td>Rinichi (×2), uretere, vezică urinară, uretră</td><td><span class="tag t-violet">Excreție</span></td></tr>
+            <tr><td style="color:var(--text3)">11</td><td class="hl">Reproducător ♂</td><td>Producere spermatozoizi; secreție testosteron</td><td>Testicule, epididim, canal deferent, prostată, penis, vezicule</td><td><span class="tag t-pink">Reproducere</span></td></tr>
+            <tr><td style="color:var(--text3)">12</td><td class="hl">Reproducător ♀</td><td>Producere ovule; gestație; estrogen & progesteron</td><td>Ovare, trompe uterine, uter, col uterin, vagin</td><td><span class="tag t-pink">Reproducere</span></td></tr>
+          </tbody>
+        </table>
+      </div>
+      <div class="mnemonic" style="margin-top:16px">
+        <div class="mnemonic-title">🧠 Mnemotehnică — 12 sisteme</div>
+        <div class="mnemonic-text">
+          <span class="em">1.</span> Tegumentar <span style="color:var(--text2);font-size:12px">(Pielea)</span> &nbsp;·&nbsp;
+          <span class="em">2.</span> Scheletic &nbsp;·&nbsp;
+          <span class="em">3.</span> Muscular &nbsp;·&nbsp;
+          <span class="em">4.</span> Nervos &nbsp;·&nbsp;
+          <span class="em">5.</span> Endocrin <span style="color:var(--text2);font-size:12px">(Hormoni)</span> &nbsp;·&nbsp;
+          <span class="em">6.</span> Cardiovascular <span style="color:var(--text2);font-size:12px">(Circulator)</span><br style="margin-bottom:6px">
+          <span class="em">7.</span> Limfatic <span style="color:var(--text2);font-size:12px">(Drenaj)</span> &nbsp;·&nbsp;
+          <span class="em">8.</span> Imunitar &nbsp;·&nbsp;
+          <span class="em">9.</span> Respirator &nbsp;·&nbsp;
+          <span class="em">10.</span> Digestiv &nbsp;·&nbsp;
+          <span class="em">11.</span> Urinar <span style="color:var(--text2);font-size:12px">(Excretor)</span> &nbsp;·&nbsp;
+          <span class="em">12.</span> Reproducător
+        </div>
+      </div>
+    </div>
+
+    <!-- ANATOMIE vs FIZIOLOGIE -->
+    <div class="gcard">
+      <div class="gcard-title"><div class="ct-icon" style="background:var(--blue-light)"></div>Subdiviziunile Anatomiei vs. Fiziologiei</div>
+      <div class="g2">
+        <div>
+          <div style="font-size:13px;font-weight:800;color:var(--blue);padding-bottom:10px;border-bottom:2px solid var(--blue-light);margin-bottom:14px;display:flex;align-items:center;gap:6px">🔬 ANATOMIE — Studiu structural</div>
+          <table class="mtable">
+            <thead><tr><th>Ramură</th><th>Studiu</th></tr></thead>
+            <tbody>
+              <tr><td class="hl">Macroscopică</td><td>Structuri vizibile fără microscop</td></tr>
+              <tr><td class="hl">Microscopică (Histologie)</td><td>Celule, țesuturi, organe la microscop</td></tr>
+              <tr><td class="hl">A. dezvoltării</td><td>De la ou fecundat → adult</td></tr>
+              <tr><td class="hl">A. suprafețelor</td><td>Structuri palpabile extern</td></tr>
+              <tr><td class="hl">A. patologică</td><td>Modificări structurale în boală</td></tr>
+            </tbody>
+          </table>
+        </div>
+        <div>
+          <div style="font-size:13px;font-weight:800;color:var(--violet);padding-bottom:10px;border-bottom:2px solid var(--violet-light);margin-bottom:14px;display:flex;align-items:center;gap:6px">⚡ FIZIOLOGIE — Studiu funcțional</div>
+          <table class="mtable">
+            <thead><tr><th>Ramură</th><th>Studiu</th></tr></thead>
+            <tbody>
+              <tr><td class="hl">Citologie</td><td>Celulele și funcțiile lor</td></tr>
+              <tr><td class="hl">Neurofiziologie</td><td>Funcția sistemului nervos</td></tr>
+              <tr><td class="hl">Fiziologie renală</td><td>Sistemul excretor</td></tr>
+              <tr><td class="hl">F. reproducerii</td><td>Organe reproducătoare</td></tr>
+              <tr><td class="hl">Fiziopatologie</td><td>Mecanismele bolilor</td></tr>
+            </tbody>
+          </table>
+        </div>
+      </div>
+      <div class="hbox hbox-cyan" style="margin-top:16px">
+        <strong>Principiul fundamental al Anatomiei & Fiziologiei</strong>
+        <strong>Structura determină funcția, iar funcția reflectă structura.</strong> Exemplu esențial: plămânii sunt formați din milioane de alveole cu pereți subțiri de 1 celulă → suprafață de ~70 m² pentru schimb gazos maxim. Știind structura, poți deduce funcția — și invers. <strong>Acesta este gândul central la orice întrebare de admitere!</strong>
+      </div>
+    </div>
+
+    <!-- MEMBRANE SEROASE -->
+    <div class="gcard">
+      <div class="gcard-title"><div class="ct-icon" style="background:var(--cyan-light)"></div>Membranele seroase — Tabel comparativ</div>
+      <table class="mtable" style="border-radius:10px;overflow:hidden">
+        <thead>
+          <tr><th>Membrană</th><th>Cavitate formată</th><th>Învelește organul</th><th>Foița parietală</th><th>Foița viscerală</th><th>Importanță clinică</th></tr>
+        </thead>
+        <tbody>
+          <tr>
+            <td class="hl">Pleura</td>
+            <td>Cavitate pleurală</td>
+            <td>Plămâni</td>
+            <td>Căptușește interiorul cutiei toracice</td>
+            <td>Acoperă direct plămânul (pleura viscerală)</td>
+            <td><span class="tag t-blue">Pneumotorax</span></td>
+          </tr>
+          <tr>
+            <td class="hl">Pericardul</td>
+            <td>Cavitate pericardică</td>
+            <td>Inima</td>
+            <td>Sacul pericardic exterior fibros</td>
+            <td>Epicardul — aderent la miocard</td>
+            <td><span class="tag t-pink">Pericardită</span></td>
+          </tr>
+          <tr>
+            <td class="hl">Peritoneul</td>
+            <td>Cavitate peritoneală</td>
+            <td>Organe peritoneale</td>
+            <td>Căptușește peretele abd-pelvian</td>
+            <td>Acoperă organele peritoneale complet</td>
+            <td><span class="tag t-violet">Peritonită</span></td>
+          </tr>
+        </tbody>
+      </table>
+      <div class="hbox hbox-orange" style="margin-top:14px">
+        <strong>Inflamațiile membranelor seroase (important clinic!)</strong>
+        <strong>Pleurezie</strong> = inflamația pleurei → durere la respirație; <strong>Pericardită</strong> = inflamația pericardului → durere toracică; <strong>Peritonită</strong> = inflamația peritoneului → abdomen acut chirurgical (URGENȚĂ!). La admitere: știți sufixul "-ită" = inflamație.
+      </div>
+    </div>
+
+  </div><!-- /panel-tabele -->
+
+
+  <!-- ════════════════════════════════════════════
+       PANEL 4 — TERMENI DIRECTIONALI
+  ════════════════════════════════════════════ -->
+  <div class="panel" id="panel-termeni">
+
+    <div class="gcard" style="background: linear-gradient(145deg, rgba(255,255,255,0.97) 0%, rgba(245,240,255,0.95) 100%); border: 1px solid rgba(124,58,237,0.18); box-shadow: 0 8px 40px rgba(124,58,237,0.12);">
+      <div class="gcard-title" style="font-size:18px; margin-bottom:8px;">
+        <div class="ct-icon" style="background:linear-gradient(135deg,#7c3aed,#ec4899); width:38px; height:38px; font-size:18px; box-shadow:0 4px 12px rgba(124,58,237,0.35);"></div>
+        Poziția anatomică — Punct de referință universal
+      </div>
+      <p style="font-size:13px; color:var(--text2); margin-bottom:22px; line-height:1.65; max-width:700px;">
+        Poziția anatomică standard este fundația întregii terminologii direcționale. <strong style="color:var(--accent)">Toți termenii anatomici se definesc exclusiv față de această poziție</strong>, indiferent de cum este orientat corpul în realitate.
+      </p>
+
+      <!-- DEFINITION BANNER -->
+      <div style="background: linear-gradient(135deg, rgba(124,58,237,0.08) 0%, rgba(236,72,153,0.06) 100%); border: 1.5px solid rgba(124,58,237,0.22); border-radius: 14px; padding: 18px 22px; margin-bottom: 22px; position:relative; overflow:hidden;">
+        <div style="position:absolute; top:-20px; right:-20px; width:120px; height:120px; background:radial-gradient(circle, rgba(124,58,237,0.08), transparent 70%); pointer-events:none;"></div>
+        <div style="font-size:11px; font-weight:700; letter-spacing:.12em; text-transform:uppercase; color:var(--accent); margin-bottom:10px;"> Definiție oficială</div>
+        <div style="font-size:14px; color:var(--text); line-height:1.75; font-weight:400;">
+          Corpul se află în <strong style="color:var(--accent)">ortostatism</strong> (poziție verticală, în picioare), cu fața orientată <strong>anterior</strong>, picioarele alipite, membrele superioare extinse pe lângă corp, palmele orientate <strong>anterior</strong> (spre privitor), iar policele (degetul mare) orientat <strong>lateral</strong>.
+        </div>
+      </div>
+
+      <div style="display:grid; grid-template-columns: 1fr 260px; gap:24px; align-items:start;">
+        <!-- LEFT COLUMN: cards + table -->
+        <div>
+          <!-- 5 CHARACTERISTIC CARDS -->
+          <div style="display:grid; grid-template-columns:1fr 1fr; gap:10px; margin-bottom:18px;">
+            <div style="background:linear-gradient(135deg,#e8eeff,#d4e4ff); border:1.5px solid #5b8dee; border-radius:13px; padding:14px 16px; display:flex; gap:12px; align-items:flex-start;">
+              <span style="font-size:24px; flex-shrink:0;"></span>
+              <div>
+                <div style="font-size:13px; font-weight:800; color:#1e3a8a; margin-bottom:4px;">Ortostatism</div>
+                <div style="font-size:12px; color:#1e40af; line-height:1.5;">Corp drept, vertical, în picioare — axa lungă a corpului este <strong>verticală</strong>.</div>
+              </div>
+            </div>
+            <div style="background:linear-gradient(135deg,#ede9fe,#ddd6fe); border:1.5px solid #8b5cf6; border-radius:13px; padding:14px 16px; display:flex; gap:12px; align-items:flex-start;">
+              <span style="font-size:24px; flex-shrink:0;"></span>
+              <div>
+                <div style="font-size:13px; font-weight:800; color:#4c1d95; margin-bottom:4px;">Privire anterioară</div>
+                <div style="font-size:12px; color:#5b21b6; line-height:1.5;">Fața orientată înainte. Privirea orizontală spre privitor.</div>
+              </div>
+            </div>
+            <div style="background:linear-gradient(135deg,#fce7f3,#fbcfe8); border:1.5px solid #ec4899; border-radius:13px; padding:14px 16px; display:flex; gap:12px; align-items:flex-start;">
+              <span style="font-size:24px; flex-shrink:0;"></span>
+              <div>
+                <div style="font-size:13px; font-weight:800; color:#831843; margin-bottom:4px;">Palme anterior</div>
+                <div style="font-size:12px; color:#9d174d; line-height:1.5;">Palmele orientate înainte (supinație). Policele <strong>lateral</strong>, degetul mic <strong>medial</strong>.</div>
+              </div>
+            </div>
+            <div style="background:linear-gradient(135deg,#d1fae5,#a7f3d0); border:1.5px solid #10b981; border-radius:13px; padding:14px 16px; display:flex; gap:12px; align-items:flex-start;">
+              <span style="font-size:24px; flex-shrink:0;"></span>
+              <div>
+                <div style="font-size:13px; font-weight:800; color:#064e3b; margin-bottom:4px;">Picioare alipite</div>
+                <div style="font-size:12px; color:#065f46; line-height:1.5;">Membrele inferioare paralele, picioarele apropiate, degetele orientate anterior.</div>
+              </div>
+            </div>
+          </div>
+
+          <!-- WHY IT MATTERS -->
+          <div style="background:linear-gradient(135deg,rgba(245,158,11,0.08),rgba(251,191,36,0.05)); border:1.5px solid rgba(245,158,11,0.35); border-radius:13px; padding:16px 18px; margin-bottom:18px;">
+            <div style="font-size:12px; font-weight:800; color:#92400e; letter-spacing:.08em; text-transform:uppercase; margin-bottom:10px;">⚠️ De ce este esențială?</div>
+            <div style="font-size:13px; color:#78350f; line-height:1.7;">
+              Dacă un pacient este culcat, cu fața în jos sau cu brațele ridicate, termenii direcționali <strong>nu se schimbă</strong> — tot se aplică față de poziția anatomică standard. Fără acest punct de referință fix, comunicarea clinică ar fi imposibilă: „superior", „anterior", „medial" și-ar pierde înțelesul.
+            </div>
+          </div>
+
+          <!-- COMPARISON TABLE -->
+          <div style="font-size:12px; font-weight:700; color:var(--text2); text-transform:uppercase; letter-spacing:.08em; margin-bottom:8px;">Detalii clinice esențiale</div>
+          <table class="mtable" style="border-radius:10px; overflow:hidden; font-size:12.5px;">
+            <thead>
+              <tr><th>Element cheie</th><th>Detaliu anatomic</th><th>Relevanță clinică</th></tr>
+            </thead>
+            <tbody>
+              <tr>
+                <td class="hl">Supinație palmară</td>
+                <td>Palmele orientate anterior — radiusul și ulna sunt paralele</td>
+                <td><span class="tag t-blue">Pronosupinație</span> — fracturile antebrațului depind de rotație</td>
+              </tr>
+              <tr>
+                <td class="hl">Axa longitudinală</td>
+                <td>Verticală. Superior = spre craniu; Inferior = spre talpă</td>
+                <td><span class="tag t-violet">Terminologie IRM/CT</span> — secțiunile axiale vs. sagitale</td>
+              </tr>
+              <tr>
+                <td class="hl">Linia mediană</td>
+                <td>Planul sagital median divide corpul în stâng și drept</td>
+                <td><span class="tag t-green">Medial vs. Lateral</span> — structuri perechi se descriu față de ea</td>
+              </tr>
+              <tr>
+                <td class="hl">Orientare police</td>
+                <td>Policele — lateral; degetul mic — medial (în supinație)</td>
+                <td><span class="tag t-orange">Proximal/Distal</span> la membre se numără de la trunchi</td>
+              </tr>
+            </tbody>
+          </table>
+        </div>
+
+        <!-- RIGHT COLUMN: Enhanced SVG -->
+        <div style="text-align:center; position:sticky; top:80px;">
+          <div style="font-size:11px; font-weight:700; color:var(--text3); letter-spacing:.1em; text-transform:uppercase; margin-bottom:10px;">Diagramă direcțională interactivă</div>
+          <svg width="100%" viewBox="0 0 240 420" xmlns="http://www.w3.org/2000/svg">
+            <!-- Soft glow bg -->
+            <defs>
+              <radialGradient id="bodyGlow" cx="50%" cy="45%" r="45%">
+                <stop offset="0%" stop-color="rgba(180,160,255,0.18)"/>
+                <stop offset="100%" stop-color="rgba(180,160,255,0)"/>
+              </radialGradient>
+              <filter id="softShadow" x="-20%" y="-20%" width="140%" height="140%">
+                <feDropShadow dx="0" dy="2" stdDeviation="3" flood-color="rgba(124,58,237,0.15)"/>
+              </filter>
+            </defs>
+            <ellipse cx="120" cy="200" rx="95" ry="190" fill="url(#bodyGlow)"/>
+
+            <!-- HEAD -->
+            <ellipse cx="120" cy="56" rx="37" ry="41" fill="rgba(200,185,255,0.2)" stroke="rgba(124,58,237,0.4)" stroke-width="2" filter="url(#softShadow)"/>
+            <!-- face details -->
+            <ellipse cx="110" cy="50" rx="4" ry="5" fill="rgba(124,58,237,0.15)" stroke="rgba(124,58,237,0.3)" stroke-width="1"/>
+            <ellipse cx="130" cy="50" rx="4" ry="5" fill="rgba(124,58,237,0.15)" stroke="rgba(124,58,237,0.3)" stroke-width="1"/>
+            <path d="M112 66 Q120 72 128 66" fill="none" stroke="rgba(124,58,237,0.35)" stroke-width="1.5" stroke-linecap="round"/>
+
+            <!-- NECK -->
+            <rect x="112" y="93" width="16" height="14" rx="4" fill="rgba(200,185,255,0.18)" stroke="rgba(124,58,237,0.3)" stroke-width="1.5"/>
+
+            <!-- TORSO -->
+            <path d="M88 107 Q81 111 79 136 L75 236 Q73 246 80 250 L162 250 Q169 246 167 236 L163 136 Q161 111 154 107 Z" fill="rgba(190,175,255,0.14)" stroke="rgba(124,58,237,0.3)" stroke-width="2" filter="url(#softShadow)"/>
+            <!-- chest lines subtle -->
+            <line x1="100" y1="130" x2="100" y2="180" stroke="rgba(124,58,237,0.08)" stroke-width="1"/>
+            <line x1="142" y1="130" x2="142" y2="180" stroke="rgba(124,58,237,0.08)" stroke-width="1"/>
+
+            <!-- LEFT ARM -->
+            <path d="M80 113 Q63 117 57 150 L51 214 Q49 224 55 228 L71 228 Q77 224 77 214 L79 148 Z" fill="rgba(190,175,255,0.12)" stroke="rgba(124,58,237,0.28)" stroke-width="1.8"/>
+            <!-- LEFT HAND -->
+            <ellipse cx="63" cy="232" rx="9" ry="7" fill="rgba(190,175,255,0.2)" stroke="rgba(124,58,237,0.3)" stroke-width="1.5"/>
+
+            <!-- RIGHT ARM -->
+            <path d="M162 113 Q179 117 185 150 L191 214 Q193 224 187 228 L171 228 Q165 224 165 214 L163 148 Z" fill="rgba(190,175,255,0.12)" stroke="rgba(124,58,237,0.28)" stroke-width="1.8"/>
+            <!-- RIGHT HAND -->
+            <ellipse cx="179" cy="232" rx="9" ry="7" fill="rgba(190,175,255,0.2)" stroke="rgba(124,58,237,0.3)" stroke-width="1.5"/>
+
+            <!-- LEFT LEG -->
+            <path d="M76 246 L72 258 L68 338 L78 348 L97 348 L105 338 L101 258 Z" fill="rgba(190,175,255,0.12)" stroke="rgba(124,58,237,0.28)" stroke-width="1.8"/>
+            <!-- RIGHT LEG -->
+            <path d="M166 246 L170 258 L174 338 L164 348 L145 348 L137 338 L141 258 Z" fill="rgba(190,175,255,0.12)" stroke="rgba(124,58,237,0.28)" stroke-width="1.8"/>
+            <!-- FEET -->
+            <ellipse cx="86" cy="352" rx="14" ry="6" fill="rgba(190,175,255,0.2)" stroke="rgba(124,58,237,0.28)" stroke-width="1.5"/>
+            <ellipse cx="156" cy="352" rx="14" ry="6" fill="rgba(190,175,255,0.2)" stroke="rgba(124,58,237,0.28)" stroke-width="1.5"/>
+
+            <!-- ── DIRECTION LABELS ── -->
+            <!-- SUPERIOR arrow -->
+            <line x1="120" y1="11" x2="120" y2="4" stroke="#3b82f6" stroke-width="2.5"/>
+            <polygon points="114,6 126,6 120,1" fill="#3b82f6"/>
+            <rect x="78" y="12" width="84" height="20" rx="10" fill="rgba(59,130,246,0.18)" stroke="#3b82f6" stroke-width="1.5"/>
+            <text x="120" y="26" text-anchor="middle" fill="#1d4ed8" font-size="10" font-weight="800" font-family="Outfit,sans-serif">SUPERIOR / cranial</text>
+
+            <!-- INFERIOR arrow -->
+            <line x1="120" y1="398" x2="120" y2="405" stroke="#3b82f6" stroke-width="2.5"/>
+            <polygon points="114,403 126,403 120,408" fill="#3b82f6"/>
+            <rect x="78" y="381" width="84" height="20" rx="10" fill="rgba(59,130,246,0.18)" stroke="#3b82f6" stroke-width="1.5"/>
+            <text x="120" y="395" text-anchor="middle" fill="#1d4ed8" font-size="10" font-weight="800" font-family="Outfit,sans-serif">INFERIOR / caudal</text>
+
+            <!-- MEDIAL arrow -->
+            <line x1="100" y1="185" x2="82" y2="185" stroke="#8b5cf6" stroke-width="2"/>
+            <polygon points="84,180 84,190 78,185" fill="#8b5cf6"/>
+            <rect x="10" y="175" width="64" height="20" rx="10" fill="rgba(139,92,246,0.15)" stroke="#8b5cf6" stroke-width="1.5"/>
+            <text x="42" y="189" text-anchor="middle" fill="#6d28d9" font-size="10" font-weight="800" font-family="Outfit,sans-serif">MEDIAL</text>
+
+            <!-- LATERAL arrow -->
+            <line x1="142" y1="185" x2="160" y2="185" stroke="#8b5cf6" stroke-width="2"/>
+            <polygon points="158,180 158,190 164,185" fill="#8b5cf6"/>
+            <rect x="166" y="175" width="64" height="20" rx="10" fill="rgba(139,92,246,0.15)" stroke="#8b5cf6" stroke-width="1.5"/>
+            <text x="198" y="189" text-anchor="middle" fill="#6d28d9" font-size="10" font-weight="800" font-family="Outfit,sans-serif">LATERAL</text>
+
+            <!-- PROXIMAL label (arm) -->
+            <line x1="67" y1="132" x2="44" y2="118" stroke="#10b981" stroke-width="2" stroke-dasharray="3,2"/>
+            <rect x="1" y="107" width="42" height="18" rx="9" fill="rgba(16,185,129,0.15)" stroke="#10b981" stroke-width="1.5"/>
+            <text x="22" y="120" text-anchor="middle" fill="#047857" font-size="9.5" font-weight="800" font-family="Outfit,sans-serif">PROXIMAL</text>
+
+            <!-- DISTAL label (arm) -->
+            <line x1="58" y1="220" x2="38" y2="232" stroke="#10b981" stroke-width="2" stroke-dasharray="3,2"/>
+            <rect x="1" y="224" width="36" height="18" rx="9" fill="rgba(16,185,129,0.15)" stroke="#10b981" stroke-width="1.5"/>
+            <text x="19" y="237" text-anchor="middle" fill="#047857" font-size="9.5" font-weight="800" font-family="Outfit,sans-serif">DISTAL</text>
+
+            <!-- ANTERIOR dot + label -->
+            <circle cx="120" cy="168" r="6" fill="rgba(236,72,153,0.3)" stroke="#ec4899" stroke-width="2"/>
+            <line x1="126" y1="164" x2="157" y2="150" stroke="#ec4899" stroke-width="1.8"/>
+            <rect x="159" y="140" width="74" height="18" rx="9" fill="rgba(236,72,153,0.12)" stroke="#ec4899" stroke-width="1.5"/>
+            <text x="196" y="153" text-anchor="middle" fill="#be185d" font-size="9.5" font-weight="800" font-family="Outfit,sans-serif">ANTERIOR/ventral</text>
+
+            <!-- SUPERFICIAL / PROFUND -->
+            <line x1="88" y1="215" x2="60" y2="300" stroke="#f59e0b" stroke-width="1.8" stroke-dasharray="4,2"/>
+            <rect x="2" y="295" width="56" height="18" rx="9" fill="rgba(245,158,11,0.13)" stroke="#f59e0b" stroke-width="1.5"/>
+            <text x="30" y="308" text-anchor="middle" fill="#b45309" font-size="9" font-weight="800" font-family="Outfit,sans-serif">SUPERFICIAL</text>
+            <rect x="2" y="318" width="52" height="18" rx="9" fill="rgba(245,158,11,0.13)" stroke="#f59e0b" stroke-width="1.5"/>
+            <text x="28" y="331" text-anchor="middle" fill="#b45309" font-size="9" font-weight="800" font-family="Outfit,sans-serif">PROFUND</text>
+
+            <!-- Spine line subtle -->
+            <line x1="120" y1="107" x2="120" y2="248" stroke="rgba(124,58,237,0.15)" stroke-width="1.5" stroke-dasharray="5,3"/>
+            <text x="124" y="180" fill="rgba(124,58,237,0.3)" font-size="8" font-family="Outfit,sans-serif">│ median</text>
+          </svg>
+          <div style="font-size:11px; color:var(--text3); margin-top:6px; font-style:italic;">Corp în poziție anatomică standard</div>
+        </div>
+      </div>
+
+      <!-- CLINICAL NOTE FOOTER -->
+      <div style="margin-top:20px; background:linear-gradient(135deg,rgba(16,185,129,0.08),rgba(6,182,212,0.06)); border:1.5px solid rgba(16,185,129,0.3); border-radius:13px; padding:16px 20px; display:flex; gap:14px; align-items:flex-start;">
+        <span style="font-size:24px; flex-shrink:0;">🏥</span>
+        <div>
+          <div style="font-size:12px; font-weight:800; color:#065f46; text-transform:uppercase; letter-spacing:.08em; margin-bottom:6px;">Aplicare clinică directă</div>
+          <div style="font-size:13px; color:#047857; line-height:1.7;">
+            În practica medicală, poziția anatomică standard este invocată în descrierea <strong>radiografiilor</strong> (torace PA = Posterior → Anterior), a <strong>secțiunilor IRM/CT</strong> și a <strong>examinărilor fizice</strong>. Când un medic descrie „durere superioară la nivelul toracelui", se referă la zona apropiată de cap — indiferent cum stă pacientul. La admitere: orice întrebare despre termeni direcționali <strong>presupune implicit poziția anatomică!</strong>
+          </div>
+        </div>
+      </div>
+    </div>
+
+    <!-- TERMS TABLE PAIRS -->
+    <div class="gcard">
+      <div class="gcard-title"><div class="ct-icon" style="background:var(--violet-light)"></div>Toți termenii direcționali — Perechi opuse</div>
+
+      <div class="dir-pair">
+        <div class="dir-cell" style="background:rgba(91,141,238,0.05)">
+          <div class="term">Superior <span style="font-weight:400;color:var(--text3)">(cranial / cefalic)</span></div>
+          <div class="def">Spre capul corpului sau spre partea de sus a unei structuri</div>
+          <div class="ex">↦ Inima este superioară față de ficat; nasul față de gură</div>
+        </div>
+        <div class="dir-cell" style="background:rgba(91,141,238,0.05)">
+          <div class="term">Inferior <span style="font-weight:400;color:var(--text3)">(caudal)</span></div>
+          <div class="def">Spre picioare sau spre capătul opus capului</div>
+          <div class="ex">↦ Stomacul este inferior față de plămâni</div>
+        </div>
+      </div>
+
+      <div class="dir-pair">
+        <div class="dir-cell" style="background:rgba(16,185,129,0.05)">
+          <div class="term">Anterior <span style="font-weight:400;color:var(--text3)">(ventral)</span></div>
+          <div class="def">Spre fața din față a corpului</div>
+          <div class="ex">↦ Sternul este anterior față de inimă</div>
+        </div>
+        <div class="dir-cell" style="background:rgba(16,185,129,0.05)">
+          <div class="term">Posterior <span style="font-weight:400;color:var(--text3)">(dorsal)</span></div>
+          <div class="def">Spre fața din spate a corpului</div>
+          <div class="ex">↦ Esofagul este posterior față de trahee</div>
+        </div>
+      </div>
+
+      <div class="dir-pair">
+        <div class="dir-cell" style="background:rgba(139,92,246,0.05)">
+          <div class="term">Medial</div>
+          <div class="def">Mai aproape de linia mediană a corpului</div>
+          <div class="ex">↦ Nasul este medial față de ochi; ulna este medial față de radius</div>
+        </div>
+        <div class="dir-cell" style="background:rgba(139,92,246,0.05)">
+          <div class="term">Lateral</div>
+          <div class="def">La distanță de linia mediană</div>
+          <div class="ex">↦ Plămânii sunt laterali față de inimă; ochii față de nas</div>
+        </div>
+      </div>
+
+      <div class="dir-pair">
+        <div class="dir-cell" style="background:rgba(236,72,153,0.05)">
+          <div class="term">Ipsilateral</div>
+          <div class="def">De aceeași parte a corpului</div>
+          <div class="ex">↦ Vezica biliară și colonul ascendent — ipsilaterale (ambele dreapta)</div>
+        </div>
+        <div class="dir-cell" style="background:rgba(236,72,153,0.05)">
+          <div class="term">Controlateral</div>
+          <div class="def">De partea opusă a corpului</div>
+          <div class="ex">↦ Colonul ascendent (dr.) și colonul descendent (stg.) — controlaterale</div>
+        </div>
+      </div>
+
+      <div class="dir-pair">
+        <div class="dir-cell" style="background:rgba(6,182,212,0.05)">
+          <div class="term">Proximal</div>
+          <div class="def">Mai aproape de locul de atașare al membrului la trunchi</div>
+          <div class="ex">↦ Femurul este proximal față de gleznă; humerusul față de cot</div>
+        </div>
+        <div class="dir-cell" style="background:rgba(6,182,212,0.05)">
+          <div class="term">Distal</div>
+          <div class="def">Mai departe de locul de atașare al membrului la trunchi</div>
+          <div class="ex">↦ Glezna este distală față de femur; falangele față de carpiene</div>
+        </div>
+      </div>
+
+      <div class="dir-pair">
+        <div class="dir-cell" style="background:rgba(245,158,11,0.05)">
+          <div class="term">Superficial</div>
+          <div class="def">Spre suprafața corpului, mai aproape de piele</div>
+          <div class="ex">↦ Mușchii pectorali sunt superficiali față de coaste</div>
+        </div>
+        <div class="dir-cell" style="background:rgba(245,158,11,0.05)">
+          <div class="term">Profund</div>
+          <div class="def">La distanță de suprafața corpului</div>
+          <div class="ex">↦ Inima este profundă față de mușchii pectorali</div>
+        </div>
+      </div>
+
+      <div class="mnemonic" style="margin-top:14px">
+        <div class="mnemonic-title">🧠 Trucuri pentru termenii opuși</div>
+        <div class="mnemonic-text">
+          <span class="em">Superior/Inferior</span> = sus/jos față de cap · <span class="em">Anterior/Posterior</span> = față/spate · <span class="em">Medial/Lateral</span> = spre centru/spre exterior · <span class="em">Proximal/Distal</span> = spre trunchi/spre extremitate · <span class="em">Superficial/Profund</span> = la suprafață/în adâncime
+          <span class="sub">La admitere: dați mereu exemplu anatomo-clinic concret: "genunchiul este proximal față de gleznă, dar distal față de șold".</span>
+        </div>
+      </div>
+    </div>
+
+  </div><!-- /panel-termeni -->
+
+
+  <!-- ════════════════════════════════════════════
+       PANEL 5 — QUIZ
+  ════════════════════════════════════════════ -->
+  <div class="panel" id="panel-quiz">
+    <div class="gcard">
+      <div class="gcard-title"><div class="ct-icon" style="background:var(--green-light)">✏️</div>Test rapid — Capitol 1 (10 întrebări grilă)</div>
+      <p style="font-size:13px;color:var(--text2);margin-bottom:20px">Răspunsuri cu explicații detaliate. Ideal pentru simulare admitere. Click pe răspuns pentru verificare.</p>
+
+      <div class="quiz-score">
+        <span class="quiz-score-label">Scor curent:</span>
+        <span class="quiz-score-num" id="score-disp">0 / 0</span>
+      </div>
+
+      <!-- Q1 -->
+      <div class="qblock" id="Q1">
+        <p><strong>1.</strong> Care este ordinea corectă a nivelurilor de organizare structurală, de la simplu la complex?</p>
+        <div class="qopt" onclick="ans(1,'a')"><span class="opt-l">A</span>Atomi → Celule → Molecule → Țesuturi → Organe → Sisteme</div>
+        <div class="qopt" onclick="ans(1,'b')"><span class="opt-l">B</span>Atomi → Molecule → Celule → Țesuturi → Organe → Sisteme → Organism</div>
+        <div class="qopt" onclick="ans(1,'c')"><span class="opt-l">C</span>Molecule → Atomi → Celule → Organe → Țesuturi → Organisme</div>
+        <div class="qopt" onclick="ans(1,'d')"><span class="opt-l">D</span>Celule → Molecule → Atomi → Sisteme → Organe → Organism</div>
+        <div class="qfb" id="F1"></div>
+      </div>
+
+      <!-- Q2 -->
+      <div class="qblock" id="Q2">
+        <p><strong>2.</strong> Homeostazia se menține în principal prin:</p>
+        <div class="qopt" onclick="ans(2,'a')"><span class="opt-l">A</span>Mecanisme de feed-back pozitiv care amplifică devierea</div>
+        <div class="qopt" onclick="ans(2,'b')"><span class="opt-l">B</span>Mecanisme de feed-back negativ care reduc producția la valoarea de referință</div>
+        <div class="qopt" onclick="ans(2,'c')"><span class="opt-l">C</span>Control nervos exclusiv, independent de sistemul endocrin</div>
+        <div class="qopt" onclick="ans(2,'d')"><span class="opt-l">D</span>Feed-back pozitiv în situații normale, negativ în boală</div>
+        <div class="qfb" id="F2"></div>
+      </div>
+
+      <!-- Q3 -->
+      <div class="qblock" id="Q3">
+        <p><strong>3.</strong> Planul care divide corpul în două jumătăți EGALE stângă și dreaptă se numește:</p>
+        <div class="qopt" onclick="ans(3,'a')"><span class="opt-l">A</span>Plan frontal (coronal)</div>
+        <div class="qopt" onclick="ans(3,'b')"><span class="opt-l">B</span>Plan transversal (orizontal)</div>
+        <div class="qopt" onclick="ans(3,'c')"><span class="opt-l">C</span>Plan mediosagital (median)</div>
+        <div class="qopt" onclick="ans(3,'d')"><span class="opt-l">D</span>Plan parasagital</div>
+        <div class="qfb" id="F3"></div>
+      </div>
+
+      <!-- Q4 -->
+      <div class="qblock" id="Q4">
+        <p><strong>4.</strong> Apendicele vermicular se găsește în:</p>
+        <div class="qopt" onclick="ans(4,'a')"><span class="opt-l">A</span>Cadranul superior stâng / hipocondru stâng</div>
+        <div class="qopt" onclick="ans(4,'b')"><span class="opt-l">B</span>Cadranul inferior drept / regiune iliacă dreaptă</div>
+        <div class="qopt" onclick="ans(4,'c')"><span class="opt-l">C</span>Cadranul superior drept / regiune epigastrică</div>
+        <div class="qopt" onclick="ans(4,'d')"><span class="opt-l">D</span>Cadranul inferior stâng / hipogastru</div>
+        <div class="qfb" id="F4"></div>
+      </div>
+
+      <!-- Q5 -->
+      <div class="qblock" id="Q5">
+        <p><strong>5.</strong> Cavitatea abdomino-pelviană este separată de cea toracică prin:</p>
+        <div class="qopt" onclick="ans(5,'a')"><span class="opt-l">A</span>Pleura parietală</div>
+        <div class="qopt" onclick="ans(5,'b')"><span class="opt-l">B</span>Mușchiul diafragmă</div>
+        <div class="qopt" onclick="ans(5,'c')"><span class="opt-l">C</span>Peritoneul parietal</div>
+        <div class="qopt" onclick="ans(5,'d')"><span class="opt-l">D</span>Cartilajul costal xifoid</div>
+        <div class="qfb" id="F5"></div>
+      </div>
+
+      <!-- Q6 -->
+      <div class="qblock" id="Q6">
+        <p><strong>6.</strong> Termenul "distal" înseamnă:</p>
+        <div class="qopt" onclick="ans(6,'a')"><span class="opt-l">A</span>Mai aproape de linia mediană a corpului</div>
+        <div class="qopt" onclick="ans(6,'b')"><span class="opt-l">B</span>Mai aproape de locul de atașare al membrului la trunchi</div>
+        <div class="qopt" onclick="ans(6,'c')"><span class="opt-l">C</span>Mai departe de locul de atașare al membrului la trunchi</div>
+        <div class="qopt" onclick="ans(6,'d')"><span class="opt-l">D</span>Spre suprafața corpului</div>
+        <div class="qfb" id="F6"></div>
+      </div>
+
+      <!-- Q7 -->
+      <div class="qblock" id="Q7">
+        <p><strong>7.</strong> Sângele și oasele sunt exemple de:</p>
+        <div class="qopt" onclick="ans(7,'a')"><span class="opt-l">A</span>Țesut epitelial</div>
+        <div class="qopt" onclick="ans(7,'b')"><span class="opt-l">B</span>Țesut muscular</div>
+        <div class="qopt" onclick="ans(7,'c')"><span class="opt-l">C</span>Țesut conjunctiv</div>
+        <div class="qopt" onclick="ans(7,'d')"><span class="opt-l">D</span>Țesut nervos</div>
+        <div class="qfb" id="F7"></div>
+      </div>
+
+      <!-- Q8 -->
+      <div class="qblock" id="Q8">
+        <p><strong>8.</strong> Mediastinul conține toate acestea, EXCEPTÂND:</p>
+        <div class="qopt" onclick="ans(8,'a')"><span class="opt-l">A</span>Inima</div>
+        <div class="qopt" onclick="ans(8,'b')"><span class="opt-l">B</span>Esofagul</div>
+        <div class="qopt" onclick="ans(8,'c')"><span class="opt-l">C</span>Plămânii</div>
+        <div class="qopt" onclick="ans(8,'d')"><span class="opt-l">D</span>Timusul și traheea</div>
+        <div class="qfb" id="F8"></div>
+      </div>
+
+      <!-- Q9 -->
+      <div class="qblock" id="Q9">
+        <p><strong>9.</strong> Catabolismul reprezintă:</p>
+        <div class="qopt" onclick="ans(9,'a')"><span class="opt-l">A</span>Sinteza de materie organică cu consum de energie</div>
+        <div class="qopt" onclick="ans(9,'b')"><span class="opt-l">B</span>Descompunerea materiei organice cu producere de energie</div>
+        <div class="qopt" onclick="ans(9,'c')"><span class="opt-l">C</span>Transportul substanțelor prin membrana celulară</div>
+        <div class="qopt" onclick="ans(9,'d')"><span class="opt-l">D</span>Eliminarea deșeurilor prin rinichi</div>
+        <div class="qfb" id="F9"></div>
+      </div>
+
+      <!-- Q10 -->
+      <div class="qblock" id="Q10">
+        <p><strong>10.</strong> Care este un exemplu clasic de feed-back POZITIV?</p>
+        <div class="qopt" onclick="ans(10,'a')"><span class="opt-l">A</span>Reglarea glicemiei prin insulină</div>
+        <div class="qopt" onclick="ans(10,'b')"><span class="opt-l">B</span>Termoregularea prin transpirație</div>
+        <div class="qopt" onclick="ans(10,'c')"><span class="opt-l">C</span>Coagularea sângelui (hemostaza)</div>
+        <div class="qopt" onclick="ans(10,'d')"><span class="opt-l">D</span>Reglarea tensiunii arteriale prin baroreceptori</div>
+        <div class="qfb" id="F10"></div>
+      </div>
+
+      <button class="quiz-reset" onclick="resetQ()">Resetează testul</button>
+    </div>
+  </div><!-- /panel-quiz -->
+
+  </div><!-- /content -->
+
+</main>
+
+<!-- ════════ JAVASCRIPT ════════ -->
+<script>
+// Panel switching
+function showPanel(name, btn){
+  document.querySelectorAll('.panel').forEach(p=>p.classList.remove('active'));
+  document.querySelectorAll('.tab-btn').forEach(b=>b.classList.remove('active'));
+  document.getElementById('panel-'+name).classList.add('active');
+  btn.classList.add('active');
+  window.scrollTo({top:0,behavior:'smooth'});
+}
+
+// Level accordion
+function toggleLevel(row){
+  const wasOpen = row.classList.contains('open');
+  document.querySelectorAll('.level-row.open').forEach(r=>r.classList.remove('open'));
+  if(!wasOpen) row.classList.add('open');
+}
+
+// Plane selection
+function selectPlane(name, btn){
+  ['sagital','frontal','transversal'].forEach(p=>{
+    document.getElementById('svg-'+p).style.opacity = (p===name)?'1':'0.15';
+    const pi = document.getElementById('pi-'+p);
+    if(pi){ pi.classList.remove('show'); if(p===name) pi.classList.add('show'); }
+  });
+  document.querySelectorAll('.plane-btn').forEach(b=>b.classList.remove('active'));
+  btn.classList.add('active');
+}
+
+// QUIZ
+const ANSWERS = {1:'b',2:'b',3:'c',4:'b',5:'b',6:'c',7:'c',8:'c',9:'b',10:'c'};
+const EXPLAIN = {
+  1:'✓ Ordinea corectă: Atomi→Molecule→Celule→Țesuturi→Organe→Sisteme→Organism. Fiecare nivel emerge din cel anterior prin creșterea complexității organizării.',
+  2:'✓ Feed-back-ul NEGATIV este mecanismul principal: răspunsul reduce devierea pentru a readuce sistemul la valoarea normală. Feed-back pozitiv = excepțional (naștere, coagulare).',
+  3:'✓ Planul mediosagital (median) divide corpul în două jumătăți egale. Parasagitalul creează jumătăți inegale. Frontalul divide anterior/posterior, transversalul superior/inferior.',
+  4:'✓ Apendicele vermicular se găsește în fosa iliacă dreaptă = cadranul inferior drept / regiunea iliacă dreaptă. Important clinic: apendicita = durere în acest punct (McBurney)!',
+  5:'✓ Mușchiul diafragmă — mușchi cupoliform — separă cavitatea toracică de cea abdomino-pelviană. Participă activ la respirație: contracție → inspirație.',
+  6:'✓ Distal = mai departe de locul de atașare la trunchi. Proximal = mai aproape. Exemplu: radiusul este distal față de humerus, dar proximal față de oasele carpiene.',
+  7:'✓ Sângele și oasele sunt țesut CONJUNCTIV — cel mai diversificat tip de țesut. Funcție de susținere, legătură, transport (sânge), stocare minerale (os), termoizolare (grăsime).',
+  8:'✓ Plămânii NU se găsesc în mediastin — ei sunt în cavitățile pleurale. Mediastinul conține tot restul: inimă, esofag, trahee, bronhii principale, timus, vase mari.',
+  9:'✓ CATabolism = disCATere (descompunere) + eliberare energie (ATP). ANAbolism = ANAsamblu (construire/sinteză) + consum energie. Metabolismul = catabolism + anabolism.',
+  10:'✓ Coagularea sângelui = feed-back pozitiv: factorii de coagulare se activează cascadat (amplificare), ducând la un răspuns final specific (tromb). Nașterea e alt exemplu clasic.'
+};
+let sc=0, an=0;
+function ans(qn, opt){
+  const q = document.getElementById('Q'+qn);
+  if(q.dataset.done) return;
+  q.dataset.done='1';
+  const opts = q.querySelectorAll('.qopt');
+  const letters=['a','b','c','d'];
+  opts.forEach((o,i)=>{
+    o.classList.add('disabled');
+    if(letters[i]===ANSWERS[qn]) o.classList.add('correct');
+    else if(letters[i]===opt && opt!==ANSWERS[qn]) o.classList.add('wrong');
+  });
+  const fb = document.getElementById('F'+qn);
+  an++;
+  if(opt===ANSWERS[qn]){ sc++; fb.textContent='✓ CORECT! '+EXPLAIN[qn]; fb.className='qfb ok'; }
+  else { fb.textContent='✗ Greșit. '+EXPLAIN[qn]; fb.className='qfb err'; }
+  document.getElementById('score-disp').textContent=sc+' / '+an;
+}
+function resetQ(){
+  sc=0; an=0;
+  document.getElementById('score-disp').textContent='0 / 0';
+  for(let i=1;i<=10;i++){
+    const q=document.getElementById('Q'+i);
+    delete q.dataset.done;
+    q.querySelectorAll('.qopt').forEach(o=>{ o.className='qopt'; });
+    document.getElementById('F'+i).className='qfb';
+    document.getElementById('F'+i).textContent='';
+  }
+}
+
+document.addEventListener("DOMContentLoaded", function () {
+  // ── 1. VERIFICARE ABONAMENT ──────────────────────────────────────────────
+  function esteAbonamentActiv() {
+    const acces     = localStorage.getItem('medstudy_access') === 'true';
+    const dataActiv = parseInt(localStorage.getItem('medstudy_access_date') || '0', 10);
+    const zile      = parseInt(localStorage.getItem('medstudy_duration_days') || '0', 10);
+    if (!acces || !dataActiv || !zile) return false;
+    const expirat = new Date().getTime() > dataActiv + zile * 86400000;
+    if (expirat) {
+      ['medstudy_access','medstudy_access_date','medstudy_duration_days'].forEach(k => localStorage.removeItem(k));
+      return false;
+    }
+    return true;
+  }
+
+  const abonamentActiv = esteAbonamentActiv();
+
+  // ── 2. SIDEBAR: activ curent + blocare/deblocare cap 3-23 ────────────────
+  const currentFile   = window.location.pathname.split("/").pop() || "cap1.html";
+  const menuContainer = document.getElementById("chapters-menu");
+  const menuItems     = menuContainer.querySelectorAll(".nav-item");
+  let currentChapterNumber = 1;
+  let activeItem = null;
+
+  menuItems.forEach((item) => {
+    const fileHref = item.getAttribute("href");
+    if (fileHref === currentFile) {
+      item.classList.add("active");
+      activeItem = item;
+      currentChapterNumber = parseInt(item.querySelector(".nav-num").textContent);
+    }
+  });
+
+  // Aplică starea locked/unlocked pentru cap 3-23
+  const lockedItems = menuContainer.querySelectorAll(".locked-chapter");
+  lockedItems.forEach((item) => {
+    if (abonamentActiv) {
+      item.classList.remove("locked");
+    } else {
+      item.addEventListener("click", function (e) {
+        e.preventDefault();
+        const banner = document.getElementById("lock-banner");
+        if (banner) {
+          banner.style.display = "flex";
+          clearTimeout(banner._hideTimer);
+          banner._hideTimer = setTimeout(() => { banner.style.display = "none"; }, 8000);
+        }
+      }, { capture: true });
+    }
+  });
+
+  // ── 3. STATUS PILL (sidebar footer) ─────────────────────────────────────
+  const pill     = document.getElementById("sub-status-pill");
+  const pillText = document.getElementById("sub-status-text");
+  if (abonamentActiv && pill && pillText) {
+    const dataActiv     = parseInt(localStorage.getItem('medstudy_access_date') || '0', 10);
+    const zile          = parseInt(localStorage.getItem('medstudy_duration_days') || '30', 10);
+    const zileScurse    = Math.floor((new Date().getTime() - dataActiv) / 86400000);
+    const zileRamase    = Math.max(0, zile - zileScurse);
+    pillText.textContent = `Abonat activ · ${zileRamase}z rămase`;
+    pill.style.display   = "flex";
+  }
+
+  // ── 4. LOCK BANNER: afișat discret după 1.5s dacă nu e abonat ────────────
+  if (!abonamentActiv) {
+    const banner = document.getElementById("lock-banner");
+    if (banner) {
+      setTimeout(() => {
+        banner.style.display = "flex";
+      }, 1500);
+    }
+  }
+
+  // ── 5. AUTO-SCROLL LA CAPITOLUL CURENT ──────────────────────────────────
+  if (activeItem && menuContainer) {
+    setTimeout(() => {
+      activeItem.scrollIntoView({ behavior: "smooth", block: "nearest" });
+    }, 50);
+  }
+
+  // ── 6. PROGRES BAR ──────────────────────────────────────────────────────
+  const totalChapters = menuItems.length;
+  const progTextContainer = document.querySelector(".prog-label");
+  if (progTextContainer) {
+    progTextContainer.innerHTML = `<span>Progres curs</span><span>${currentChapterNumber} / ${totalChapters}</span>`;
+  }
+  const progFill = document.querySelector(".prog-fill");
+  if (progFill) {
+    progFill.style.width = `${(currentChapterNumber / totalChapters) * 100}%`;
+  }
+});
+</script>
+
+</body>
+</html>

@@ -1,0 +1,1589 @@
+<!DOCTYPE html>
+<html lang="ro">
+<head>
+<meta charset="UTF-8">
+
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>MedStudy — Capitol 5: Sistemul Tegumentar</title>
+<link href="https://fonts.googleapis.com/css2?family=Outfit:wght@300;400;500;600;700;800;900&family=Lora:ital,wght@0,400;0,600;1,400&display=swap" rel="stylesheet">
+<style>
+:root {
+  --bg-main:#f0f4ff;--bg-sidebar:rgba(255,255,255,0.85);--surface:rgba(255,255,255,0.75);--surface2:rgba(255,255,255,0.92);
+  --border:rgba(180,160,220,0.25);--blue:#5b8dee;--blue-light:#e8eeff;--violet:#8b5cf6;--violet-light:#ede9fe;
+  --cyan:#06b6d4;--cyan-light:#e0f7fb;--pink:#ec4899;--pink-light:#fce7f3;--green:#10b981;--green-light:#d1fae5;
+  --orange:#f59e0b;--orange-light:#fef3c7;--rose:#f43f5e;--rose-light:#ffe4e6;--teal:#14b8a6;--teal-light:#ccfbf1;
+  --amber:#d97706;--amber-light:#fef3c7;--text:#1e1b4b;--text2:#6b7280;--text3:#9ca3af;--accent:#7c3aed;
+  --sidebar-w:268px;--radius:16px;--shadow:0 4px 24px rgba(100,80,200,0.10);--shadow2:0 8px 40px rgba(100,80,200,0.14);
+}
+*{margin:0;padding:0;box-sizing:border-box;}
+body{font-family:'Outfit',sans-serif;background:var(--bg-main);color:var(--text);min-height:100vh;display:flex;overflow-x:hidden;}
+body::before{content:'';position:fixed;inset:0;background:radial-gradient(ellipse 800px 600px at 20% 10%,rgba(180,200,255,0.55) 0%,transparent 70%),radial-gradient(ellipse 600px 500px at 80% 5%,rgba(200,180,255,0.45) 0%,transparent 65%),radial-gradient(ellipse 700px 400px at 60% 90%,rgba(255,200,230,0.4) 0%,transparent 70%),radial-gradient(ellipse 500px 500px at 5% 80%,rgba(180,230,255,0.35) 0%,transparent 65%),#f0f4ff;z-index:-1;pointer-events:none;}
+
+/* ── SIDEBAR ── */
+#sidebar{width:var(--sidebar-w);min-height:100vh;background:var(--bg-sidebar);backdrop-filter:blur(24px);border-right:1px solid var(--border);position:fixed;top:0;left:0;z-index:100;display:flex;flex-direction:column;box-shadow:4px 0 30px rgba(100,80,200,0.07);}
+.sidebar-logo{padding:26px 22px 20px;border-bottom:1px solid var(--border);display:flex;align-items:center;gap:12px;}
+.logo-icon{width:42px;height:42px;background:linear-gradient(135deg,#7c3aed,#ec4899);border-radius:12px;display:flex;align-items:center;justify-content:center;font-size:20px;box-shadow:0 4px 14px rgba(124,58,237,0.35);}
+.logo-text{font-size:17px;font-weight:800;color:var(--text);line-height:1.2;}
+.logo-sub{font-size:10px;color:var(--text3);font-weight:400;letter-spacing:.08em;text-transform:uppercase;margin-top:2px;}
+.sidebar-section-label{padding:18px 20px 8px;font-size:9.5px;letter-spacing:.14em;text-transform:uppercase;color:var(--text3);font-weight:600;}
+.nav-scroll { 
+  flex: 1; 
+  overflow-y: auto; 
+  padding-bottom: 16px; 
+  max-height: calc(100vh - 140px);
+  
+  /* 💡 TRUCUL PENTRU MUTAREA BAREI PE STÂNGA: */
+  direction: rtl; /* Muta scrollbar-ul pe stânga (Right-to-Left) */
+  
+  scrollbar-width: thin;
+  scrollbar-color: rgba(124,58,237,0.3) transparent;
+}
+
+/* 💡 RECONVERTIREA TEXTULUI: Întoarcem textul la normal (Left-to-Right) ca să nu fie inversat */
+.nav-scroll > * {
+  direction: ltr;
+}
+
+/* Stil pentru browserele bazate pe Chromium (Chrome, Edge, Opera) */
+.nav-scroll::-webkit-scrollbar { 
+  width: 5px; 
+}
+.nav-scroll::-webkit-scrollbar-track {
+  background: transparent;
+}
+.nav-scroll::-webkit-scrollbar-thumb { 
+  background: rgba(124,58,237,0.3); 
+  border-radius: 4px; 
+}
+.nav-scroll::-webkit-scrollbar-thumb:hover {
+  background: rgba(124,58,237,0.5); 
+}
+
+.nav-item{display:flex;align-items:center;gap:10px;padding:9px 14px 9px 16px;margin:1px 10px;border-radius:10px;font-size:12.5px;font-weight:500;color:var(--text2);cursor:pointer;transition:all .2s;text-decoration:none;position:relative;}
+.nav-item:hover{background:rgba(124,58,237,0.07);color:var(--accent);}
+.nav-item.active{background:linear-gradient(90deg,rgba(124,58,237,0.12),rgba(236,72,153,0.07));color:var(--accent);font-weight:600;box-shadow:inset 2px 0 0 var(--accent);}
+.nav-num{min-width:22px;height:22px;background:rgba(124,58,237,0.08);border-radius:6px;display:flex;align-items:center;justify-content:center;font-size:10.5px;font-weight:700;color:var(--text3);}
+.nav-item.active .nav-num{background:rgba(124,58,237,0.18);color:var(--accent);}
+.nav-item.locked{opacity:0.45;pointer-events:none;}
+.sidebar-footer{padding:16px 20px;border-top:1px solid var(--border);}
+.prog-label{display:flex;justify-content:space-between;font-size:11.5px;color:var(--text2);margin-bottom:7px;font-weight:500;}
+.prog-label span:last-child{color:var(--accent);font-weight:700;}
+.prog-track{height:5px;background:rgba(124,58,237,0.1);border-radius:3px;overflow:hidden;}
+.prog-fill{height:100%;width:21.7%;background:linear-gradient(90deg,#7c3aed,#ec4899);border-radius:3px;}
+
+/* ── MAIN ── */
+#main{margin-left:var(--sidebar-w);flex:1;min-height:100vh;}
+.topbar{height:60px;background:rgba(255,255,255,0.7);backdrop-filter:blur(20px);border-bottom:1px solid var(--border);display:flex;align-items:center;justify-content:space-between;padding:0 40px;position:sticky;top:0;z-index:50;}
+.breadcrumb{display:flex;align-items:center;gap:8px;font-size:13px;font-weight:500;color:var(--text2);}
+.breadcrumb .current{color:var(--accent);}
+.bc-sep{color:var(--text3);}
+.badge-pill{padding:5px 14px;border-radius:30px;font-size:12px;font-weight:600;background:linear-gradient(90deg,rgba(124,58,237,0.1),rgba(236,72,153,0.08));color:var(--accent);border:1px solid rgba(124,58,237,0.2);}
+
+/* ── HERO ── */
+.hero{position:relative;overflow:hidden;padding:64px 56px 54px;border-bottom:1px solid rgba(200,180,255,.2);min-height:340px;display:flex;flex-direction:column;justify-content:center;}
+.hero::before{content:'';position:absolute;inset:0;background:radial-gradient(ellipse 70% 80% at 10% 20%,rgba(200,180,255,.72) 0%,transparent 60%),radial-gradient(ellipse 55% 65% at 85% 10%,rgba(180,225,255,.65) 0%,transparent 55%),radial-gradient(ellipse 60% 70% at 70% 85%,rgba(255,210,230,.6) 0%,transparent 58%),radial-gradient(ellipse 50% 60% at 30% 90%,rgba(200,240,220,.5) 0%,transparent 55%),#f5f0ff;z-index:0;}
+.hero::after{content:'';position:absolute;inset:0;opacity:.45;background-image:url("data:image/svg+xml,%3Csvg viewBox='0 0 256 256' xmlns='http://www.w3.org/2000/svg'%3E%3Cfilter id='noise'%3E%3CfeTurbulence type='fractalNoise' baseFrequency='0.9' numOctaves='4' stitchTiles='stitch'/%3E%3CfeColorMatrix type='saturate' values='0'/%3E%3C/filter%3E%3Crect width='100%25' height='100%25' filter='url(%23noise)' opacity='0.15'/%3E%3C/svg%3E");background-size:200px 200px;pointer-events:none;z-index:1;mix-blend-mode:overlay;}
+.hero>*{position:relative;z-index:2;}
+.hero-eyebrow{display:inline-flex;align-items:center;gap:7px;padding:6px 18px;border-radius:40px;background:rgba(255,255,255,.55);border:1px solid rgba(255,255,255,.85);font-size:11px;font-weight:600;color:rgba(80,50,160,.75);letter-spacing:.12em;text-transform:uppercase;margin-bottom:22px;backdrop-filter:blur(16px);box-shadow:0 2px 20px rgba(160,120,255,.12),inset 0 1px 0 rgba(255,255,255,.6);width:fit-content;font-family:'Lora',serif;font-style:italic;}
+.hero-eyebrow::before{content:'◆';font-size:7px;font-style:normal;}
+.hero h1{font-family:'Lora',serif;font-size:clamp(34px,4vw,58px);font-weight:400;font-style:italic;line-height:1.08;color:rgba(30,20,70,.82);margin-bottom:18px;letter-spacing:-0.01em;text-shadow:0 2px 40px rgba(160,120,255,.15);}
+.hero h1 span{font-weight:600;font-style:italic;color:transparent;background:linear-gradient(135deg,rgba(110,60,220,.9) 0%,rgba(200,80,180,.85) 50%,rgba(100,180,240,.8) 100%);-webkit-background-clip:text;-webkit-text-fill-color:transparent;background-clip:text;}
+.hero-sub{font-family:'Lora',serif;font-size:15.5px;font-style:italic;color:rgba(60,40,120,.6);max-width:560px;line-height:1.7;margin-bottom:34px;}
+.hero-chips{display:flex;flex-wrap:wrap;gap:10px;}
+.hero-chip{display:flex;align-items:center;gap:9px;background:rgba(255,255,255,.52);border:1px solid rgba(255,255,255,.8);border-radius:14px;padding:9px 18px;font-size:13px;font-weight:500;color:rgba(50,30,100,.75);backdrop-filter:blur(14px);box-shadow:0 2px 16px rgba(160,120,255,.1),inset 0 1px 0 rgba(255,255,255,.6);font-family:'Lora',serif;font-style:italic;transition:all .25s;}
+.hero-chip:hover{background:rgba(255,255,255,.72);transform:translateY(-1px);}
+.hero-chip strong{font-family:'Outfit',sans-serif;font-style:normal;font-weight:800;font-size:21px;background:linear-gradient(135deg,#7c3aed,#ec4899);-webkit-background-clip:text;-webkit-text-fill-color:transparent;background-clip:text;line-height:1;}
+
+/* ── TABS ── */
+.tab-bar{display:flex;gap:2px;padding:0 40px;background:rgba(255,255,255,0.6);backdrop-filter:blur(16px);border-bottom:1px solid var(--border);position:sticky;top:60px;z-index:40;overflow-x:auto;}
+.tab-btn{display:flex;align-items:center;gap:7px;padding:14px 18px;background:none;border:none;font-family:'Outfit',sans-serif;font-size:13px;font-weight:600;color:var(--text2);cursor:pointer;border-bottom:2.5px solid transparent;margin-bottom:-1px;transition:all .2s;white-space:nowrap;}
+.tab-btn:hover{color:var(--accent);}
+.tab-btn.active{color:var(--accent);border-bottom-color:var(--accent);}
+
+/* ── CONTENT ── */
+.content{padding:36px 40px 60px;max-width:1180px;}
+.panel{display:none;}
+.panel.active{display:block;}
+.section-title{font-size:22px;font-weight:800;color:var(--text);margin-bottom:6px;}
+.section-desc{font-size:13.5px;color:var(--text2);line-height:1.6;margin-bottom:24px;}
+
+/* ── GLASS CARD ── */
+.gcard{background:var(--surface2);backdrop-filter:blur(20px);border:1px solid var(--border);border-radius:var(--radius);padding:28px;margin-bottom:24px;box-shadow:var(--shadow);}
+.gcard:hover{box-shadow:var(--shadow2);}
+.gcard-title{font-size:16px;font-weight:800;color:var(--text);margin-bottom:20px;display:flex;align-items:center;gap:10px;}
+.ct-icon{width:32px;height:32px;border-radius:9px;display:flex;align-items:center;justify-content:center;font-size:16px;}
+
+/* ── GRIDS ── */
+.g2{display:grid;grid-template-columns:1fr 1fr;gap:20px;}
+.g3{display:grid;grid-template-columns:repeat(3,1fr);gap:16px;}
+.g4{display:grid;grid-template-columns:repeat(4,1fr);gap:14px;}
+
+/* ── HBOX ── */
+.hbox{border-radius:12px;padding:16px 20px;margin-bottom:16px;font-size:13px;line-height:1.65;border-left:4px solid;}
+.hbox-blue{background:var(--blue-light);border-color:var(--blue);}
+.hbox-violet{background:var(--violet-light);border-color:var(--violet);}
+.hbox-green{background:var(--green-light);border-color:var(--green);}
+.hbox-pink{background:var(--pink-light);border-color:var(--pink);}
+.hbox-orange{background:var(--orange-light);border-color:var(--orange);}
+.hbox-cyan{background:var(--cyan-light);border-color:var(--cyan);}
+.hbox-rose{background:var(--rose-light);border-color:var(--rose);}
+.hbox-teal{background:var(--teal-light);border-color:var(--teal);}
+.hbox strong{font-weight:700;display:block;margin-bottom:4px;}
+.hbox-blue strong{color:var(--blue);}
+.hbox-violet strong{color:var(--violet);}
+.hbox-green strong{color:var(--green);}
+.hbox-pink strong{color:var(--pink);}
+.hbox-orange strong{color:var(--orange);}
+.hbox-cyan strong{color:var(--cyan);}
+.hbox-rose strong{color:var(--rose);}
+.hbox-teal strong{color:var(--teal);}
+
+/* ── MNEMONIC ── */
+.mnemonic{background:linear-gradient(135deg,#ede9fe,#fce7f3);border:1px solid rgba(124,58,237,0.2);border-radius:14px;padding:18px 22px;margin:16px 0;}
+.mnemonic-title{font-size:12px;font-weight:700;color:var(--accent);letter-spacing:.06em;text-transform:uppercase;margin-bottom:8px;display:flex;align-items:center;gap:6px;}
+.mnemonic-text{font-size:13.5px;color:var(--text);line-height:1.7;}
+.mnemonic-text .em{color:var(--accent);font-weight:800;}
+.mnemonic-text .sub{font-size:12px;color:var(--text2);font-style:italic;display:block;margin-top:4px;}
+
+/* ── TABLE ── */
+.mtable{width:100%;border-collapse:collapse;font-size:13px;}
+.mtable thead tr{background:linear-gradient(90deg,rgba(124,58,237,0.08),rgba(236,72,153,0.05));}
+.mtable th{padding:11px 14px;text-align:left;font-size:11px;font-weight:700;letter-spacing:.06em;text-transform:uppercase;color:var(--accent);border-bottom:2px solid rgba(124,58,237,0.12);}
+.mtable td{padding:10px 14px;border-bottom:1px solid rgba(124,58,237,0.07);color:var(--text2);vertical-align:top;line-height:1.5;}
+.mtable tr:last-child td{border-bottom:none;}
+.mtable tr:hover td{background:rgba(124,58,237,0.03);}
+.mtable .hl{color:var(--text);font-weight:600;}
+
+/* ── TAGS ── */
+.tag{display:inline-block;padding:3px 10px;border-radius:20px;font-size:11px;font-weight:700;}
+.t-blue{background:var(--blue-light);color:var(--blue);}
+.t-violet{background:var(--violet-light);color:var(--violet);}
+.t-green{background:var(--green-light);color:var(--green);}
+.t-pink{background:var(--pink-light);color:var(--pink);}
+.t-orange{background:var(--orange-light);color:var(--orange);}
+.t-cyan{background:var(--cyan-light);color:var(--cyan);}
+.t-rose{background:var(--rose-light);color:var(--rose);}
+.t-teal{background:var(--teal-light);color:var(--teal);}
+
+/* ── ACCORDION ── */
+.acc-item{border:1px solid var(--border);border-radius:12px;margin-bottom:10px;overflow:hidden;}
+.acc-head{display:flex;align-items:center;justify-content:space-between;padding:14px 20px;cursor:pointer;background:var(--surface2);transition:background .2s;}
+.acc-head:hover{background:rgba(124,58,237,0.04);}
+.acc-title{font-size:14px;font-weight:700;color:var(--text);display:flex;align-items:center;gap:10px;}
+.acc-body{max-height:0;overflow:hidden;transition:max-height .4s ease;background:#fff;}
+.acc-body.open{max-height:800px;}
+.acc-inner{padding:20px 22px;font-size:13px;color:var(--text2);line-height:1.7;}
+.acc-chevron{font-size:14px;color:var(--text3);transition:transform .3s;}
+.acc-item.open .acc-chevron{transform:rotate(90deg);}
+
+/* ── SKIN LAYER INTERACTIVE ── */
+.layer-wrap{display:flex;gap:28px;align-items:flex-start;}
+.layer-svg-side{flex-shrink:0;position:relative;}
+.layer-info-side{flex:1;}
+.layer-btn{cursor:pointer;transition:all .2s;}
+.layer-btn:hover rect,.layer-btn:hover path{opacity:0.85;}
+.layer-detail{background:var(--violet-light);border:1px solid rgba(124,58,237,0.2);border-radius:14px;padding:18px 20px;min-height:120px;}
+.layer-detail-name{font-size:17px;font-weight:800;color:var(--text);margin-bottom:8px;}
+.layer-detail-desc{font-size:13px;color:var(--text2);line-height:1.7;margin-bottom:10px;}
+.layer-detail-props{display:grid;grid-template-columns:1fr 1fr;gap:8px;margin-top:10px;}
+.ldp{background:rgba(255,255,255,0.7);border-radius:8px;padding:8px 12px;}
+.ldp-key{font-size:10px;font-weight:700;text-transform:uppercase;letter-spacing:.06em;color:var(--text3);margin-bottom:2px;}
+.ldp-val{font-size:12px;font-weight:600;color:var(--text);}
+
+/* ── GLAND COMPARISON ── */
+.gland-card{background:var(--surface2);border:1px solid var(--border);border-radius:14px;padding:20px;transition:all .25s;cursor:pointer;}
+.gland-card:hover{transform:translateY(-3px);box-shadow:var(--shadow2);}
+.gland-card.selected{border-color:var(--accent);box-shadow:0 0 0 2px rgba(124,58,237,0.2);}
+.gc-icon{font-size:28px;margin-bottom:10px;display:block;}
+.gc-name{font-size:14px;font-weight:800;color:var(--text);margin-bottom:6px;}
+.gc-desc{font-size:12px;color:var(--text2);line-height:1.6;}
+
+/* ── QUIZ ── */
+.quiz-score{display:flex;justify-content:space-between;align-items:center;background:linear-gradient(90deg,rgba(124,58,237,0.06),rgba(236,72,153,0.04));border:1px solid rgba(124,58,237,0.15);border-radius:12px;padding:14px 20px;margin-bottom:24px;}
+.quiz-score-label{font-size:13px;color:var(--text2);font-weight:600;}
+.quiz-score-val{font-size:22px;font-weight:800;color:var(--accent);}
+.quiz-q{background:var(--surface2);border:1px solid var(--border);border-radius:14px;padding:22px;margin-bottom:16px;}
+.quiz-qtext{font-size:14px;font-weight:700;color:var(--text);margin-bottom:14px;line-height:1.5;}
+.quiz-opts{display:grid;grid-template-columns:1fr 1fr;gap:8px;}
+.quiz-opt{padding:11px 16px;border:1.5px solid var(--border);border-radius:10px;font-size:13px;font-weight:500;color:var(--text2);cursor:pointer;background:var(--surface);transition:all .2s;text-align:left;}
+.quiz-opt:hover:not(.disabled){border-color:var(--violet);color:var(--violet);background:var(--violet-light);}
+.quiz-opt.correct{border-color:var(--green)!important;background:var(--green-light)!important;color:var(--green)!important;font-weight:700;}
+.quiz-opt.wrong{border-color:var(--rose)!important;background:var(--rose-light)!important;color:var(--rose)!important;}
+.quiz-opt.disabled{cursor:default;pointer-events:none;}
+.quiz-explain{margin-top:12px;padding:12px 16px;background:var(--green-light);border-radius:10px;font-size:12.5px;color:#065f46;font-weight:600;display:none;}
+.quiz-explain.show{display:block;}
+.quiz-next-btn{margin-top:16px;padding:10px 24px;background:linear-gradient(135deg,var(--accent),var(--pink));color:#fff;border:none;border-radius:10px;font-family:'Outfit',sans-serif;font-size:13px;font-weight:700;cursor:pointer;display:none;}
+.quiz-next-btn.show{display:inline-block;}
+
+/* ── SKIN CROSS SECTION SVG INTERACTIVE ── */
+.skin-svg-wrap{background:var(--surface2);border:1px solid var(--border);border-radius:16px;padding:20px;}
+.skin-layer-highlight{cursor:pointer;transition:all .2s;}
+.skin-layer-highlight:hover{filter:brightness(1.15);}
+.skin-legend{display:flex;flex-wrap:wrap;gap:8px;margin-top:16px;}
+.skin-legend-item{display:flex;align-items:center;gap:6px;font-size:11.5px;font-weight:600;color:var(--text2);cursor:pointer;padding:4px 10px;border-radius:20px;background:var(--surface);border:1px solid var(--border);transition:all .2s;}
+.skin-legend-item:hover{border-color:var(--accent);color:var(--accent);}
+.skin-legend-dot{width:10px;height:10px;border-radius:50%;}
+
+/* ── FLOW NODES ── */
+.flow-node{background:var(--surface2);border:1px solid var(--border);border-radius:10px;padding:10px 16px;font-size:12.5px;font-weight:600;color:var(--text);text-align:center;transition:all .25s;}
+.flow-arrow-v{text-align:center;font-size:20px;color:var(--text3);padding:2px 0;}
+.flow-arrow-h{font-size:20px;color:var(--text3);padding:0 4px;flex-shrink:0;}
+
+/* ──────── ANIMATIONS (STIL PREMIUM CAP 9) ──────── */
+@keyframes fadeUp { 
+  from { opacity: 0; transform: translateY(6px); } 
+  to { opacity: 1; transform: translateY(0); } 
+}
+.fu { animation: fadeUp 0.5s ease both; }
+.fu-1 { animation-delay: .08s; }
+.fu-2 { animation-delay: .16s; }
+.fu-3 { animation-delay: .24s; }
+.fu-4 { animation-delay: .32s; }
+
+/* Mobile */
+.mob-menu-btn{display:none;position:fixed;bottom:20px;right:20px;z-index:200;background:var(--accent);color:#fff;border:none;width:52px;height:52px;border-radius:50%;font-size:22px;cursor:pointer;box-shadow:0 4px 20px rgba(124,58,237,0.4);}
+@media(max-width:860px){
+  #sidebar{transform:translateX(-100%);transition:transform .3s;}
+  #sidebar.open{transform:translateX(0);}
+  #main{margin-left:0;}
+  .mob-menu-btn{display:flex;align-items:center;justify-content:center;}
+  .hero{padding:40px 28px 36px;}
+  .content{padding:24px 20px 50px;}
+  .g2,.g3,.g4{grid-template-columns:1fr;}
+  .layer-wrap{flex-direction:column;}
+  .quiz-opts{grid-template-columns:1fr;}
+  .layer-detail-props{grid-template-columns:1fr;}
+}
+</style>
+</head>
+<body>
+
+<!-- SIDEBAR -->
+<nav id="sidebar">
+  <div class="sidebar-logo">
+    <img src="medStudy.png" alt="Logo MedStudy" style="width: 42px; height: 42px; object-fit: contain; filter: drop-shadow(0 4px 14px rgba(124,58,237,0.35));">
+    <div><div class="logo-text">MedStudy</div><div class="logo-sub">Anatomy Made Easy</div></div>
+  </div>
+  
+  <div class="nav-scroll" id="chapters-menu">
+  <div class="sidebar-section-label">Capitole</div>
+
+  <a class="nav-item" href="cap1.html"><span class="nav-num">1</span>Introducere în A&B</a>
+  <a class="nav-item" href="cap2.html"><span class="nav-num">2</span>Bazele Chimice</a>
+  <a class="nav-item" href="cap3.html"><span class="nav-num">3</span>Fiziologia celulară</a>
+  <a class="nav-item" href="cap4.html"><span class="nav-num">4</span>Țesuturile</a>
+  <a class="nav-item" href="cap5.html"><span class="nav-num">5</span>Sistemul Tegumentar</a>
+  <a class="nav-item" href="cap6.html"><span class="nav-num">6</span>Oasele și Articulațiile</a>
+  <a class="nav-item" href="cap7.html"><span class="nav-num">7</span>Sistemul Osos</a>
+  <a class="nav-item" href="cap8.html"><span class="nav-num">8</span>Țesutul Muscular</a>
+  <a class="nav-item" href="cap9.html"><span class="nav-num">9</span>Sistemul Muscular</a>
+  <a class="nav-item" href="cap10.html"><span class="nav-num">10</span>Țesutul Nervos</a>
+  <a class="nav-item" href="cap11.html"><span class="nav-num">11</span>Organizarea Sistemului Nervos</a>
+  <a class="nav-item" href="cap12.html"><span class="nav-num">12</span>Organele de Simț</a>
+  <a class="nav-item" href="cap13.html"><span class="nav-num">13</span>Sistemul Endocrin</a>
+  <a class="nav-item" href="cap14.html"><span class="nav-num">14</span>Sângele</a>
+  <a class="nav-item" href="cap15.html"><span class="nav-num">15</span>Sistemul Cardiovascular</a>
+  <a class="nav-item" href="cap16.html"><span class="nav-num">16</span>Sistemul Limfatic</a>
+  <a class="nav-item" href="cap17.html"><span class="nav-num">17</span>Sistemul Respirator</a>
+  <a class="nav-item" href="cap18.html"><span class="nav-num">18</span>Sistemul Digestiv</a>
+  <a class="nav-item" href="cap19.html"><span class="nav-num">19</span>Metabolism & Nutriție</a>
+  <a class="nav-item" href="cap20.html"><span class="nav-num">20</span>Sistemul Urinar</a>
+  <a class="nav-item" href="cap21.html"><span class="nav-num">21</span>Echilibrul Hidro-Electrolitic</a>
+  <a class="nav-item" href="cap22.html"><span class="nav-num">22</span>Sistemul Reproducător Masculin</a>
+  <a class="nav-item" href="cap23.html"><span class="nav-num">23</span>Sistemul Reproducător Feminin</a>
+</div>
+  
+  <div class="sidebar-footer">
+    <div class="prog-label"><span>Progres total</span><span>5/23</span></div>
+    <div class="prog-track"><div class="prog-fill"></div></div>
+  </div>
+</nav>
+
+<button class="mob-menu-btn" onclick="document.getElementById('sidebar').classList.toggle('open')">☰</button>
+
+<!-- MAIN -->
+<div id="main">
+  <div class="topbar">
+    <div class="breadcrumb">
+      <span>A&F Umană</span><span class="bc-sep">›</span>
+      <span>Capitol 5</span><span class="bc-sep">›</span>
+      <span class="current">Sistemul Tegumentar</span>
+    </div>
+    <div class="badge-pill">🎓 Pregătire Admitere Medicină</div>
+  </div>
+
+  <!-- HERO -->
+  <div class="hero">
+    <div class="hero-eyebrow fu fu-1">Capitol 5 · Histologie aplicată</div>
+    <h1 class="fu fu-2">Sistemul<span> Tegumentar</span></h1>
+    <p class="hero-sub fu fu-3">Cel mai mare organ al corpului — pielea cu straturile sale, anexele și funcțiile esențiale de protecție, termoreglare și comunicare senzorială.</p>
+    <div class="hero-chips fu fu-4">
+      <div class="hero-chip"><strong>5</strong>straturi epiderm</div>
+      <div class="hero-chip"><strong>2</strong>straturi derm</div>
+      <div class="hero-chip"><strong>15%</strong>din greutatea corpului</div>
+      <div class="hero-chip"><strong>4</strong>funcții principale</div>
+    </div>
+  </div>
+
+  <!-- TABS -->
+  <div class="tab-bar">
+    <button class="tab-btn active" onclick="switchTab('infografice',this)">🗺 Infografice</button>
+    <button class="tab-btn" onclick="switchTab('epiderm',this)">🧱 Epiderm</button>
+    <button class="tab-btn" onclick="switchTab('derm',this)">🔬 Derm &amp; Hipoderm</button>
+    <button class="tab-btn" onclick="switchTab('anexe',this)">🌿 Anexele pielii</button>
+    <button class="tab-btn" onclick="switchTab('tabele',this)">📊 Tabele</button>
+    <button class="tab-btn" onclick="switchTab('quiz',this)">🎯 Quiz</button>
+  </div>
+
+  <div class="content">
+
+    <!-- ═══ TAB: INFOGRAFICE ═══ -->
+    <div class="panel active" id="tab-infografice">
+      <div class="section-title">Infografice — Sistemul Tegumentar</div>
+      <p class="section-desc">Diagramă interactivă a pielii, funcții și structuri. Click pe straturile diagramei pentru detalii.</p>
+
+      <!-- INTERACTIVE SKIN CROSS-SECTION SVG -->
+      <div class="gcard">
+        <div class="gcard-title"><div class="ct-icon" style="background:#fce7f3">🔍</div>Secțiune transversală a pielii — SVG interactiv (click pe straturi)</div>
+        <div class="layer-wrap">
+          <div class="layer-svg-side">
+            <svg id="skin-svg" width="320" height="480" viewBox="0 0 320 480" style="border-radius:12px;overflow:visible;">
+              <!-- BG -->
+              <rect width="320" height="480" fill="#f8f5ff" rx="12"/>
+              
+              <!-- STRATUM CORNEUM -->
+              <g class="skin-layer-highlight" onclick="showLayer('cornos')" data-layer="cornos">
+                <rect x="10" y="10" width="300" height="35" rx="4" fill="#f59e0b" opacity="0.75"/>
+                <text x="160" y="32" font-size="11.5" fill="#78350f" text-anchor="middle" font-weight="700">Stratul cornos</text>
+              </g>
+              
+              <!-- STRATUM LUCIDUM -->
+              <g class="skin-layer-highlight" onclick="showLayer('lucid')" data-layer="lucid">
+                <rect x="10" y="47" width="300" height="22" rx="3" fill="#fbbf24" opacity="0.6"/>
+                <text x="160" y="62" font-size="10.5" fill="#78350f" text-anchor="middle" font-weight="700">Stratul lucid (doar piele groasă)</text>
+              </g>
+
+              <!-- STRATUM GRANULOSUM -->
+              <g class="skin-layer-highlight" onclick="showLayer('granulos')" data-layer="granulos">
+                <rect x="10" y="71" width="300" height="28" rx="3" fill="#a78bfa" opacity="0.65"/>
+                <!-- small granule cells -->
+                <ellipse cx="50" cy="85" rx="8" ry="5" fill="#7c3aed" opacity="0.4"/>
+                <ellipse cx="80" cy="85" rx="8" ry="5" fill="#7c3aed" opacity="0.4"/>
+                <ellipse cx="110" cy="85" rx="8" ry="5" fill="#7c3aed" opacity="0.4"/>
+                <ellipse cx="140" cy="85" rx="8" ry="5" fill="#7c3aed" opacity="0.4"/>
+                <ellipse cx="170" cy="85" rx="8" ry="5" fill="#7c3aed" opacity="0.4"/>
+                <ellipse cx="200" cy="85" rx="8" ry="5" fill="#7c3aed" opacity="0.4"/>
+                <ellipse cx="230" cy="85" rx="8" ry="5" fill="#7c3aed" opacity="0.4"/>
+                <text x="275" y="89" font-size="10" fill="#4c1d95" text-anchor="middle" font-weight="700">granulos</text>
+              </g>
+
+              <!-- STRATUM SPINOSUM -->
+              <g class="skin-layer-highlight" onclick="showLayer('spinos')" data-layer="spinos">
+                <rect x="10" y="101" width="300" height="45" rx="3" fill="#60a5fa" opacity="0.55"/>
+                <!-- spiny cells -->
+                <circle cx="50" cy="124" r="9" fill="#2563eb" opacity="0.4"/>
+                <circle cx="80" cy="120" r="9" fill="#2563eb" opacity="0.4"/>
+                <circle cx="110" cy="124" r="9" fill="#2563eb" opacity="0.4"/>
+                <circle cx="140" cy="120" r="9" fill="#2563eb" opacity="0.4"/>
+                <circle cx="170" cy="124" r="9" fill="#2563eb" opacity="0.4"/>
+                <circle cx="200" cy="120" r="9" fill="#2563eb" opacity="0.4"/>
+                <circle cx="230" cy="124" r="9" fill="#2563eb" opacity="0.4"/>
+                <text x="275" y="124" font-size="10" fill="#1e3a8a" text-anchor="middle" font-weight="700">spinos</text>
+              </g>
+
+              <!-- STRATUM BASALE -->
+              <g class="skin-layer-highlight" onclick="showLayer('bazal')" data-layer="bazal">
+                <rect x="10" y="148" width="300" height="30" rx="3" fill="#34d399" opacity="0.7"/>
+                <!-- columnar cells -->
+                <rect x="30" y="151" width="14" height="24" rx="3" fill="#059669" opacity="0.5"/>
+                <rect x="50" y="151" width="14" height="24" rx="3" fill="#059669" opacity="0.5"/>
+                <rect x="70" y="151" width="14" height="24" rx="3" fill="#059669" opacity="0.5"/>
+                <rect x="90" y="151" width="14" height="24" rx="3" fill="#059669" opacity="0.5"/>
+                <rect x="110" y="151" width="14" height="24" rx="3" fill="#7c3aed" opacity="0.5"/>
+                <rect x="130" y="151" width="14" height="24" rx="3" fill="#059669" opacity="0.5"/>
+                <rect x="150" y="151" width="14" height="24" rx="3" fill="#059669" opacity="0.5"/>
+                <rect x="170" y="151" width="14" height="24" rx="3" fill="#7c3aed" opacity="0.5"/>
+                <rect x="190" y="151" width="14" height="24" rx="3" fill="#059669" opacity="0.5"/>
+                <text x="260" y="167" font-size="10" fill="#064e3b" text-anchor="middle" font-weight="700">bazal</text>
+              </g>
+
+              <!-- Basement membrane line -->
+              <line x1="10" y1="180" x2="310" y2="180" stroke="#7c3aed" stroke-width="2.5" stroke-dasharray="6,3"/>
+              <text x="160" y="194" font-size="10" fill="#7c3aed" text-anchor="middle" font-style="italic" font-weight="600">— Membrana bazală —</text>
+
+              <!-- DERM PAPILAR -->
+              <g class="skin-layer-highlight" onclick="showLayer('papilar')" data-layer="papilar">
+                <rect x="10" y="197" width="300" height="60" rx="3" fill="#fb7185" opacity="0.35"/>
+                <!-- Papillae bumps -->
+                <path d="M20,197 Q40,180 60,197 Q80,180 100,197 Q120,180 140,197 Q160,180 180,197 Q200,180 220,197 Q240,180 260,197 Q280,180 300,197" fill="none" stroke="#fb7185" stroke-width="2"/>
+                <!-- Capillary -->
+                <line x1="80" y1="210" x2="80" y2="250" stroke="#ef4444" stroke-width="2"/>
+                <line x1="160" y1="210" x2="160" y2="250" stroke="#ef4444" stroke-width="2"/>
+                <line x1="240" y1="210" x2="240" y2="250" stroke="#ef4444" stroke-width="2"/>
+                <text x="160" y="238" font-size="10.5" fill="#9f1239" text-anchor="middle" font-weight="700">Strat papilar (conjunctiv lax)</text>
+              </g>
+
+              <!-- DERM RETICULAR -->
+              <g class="skin-layer-highlight" onclick="showLayer('reticular')" data-layer="reticular">
+                <rect x="10" y="259" width="300" height="90" rx="3" fill="#f472b6" opacity="0.25"/>
+                <!-- Collagen fibers -->
+                <line x1="30" y1="275" x2="120" y2="285" stroke="#be185d" stroke-width="1.5" opacity="0.5"/>
+                <line x1="60" y1="290" x2="180" y2="300" stroke="#be185d" stroke-width="1.5" opacity="0.5"/>
+                <line x1="100" y1="305" x2="220" y2="295" stroke="#be185d" stroke-width="1.5" opacity="0.5"/>
+                <line x1="150" y1="320" x2="290" y2="310" stroke="#be185d" stroke-width="1.5" opacity="0.5"/>
+                <!-- Sebaceous gland -->
+                <ellipse cx="80" cy="300" rx="18" ry="12" fill="#fbbf24" opacity="0.6"/>
+                <text x="80" y="304" font-size="7.5" fill="#78350f" text-anchor="middle" font-weight="700">gl. sebacee</text>
+                <!-- Hair follicle simplified -->
+                <rect x="200" y="268" width="8" height="80" rx="4" fill="#d97706" opacity="0.6"/>
+                <text x="220" y="315" font-size="7.5" fill="#92400e" text-anchor="middle">folicul</text>
+                <text x="160" y="344" font-size="10.5" fill="#831843" text-anchor="middle" font-weight="700">Strat reticular (conjunctiv dens)</text>
+              </g>
+
+              <!-- HYPODERM -->
+              <g class="skin-layer-highlight" onclick="showLayer('hipoderm')" data-layer="hipoderm">
+                <rect x="10" y="351" width="300" height="80" rx="3" fill="#fde68a" opacity="0.6"/>
+                <!-- Fat cells -->
+                <circle cx="40" cy="390" r="16" fill="#fbbf24" opacity="0.5"/>
+                <circle cx="75" cy="385" r="14" fill="#fbbf24" opacity="0.5"/>
+                <circle cx="108" cy="392" r="15" fill="#fbbf24" opacity="0.5"/>
+                <circle cx="142" cy="384" r="14" fill="#fbbf24" opacity="0.5"/>
+                <circle cx="175" cy="392" r="16" fill="#fbbf24" opacity="0.5"/>
+                <circle cx="210" cy="385" r="13" fill="#fbbf24" opacity="0.5"/>
+                <circle cx="243" cy="391" r="15" fill="#fbbf24" opacity="0.5"/>
+                <circle cx="276" cy="384" r="14" fill="#fbbf24" opacity="0.5"/>
+                <text x="160" y="425" font-size="10.5" fill="#78350f" text-anchor="middle" font-weight="700">Hipoderm (fasciculă superficială)</text>
+              </g>
+
+              <!-- EPIDERM bracket -->
+              <line x1="6" y1="10" x2="6" y2="178" stroke="#5b8dee" stroke-width="2"/>
+              <text x="3" y="95" font-size="10" fill="#1d4ed8" text-anchor="middle" transform="rotate(-90,3,95)" font-weight="800">EPIDERM</text>
+              <!-- DERM bracket -->
+              <line x1="6" y1="182" x2="6" y2="349" stroke="#ec4899" stroke-width="2"/>
+              <text x="3" y="265" font-size="10" fill="#be185d" text-anchor="middle" transform="rotate(-90,3,265)" font-weight="800">DERM</text>
+            </svg>
+          </div>
+
+          <div class="layer-info-side">
+            <div class="layer-detail" id="layer-detail">
+              <div class="layer-detail-name">👆 Click pe un strat</div>
+              <div class="layer-detail-desc">Apasă pe oricare strat al diagramei pentru a vedea detalii complete: celule prezente, funcții, caracteristici cheie pentru admitere.</div>
+            </div>
+            <!-- Legend -->
+            <div style="margin-top:16px;">
+              <div style="font-size:11px;font-weight:700;color:var(--text3);text-transform:uppercase;letter-spacing:.08em;margin-bottom:8px;">Navigare rapidă:</div>
+              <div style="display:flex;flex-wrap:wrap;gap:6px;">
+                <span onclick="showLayer('cornos')" style="cursor:pointer;padding:5px 12px;border-radius:20px;font-size:11.5px;font-weight:600;background:#fef3c7;color:#78350f;border:1px solid #fbbf24;">Cornos</span>
+                <span onclick="showLayer('lucid')" style="cursor:pointer;padding:5px 12px;border-radius:20px;font-size:11.5px;font-weight:600;background:#fef3c7;color:#92400e;border:1px solid #fbbf24;">Lucid</span>
+                <span onclick="showLayer('granulos')" style="cursor:pointer;padding:5px 12px;border-radius:20px;font-size:11.5px;font-weight:600;background:var(--violet-light);color:var(--violet);border:1px solid var(--violet);">Granulos</span>
+                <span onclick="showLayer('spinos')" style="cursor:pointer;padding:5px 12px;border-radius:20px;font-size:11.5px;font-weight:600;background:var(--blue-light);color:var(--blue);border:1px solid var(--blue);">Spinos</span>
+                <span onclick="showLayer('bazal')" style="cursor:pointer;padding:5px 12px;border-radius:20px;font-size:11.5px;font-weight:600;background:var(--green-light);color:var(--green);border:1px solid var(--green);">Bazal</span>
+                <span onclick="showLayer('papilar')" style="cursor:pointer;padding:5px 12px;border-radius:20px;font-size:11.5px;font-weight:600;background:var(--rose-light);color:var(--rose);border:1px solid var(--rose);">Papilar</span>
+                <span onclick="showLayer('reticular')" style="cursor:pointer;padding:5px 12px;border-radius:20px;font-size:11.5px;font-weight:600;background:var(--pink-light);color:var(--pink);border:1px solid var(--pink);">Reticular</span>
+                <span onclick="showLayer('hipoderm')" style="cursor:pointer;padding:5px 12px;border-radius:20px;font-size:11.5px;font-weight:600;background:var(--orange-light);color:var(--orange);border:1px solid var(--orange);">Hipoderm</span>
+              </div>
+            </div>
+          </div>
+        </div>
+      </div>
+
+      <!-- FUNCTIONS OVERVIEW -->
+      <div class="gcard">
+        <div class="gcard-title"><div class="ct-icon" style="background:#d1fae5">⚡</div>Funcțiile sistemului tegumentar — Schemă</div>
+        <div class="g4">
+          <div style="background:var(--blue-light);border:1px solid var(--blue);border-radius:14px;padding:18px;text-align:center;">
+            <div style="font-size:28px;margin-bottom:8px;">🛡</div>
+            <div style="font-size:14px;font-weight:800;color:var(--blue);margin-bottom:8px;">Protecție</div>
+            <div style="font-size:12px;color:var(--text2);line-height:1.6;">3 bariere: fizică, cheratinică (hidrosolubile), membrana bazală (mecanică)</div>
+          </div>
+          <div style="background:var(--rose-light);border:1px solid var(--rose);border-radius:14px;padding:18px;text-align:center;">
+            <div style="font-size:28px;margin-bottom:8px;">🌡</div>
+            <div style="font-size:14px;font-weight:800;color:var(--rose);margin-bottom:8px;">Termoreglare</div>
+            <div style="font-size:12px;color:var(--text2);line-height:1.6;">Pierdere căldură: evaporare, radiație, convecție, conducție. Conservare: ↓transpirație + vasoconstricție</div>
+          </div>
+          <div style="background:var(--orange-light);border:1px solid var(--orange);border-radius:14px;padding:18px;text-align:center;">
+            <div style="font-size:28px;margin-bottom:8px;">☀️</div>
+            <div style="font-size:14px;font-weight:800;color:var(--orange);margin-bottom:8px;">Metabolism</div>
+            <div style="font-size:12px;color:var(--text2);line-height:1.6;">Sinteză vitamina D (UV+molecule precursoare) → finalizare în rinichi. Absorb vitamine A, E, K.</div>
+          </div>
+          <div style="background:var(--violet-light);border:1px solid var(--violet);border-radius:14px;padding:18px;text-align:center;">
+            <div style="font-size:28px;margin-bottom:8px;">👁</div>
+            <div style="font-size:14px;font-weight:800;color:var(--violet);margin-bottom:8px;">Comunicare</div>
+            <div style="font-size:12px;color:var(--text2);line-height:1.6;">Receptori specializați: presiune, durere, atingere, temperatură → SNC</div>
+          </div>
+        </div>
+
+        <div class="hbox hbox-orange" style="margin-top:16px;">
+          <strong>💡 Vitamina D — Detaliu important pentru admitere</strong>
+          UV → molecule precursoare (piele) → Vitamina D (piele) → Finalizare în <strong>rinichi</strong><br>
+          Moleculele precursoare pot fi obținute și din lapte sau alte alimente. Melanina protejează contra UV dar reduce sinteza vitaminei D.
+        </div>
+      </div>
+
+      <!-- FLOWCHART SKIN STRUCTURE -->
+      <div class="gcard">
+        <div class="gcard-title"><div class="ct-icon" style="background:#fce7f3">🌳</div>Schemă logică — Structura sistemului tegumentar</div>
+        <div style="display:flex;flex-direction:column;align-items:center;gap:0;padding:10px 0;">
+          <div style="background:linear-gradient(135deg,var(--accent),var(--pink));color:#fff;border-radius:12px;padding:12px 32px;font-size:14px;font-weight:800;box-shadow:0 4px 20px rgba(124,58,237,0.3);">Sistemul Tegumentar</div>
+          <div class="flow-arrow-v">↓</div>
+          <div style="display:grid;grid-template-columns:1fr 1fr 1fr;gap:16px;width:100%;">
+            <!-- PIELEA -->
+            <div>
+              <div style="background:var(--rose-light);border:2px solid var(--rose);border-radius:12px;padding:10px 16px;text-align:center;font-weight:800;color:var(--rose);margin-bottom:8px;">🩺 PIELEA</div>
+              <div class="flow-arrow-v" style="color:var(--rose);">↓</div>
+              <div style="background:var(--surface2);border:1px solid var(--rose);border-radius:10px;padding:10px;font-size:12px;margin-bottom:6px;"><strong>EPIDERM</strong><br><span style="color:var(--text2);">Epiteliu strat. pav.</span></div>
+              <div style="padding-left:12px;">
+                <div style="background:var(--orange-light);border-radius:8px;padding:6px 10px;font-size:11px;margin-bottom:4px;">Strat cornos (sup.)</div>
+                <div style="background:var(--orange-light);border-radius:8px;padding:6px 10px;font-size:11px;margin-bottom:4px;">Strat lucid*</div>
+                <div style="background:var(--violet-light);border-radius:8px;padding:6px 10px;font-size:11px;margin-bottom:4px;">Strat granulos</div>
+                <div style="background:var(--blue-light);border-radius:8px;padding:6px 10px;font-size:11px;margin-bottom:4px;">Strat spinos</div>
+                <div style="background:var(--green-light);border-radius:8px;padding:6px 10px;font-size:11px;margin-bottom:10px;">Strat bazal (prof.)</div>
+              </div>
+              <div style="background:var(--surface2);border:1px solid var(--pink);border-radius:10px;padding:10px;font-size:12px;margin-bottom:6px;"><strong>DERM</strong><br><span style="color:var(--text2);">Țesut conjunctiv</span></div>
+              <div style="padding-left:12px;">
+                <div style="background:var(--rose-light);border-radius:8px;padding:6px 10px;font-size:11px;margin-bottom:4px;">Strat papilar (lax)</div>
+                <div style="background:var(--pink-light);border-radius:8px;padding:6px 10px;font-size:11px;margin-bottom:6px;">Strat reticular (dens)</div>
+              </div>
+              <div style="background:var(--orange-light);border:1px solid var(--orange);border-radius:10px;padding:10px;font-size:12px;"><strong>HIPODERM</strong><br><span style="color:var(--text2);">Fascia superficială (≠ piele)</span></div>
+            </div>
+            <!-- ANEXE -->
+            <div>
+              <div style="background:var(--teal-light);border:2px solid var(--teal);border-radius:12px;padding:10px 16px;text-align:center;font-weight:800;color:var(--teal);margin-bottom:8px;">🌿 ANEXELE</div>
+              <div class="flow-arrow-v" style="color:var(--teal);">↓</div>
+              <div style="background:var(--surface2);border:1px solid var(--teal);border-radius:10px;padding:10px;font-size:12px;margin-bottom:6px;"><strong>Fir de păr</strong><br><span style="color:var(--text2);">Ax + Rădăcină + Folicul + Bulb</span></div>
+              <div style="background:var(--surface2);border:1px solid var(--teal);border-radius:10px;padding:10px;font-size:12px;margin-bottom:6px;"><strong>Unghii</strong><br><span style="color:var(--text2);">Corp + Pat + Cuticulă + Lunula</span></div>
+              <div style="background:var(--surface2);border:1px solid var(--teal);border-radius:10px;padding:10px;font-size:12px;"><strong>Glande</strong><br><span style="color:var(--text2);">Sudoripare + Sebacee</span></div>
+            </div>
+            <!-- CELULE SPECIALE -->
+            <div>
+              <div style="background:var(--violet-light);border:2px solid var(--violet);border-radius:12px;padding:10px 16px;text-align:center;font-weight:800;color:var(--violet);margin-bottom:8px;">🔬 CELULE CHEIE</div>
+              <div class="flow-arrow-v" style="color:var(--violet);">↓</div>
+              <div style="background:var(--surface2);border:1px solid var(--violet);border-radius:10px;padding:10px;font-size:12px;margin-bottom:6px;"><strong>Cheratinocite</strong><br><span style="color:var(--text2);">Celula dominantă, produc cheratină</span></div>
+              <div style="background:var(--surface2);border:1px solid var(--pink);border-radius:10px;padding:10px;font-size:12px;margin-bottom:6px;"><strong>Melanocite</strong><br><span style="color:var(--text2);">Produc melanină (strat bazal)</span></div>
+              <div style="background:var(--surface2);border:1px solid var(--green);border-radius:10px;padding:10px;font-size:12px;margin-bottom:6px;"><strong>Celule Merkel</strong><br><span style="color:var(--text2);">Receptori tactili (strat bazal)</span></div>
+              <div style="background:var(--surface2);border:1px solid var(--cyan);border-radius:10px;padding:10px;font-size:12px;"><strong>Celule dendritice epidermice</strong><br><span style="color:var(--text2);">Imunitate (strat bazal)</span></div>
+            </div>
+          </div>
+          <div style="font-size:11px;color:var(--text3);margin-top:8px;font-style:italic;">* Stratul lucid apare DOAR în pielea groasă (palme, tălpi)</div>
+        </div>
+      </div>
+    </div><!-- /infografice -->
+
+
+    <!-- ═══ TAB: EPIDERM ═══ -->
+    <div class="panel" id="tab-epiderm">
+      <div class="section-title">Epidermul — Straturile în detaliu</div>
+      <p class="section-desc">Epiteliu stratificat pavimentos. Avascular. Reînnoit continuu din stratul bazal spre suprafață. 4 straturi (piele subțire) sau 5 (piele groasă — palme, tălpi).</p>
+
+      <div class="hbox hbox-blue">
+        <strong>🔑 Caracteristici esențiale ale epidermului</strong>
+        ✦ Alcătuit din <strong>epiteliu stratificat pavimentos</strong><br>
+        ✦ <strong>Avascular</strong> — nutrienți difuzează din vasele dermului<br>
+        ✦ Reînnoire <strong>de jos în sus</strong>: bazal → cornos<br>
+        ✦ Pe măsură ce celulele migrează → acumulează cheratină → mor<br>
+        ✦ Câteva terminații nervoase prezente
+      </div>
+
+      <!-- LAYERS ACCORDION -->
+      <div class="gcard">
+        <div class="gcard-title"><div class="ct-icon" style="background:#d1fae5">📚</div>Straturile epidermului — De profund la superficial</div>
+
+        <!-- Bazal -->
+        <div class="acc-item open" onclick="toggleAcc(this)">
+          <div class="acc-head">
+            <div class="acc-title">
+              <span style="width:32px;height:32px;background:var(--green-light);border:2px solid var(--green);border-radius:8px;display:flex;align-items:center;justify-content:center;font-size:12px;font-weight:800;color:var(--green);">1</span>
+              Stratul Bazal (Germinativ) — <span style="color:var(--green);margin-left:6px;">Cel mai profund</span>
+            </div>
+            <span class="acc-chevron">›</span>
+          </div>
+          <div class="acc-body open">
+            <div class="acc-inner">
+              <div class="g2">
+                <div>
+                  <strong style="color:var(--text);">Caracteristici:</strong><br>
+                  ✦ Un singur strat de celule <strong>cubice sau cilindrice</strong><br>
+                  ✦ Locul regenerării epidermului — celule se divid <strong>continuu</strong><br>
+                  ✦ Singurele celule din epiderm care primesc <strong>nutrimente direct</strong><br>
+                  ✦ Celulele noi migrează spre suprafață pe măsură ce se maturează<br>
+                  ✦ Localizat pe <strong>membrana bazală</strong>
+                </div>
+                <div>
+                  <strong style="color:var(--text);">Celule prezente:</strong><br>
+                  🟢 <strong>Cheratinocite</strong> — celula dominantă, produc cheratină<br>
+                  🔵 <strong>Melanocite</strong> — sintetizează melanina (protecție UV)<br>
+                  🟡 <strong>Celule Merkel</strong> — receptori pentru atingere<br>
+                  🔴 <strong>Celule dendritice epidermice</strong> — imunitate<br><br>
+                  <div class="hbox hbox-green" style="margin:0;font-size:12px;"><strong>⚠️ Admitere:</strong>Albinismul = incapacitate de a produce melanină (melanocitele există dar nu funcționează)</div>
+                </div>
+              </div>
+            </div>
+          </div>
+        </div>
+
+        <!-- Spinos -->
+        <div class="acc-item" onclick="toggleAcc(this)">
+          <div class="acc-head">
+            <div class="acc-title">
+              <span style="width:32px;height:32px;background:var(--blue-light);border:2px solid var(--blue);border-radius:8px;display:flex;align-items:center;justify-content:center;font-size:12px;font-weight:800;color:var(--blue);">2</span>
+              Stratul Spinos
+            </div>
+            <span class="acc-chevron">›</span>
+          </div>
+          <div class="acc-body">
+            <div class="acc-inner">
+              <div class="g2">
+                <div>
+                  ✦ Celule predominante: <strong>cheratinocite cu aspect spinos</strong><br>
+                  ✦ „Spinii" = puncte de aderență prin <strong>desmozomi</strong> (Cap. 4)<br>
+                  ✦ Cheratina este sintetizată în acest strat<br>
+                  ✦ Mai puține diviziuni celulare decât în stratul bazal
+                </div>
+                <div>
+                  <div class="hbox hbox-blue" style="margin:0;font-size:12px;"><strong>Conexiune Cap. 4</strong>Aspectul spinos = desmozomi = joncțiuni aderențiale. Desmozomii conferă rezistență mecanică stratului spinos.</div>
+                </div>
+              </div>
+            </div>
+          </div>
+        </div>
+
+        <!-- Granulos -->
+        <div class="acc-item" onclick="toggleAcc(this)">
+          <div class="acc-head">
+            <div class="acc-title">
+              <span style="width:32px;height:32px;background:var(--violet-light);border:2px solid var(--violet);border-radius:8px;display:flex;align-items:center;justify-content:center;font-size:12px;font-weight:800;color:var(--violet);">3</span>
+              Stratul Granulos
+            </div>
+            <span class="acc-chevron">›</span>
+          </div>
+          <div class="acc-body">
+            <div class="acc-inner">
+              ✦ <strong>3-5 rânduri</strong> de celule aplatizate<br>
+              ✦ Conține granule de <strong>cheratohialin</strong> (produs preliminar al cheratinei)<br>
+              ✦ Conține atât cheratohialin CÂT ȘI cheratină (cantități mari)<br>
+              ✦ Pe măsură ce celulele mor → sunt înlocuite de cheratină și cheratohialin<br><br>
+              <div class="hbox hbox-violet" style="margin:0;font-size:12px;"><strong>Lanțul cheratinizării:</strong>Cheratohialin (granulos) → Eleidină (lucid) → Cheratină (cornos). Rețineți acest lanț!</div>
+            </div>
+          </div>
+        </div>
+
+        <!-- Lucid -->
+        <div class="acc-item" onclick="toggleAcc(this)">
+          <div class="acc-head">
+            <div class="acc-title">
+              <span style="width:32px;height:32px;background:var(--orange-light);border:2px solid var(--orange);border-radius:8px;display:flex;align-items:center;justify-content:center;font-size:12px;font-weight:800;color:var(--orange);">4</span>
+              Stratul Lucid — <span style="color:var(--orange);margin-left:6px;">DOAR în pielea groasă!</span>
+            </div>
+            <span class="acc-chevron">›</span>
+          </div>
+          <div class="acc-body">
+            <div class="acc-inner">
+              ✦ Apare <strong>DOAR</strong> la nivelul pielii groase (palme, tălpi) — NU în pielea subțire!<br>
+              ✦ Celule strâns unite, citoplasma clară<br>
+              ✦ Cheratinocitele sunt în general <strong>moarte, fără nuclei</strong><br>
+              ✦ Conțin o substanță transparentă numită <strong>eleidină</strong> (formată din cheratohialin)<br>
+              ✦ Eleidina → se transformă în cheratină<br><br>
+              <div class="hbox hbox-orange" style="margin:0;font-size:12px;"><strong>⚠️ Cheie examen!</strong>„Stratul lucid" apare NUMAI în palme și tălpi (piele groasă). Întrebările de examen testează adesea această distincție.</div>
+            </div>
+          </div>
+        </div>
+
+        <!-- Cornos -->
+        <div class="acc-item" onclick="toggleAcc(this)">
+          <div class="acc-head">
+            <div class="acc-title">
+              <span style="width:32px;height:32px;background:var(--rose-light);border:2px solid var(--rose);border-radius:8px;display:flex;align-items:center;justify-content:center;font-size:12px;font-weight:800;color:var(--rose);">5</span>
+              Stratul Cornos — <span style="color:var(--rose);margin-left:6px;">Cel mai superficial</span>
+            </div>
+            <span class="acc-chevron">›</span>
+          </div>
+          <div class="acc-body">
+            <div class="acc-inner">
+              ✦ <strong>25-30 de rânduri</strong> de celule pavimentoase moarte<br>
+              ✦ Se descuamează continuu (exfoliere naturală)<br>
+              ✦ Cheratina intracelulară <strong>impermeabilizează suprafața</strong> epiteliului<br>
+              ✦ Formează o barieră împotriva infecțiilor și leziunilor mecanice<br>
+              ✦ Cheratinocitele sunt unite prin <strong>desmozomi</strong> → rezistență<br>
+              ✦ <strong>Hipercheratoza</strong> = îngroșarea stratului cornos ca reacție la fricțiune → callus (calus)<br><br>
+              <div class="hbox hbox-rose" style="margin:0;font-size:12px;"><strong>Reînnoire epidermică:</strong>Celulele pornesc din stratul bazal → acumulează cheratină → mor → ajung în cornos → se descuamează. Ciclu continuu.</div>
+            </div>
+          </div>
+        </div>
+      </div>
+
+      <!-- CELLS COMPARISON -->
+      <div class="gcard">
+        <div class="gcard-title"><div class="ct-icon" style="background:#fce7f3">🔬</div>Celulele epidermului — Comparație</div>
+        <div class="g2">
+          <div>
+            <div class="hbox hbox-green"><strong>🟢 Cheratinocite — Celula dominantă</strong>
+              Produc <strong>cheratină</strong> — proteina structurală impermeabilă<br>
+              Prezente în TOATE straturile<br>
+              Migrează de la bazal → cornos acumulând cheratină
+            </div>
+            <div class="hbox hbox-blue"><strong>🔵 Melanocite — Protecție UV</strong>
+              Produc <strong>melanina</strong> — pigment brun/negru<br>
+              Localizate în stratul BAZAL<br>
+              Culoarea pielii ∝ cantitatea de melanină<br>
+              Albinism = incapacitate de sinteză a melaninei
+            </div>
+          </div>
+          <div>
+            <div class="hbox hbox-orange"><strong>🟡 Celule Merkel — Receptori tactili</strong>
+              Sensibile la atingere (receptor mecanic)<br>
+              Localizate în stratul BAZAL<br>
+              Se extind în epiderm → ușor stimulabile
+            </div>
+            <div class="hbox hbox-violet"><strong>🔴 Celule dendritice epidermice</strong>
+              Aparțin sistemului imunitar<br>
+              Localizate în stratul BAZAL<br>
+              Prezintă antigene limfocitelor T
+            </div>
+          </div>
+        </div>
+
+        <div class="mnemonic">
+          <div class="mnemonic-title">🧠 Memotecnică — Straturile epidermului (de profund la superficial)</div>
+          <div class="mnemonic-text">
+            <span class="em">B</span>azal → <span class="em">S</span>pinos → <span class="em">G</span>rânulos → <span class="em">L</span>ucid → <span class="em">C</span>ornos
+            <span class="sub">„<strong>B</strong>ătrânii <strong>S</strong>ătui <strong>G</strong>ătesc <strong>L</strong>a <strong>C</strong>uptor" → Bazal·Spinos·Granulos·Lucid·Cornos</span>
+          </div>
+        </div>
+      </div>
+    </div><!-- /epiderm -->
+
+
+    <!-- ═══ TAB: DERM & HIPODERM ═══ -->
+    <div class="panel" id="tab-derm">
+      <div class="section-title">Dermul și Hipodermul</div>
+      <p class="section-desc">Dermul — stratul intern, bogat vascularizat și inervat. Hipodermul — sub derm, depozit de grăsime (NU face parte din piele).</p>
+
+      <div class="g2" style="margin-bottom:24px;">
+        <div class="hbox hbox-rose" style="border-radius:14px;padding:20px;">
+          <strong>🩸 Dermul — date generale</strong>
+          ✦ Al doilea strat important al pielii<br>
+          ✦ Comunică cu epidermul prin <strong>membrana bazală</strong><br>
+          ✦ Unite și prin elemente fibroase + geluri polizaharidice (barieră moleculară)<br>
+          ✦ Trimite <strong>papile dermice</strong> spre epiderm (ancorare)<br>
+          ✦ <strong>Bogat vascularizat și inervat</strong> (spre deosebire de epiderm!)<br>
+          ✦ Conține: foliculi piloși, glande sebacee, gl. sudoripare, receptori senzitivi, vase, fibre musculare
+        </div>
+        <div class="hbox hbox-orange" style="border-radius:14px;padding:20px;">
+          <strong>🌡 Funcțiile dermului</strong>
+          ✦ Hrănește epidermul (vase sanguine)<br>
+          ✦ Conferă rezistență mecanică pielii<br>
+          ✦ Protejează împotriva leziunilor<br>
+          ✦ Rezervor de apă și electroliți<br>
+          ✦ Conține receptorii senzoriali (presiune, durere, temperatură, tactil)<br><br>
+          <span class="tag t-rose">Atentie!</span> Receptorii senzoriali sunt în DERM (nu epiderm). Celulele Merkel sunt excepție — se extind în epiderm.
+        </div>
+      </div>
+
+      <div class="gcard">
+        <div class="gcard-title"><div class="ct-icon" style="background:#fce7f3">🔬</div>Straturile dermului</div>
+        <div class="g2">
+          <div style="background:var(--rose-light);border:2px solid var(--rose);border-radius:14px;padding:20px;">
+            <div style="font-size:16px;font-weight:800;color:var(--rose);margin-bottom:12px;">🌹 Stratul Papilar</div>
+            <div style="font-size:13px;color:var(--text2);line-height:1.8;">
+              ✦ Conține <strong>țesut conjunctiv LAX (areolar)</strong><br>
+              ✦ Conține: macrofage, vase de sânge, fibroblaste, receptori senzoriali<br>
+              ✦ <strong>Număr ridicat de vase sanguine</strong> → asigură nutriția epidermului<br>
+              ✦ Formează papile dermice → ancorare epiderm<br>
+              ✦ Receptori: durere, presiune, temperatură, tactil
+            </div>
+          </div>
+          <div style="background:var(--pink-light);border:2px solid var(--pink);border-radius:14px;padding:20px;">
+            <div style="font-size:16px;font-weight:800;color:var(--pink);margin-bottom:12px;">🌸 Stratul Reticular</div>
+            <div style="font-size:13px;color:var(--text2);line-height:1.8;">
+              ✦ Conține <strong>țesut conjunctiv DENS</strong><br>
+              ✦ Conține: glande sebacee, celule adipoase, glande sudoripare, vase mari<br>
+              ✦ Fibre conjunctive cu <strong>multiple traiecte</strong> → rezistență multidirecțională<br>
+              ✦ Receptori: durere, presiune, temperatură, tactil<br>
+              ✦ Foliculi piloși, glande sebacee, fibre musculare
+            </div>
+          </div>
+        </div>
+
+        <div class="hbox hbox-blue" style="margin-top:16px;">
+          <strong>🔑 Papilar vs Reticular — Diferența cheie</strong>
+          Papilar = mai superficial + conjunctiv LAX + rol nutriție epiderm<br>
+          Reticular = mai profund + conjunctiv DENS + rol structural (rezistență)
+        </div>
+      </div>
+
+      <!-- RECEPTORS -->
+      <div class="gcard">
+        <div class="gcard-title"><div class="ct-icon" style="background:#e0f7fb">⚡</div>Receptorii senzoriali ai pielii</div>
+        <div class="g2">
+          <div>
+            <div class="hbox hbox-teal"><strong>Corpusculul Meissner</strong>
+              Localizat în papile dermice (strat papilar)<br>
+              Detectează: atingerea fină, textura<br>
+              Abundent în vârfurile degetelor, buze
+            </div>
+            <div class="hbox hbox-blue"><strong>Corpusculul Pacini</strong>
+              Localizat în stratul reticular / hipoderm<br>
+              Detectează: presiunea profundă, vibrațiile<br>
+              Formă caracteristică ovală (lamele concentricat)
+            </div>
+          </div>
+          <div>
+            <div class="hbox hbox-green"><strong>Celulele Merkel</strong>
+              În stratul BAZAL al epidermului<br>
+              Detectează: atingerea ușoară, forma<br>
+              Se extind în epiderm → ușor accesibili
+            </div>
+            <div class="hbox hbox-violet"><strong>Terminații nervoase libere</strong>
+              În epiderm și derm<br>
+              Detectează: durere, temperatură, mâncărime<br>
+              Cel mai simplu și răspândit receptor
+            </div>
+          </div>
+        </div>
+      </div>
+
+      <!-- HYPODERM -->
+      <div class="gcard">
+        <div class="gcard-title"><div class="ct-icon" style="background:#fef3c7">🍯</div>Hipodermul (Fascia superficială)</div>
+        <div class="hbox hbox-orange">
+          <strong>⚠️ Hipodermul NU este parte a pielii!</strong>
+          Aparține de țesuturile subiacente (fasciei profunde). Este menționat ca <strong>fascia superficială</strong>.
+        </div>
+        <div class="g2">
+          <div style="font-size:13px;color:var(--text2);line-height:1.8;">
+            <strong style="color:var(--text);">Compoziție:</strong><br>
+            ✦ Bogat în grăsime (țesut adipos)<br>
+            ✦ Țesut conjunctiv lax (areolar)<br><br>
+            <strong style="color:var(--text);">Funcții:</strong><br>
+            ✦ Depozitare grăsime (rezervă energetică)<br>
+            ✦ Izolare termică<br>
+            ✦ Amortizare mecanică<br>
+            ✦ Ancoraj al pielii la structurile subiacente
+          </div>
+          <div class="hbox hbox-orange" style="margin:0;">
+            <strong>🌡 Termoreglare prin derm + hipoderm</strong>
+            Când e frig: ↓ transpirație + vasoconstricție dermică → conservare căldură<br>
+            Când e cald: ↑ transpirație + vasodilatație dermică → pierdere căldură prin evaporare, radiație, convecție, conducție
+          </div>
+        </div>
+      </div>
+    </div><!-- /derm -->
+
+
+    <!-- ═══ TAB: ANEXELE PIELII ═══ -->
+    <div class="panel" id="tab-anexe">
+      <div class="section-title">Anexele Pielii</div>
+      <p class="section-desc">Structuri specializate derivate din epiderm: firul de păr (foliculii piloși), unghiile și glandele.</p>
+
+      <!-- HAIR SVG INTERACTIVE -->
+      <div class="gcard">
+        <div class="gcard-title"><div class="ct-icon" style="background:#fef3c7">🧵</div>Firul de păr — Structură și creștere</div>
+
+        <div class="layer-wrap">
+          <div>
+            <!-- Hair follicle SVG -->
+            <svg width="220" height="360" viewBox="0 0 220 360" style="border-radius:12px;background:#f8f5ff;">
+              <!-- Epiderm zone -->
+              <rect x="0" y="0" width="220" height="80" fill="#e8eeff" rx="12" opacity="0.7"/>
+              <text x="170" y="25" font-size="10" fill="#1d4ed8" font-weight="700">EPIDERM</text>
+              <!-- Derm zone -->
+              <rect x="0" y="80" width="220" height="180" fill="#fce7f3" opacity="0.6"/>
+              <text x="175" y="100" font-size="10" fill="#be185d" font-weight="700">DERM</text>
+
+              <!-- Hair shaft (ax) -->
+              <rect x="100" y="0" width="12" height="200" rx="6" fill="#d97706" opacity="0.85"/>
+              <text x="60" y="30" font-size="10" fill="#92400e" text-anchor="middle">Ax (shaft)</text>
+              <line x1="75" y1="30" x2="100" y2="20" stroke="#92400e" stroke-width="1"/>
+
+              <!-- Epiderm surface -->
+              <line x1="0" y1="80" x2="220" y2="80" stroke="#5b8dee" stroke-width="2" stroke-dasharray="4,3"/>
+              <text x="155" y="78" font-size="9" fill="#1d4ed8">piele</text>
+
+              <!-- Follicle walls -->
+              <rect x="88" y="30" width="36" height="220" rx="8" fill="none" stroke="#ec4899" stroke-width="2"/>
+              
+              <!-- Inner root sheath -->
+              <rect x="92" y="30" width="28" height="200" rx="6" fill="#fbbf24" opacity="0.3"/>
+              <text x="35" y="130" font-size="9" fill="#b45309" text-anchor="middle">Teacă rad.</text>
+              <text x="35" y="142" font-size="9" fill="#b45309" text-anchor="middle">internă</text>
+              <line x1="60" y1="138" x2="92" y2="130" stroke="#b45309" stroke-width="1"/>
+
+              <!-- Outer root sheath -->
+              <text x="185" y="130" font-size="9" fill="#be185d" text-anchor="middle">Teacă rad.</text>
+              <text x="185" y="142" font-size="9" fill="#be185d" text-anchor="middle">externă</text>
+              <line x1="165" y1="138" x2="126" y2="130" stroke="#be185d" stroke-width="1"/>
+
+              <!-- Erector muscle -->
+              <path d="M126,60 Q160,80 155,120" fill="none" stroke="#10b981" stroke-width="3" stroke-linecap="round"/>
+              <text x="168" y="65" font-size="9" fill="#047857">Mușchi</text>
+              <text x="168" y="76" font-size="9" fill="#047857">erector</text>
+
+              <!-- Sebaceous gland -->
+              <ellipse cx="60" cy="100" rx="25" ry="18" fill="#fbbf24" opacity="0.7"/>
+              <text x="60" y="104" font-size="9" fill="#78350f" text-anchor="middle" font-weight="700">Gl. sebacee</text>
+              <line x1="85" y1="100" x2="96" y2="100" stroke="#d97706" stroke-width="1.5"/>
+
+              <!-- Bulb -->
+              <ellipse cx="106" cy="275" rx="22" ry="28" fill="#fde68a" stroke="#d97706" stroke-width="2.5"/>
+              <text x="106" y="279" font-size="10" fill="#78350f" text-anchor="middle" font-weight="800">Bulb</text>
+
+              <!-- Papila -->
+              <ellipse cx="106" cy="295" rx="12" ry="10" fill="#f87171" opacity="0.8"/>
+              <text x="106" y="299" font-size="8.5" fill="#7f1d1d" text-anchor="middle" font-weight="700">Papilă</text>
+              <text x="145" y="310" font-size="9" fill="#9f1239">Papilă</text>
+              <text x="145" y="321" font-size="9" fill="#9f1239">conjunctivă</text>
+              <line x1="141" y1="307" x2="120" y2="295" stroke="#9f1239" stroke-width="1"/>
+
+              <!-- Blood vessel -->
+              <path d="M106,320 Q70,330 65,350" fill="none" stroke="#ef4444" stroke-width="2.5" stroke-linecap="round"/>
+              <text x="40" y="355" font-size="9" fill="#ef4444">Vas sanguin</text>
+
+              <!-- Labels -->
+              <text x="106" y="240" font-size="9" fill="#92400e" text-anchor="middle">Rădăcină</text>
+              <text x="106" y="251" font-size="8.5" fill="#d97706" text-anchor="middle">(în folicul)</text>
+
+              <!-- Folicul label -->
+              <rect x="130" y="150" width="1" height="80" fill="#ec4899" opacity="0.5"/>
+              <text x="145" y="190" font-size="9" fill="#be185d">Folicul</text>
+              <text x="145" y="201" font-size="9" fill="#be185d">pilos</text>
+            </svg>
+          </div>
+
+          <div style="flex:1;">
+            <div class="acc-item open" onclick="toggleAcc(this)">
+              <div class="acc-head"><div class="acc-title">🌱 Structura firului de păr</div><span class="acc-chevron">›</span></div>
+              <div class="acc-body open"><div class="acc-inner">
+                ✦ <strong>Ax (shaft)</strong> — porțiunea vizibilă, deasupra pielii<br>
+                ✦ <strong>Rădăcina</strong> — în interiorul foliculului pilos<br>
+                ✦ <strong>Foliculul pilos</strong> — tub de celule epidermice care se extind în derm<br>
+                ✦ <strong>Bulb</strong> — dilatare la baza foliculului; conține papila dermică<br>
+                ✦ <strong>Papila dermică</strong> — țesut conjunctiv + vase sanguine + nervi → furnizează nutrimente<br>
+                ✦ Fiecare fir asociat cu: glandă sebacee + mușchi erector + terminații nervoase
+              </div></div>
+            </div>
+            <div class="acc-item" onclick="toggleAcc(this)">
+              <div class="acc-head"><div class="acc-title">🔄 Creșterea firului de păr</div><span class="acc-chevron">›</span></div>
+              <div class="acc-body"><div class="acc-inner">
+                ✦ Proliferarea celulelor din <strong>stratul bazal din bulb</strong><br>
+                ✦ Celule noi → împing celule precedente de-a lungul foliculului<br>
+                ✦ Celulele se <strong>cheratinizează și mor</strong> → formează axul<br>
+                ✦ Vasele din papilă hrănesc celulele bazale<br>
+                ✦ Axul se rupe regulat → înlocuit continuu<br><br>
+                <strong>Tipuri de păr:</strong><br>
+                🍼 <strong>Lanugo</strong> = fire moi, subțiri pe pielea fătului → dispar prenatal<br>
+                🧔 <strong>Pilozitate terminală</strong> = fire groase pubertare (axilar, pubian)<br><br>
+                <strong>Patologie:</strong><br>
+                <strong>Alopecia</strong> = creștere deficitară/absență — cauze: genetice, leziuni, boli, carențe, hormoni, medicamente
+              </div></div>
+            </div>
+            <div class="acc-item" onclick="toggleAcc(this)">
+              <div class="acc-head"><div class="acc-title">💪 Mușchiul erector al firului de păr</div><span class="acc-chevron">›</span></div>
+              <div class="acc-body"><div class="acc-inner">
+                ✦ Mușchi neted atașat foliculilor piloși<br>
+                ✦ Permite firului de păr să se <strong>alereze perpendicular pe piele</strong> (piloerecție)<br>
+                ✦ Activat în: stres, frig intens<br>
+                ✦ La om: „piele de găină" (rol rudimentar, față de animale)
+              </div></div>
+            </div>
+          </div>
+        </div>
+      </div>
+
+      <!-- NAILS -->
+      <div class="gcard">
+        <div class="gcard-title"><div class="ct-icon" style="background:#e0f7fb">💅</div>Unghiile — Structură</div>
+        <div class="g2">
+          <div>
+            <!-- Nail SVG -->
+            <svg width="260" height="180" viewBox="0 0 260 180" style="background:#f8f5ff;border-radius:12px;">
+              <!-- Nail plate (corp) -->
+              <rect x="30" y="20" width="180" height="80" rx="10" fill="#fde68a" stroke="#d97706" stroke-width="2"/>
+              <text x="120" y="65" font-size="12" fill="#78350f" text-anchor="middle" font-weight="800">Corpul unghiei</text>
+              
+              <!-- Nail root (hidden) -->
+              <rect x="10" y="20" width="28" height="80" rx="6" fill="#fbbf24" opacity="0.7" stroke="#d97706" stroke-width="1.5" stroke-dasharray="4,2"/>
+              <text x="24" y="68" font-size="8.5" fill="#78350f" text-anchor="middle" font-weight="700" transform="rotate(-90,24,68)">Rădăcina</text>
+
+              <!-- Cuticle -->
+              <path d="M30,20 Q0,20 0,60 Q0,100 30,100" fill="#a78bfa" opacity="0.5"/>
+              <text x="15" y="38" font-size="8" fill="#4c1d95" text-anchor="middle" font-weight="700">Cuti-</text>
+              <text x="15" y="48" font-size="8" fill="#4c1d95" text-anchor="middle" font-weight="700">culă</text>
+
+              <!-- Lunula -->
+              <path d="M30,40 Q65,20 100,40" fill="white" opacity="0.8"/>
+              <text x="65" y="55" font-size="9" fill="#6b7280" text-anchor="middle" font-style="italic">lunula</text>
+
+              <!-- Free margin -->
+              <rect x="210" y="20" width="40" height="80" rx="6" fill="#fef3c7" stroke="#d97706" stroke-width="1.5"/>
+              <text x="230" y="68" font-size="8" fill="#92400e" text-anchor="middle" transform="rotate(-90,230,68)">Margine liberă</text>
+
+              <!-- Nail bed -->
+              <rect x="30" y="100" width="180" height="20" rx="4" fill="#fca5a5" opacity="0.6"/>
+              <text x="120" y="114" font-size="10" fill="#7f1d1d" text-anchor="middle" font-weight="700">Pat unghial (vase sanguine)</text>
+
+              <!-- Distal phalanx -->
+              <rect x="10" y="120" width="230" height="50" rx="8" fill="#e0e7ff" opacity="0.8"/>
+              <text x="120" y="150" font-size="11" fill="#3730a3" text-anchor="middle" font-weight="700">Falanga distală</text>
+
+              <!-- Hyponychium -->
+              <text x="215" y="118" font-size="8" fill="#6b7280">Hyponychium</text>
+              <!-- Lateral nail fold -->
+              <text x="120" y="178" font-size="9" fill="#6b7280" text-anchor="middle" font-style="italic">Plică laterală unghiabilă | Direcție creștere →</text>
+            </svg>
+          </div>
+          <div>
+            <div style="font-size:13px;color:var(--text2);line-height:1.8;">
+              <strong style="color:var(--text);">Structuri unghie:</strong><br>
+              ✦ <strong>Rădăcina</strong> — sub cuticulă, zona de creștere<br>
+              ✦ <strong>Corpul (placa)</strong> — porțiunea vizibilă<br>
+              ✦ <strong>Marginea liberă</strong> — capătul distal<br>
+              ✦ <strong>Cuticula</strong> — acoperă parțial capătul proximal<br>
+              ✦ <strong>Lunula</strong> — zonă semicirculară albicioasă lângă cuticulă<br>
+              ✦ <strong>Patul unghial</strong> — sub corp, bogat vascularizat<br>
+              ✦ <strong>Hyponychium</strong> — sub marginea liberă<br><br>
+              <strong style="color:var(--text);">Formare:</strong><br>
+              ✦ Multiplicarea celulelor epidermice dintr-un pliu înfundat în derm<br>
+              ✦ Celulele produc <strong>cheratină</strong> → placa unghiabilă dură<br>
+              ✦ Celulele acumulează cheratină → mor → formează unghia<br><br>
+              <strong style="color:var(--text);">Funcție:</strong><br>
+              ✦ Protecție și rezistență structurală a vârfurilor degetelor
+            </div>
+          </div>
+        </div>
+      </div>
+
+      <!-- GLANDS -->
+      <div class="gcard">
+        <div class="gcard-title"><div class="ct-icon" style="background:#fce7f3">🏭</div>Glandele pielii — Comparație interactivă</div>
+
+        <div class="g3" style="margin-bottom:20px;">
+          <div class="gland-card selected" id="gc-eccrine" onclick="selectGland('eccrine',this)">
+            <span class="gc-icon">💧</span>
+            <div class="gc-name">Sudoripare Eccrine</div>
+            <div class="gc-desc">Cel mai numeroase. Răspândite pe toată suprafața corpului.</div>
+            <div style="margin-top:8px;"><span class="tag t-blue">Merocrine</span></div>
+          </div>
+          <div class="gland-card" id="gc-apocrine" onclick="selectGland('apocrine',this)">
+            <span class="gc-icon">🫧</span>
+            <div class="gc-name">Sudoripare Apocrine</div>
+            <div class="gc-desc">Mai mari, localizate axilar și inghinal. Secretă substanță odorată.</div>
+            <div style="margin-top:8px;"><span class="tag t-pink">Apocrine</span></div>
+          </div>
+          <div class="gland-card" id="gc-sebacee" onclick="selectGland('sebacee',this)">
+            <span class="gc-icon">🧴</span>
+            <div class="gc-name">Sebacee</div>
+            <div class="gc-desc">Asociate foliculilor piloși. Secretă sebum — lubrifiant.</div>
+            <div style="margin-top:8px;"><span class="tag t-orange">Holocrine</span></div>
+          </div>
+        </div>
+
+        <div id="gland-detail" style="background:var(--blue-light);border:1px solid var(--blue);border-radius:14px;padding:20px;">
+          <div id="gland-detail-content">
+            <div style="font-size:16px;font-weight:800;color:var(--blue);margin-bottom:12px;">💧 Glande Sudoripare Eccrine</div>
+            <div class="g2">
+              <div style="font-size:13px;color:var(--text2);line-height:1.8;">
+                ✦ <strong>Răspândite pe toată suprafața corpului</strong><br>
+                ✦ Produc <strong>transpirație (sudoare)</strong> eliminată prin ducte<br>
+                ✦ Transpirație: apoasă, transparentă<br>
+                ✦ Importantă pentru <strong>menținerea echilibrului termic</strong> (răcire prin evaporare)<br>
+                ✦ Secretă: apă, substanțe lipidice, ioni Na⁺
+              </div>
+              <div>
+                <div class="hbox hbox-blue" style="margin:0;font-size:12px;"><strong>Tip secretorie: MEROCRINE</strong>Celula rămâne intactă în timpul secreției. Secretia difuzează din celulă.</div>
+              </div>
+            </div>
+          </div>
+        </div>
+
+        <!-- Ceruminous and Mammary -->
+        <div class="g2" style="margin-top:16px;">
+          <div class="hbox hbox-teal">
+            <strong>👂 Glande Ceruminoase</strong>
+            Tip: glande apocrine<br>
+            Localizare: canalul auditiv extern<br>
+            Secretă: <strong>cerumen (ceară)</strong><br>
+            Funcție: captează substanțe străine și microorganisme → protejează urechea internă
+          </div>
+          <div class="hbox hbox-violet">
+            <strong>🤱 Glande Mamare</strong>
+            Tip: glande apocrine <strong>specializate</strong> și modificate<br>
+            Funcție: secreție de lapte<br>
+            <em>(detalii complete în Capitolul 23)</em>
+          </div>
+        </div>
+
+        <div class="mnemonic">
+          <div class="mnemonic-title">🧠 Memotecnică — Glandele pielii</div>
+          <div class="mnemonic-text">
+            <span class="em">E</span>ccrine = Echilibru termic (merocrine, toată suprafața)<br>
+            <span class="em">A</span>pocrine = Axilar/inghinal (mai mari, miros, vezicule)<br>
+            <span class="em">S</span>ebacee = Sebum în folicul (holocrine, lipide)
+            <span class="sub">EAS → Eccrine·Apocrine·Sebacee | Sebaceele sunt HOLOCRINE (celulă se dezintegrează) — toate celelalte sunt merocrine sau apocrine</span>
+          </div>
+        </div>
+      </div>
+    </div><!-- /anexe -->
+
+
+    <!-- ═══ TAB: TABELE ═══ -->
+    <div class="panel" id="tab-tabele">
+      <div class="section-title">Tabele comparative — Referință rapidă</div>
+      <p class="section-desc">Toate informațiile esențiale pentru admitere, organizate sistematic.</p>
+
+      <div class="gcard">
+        <div class="gcard-title">Tabelul 5.1 — Funcțiile sistemului tegumentar</div>
+        <table class="mtable">
+          <thead><tr><th>Funcție</th><th>Mecanism</th><th>Detalii cheie</th></tr></thead>
+          <tbody>
+            <tr><td class="hl">Protecție</td><td>3 bariere</td><td>1. Fizică (suprafață) | 2. Cheratinică (hidrosolubile) | 3. Membrana bazală (mecanică). + Melanina contra UV</td></tr>
+            <tr><td class="hl">Termoreglare</td><td>Transpirație + vasomotricitate</td><td>Pierdere căldură: evaporare, radiație, convecție, conducție. Conservare: ↓transpirație + vasoconstricție</td></tr>
+            <tr><td class="hl">Metabolism</td><td>Sinteză vitamina D</td><td>UV + molecule precursoare (piele) → Vit. D → finalizare în RINICHI. Absoarbe vit. A, E, K liposolubile</td></tr>
+            <tr><td class="hl">Comunicare</td><td>Receptori tegumentari</td><td>Detectează: presiune, durere, atingere, temperatură → transmit la SNC</td></tr>
+            <tr><td class="hl">Excreție</td><td>Glande sudoripare</td><td>Elimină: apă, substanțe lipidice, ioni Na⁺ prin transpirație</td></tr>
+          </tbody>
+        </table>
+      </div>
+
+      <div class="gcard">
+        <div class="gcard-title">Tabelul 5.2 — Straturile epidermului (de profund la superficial)</div>
+        <table class="mtable">
+          <thead><tr><th>Strat</th><th>Poz.</th><th>Celule/Conținut</th><th>Caracteristici cheie</th><th>Unde</th></tr></thead>
+          <tbody>
+            <tr>
+              <td class="hl">Bazal (germinativ)</td>
+              <td><span class="tag t-green">Profund</span></td>
+              <td>Cheratinocite, Melanocite, C. Merkel, C. dendritice</td>
+              <td>Singur strat cubice/cilindrice. Regenerare. Singurele cu nutrienți. Diviziune continuă.</td>
+              <td>Toate tipurile de piele</td>
+            </tr>
+            <tr>
+              <td class="hl">Spinos</td>
+              <td><span class="tag t-blue">2</span></td>
+              <td>Cheratinocite cu aspect spinos</td>
+              <td>Spinii = desmozomi. Sinteză cheratină. Mai puțin activ mitotic.</td>
+              <td>Toate tipurile</td>
+            </tr>
+            <tr>
+              <td class="hl">Granulos</td>
+              <td><span class="tag t-violet">3</span></td>
+              <td>Celule aplatizate cu granule de cheratohialin</td>
+              <td>3-5 rânduri. Cheratohialin + cheratină (cantități mari). Celule mor → înlocuite de cheratină.</td>
+              <td>Toate tipurile</td>
+            </tr>
+            <tr>
+              <td class="hl">Lucid</td>
+              <td><span class="tag t-orange">4*</span></td>
+              <td>Celule moarte, aplatizate, fără nuclei. Conțin eleidină.</td>
+              <td>Celule strâns unite, citoplasma clară. Eleidină → cheratină. <strong>NUMAI piele groasă.</strong></td>
+              <td><strong>Doar palme, tălpi</strong></td>
+            </tr>
+            <tr>
+              <td class="hl">Cornos</td>
+              <td><span class="tag t-rose">Superficial</span></td>
+              <td>25-30 rânduri celule pavimentoase moarte pline cu cheratină</td>
+              <td>Se descuamează continuu. Impermeabilizează. Desmozomi = rezistență. Hipercheratoză = callus.</td>
+              <td>Toate tipurile</td>
+            </tr>
+          </tbody>
+        </table>
+        <div style="font-size:11px;color:var(--text3);margin-top:8px;font-style:italic;">* Stratul lucid prezent NUMAI în pielea groasă (palme, tălpi)</div>
+      </div>
+
+      <div class="gcard">
+        <div class="gcard-title">Tabelul 5.3 — Organele sistemului tegumentar</div>
+        <table class="mtable">
+          <thead><tr><th>Organul</th><th>Funcțiile principale</th></tr></thead>
+          <tbody>
+            <tr><td class="hl">Epidermul</td><td>Protejează țesuturile de dedesubt</td></tr>
+            <tr><td class="hl">Dermul</td><td>Hrănește epidermul; conferă rezistență</td></tr>
+            <tr><td class="hl">Foliculul pilos — Fir de păr</td><td>Produce firul de păr; rol senzitiv, protecție limitată a capului și pielii</td></tr>
+            <tr><td class="hl">Foliculul pilos — Glanda sebacee</td><td>Secretă lipide ce lubrifiază firul de păr și pielea (sebum)</td></tr>
+            <tr><td class="hl">Glanda sudoripară</td><td>Produce transpirație în scopul răcirii prin evaporare; excreție</td></tr>
+            <tr><td class="hl">Unghia</td><td>Protejează și întărește vârful degetelor</td></tr>
+            <tr><td class="hl">Receptorii senzoriali</td><td>Furnizează senzațiile la atingere, presiune, temperatură și durere</td></tr>
+            <tr><td class="hl">Fascia superficială (hipoderm)</td><td>Depozitează grăsime (NU face parte din piele)</td></tr>
+          </tbody>
+        </table>
+      </div>
+
+      <div class="gcard">
+        <div class="gcard-title">Tabelul 5.4 — Glandele pielii comparate</div>
+        <table class="mtable">
+          <thead><tr><th>Tip glandă</th><th>Subtip/Activitate</th><th>Localizare</th><th>Secreție</th><th>Funcție</th></tr></thead>
+          <tbody>
+            <tr><td class="hl">Sudoripare Eccrine</td><td><span class="tag t-blue">Merocrine</span></td><td>Toată suprafața corpului</td><td>Transpirație apoasă, transparentă (apă + lipide + Na⁺)</td><td>Termoreglare (răcire prin evaporare)</td></tr>
+            <tr><td class="hl">Sudoripare Apocrine</td><td><span class="tag t-pink">Apocrine</span></td><td>Axilar, inghinal (predominant)</td><td>Substanță albă, translucidă, odorată → mediu bacterii</td><td>Activată de stimuli sexuali și emoționali</td></tr>
+            <tr><td class="hl">Ceruminoase</td><td><span class="tag t-teal">Apocrine</span></td><td>Canal auditiv extern</td><td>Cerumen (ceară) — vâscos</td><td>Captează substanțe străine/microorganisme, protecție ureche internă</td></tr>
+            <tr><td class="hl">Mamare</td><td><span class="tag t-violet">Apocrine specializate</span></td><td>Sân</td><td>Lapte</td><td>Hrănire sugar (Cap. 23)</td></tr>
+            <tr><td class="hl">Sebacee</td><td><span class="tag t-orange">Holocrine</span></td><td>Asociate foliculilor piloși</td><td>Sebum (lipide + substanțe uleioase)</td><td>Lubrifiere păr și piele, prevenire pierderi apă, antibacterian</td></tr>
+          </tbody>
+        </table>
+      </div>
+
+      <div class="gcard">
+        <div class="gcard-title">Tabelul 5.5 — Epiderm vs Derm (comparație rapidă)</div>
+        <table class="mtable">
+          <thead><tr><th>Caracteristică</th><th>Epiderm</th><th>Derm</th></tr></thead>
+          <tbody>
+            <tr><td class="hl">Tip țesut</td><td>Epiteliu stratificat pavimentos</td><td>Țesut conjunctiv (lax papilar + dens reticular)</td></tr>
+            <tr><td class="hl">Vascularizație</td><td><span class="tag t-rose">Avascular</span></td><td><span class="tag t-green">Bogat vascularizat</span></td></tr>
+            <tr><td class="hl">Inervație</td><td>Câteva terminații nervoase libere</td><td>Bogat inervat (Meissner, Pacini, terminații libere)</td></tr>
+            <tr><td class="hl">Nutriție</td><td>Prin difuziune din dermul subiacent</td><td>Proprii vase sanguine</td></tr>
+            <tr><td class="hl">Grosime</td><td>Mai subțire (strat extern)</td><td>Mai gros (strat intern)</td></tr>
+            <tr><td class="hl">Celule cheie</td><td>Cheratinocite, Melanocite, C. Merkel</td><td>Fibroblaste, Macrofage, Mastocite</td></tr>
+            <tr><td class="hl">Structuri speciale</td><td>Straturile epidermice</td><td>Papile dermice, foliculi piloși, glande, receptori</td></tr>
+          </tbody>
+        </table>
+      </div>
+    </div><!-- /tabele -->
+
+
+    <!-- ═══ TAB: QUIZ ═══ -->
+    <div class="panel" id="tab-quiz">
+      <div class="section-title">Quiz — Capitol 5: Sistemul Tegumentar</div>
+      <p class="section-desc">Testează-ți cunoștințele cu întrebări tip admitere medicină</p>
+      <div class="quiz-score">
+        <div class="quiz-score-label">Scor curent</div>
+        <div class="quiz-score-val" id="quiz-score-display">0 / 10</div>
+        <button onclick="resetQuiz()" style="padding:8px 18px;border-radius:10px;border:1px solid var(--border);background:var(--surface);font-family:'Outfit',sans-serif;font-size:12px;font-weight:600;cursor:pointer;color:var(--text2);">↺ Restart</button>
+      </div>
+      <div id="quiz-container"></div>
+    </div><!-- /quiz -->
+
+  </div><!-- /content -->
+</div><!-- /main -->
+
+<script>
+// ── TAB SWITCHING ──
+function switchTab(id, btn) {
+  document.querySelectorAll('.panel').forEach(p => p.classList.remove('active'));
+  document.querySelectorAll('.tab-btn').forEach(b => b.classList.remove('active'));
+  document.getElementById('tab-'+id).classList.add('active');
+  btn.classList.add('active');
+}
+
+// ── ACCORDION ──
+function toggleAcc(item) {
+  const body = item.querySelector('.acc-body');
+  item.classList.toggle('open');
+  body.classList.toggle('open');
+}
+
+// ── SKIN LAYER DATA ──
+const layerData = {
+  cornos: {
+    name:'Stratul Cornos',
+    color:'#f59e0b',
+    desc:'Stratul cel mai superficial al epidermului. 25-30 rânduri de celule pavimentoase <strong>moarte</strong>, pline cu cheratină. Se descuamează continuu și este reînnoit încontinuu.',
+    props:[
+      {k:'Profunzime',v:'Cel mai superficial'},
+      {k:'Celule',v:'Pavimentoase moarte'},
+      {k:'Conținut',v:'Cheratină (aproape tot conținutul)'},
+      {k:'Funcție',v:'Barieră impermeabilă, protecție'},
+      {k:'Patologie',v:'Hipercheratoză → callus (fricțiune)'},
+      {k:'Unde',v:'Toată pielea'}
+    ]
+  },
+  lucid: {
+    name:'Stratul Lucid',
+    color:'#fbbf24',
+    desc:'Apare <strong>DOAR în pielea groasă</strong> (palme, tălpi). Celule moarte, citoplasma clară, fără nuclei. Conțin <strong>eleidină</strong> (din cheratohialin → devine cheratină).',
+    props:[
+      {k:'Profunzime',v:'4 (sub cornos)'},
+      {k:'Celule',v:'Moarte, aplatizate, fără nuclei'},
+      {k:'Conținut',v:'Eleidină (→ cheratină)'},
+      {k:'Funcție',v:'Tranziție cheratohialin→cheratină'},
+      {k:'⚠️ Cheie examen',v:'NUMAI piele groasă!'},
+      {k:'Unde',v:'NUMAI palme și tălpi'}
+    ]
+  },
+  granulos: {
+    name:'Stratul Granulos',
+    color:'#a78bfa',
+    desc:'3-5 rânduri de celule aplatizate cu granule de <strong>cheratohialin</strong>. Conține și cheratină. Pe măsură ce celulele mor, sunt înlocuite de cheratohialin și cheratină.',
+    props:[
+      {k:'Profunzime',v:'3 (sub spinos)'},
+      {k:'Celule',v:'3-5 rânduri aplatizate'},
+      {k:'Conținut',v:'Cheratohialin + cheratină (cantități mari)'},
+      {k:'Funcție',v:'Producere cheratohialin'},
+      {k:'Lanț',v:'Cheratohialin (granulos) → Eleidină (lucid) → Cheratină (cornos)'},
+      {k:'Unde',v:'Toată pielea'}
+    ]
+  },
+  spinos: {
+    name:'Stratul Spinos',
+    color:'#60a5fa',
+    desc:'Cheratinocite cu <strong>aspect spinos</strong>. Spinii = puncte de aderență prin <strong>desmozomi</strong>. Cheratina este sintetizată în acest strat. Mai puțin activ mitotic decât bazalul.',
+    props:[
+      {k:'Profunzime',v:'2 (sub granulos)'},
+      {k:'Celule',v:'Cheratinocite spinos'},
+      {k:'„Spinii"',v:'Desmozomi (joncțiuni aderențiale)'},
+      {k:'Funcție',v:'Sinteză cheratină, coeziune'},
+      {k:'Conexiune',v:'Desmozomii = Cap. 4 (joncțiuni celulare)'},
+      {k:'Unde',v:'Toată pielea'}
+    ]
+  },
+  bazal: {
+    name:'Stratul Bazal (Germinativ)',
+    color:'#34d399',
+    desc:'Stratul cel mai profund. Un singur rând de celule cubice/cilindrice. <strong>Centrul regenerării epidermului</strong>. Singurele celule din epiderm cu nutriție directă din vasele dermice.',
+    props:[
+      {k:'Profunzime',v:'Cel mai profund'},
+      {k:'Celule',v:'Cheratinocite, Melanocite, C.Merkel, C.Dendritice'},
+      {k:'Activitate',v:'Diviziune continuă (mitoză)'},
+      {k:'Nutriție',v:'Direct din vasele dermice'},
+      {k:'Melanina',v:'Produsă de melanocite → protecție UV'},
+      {k:'Albinism',v:'Incapacitate sinteză melanină'}
+    ]
+  },
+  papilar: {
+    name:'Stratul Papilar (Derm)',
+    color:'#fb7185',
+    desc:'Stratul superficial al dermului. Conține <strong>țesut conjunctiv lax (areolar)</strong>. Bogat vascularizat — asigură nutriția epidermului. Formează papile dermice spre epiderm.',
+    props:[
+      {k:'Localizare',v:'Stratul superficial al dermului'},
+      {k:'Tip țesut',v:'Conjunctiv lax (areolar)'},
+      {k:'Celule',v:'Macrofage, fibroblaste, mastocite'},
+      {k:'Vascularizație',v:'Bogată → nutriție epiderm'},
+      {k:'Receptori',v:'Meissner, terminații libere, presiune, temperatură'},
+      {k:'Structuri',v:'Papile dermice (ancorare epiderm)'}
+    ]
+  },
+  reticular: {
+    name:'Stratul Reticular (Derm)',
+    color:'#f472b6',
+    desc:'Stratul profund al dermului. Conține <strong>țesut conjunctiv dens</strong> cu fibre cu traiecte multiple. Mai gros decât stratul papilar. Conține majoritatea structurilor accesorii.',
+    props:[
+      {k:'Localizare',v:'Stratul profund al dermului'},
+      {k:'Tip țesut',v:'Conjunctiv dens (fibre multiple traiecte)'},
+      {k:'Structuri',v:'Gl. sebacee, gl. sudoripare, foliculi piloși, vase mari'},
+      {k:'Receptori',v:'Pacini, durere, presiune, temperatură, tactil'},
+      {k:'Funcție',v:'Rezistență mecanică principală a pielii'},
+      {k:'Rezervor',v:'Apă și electroliți'}
+    ]
+  },
+  hipoderm: {
+    name:'Hipodermul (Fascia Superficială)',
+    color:'#fde68a',
+    desc:'<strong>NU face parte din piele!</strong> Aparține de țesuturile subiacente. Bogat în grăsime (țesut adipos) și țesut conjunctiv lax. Cunoscut ca fascia superficială.',
+    props:[
+      {k:'⚠️ Status',v:'NU face parte din piele!'},
+      {k:'Alt nume',v:'Fascia superficială'},
+      {k:'Compoziție',v:'Țesut adipos + conjunctiv lax'},
+      {k:'Funcții',v:'Depozitare grăsime, izolare termică, amortizare'},
+      {k:'Conexiuni',v:'Ancorează pielea de structurile profunde'},
+      {k:'Celule',v:'Adipocite (formă de inel, ca în Cap. 4)'}
+    ]
+  }
+};
+
+function showLayer(id) {
+  const d = layerData[id];
+  if (!d) return;
+  const detail = document.getElementById('layer-detail');
+  detail.style.background = d.color+'22';
+  detail.style.borderColor = d.color;
+  detail.style.borderWidth = '2px';
+  detail.innerHTML = `
+    <div class="layer-detail-name" style="color:${d.color};">${d.name}</div>
+    <div class="layer-detail-desc">${d.desc}</div>
+    <div class="layer-detail-props">
+      ${d.props.map(p=>`<div class="ldp"><div class="ldp-key">${p.k}</div><div class="ldp-val">${p.v}</div></div>`).join('')}
+    </div>
+  `;
+}
+
+// ── GLAND SELECTION ──
+const glandData = {
+  eccrine: {
+    color:'var(--blue)',bg:'var(--blue-light)',
+    html:`<div style="font-size:16px;font-weight:800;color:var(--blue);margin-bottom:12px;">💧 Glande Sudoripare Eccrine</div>
+    <div class="g2">
+      <div style="font-size:13px;color:var(--text2);line-height:1.8;">
+        ✦ <strong>Cel mai numeroase</strong> glande ale pielii<br>
+        ✦ Răspândite pe <strong>toată suprafața corpului</strong><br>
+        ✦ Produc <strong>transpirație (sudoare)</strong> eliminată prin ducte<br>
+        ✦ Transpirație: apoasă, transparentă<br>
+        ✦ Importantă pentru <strong>menținerea echilibrului termic</strong><br>
+        ✦ Secretă: apă, substanțe lipidice, ioni Na⁺
+      </div>
+      <div><div class="hbox hbox-blue" style="margin:0;font-size:12px;"><strong>Tip secretorie: MEROCRINE</strong>Celula rămâne intactă în timpul secreției. Secretia difuzează din celulă intact.</div></div>
+    </div>`
+  },
+  apocrine: {
+    color:'var(--pink)',bg:'var(--pink-light)',
+    html:`<div style="font-size:16px;font-weight:800;color:var(--pink);margin-bottom:12px;">🫧 Glande Sudoripare Apocrine</div>
+    <div class="g2">
+      <div style="font-size:13px;color:var(--text2);line-height:1.8;">
+        ✦ <strong>Dimensiuni mai mari</strong> decât ecrinele<br>
+        ✦ Localizare: predominant <strong>axilar și inghinal</strong><br>
+        ✦ Elimină secreția în ducte + <strong>porțiuni din celule (vezicule)</strong><br>
+        ✦ Secretă o substanță <strong>albă, translucidă, odorată</strong><br>
+        ✦ Mediu de cultură pentru bacterii → miros caracteristic<br>
+        ✦ Activate de: stimuli sexuali și emoționali
+      </div>
+      <div><div class="hbox hbox-pink" style="margin:0;font-size:12px;"><strong>Tip secretorie: APOCRINE</strong>Tip de glandă merocrine — celula se intactă, dar elimină secreția prin exocitoză cu porțiuni celulare.</div></div>
+    </div>`
+  },
+  sebacee: {
+    color:'var(--orange)',bg:'var(--orange-light)',
+    html:`<div style="font-size:16px;font-weight:800;color:var(--orange);margin-bottom:12px;">🧴 Glande Sebacee</div>
+    <div class="g2">
+      <div style="font-size:13px;color:var(--text2);line-height:1.8;">
+        ✦ Secretă o substanță numită <strong>sebum</strong> (de obicei în foliculul pilos)<br>
+        ✦ Sebum conține: <strong>lipide + substanțe uleioase</strong><br>
+        ✦ Funcții sebum: ✓ păr suplu ✓ piele moale ✓ prevenire pierderi apă ✓ antibacterian<br>
+        ✦ Glande <strong>alveolare simple ramificate</strong> (Cap. 4)<br>
+        ✦ Afecțiune asociată: <strong>acneea</strong>
+      </div>
+      <div><div class="hbox hbox-orange" style="margin:0;font-size:12px;"><strong>Tip secretorie: HOLOCRINE</strong>Celula se DEZINTEGREAZĂ pentru a elibera secreția (sebumul). Celulele noi le înlocuiesc pe cele dezintegrate.</div></div>
+    </div>`
+  }
+};
+
+function selectGland(id, card) {
+  document.querySelectorAll('.gland-card').forEach(c => c.classList.remove('selected'));
+  card.classList.add('selected');
+  const d = glandData[id];
+  const detail = document.getElementById('gland-detail');
+  detail.style.background = d.bg;
+  detail.style.borderColor = d.color.replace('var(','').replace(')','');
+  document.getElementById('gland-detail-content').innerHTML = d.html;
+}
+
+// ── QUIZ ──
+const quizQuestions = [
+  {q:'Care strat al epidermului apare NUMAI în pielea groasă (palme, tălpi)?',
+   opts:['Stratul cornos','Stratul granulos','Stratul lucid','Stratul bazal'],correct:2,
+   explain:'Stratul lucid apare NUMAI în pielea groasă. Conține celule moarte cu eleidină (din cheratohialin → cheratină). Pielea subțire are NUMAI 4 straturi.'},
+  {q:'Melanocitele produc melanina în:',
+   opts:['Stratul cornos','Stratul bazal','Stratul spinos','Dermul papilar'],correct:1,
+   explain:'Melanocitele sunt localizate în stratul BAZAL (germinativ) al epidermului. Produc melanina — pigmentul care protejează împotriva razelor UV. Albinismul = incapacitate de producere a melaninei.'},
+  {q:'"Spinii" din stratul spinos reprezintă de fapt:',
+   opts:['Microvili pentru absorbție','Desmozomi (joncțiuni aderențiale)','Joncțiuni gap','Filamente de actină'],correct:1,
+   explain:'Spinii din stratul spinos sunt punctele în care celulele aderă între ele prin desmozomi (joncțiuni aderențiale). Desmozomii conferă rezistența mecanică a acestui strat — conexiune directă cu Cap. 4.'},
+  {q:'Hipodermul (fascia superficială):',
+   opts:['Este stratul extern al pielii','Conține epidermul','Nu face parte din piele; aparține țesuturilor subiacente','Este sinonim cu dermul'],correct:2,
+   explain:'Hipodermul (fascia superficială) NU face parte din piele. Este un țesut subcutanat bogat în grăsime și țesut areolar, ce aparține țesuturilor profunde subiacente. Conține adipocite și asigură izolarea termică.'},
+  {q:'Finalizarea sintezei vitaminei D are loc în:',
+   opts:['Piele','Ficat','Rinichi','Intestin'],correct:2,
+   explain:'Sinteza vitaminei D: UV + molecule precursoare (piele) → vitamina D (piele) → FINALIZARE ÎN RINICHI. Moleculele precursoare pot fi obținute și din lapte/alimente.'},
+  {q:'Glandele sebacee sunt clasificate ca glande:',
+   opts:['Merocrine','Apocrine','Holocrine','Endocrine'],correct:2,
+   explain:'Glandele sebacee sunt glande HOLOCRINE — celulele se dezintegrează pentru a elibera sebumul (secreția). Sunt și glande alveolare simple ramificate. Afecțiune asociată: acneea.'},
+  {q:'Stratul dermului care conține țesut conjunctiv lax și asigură nutriția epidermului este:',
+   opts:['Stratul reticular','Stratul papilar','Hipodermul','Stratul cornos'],correct:1,
+   explain:'Stratul PAPILAR al dermului conține țesut conjunctiv lax (areolar), este bogat vascularizat și asigură nutriția epidermului prin difuziune. Formează papile dermice care ancorează epidermul.'},
+  {q:'Celulele Merkel din epiderm sunt specializate pentru:',
+   opts:['Producerea melaninei','Imunitate','Recepția la atingere','Producerea cheratinei'],correct:2,
+   explain:'Celulele Merkel sunt receptori senzoriali pentru atingere (mecanoreceptori). Sunt localizate în stratul bazal dar se extind în epiderm → ușor stimulabile. Melanocitele produc melanină; celulele dendritice = imunitate; cheratinocitele = cheratină.'},
+  {q:'Lanugo reprezintă:',
+   opts:['Pielea subțire a palmelor','Alopecia dobândită','Fire de păr moi și subțiri pe pielea fătului','Creșterea excesivă a unghiilor'],correct:2,
+   explain:'Lanugo = fire de păr moi, fine, ce acoperă pielea fătului înainte de naștere. Dispar în perioada prenatală și sunt înlocuite cu fire normale după naștere. Pilozitatea terminală = fire groase ce apar la pubertate (axilar, pubian).'},
+  {q:'Care element al firului de păr furnizează substanțe nutritive celulelor din bulb?',
+   opts:['Axul firului de păr','Teaca radiculară externă','Papila dermică','Mușchiul erector'],correct:2,
+   explain:'Papila dermică se găsește la baza bulbului și conține țesut conjunctiv, vase de sânge și nervi. Vasele sanguine din papilă hrănesc celulele din stratul bazal ale bulbului, care proliferează și produc firul de păr.'}
+];
+
+let quizAnswered = new Array(quizQuestions.length).fill(false);
+let quizScore = 0;
+
+function renderQuiz() {
+  const container = document.getElementById('quiz-container');
+  container.innerHTML = quizQuestions.map((q, i) => `
+    <div class="quiz-q" id="qq-${i}" ${i>0?'style="display:none"':''}>
+      <div class="quiz-qtext">${i+1}. ${q.q}</div>
+      <div class="quiz-opts">
+        ${q.opts.map((opt,j)=>`<button class="quiz-opt" onclick="answerQuiz(${i},${j})">${opt}</button>`).join('')}
+      </div>
+      <div class="quiz-explain" id="qexp-${i}">✅ ${q.explain}</div>
+      <button class="quiz-next-btn" id="qnext-${i}" onclick="nextQ(${i})">Întrebarea ${i+2 <= quizQuestions.length ? i+2 : '→ Final'} ›</button>
+    </div>
+  `).join('');
+}
+
+function answerQuiz(qi, optIdx) {
+  if (quizAnswered[qi]) return;
+  quizAnswered[qi] = true;
+  const q = quizQuestions[qi];
+  const opts = document.querySelectorAll(`#qq-${qi} .quiz-opt`);
+  opts.forEach((opt,j) => {
+    opt.classList.add('disabled');
+    if (j === q.correct) opt.classList.add('correct');
+    else if (j === optIdx && optIdx !== q.correct) opt.classList.add('wrong');
+  });
+  if (optIdx === q.correct) quizScore++;
+  document.getElementById('quiz-score-display').textContent = quizScore + ' / ' + quizQuestions.length;
+  document.getElementById('qexp-'+qi).classList.add('show');
+  const nextBtn = document.getElementById('qnext-'+qi);
+  nextBtn.classList.add('show');
+  if (qi === quizQuestions.length-1) {
+    nextBtn.textContent = '🎯 Finalizat! Scor: '+quizScore+'/'+quizQuestions.length;
+    nextBtn.onclick = null;
+  }
+}
+
+function nextQ(qi) {
+  document.getElementById('qq-'+qi).style.display = 'none';
+  const next = document.getElementById('qq-'+(qi+1));
+  if (next) { next.style.display = 'block'; next.scrollIntoView({behavior:'smooth',block:'start'}); }
+}
+
+function resetQuiz() {
+  quizAnswered = new Array(quizQuestions.length).fill(false);
+  quizScore = 0;
+  document.getElementById('quiz-score-display').textContent = '0 / '+quizQuestions.length;
+  renderQuiz();
+}
+
+renderQuiz();
+
+document.addEventListener("DOMContentLoaded", function () {
+  // 1. Detectează automat numele fișierului curent (ex: cap1.html)
+  const currentFile = window.location.pathname.split("/").pop() || "cap1.html";
+  
+  const menuContainer = document.getElementById("chapters-menu");
+  const menuItems = menuContainer.querySelectorAll(".nav-item");
+  let currentChapterNumber = 1;
+  let activeItem = null;
+
+  // 2. Parcurge toate capitolele din meniu pentru a le aplica stilul corect
+  menuItems.forEach((item) => {
+    const fileHref = item.getAttribute("href");
+    
+    if (fileHref === currentFile) {
+      // Dacă este capitolul curent, îl face activ
+      item.classList.add("active");
+      activeItem = item; // Salvăm elementul activ pentru a-l folosi la scroll
+      currentChapterNumber = parseInt(item.querySelector(".nav-num").textContent);
+    }
+  });
+
+  // 3. 💡 AUTO-SCROLL LA CAPITOLUL CURENT (Soluția pentru problema ta)
+  if (activeItem && menuContainer) {
+    // Așteptăm un timp foarte scurt (50ms) ca browserul să randeze stilurile, apoi mutăm scroll-ul
+    setTimeout(() => {
+      activeItem.scrollIntoView({
+        behavior: "smooth", // Efect de derulare fină (schimbă cu "auto" dacă vrei să fie instant)
+        block: "nearest"    // Îl aduce la vedere doar dacă nu este vizibil în container
+      });
+    }, 50);
+  }
+
+  // 4. Actualizează automat bara de progres din footer-ul sidebar-ului
+  const totalChapters = menuItems.length; // Va număra automat 23
+  
+  const progTextContainer = document.querySelector(".prog-label");
+  if (progTextContainer) {
+    progTextContainer.innerHTML = `<span>Progres curs</span><span>${currentChapterNumber} / ${totalChapters}</span>`;
+  }
+  
+  const progFill = document.querySelector(".prog-fill");
+  if (progFill) {
+    const percentage = (currentChapterNumber / totalChapters) * 100;
+    progFill.style.width = `${percentage}%`;
+  }
+});
+</script>
+</body>
+</html>

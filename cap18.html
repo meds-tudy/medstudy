@@ -1,0 +1,2030 @@
+<!DOCTYPE html>
+<html lang="ro">
+<head>
+<meta charset="UTF-8">
+
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>MedStudy — Capitol 18: Sistemul Digestiv</title>
+<link href="https://fonts.googleapis.com/css2?family=Outfit:wght@300;400;500;600;700;800;900&family=Lora:ital,wght@0,400;0,600;1,400&display=swap" rel="stylesheet">
+<style>
+:root {
+  --bg-main: #f0f4ff;
+  --bg-sidebar: rgba(255,255,255,0.85);
+  --surface: rgba(255,255,255,0.75);
+  --surface2: rgba(255,255,255,0.92);
+  --border: rgba(180,160,220,0.25);
+  --blue: #5b8dee;
+  --blue-light: #e8eeff;
+  --violet: #8b5cf6;
+  --violet-light: #ede9fe;
+  --cyan: #06b6d4;
+  --cyan-light: #e0f7fb;
+  --pink: #ec4899;
+  --pink-light: #fce7f3;
+  --green: #10b981;
+  --green-light: #d1fae5;
+  --orange: #f59e0b;
+  --orange-light: #fef3c7;
+  --rose: #f43f5e;
+  --red: #ef4444;
+  --red-light: #fee2e2;
+  --text: #1e1b4b;
+  --text2: #6b7280;
+  --text3: #9ca3af;
+  --accent: #16a34a;
+  --accent2: #0d9488;
+  --sidebar-w: 268px;
+  --radius: 16px;
+  --shadow: 0 4px 24px rgba(22,163,74,0.10);
+  --shadow2: 0 8px 40px rgba(22,163,74,0.14);
+}
+* { margin:0; padding:0; box-sizing:border-box; }
+body {
+  font-family: 'Outfit', sans-serif;
+  background: var(--bg-main);
+  color: var(--text);
+  min-height: 100vh;
+  display: flex;
+  overflow-x: hidden;
+}
+body::before {
+  content:'';
+  position:fixed; inset:0;
+  background:
+    radial-gradient(ellipse 800px 600px at 20% 10%, rgba(180,255,200,0.45) 0%, transparent 70%),
+    radial-gradient(ellipse 600px 500px at 80% 5%, rgba(180,230,255,0.40) 0%, transparent 65%),
+    radial-gradient(ellipse 700px 400px at 60% 90%, rgba(200,255,220,0.38) 0%, transparent 70%),
+    radial-gradient(ellipse 500px 500px at 5% 80%, rgba(160,220,200,0.30) 0%, transparent 65%),
+    #f0f4ff;
+  z-index:-1; pointer-events:none;
+}
+
+/* SIDEBAR */
+#sidebar {
+  width: var(--sidebar-w);
+  min-height: 100vh;
+  background: var(--bg-sidebar);
+  backdrop-filter: blur(24px);
+  border-right: 1px solid var(--border);
+  position: fixed; top:0; left:0; z-index:100;
+  display: flex; flex-direction: column;
+  box-shadow: 4px 0 30px rgba(22,163,74,0.07);
+}
+.sidebar-logo {
+  padding: 26px 22px 20px;
+  border-bottom: 1px solid var(--border);
+  display:flex; align-items:center; gap:12px;
+}
+.logo-icon {
+  width:42px; height:42px;
+  background: linear-gradient(135deg,#16a34a,#0d9488);
+  border-radius:12px;
+  display:flex; align-items:center; justify-content:center;
+  font-size:20px;
+  box-shadow: 0 4px 14px rgba(22,163,74,0.35);
+}
+.logo-text { font-size:17px; font-weight:800; color:var(--text); line-height:1.2; }
+.logo-sub { font-size:10px; color:var(--text3); font-weight:400; letter-spacing:.08em; text-transform:uppercase; margin-top:2px; }
+.sidebar-section-label { padding:18px 20px 8px; font-size:9.5px; letter-spacing:.14em; text-transform:uppercase; color:var(--text3); font-weight:600; }
+.nav-scroll { 
+  flex: 1; 
+  overflow-y: auto; 
+  padding-bottom: 16px; 
+  max-height: calc(100vh - 140px);
+  
+  /* 💡 TRUCUL PENTRU MUTAREA BAREI PE STÂNGA: */
+  direction: rtl; /* Muta scrollbar-ul pe stânga (Right-to-Left) */
+  
+  scrollbar-width: thin;
+  scrollbar-color: rgba(124,58,237,0.3) transparent;
+}
+
+/* 💡 RECONVERTIREA TEXTULUI: Întoarcem textul la normal (Left-to-Right) ca să nu fie inversat */
+.nav-scroll > * {
+  direction: ltr;
+}
+
+/* Stil pentru browserele bazate pe Chromium (Chrome, Edge, Opera) */
+.nav-scroll::-webkit-scrollbar { 
+  width: 5px; 
+}
+.nav-scroll::-webkit-scrollbar-track {
+  background: transparent;
+}
+.nav-scroll::-webkit-scrollbar-thumb { 
+  background: rgba(124,58,237,0.3); 
+  border-radius: 4px; 
+}
+.nav-scroll::-webkit-scrollbar-thumb:hover {
+  background: rgba(124,58,237,0.5); 
+}
+
+.nav-item {
+  display:flex; align-items:center; gap:10px;
+  padding:9px 14px 9px 16px; margin:1px 10px;
+  border-radius:10px; font-size:12.5px; font-weight:500;
+  color:var(--text2); cursor:pointer; transition:all .2s;
+  text-decoration:none; position:relative;
+}
+.nav-item:hover { background:rgba(22,163,74,0.07); color:#166534; }
+.nav-item.active {
+  background:linear-gradient(90deg,rgba(22,163,74,0.12),rgba(13,148,136,0.07));
+  color:#166534; font-weight:600;
+  box-shadow:inset 2px 0 0 #16a34a;
+}
+.nav-num {
+  min-width:22px; height:22px; background:rgba(22,163,74,0.08);
+  border-radius:6px; display:flex; align-items:center; justify-content:center;
+  font-size:10.5px; font-weight:700; color:var(--text3);
+}
+.nav-item.active .nav-num { background:rgba(22,163,74,0.18); color:#166534; }
+.nav-item.done .nav-num { background:rgba(22,163,74,0.15); color:#166534; }
+.nav-item.locked { opacity:0.45; pointer-events:none; }
+.sidebar-footer { padding:16px 20px; border-top:1px solid var(--border); }
+.prog-label { display:flex; justify-content:space-between; font-size:11.5px; color:var(--text2); margin-bottom:7px; font-weight:500; }
+.prog-label span:last-child { color:#16a34a; font-weight:700; }
+.prog-track { height:5px; background:rgba(22,163,74,0.1); border-radius:3px; overflow:hidden; }
+.prog-fill { height:100%; width:78.26%; background:linear-gradient(90deg,#16a34a,#0d9488); border-radius:3px; transition:width 1.2s ease; }
+
+/* MAIN */
+#main { margin-left:var(--sidebar-w); flex:1; min-height:100vh; }
+.topbar {
+  height:60px; background:rgba(255,255,255,0.7);
+  backdrop-filter:blur(20px); border-bottom:1px solid var(--border);
+  display:flex; align-items:center; justify-content:space-between;
+  padding:0 40px; position:sticky; top:0; z-index:50;
+}
+.breadcrumb { display:flex; align-items:center; gap:8px; font-size:13px; font-weight:500; color:var(--text2); }
+.breadcrumb .current { color:#166534; }
+.bc-sep { color:var(--text3); }
+.badge-pill {
+  padding:5px 14px; border-radius:30px; font-size:12px; font-weight:600;
+  background:linear-gradient(90deg,rgba(22,163,74,0.1),rgba(13,148,136,0.08));
+  color:#166534; border:1px solid rgba(22,163,74,0.2);
+}
+
+/* HERO */
+.hero {
+  position:relative; overflow:hidden;
+  padding:64px 56px 54px; border-bottom:1px solid rgba(180,255,200,.2);
+  min-height:340px; display:flex; flex-direction:column; justify-content:center;
+}
+.hero::before {
+  content:''; position:absolute; inset:0;
+  background:
+    radial-gradient(ellipse 70% 80% at 10% 20%, rgba(180,255,210,.72) 0%, transparent 60%),
+    radial-gradient(ellipse 55% 65% at 85% 10%, rgba(200,255,240,.65) 0%, transparent 55%),
+    radial-gradient(ellipse 60% 70% at 70% 85%, rgba(180,230,220,.6) 0%, transparent 58%),
+    radial-gradient(ellipse 50% 60% at 30% 90%, rgba(200,255,225,.5) 0%, transparent 55%),
+    radial-gradient(ellipse 45% 50% at 90% 55%, rgba(220,255,230,.45) 0%, transparent 50%),
+    #f0fff4;
+  z-index:0;
+}
+.hero::after {
+  content:''; position:absolute; inset:0; opacity:.35;
+  background-image:url("data:image/svg+xml,%3Csvg viewBox='0 0 256 256' xmlns='http://www.w3.org/2000/svg'%3E%3Cfilter id='noise'%3E%3CfeTurbulence type='fractalNoise' baseFrequency='0.9' numOctaves='4' stitchTiles='stitch'/%3E%3CfeColorMatrix type='saturate' values='0'/%3E%3C/filter%3E%3Crect width='100%25' height='100%25' filter='url(%23noise)' opacity='0.15'/%3E%3C/svg%3E");
+  background-size:200px; pointer-events:none; z-index:1; mix-blend-mode:overlay;
+}
+.hero > * { position:relative; z-index:2; }
+.hero-eyebrow {
+  display:inline-flex; align-items:center; gap:7px;
+  padding:6px 18px; border-radius:40px;
+  background:rgba(255,255,255,.55); border:1px solid rgba(255,255,255,.85);
+  font-size:11px; font-weight:600; color:rgba(20,100,60,.75);
+  letter-spacing:.12em; text-transform:uppercase; margin-bottom:22px;
+  backdrop-filter:blur(16px); box-shadow:0 2px 20px rgba(22,163,74,.12),inset 0 1px 0 rgba(255,255,255,.6);
+  width:fit-content; font-family:'Lora',serif; font-style:italic;
+}
+.hero-eyebrow::before { content:'◆'; font-size:7px; font-style:normal; }
+.hero h1 {
+  font-family:'Lora',serif; font-size:clamp(34px,4vw,58px);
+  font-weight:400; font-style:italic; line-height:1.08;
+  color:rgba(20,60,30,.82); margin-bottom:18px;
+  text-shadow:0 2px 40px rgba(22,163,74,.15);
+}
+.hero h1 span {
+  font-weight:600; font-style:italic; color:transparent;
+  background:linear-gradient(135deg,rgba(22,120,60,.9) 0%,rgba(22,163,74,.85) 40%,rgba(13,148,136,.8) 100%);
+  -webkit-background-clip:text; -webkit-text-fill-color:transparent; background-clip:text;
+}
+.hero-sub {
+  font-family:'Lora',serif; font-size:15.5px; font-style:italic;
+  color:rgba(20,80,40,.6); max-width:560px; line-height:1.7;
+  margin-bottom:34px; font-weight:400;
+}
+.hero-chips { display:flex; flex-wrap:wrap; gap:10px; }
+.hero-chip {
+  display:flex; align-items:center; gap:9px;
+  background:rgba(255,255,255,.52); border:1px solid rgba(255,255,255,.8);
+  border-radius:14px; padding:9px 18px; font-size:13px; font-weight:500;
+  color:rgba(20,80,40,.75); backdrop-filter:blur(14px);
+  box-shadow:0 2px 16px rgba(22,163,74,.1),inset 0 1px 0 rgba(255,255,255,.6);
+  font-family:'Lora',serif; font-style:italic; transition:all .25s;
+}
+.hero-chip:hover { background:rgba(255,255,255,.72); transform:translateY(-1px); box-shadow:0 6px 24px rgba(22,163,74,.18); }
+.hero-chip strong {
+  font-family:'Outfit',sans-serif; font-style:normal; font-weight:800; font-size:21px;
+  background:linear-gradient(135deg,#16a34a,#0d9488);
+  -webkit-background-clip:text; -webkit-text-fill-color:transparent; background-clip:text; line-height:1;
+}
+
+/* TAB BAR */
+.tab-bar {
+  display:flex; gap:2px; padding:0 40px;
+  background:rgba(255,255,255,0.6); backdrop-filter:blur(16px);
+  border-bottom:1px solid var(--border); position:sticky; top:60px; z-index:40;
+  overflow-x:auto;
+}
+.tab-btn {
+  display:flex; align-items:center; gap:7px; padding:14px 18px;
+  background:none; border:none; font-family:'Outfit',sans-serif;
+  font-size:12.5px; font-weight:600; color:var(--text2); cursor:pointer;
+  border-bottom:2.5px solid transparent; margin-bottom:-1px;
+  transition:all .2s; white-space:nowrap;
+}
+.tab-btn:hover { color:#166534; background:rgba(22,163,74,0.04); border-radius:10px 10px 0 0; }
+.tab-btn.active { color:#166534; border-bottom-color:#16a34a; }
+
+/* CONTENT */
+.content { padding:36px 40px 60px; max-width:1200px; }
+.panel { display:none; }
+.panel.active { display:block; }
+
+/* SECTION HEADER */
+.section-header { margin-bottom:24px; }
+.section-title { font-size:22px; font-weight:800; color:var(--text); margin-bottom:6px; }
+.section-desc { font-size:13.5px; color:var(--text2); line-height:1.6; }
+
+/* GLASS CARD */
+.gcard {
+  background:var(--surface2); backdrop-filter:blur(20px);
+  border:1px solid var(--border); border-radius:var(--radius);
+  padding:28px; margin-bottom:24px; box-shadow:var(--shadow);
+  transition:box-shadow .3s, transform .2s;
+}
+.gcard:hover { box-shadow:var(--shadow2); }
+.gcard-title {
+  font-size:16px; font-weight:800; color:var(--text);
+  margin-bottom:20px; display:flex; align-items:center; gap:10px;
+}
+.ct-icon { width:32px; height:32px; border-radius:9px; display:flex; align-items:center; justify-content:center; font-size:16px; }
+
+/* GRIDS */
+.g2 { display:grid; grid-template-columns:1fr 1fr; gap:20px; }
+.g3 { display:grid; grid-template-columns:repeat(3,1fr); gap:16px; }
+.g4 { display:grid; grid-template-columns:repeat(4,1fr); gap:14px; }
+
+/* HIGHLIGHT BOX */
+.hbox { border-radius:12px; padding:16px 20px; margin-bottom:16px; font-size:13px; line-height:1.65; border-left:4px solid; }
+.hbox-blue { background:var(--blue-light); border-color:var(--blue); }
+.hbox-violet { background:var(--violet-light); border-color:var(--violet); }
+.hbox-green { background:var(--green-light); border-color:var(--green); }
+.hbox-pink { background:var(--pink-light); border-color:var(--pink); }
+.hbox-orange { background:var(--orange-light); border-color:var(--orange); }
+.hbox-red { background:var(--red-light); border-color:var(--red); }
+.hbox-cyan { background:var(--cyan-light); border-color:var(--cyan); }
+.hbox strong { font-weight:700; display:block; margin-bottom:4px; }
+.hbox-blue strong { color:var(--blue); }
+.hbox-violet strong { color:var(--violet); }
+.hbox-green strong { color:var(--green); }
+.hbox-pink strong { color:var(--pink); }
+.hbox-orange strong { color:var(--orange); }
+.hbox-red strong { color:var(--red); }
+.hbox-cyan strong { color:var(--cyan); }
+
+/* MNEMONIC */
+.mnemonic {
+  background:linear-gradient(135deg,#f0fff4,#e0fdf4);
+  border:1px solid rgba(22,163,74,0.2); border-radius:14px;
+  padding:18px 22px; margin:16px 0;
+}
+.mnemonic-title { font-size:12px; font-weight:700; color:#166534; letter-spacing:.06em; text-transform:uppercase; margin-bottom:8px; display:flex; align-items:center; gap:6px; }
+.mnemonic-text { font-size:13.5px; color:var(--text); line-height:1.7; }
+.mnemonic-text .em { color:#16a34a; font-weight:800; }
+
+/* TABLE */
+.mtable { width:100%; border-collapse:collapse; font-size:13px; }
+.mtable thead tr { background:linear-gradient(90deg,rgba(22,163,74,0.08),rgba(13,148,136,0.05)); }
+.mtable th { padding:11px 14px; text-align:left; font-size:11px; font-weight:700; letter-spacing:.06em; text-transform:uppercase; color:#166534; border-bottom:2px solid rgba(22,163,74,0.12); }
+.mtable td { padding:10px 14px; border-bottom:1px solid rgba(22,163,74,0.07); color:var(--text2); vertical-align:top; line-height:1.5; }
+.mtable tr:last-child td { border-bottom:none; }
+.mtable tr:hover td { background:rgba(22,163,74,0.03); }
+.mtable .hl { color:var(--text); font-weight:600; }
+
+/* TAG PILLS */
+.tag { display:inline-block; padding:3px 10px; border-radius:20px; font-size:11px; font-weight:700; }
+.t-red { background:var(--red-light); color:var(--red); }
+.t-blue { background:var(--blue-light); color:var(--blue); }
+.t-green { background:var(--green-light); color:var(--green); }
+.t-violet { background:var(--violet-light); color:var(--violet); }
+.t-orange { background:var(--orange-light); color:var(--orange); }
+.t-pink { background:var(--pink-light); color:var(--pink); }
+.t-cyan { background:var(--cyan-light); color:var(--cyan); }
+.t-teal { background:#ccfbf1; color:#0f766e; }
+
+/* EXPAND ROWS */
+.level-row { display:flex; align-items:stretch; gap:12px; margin-bottom:6px; cursor:pointer; }
+.level-bar { width:5px; border-radius:3px; flex-shrink:0; }
+.level-body { flex:1; background:var(--surface); border:1px solid var(--border); border-radius:12px; padding:14px 18px; transition:all .25s; }
+.level-row:hover .level-body, .level-row.open .level-body { box-shadow:0 4px 20px rgba(22,163,74,0.12); border-color:rgba(22,163,74,0.3); }
+.level-head { display:flex; align-items:center; gap:12px; }
+.level-num { min-width:30px; height:30px; border-radius:8px; display:flex; align-items:center; justify-content:center; font-size:13px; font-weight:800; }
+.level-info { flex:1; }
+.level-name { font-size:14px; font-weight:700; color:var(--text); }
+.level-short { font-size:12px; color:var(--text2); margin-top:2px; }
+.level-chevron { font-size:14px; color:var(--text3); transition:transform .3s; }
+.level-row.open .level-chevron { transform:rotate(90deg); }
+.level-detail-panel { max-height:0; overflow:hidden; transition:max-height .4s ease, padding .3s; font-size:13px; color:var(--text2); line-height:1.65; }
+.level-row.open .level-detail-panel { max-height:600px; padding-top:12px; border-top:1px dashed rgba(22,163,74,0.15); margin-top:12px; }
+
+/* FLOWCHART */
+.flow-node {
+  background:var(--surface2); border:1px solid var(--border); border-radius:12px;
+  padding:14px 18px; text-align:center; position:relative;
+}
+.flow-node.start { background:linear-gradient(135deg,#d1fae5,#a7f3d0); border-color:#10b981; }
+.flow-node.end { background:linear-gradient(135deg,#ccfbf1,#99f6e4); border-color:var(--cyan); }
+.flow-node.decision { background:linear-gradient(135deg,#fef3c7,#fde68a); border-color:var(--orange); border-radius:8px; }
+.flow-arrow { text-align:center; padding:4px 0; color:var(--text3); font-size:20px; }
+.flow-title { font-size:13px; font-weight:700; color:var(--text); }
+.flow-sub { font-size:11.5px; color:var(--text2); margin-top:3px; }
+
+/* QUIZ */
+.qblock { background:var(--surface2); border:1px solid var(--border); border-radius:14px; padding:22px; margin-bottom:18px; }
+.qblock p { font-size:14px; font-weight:500; color:var(--text); margin-bottom:16px; line-height:1.6; }
+.qblock p strong { color:#166534; }
+.qopt {
+  display:flex; align-items:flex-start; gap:10px; padding:11px 16px;
+  border-radius:10px; border:1.5px solid var(--border); cursor:pointer;
+  margin-bottom:8px; font-size:13px; color:var(--text2); font-weight:500;
+  transition:all .2s; background:var(--surface);
+}
+.qopt:hover { border-color:#16a34a; color:var(--text); background:rgba(22,163,74,0.04); }
+.qopt.correct { border-color:var(--green); background:var(--green-light); color:#065f46; }
+.qopt.wrong { border-color:var(--rose); background:#fff1f2; color:#9f1239; }
+.qopt.disabled { pointer-events:none; }
+.opt-l { min-width:24px; height:24px; border-radius:6px; background:rgba(22,163,74,0.08); color:#166534; display:flex; align-items:center; justify-content:center; font-size:11px; font-weight:800; flex-shrink:0; }
+.qfb { border-radius:8px; padding:10px 14px; font-size:12.5px; line-height:1.6; display:none; margin-top:8px; }
+.qfb.ok { background:var(--green-light); color:#065f46; display:block; }
+.qfb.err { background:#fff1f2; color:#9f1239; display:block; }
+.quiz-score { display:flex; justify-content:space-between; align-items:center; background:linear-gradient(90deg,rgba(22,163,74,0.06),rgba(13,148,136,0.04)); border:1px solid rgba(22,163,74,0.15); border-radius:12px; padding:14px 20px; margin-bottom:24px; }
+.quiz-score-label { font-size:13px; color:var(--text2); font-weight:600; }
+.quiz-score-num { font-size:22px; font-weight:900; color:#16a34a; }
+.quiz-reset { background:linear-gradient(90deg,#16a34a,#0d9488); color:#fff; border:none; border-radius:10px; padding:12px 28px; font-family:'Outfit',sans-serif; font-size:14px; font-weight:700; cursor:pointer; box-shadow:0 4px 16px rgba(22,163,74,0.3); transition:all .2s; }
+.quiz-reset:hover { transform:translateY(-2px); box-shadow:0 6px 20px rgba(22,163,74,0.4); }
+
+/* ORGAN CARDS */
+.organ-card {
+  background:var(--surface2); border:1px solid var(--border); border-radius:14px;
+  padding:18px 20px; transition:all .25s; cursor:pointer;
+}
+.organ-card:hover { transform:translateY(-3px); box-shadow:var(--shadow2); }
+.organ-icon { font-size:26px; margin-bottom:8px; display:block; }
+.organ-name { font-size:14px; font-weight:800; color:var(--text); margin-bottom:6px; }
+.organ-desc { font-size:12px; color:var(--text2); line-height:1.5; }
+.organ-tag { margin-top:8px; }
+
+/* FC (flowchart inline) */
+.fc-row { display:flex; align-items:center; gap:10px; justify-content:center; flex-wrap:wrap; margin:8px 0; }
+.fc-box {
+  padding:10px 16px; border-radius:10px; font-size:12.5px; font-weight:600;
+  text-align:center; border:1.5px solid; min-width:130px;
+}
+.fc-arrow { font-size:18px; color:var(--text3); flex-shrink:0; }
+.fc-label { font-size:11px; color:var(--text3); text-align:center; font-style:italic; }
+
+/* PERISTALSIS STEPS */
+.peri-step {
+  display:flex; align-items:center; gap:14px; padding:12px 16px;
+  background:var(--surface); border:1px solid var(--border); border-radius:12px;
+  margin-bottom:6px; transition:all .2s;
+}
+.peri-step:hover { box-shadow:0 4px 16px rgba(22,163,74,0.1); border-color:rgba(22,163,74,0.3); }
+.peri-num { min-width:32px; height:32px; border-radius:50%; display:flex; align-items:center; justify-content:center; font-weight:800; font-size:14px; flex-shrink:0; }
+.peri-info { flex:1; }
+.peri-name { font-size:13.5px; font-weight:700; color:var(--text); }
+.peri-desc { font-size:12px; color:var(--text2); margin-top:2px; }
+
+/* PROGRESS BAR COMPONENT */
+.pbar-row { display:flex; align-items:center; gap:12px; margin-bottom:10px; }
+.pbar-label { min-width:120px; font-size:12.5px; font-weight:600; color:var(--text); }
+.pbar-track { flex:1; height:12px; background:rgba(22,163,74,0.1); border-radius:6px; overflow:hidden; }
+.pbar-fill { height:100%; border-radius:6px; transition:width 1s ease .3s; }
+.pbar-val { min-width:35px; font-size:12.5px; font-weight:700; text-align:right; }
+
+/* SVG INTERACTIVE */
+.svg-label { cursor:pointer; }
+.svg-label:hover rect, .svg-label:hover circle { opacity:1 !important; }
+.tooltip-box {
+  position:fixed; background:white; border:1px solid rgba(22,163,74,0.2);
+  border-radius:12px; padding:14px 18px; box-shadow:0 8px 30px rgba(0,0,0,0.12);
+  font-size:13px; line-height:1.6; color:var(--text2); max-width:280px;
+  pointer-events:none; opacity:0; transition:opacity .2s; z-index:200;
+}
+.tooltip-box.show { opacity:1; }
+.tooltip-title { font-weight:800; color:var(--text); font-size:14px; margin-bottom:6px; }
+
+/* INTERACTIVE SELECTOR */
+.organ-selector { display:flex; gap:10px; flex-wrap:wrap; margin-bottom:20px; }
+.organ-btn {
+  padding:10px 22px; border-radius:12px; border:2px solid rgba(22,163,74,0.3);
+  font-family:'Outfit',sans-serif; font-size:13px; font-weight:700;
+  cursor:pointer; transition:all .2s; background:rgba(22,163,74,0.05); color:#166534;
+}
+.organ-btn:hover { background:rgba(22,163,74,0.1); border-color:#16a34a; }
+.organ-btn.active { background:#16a34a; color:#fff; border-color:#16a34a; }
+.organ-info-box { background:var(--surface2); border:1px solid var(--border); border-radius:14px; padding:20px; min-height:140px; }
+
+/* ──────── ANIMATIONS (STIL PREMIUM CAP 9) ──────── */
+@keyframes fadeUp { 
+  from { opacity: 0; transform: translateY(6px); } 
+  to { opacity: 1; transform: translateY(0); } 
+}
+.fu { animation: fadeUp 0.5s ease both; }
+.fu-1 { animation-delay: .08s; }
+.fu-2 { animation-delay: .16s; }
+.fu-3 { animation-delay: .24s; }
+.fu-4 { animation-delay: .32s; }
+
+@media(max-width:960px){
+  :root{--sidebar-w:0px}
+  #sidebar{transform:translateX(-268px)}
+  #main{margin-left:0}
+  .g2,.g3,.g4{grid-template-columns:1fr}
+  .content,.topbar,.tab-bar,.hero{padding-left:20px;padding-right:20px}
+}
+
+/* CELULE TABLE INTERACTIVE */
+.cell-row { cursor:pointer; }
+.cell-row:hover td { background:rgba(22,163,74,0.06) !important; }
+.cell-row.selected td { background:rgba(22,163,74,0.1) !important; border-color:rgba(22,163,74,0.2); }
+
+/* ENZYME FILTER */
+.filter-bar { display:flex; gap:8px; flex-wrap:wrap; margin-bottom:16px; }
+.filter-btn {
+  padding:5px 14px; border-radius:20px; font-size:12px; font-weight:600;
+  border:1.5px solid var(--border); cursor:pointer; background:var(--surface2);
+  color:var(--text2); transition:all .2s;
+}
+.filter-btn:hover { border-color:#16a34a; color:#166534; }
+.filter-btn.active { background:#16a34a; color:#fff; border-color:#16a34a; }
+
+.enzyme-row { transition:all .2s; }
+.enzyme-row.hidden { display:none; }
+</style>
+</head>
+<body>
+
+<!-- ═══════════════ TOOLTIP GLOBAL ═══════════════ -->
+<div class="tooltip-box" id="globalTooltip">
+  <div class="tooltip-title" id="ttTitle"></div>
+  <div id="ttBody"></div>
+</div>
+
+<!-- ═══════════════ SIDEBAR ═══════════════ -->
+<aside id="sidebar">
+  <div class="sidebar-logo">
+    <img src="medStudy.png" alt="Logo MedStudy" style="width: 42px; height: 42px; object-fit: contain; filter: drop-shadow(0 4px 14px rgba(124,58,237,0.35));">
+    <div>
+      <div class="logo-text">MedStudy</div>
+      <div class="logo-sub">Anatomy Made Easy</div>
+    </div>
+  </div>
+
+  <div class="nav-scroll" id="chapters-menu">
+  <div class="sidebar-section-label">Capitole</div>
+
+  <a class="nav-item" href="cap1.html"><span class="nav-num">1</span>Introducere în A&B</a>
+  <a class="nav-item" href="cap2.html"><span class="nav-num">2</span>Bazele Chimice</a>
+  <a class="nav-item" href="cap3.html"><span class="nav-num">3</span>Fiziologia celulară</a>
+  <a class="nav-item" href="cap4.html"><span class="nav-num">4</span>Țesuturile</a>
+  <a class="nav-item" href="cap5.html"><span class="nav-num">5</span>Sistemul Tegumentar</a>
+  <a class="nav-item" href="cap6.html"><span class="nav-num">6</span>Oasele și Articulațiile</a>
+  <a class="nav-item" href="cap7.html"><span class="nav-num">7</span>Sistemul Osos</a>
+  <a class="nav-item" href="cap8.html"><span class="nav-num">8</span>Țesutul Muscular</a>
+  <a class="nav-item" href="cap9.html"><span class="nav-num">9</span>Sistemul Muscular</a>
+  <a class="nav-item" href="cap10.html"><span class="nav-num">10</span>Țesutul Nervos</a>
+  <a class="nav-item" href="cap11.html"><span class="nav-num">11</span>Organizarea Sistemului Nervos</a>
+  <a class="nav-item" href="cap12.html"><span class="nav-num">12</span>Organele de Simț</a>
+  <a class="nav-item" href="cap13.html"><span class="nav-num">13</span>Sistemul Endocrin</a>
+  <a class="nav-item" href="cap14.html"><span class="nav-num">14</span>Sângele</a>
+  <a class="nav-item" href="cap15.html"><span class="nav-num">15</span>Sistemul Cardiovascular</a>
+  <a class="nav-item" href="cap16.html"><span class="nav-num">16</span>Sistemul Limfatic</a>
+  <a class="nav-item" href="cap17.html"><span class="nav-num">17</span>Sistemul Respirator</a>
+  <a class="nav-item" href="cap18.html"><span class="nav-num">18</span>Sistemul Digestiv</a>
+  <a class="nav-item" href="cap19.html"><span class="nav-num">19</span>Metabolism & Nutriție</a>
+  <a class="nav-item" href="cap20.html"><span class="nav-num">20</span>Sistemul Urinar</a>
+  <a class="nav-item" href="cap21.html"><span class="nav-num">21</span>Echilibrul Hidro-Electrolitic</a>
+  <a class="nav-item" href="cap22.html"><span class="nav-num">22</span>Sistemul Reproducător Masculin</a>
+  <a class="nav-item" href="cap23.html"><span class="nav-num">23</span>Sistemul Reproducător Feminin</a>
+</div>
+
+  <div class="sidebar-footer">
+    <div class="prog-label"><span>Progres curs</span><span>18/23</span></div>
+    <div class="prog-track"><div class="prog-fill"></div></div>
+  </div>
+</aside>
+
+<!-- ═══════════════ MAIN ═══════════════ -->
+<main id="main">
+
+  <!-- TOP BAR -->
+  <nav class="topbar">
+    <div class="breadcrumb">
+      <span>A&F Umană</span>
+      <span class="bc-sep">›</span>
+      <span>Capitol 18</span>
+      <span class="bc-sep">›</span>
+      <span class="current">Sistemul Digestiv</span>
+    </div>
+    <span class="badge-pill">🎓 Pregătire Admitere Medicină</span>
+  </nav>
+
+  <!-- HERO -->
+  <header class="hero">
+    <div class="hero-eyebrow fu fu-1">Capitol 18 — Digestie & Absorbție</div>
+    <h1 class="fu fu-2">Sistemul Digestiv —<br><span>Anatomie, Fiziologie & Enzime</span></h1>
+    <p class="hero-sub fu fu-3">
+      De la cavitatea orală la anus — parcurge complet traseul alimentelor, mecanismele
+      digestiei chimice, rolul enzimelor și al organelor anexe esențiale pentru admitere.
+    </p>
+    <div class="hero-chips fu fu-4">
+      <div class="hero-chip"><strong>~9m</strong> lungimea tractului GI</div>
+      <div class="hero-chip"><strong>11</strong> organe principale</div>
+      <div class="hero-chip"><strong>15+</strong> enzime digestive</div>
+      <div class="hero-chip"><strong>2</strong> funcții esențiale</div>
+    </div>
+  </header>
+
+  <!-- TAB BAR -->
+  <div class="tab-bar">
+    <button class="tab-btn active" onclick="showTab('infografic',this)">🗺️ Infografic SVG</button>
+    <button class="tab-btn" onclick="showTab('anatomie',this)">🦷 Anatomie</button>
+    <button class="tab-btn" onclick="showTab('fiziologie',this)">⚗️ Fiziologie & Enzime</button>
+    <button class="tab-btn" onclick="showTab('organe-anexe',this)">🫀 Organe Anexe</button>
+    <button class="tab-btn" onclick="showTab('scheme',this)">🔀 Scheme Logice</button>
+    <button class="tab-btn" onclick="showTab('quiz',this)">✏️ Quiz Admitere</button>
+  </div>
+
+  <div class="content">
+
+    <!-- ════════ TAB 1: INFOGRAFIC SVG ════════ -->
+    <div class="panel active" id="tab-infografic">
+      <div class="section-header">
+        <div class="section-title">Infografic Interactiv — Tractul Gastrointestinal</div>
+        <div class="section-desc">Apasă pe oricare organ pentru a vedea detalii. Vizualizare completă a sistemului digestiv uman.</div>
+      </div>
+
+      <div class="gcard">
+        <div class="gcard-title">
+          <div class="ct-icon" style="background:#d1fae5">🫁</div>
+          Harta Sistemului Digestiv — Click pe organe pentru detalii
+        </div>
+        <div style="position:relative; width:100%; display:flex; justify-content:center;">
+          <svg viewBox="0 0 520 820" width="100%" style="max-width:500px; font-family:'Outfit',sans-serif;" id="digestivSVG">
+            <!-- Background gradient -->
+            <defs>
+              <linearGradient id="bodyGrad" x1="0%" y1="0%" x2="100%" y2="100%">
+                <stop offset="0%" style="stop-color:#f0fff4;stop-opacity:1" />
+                <stop offset="100%" style="stop-color:#e0f2fe;stop-opacity:1" />
+              </linearGradient>
+              <linearGradient id="greenGrad" x1="0%" y1="0%" x2="100%" y2="100%">
+                <stop offset="0%" style="stop-color:#16a34a;stop-opacity:1" />
+                <stop offset="100%" style="stop-color:#0d9488;stop-opacity:1" />
+              </linearGradient>
+              <filter id="glow">
+                <feGaussianBlur stdDeviation="3" result="coloredBlur"/>
+                <feMerge><feMergeNode in="coloredBlur"/><feMergeNode in="SourceGraphic"/></feMerge>
+              </filter>
+            </defs>
+
+            <!-- Body outline -->
+            <ellipse cx="260" cy="100" rx="90" ry="95" fill="#fef9f0" stroke="#e5e7eb" stroke-width="1.5"/>
+            <rect x="175" y="190" width="170" height="420" rx="30" fill="url(#bodyGrad)" stroke="#d1fae5" stroke-width="1.5"/>
+
+            <!-- ESOFAG (tube) -->
+            <line x1="260" y1="185" x2="260" y2="255" stroke="#16a34a" stroke-width="8" stroke-linecap="round" opacity="0.7"/>
+
+            <!-- STOMAC -->
+            <ellipse cx="245" cy="290" rx="48" ry="38" fill="#bbf7d0" stroke="#16a34a" stroke-width="2" opacity="0.9"
+              class="svg-label" onclick="showOrganInfo('stomac')" style="cursor:pointer;transition:all .2s"/>
+
+            <!-- FICAT -->
+            <ellipse cx="310" cy="268" rx="38" ry="26" fill="#fde68a" stroke="#f59e0b" stroke-width="2" opacity="0.9"
+              class="svg-label" onclick="showOrganInfo('ficat')" style="cursor:pointer;transition:all .2s"/>
+
+            <!-- VEZICA BILIARA -->
+            <ellipse cx="302" cy="298" rx="15" ry="10" fill="#fbbf24" stroke="#f59e0b" stroke-width="1.5" opacity="0.9"
+              class="svg-label" onclick="showOrganInfo('vezica')" style="cursor:pointer;transition:all .2s"/>
+
+            <!-- PANCREAS -->
+            <ellipse cx="255" cy="330" rx="50" ry="14" fill="#c7d2fe" stroke="#6366f1" stroke-width="1.5" opacity="0.85"
+              class="svg-label" onclick="showOrganInfo('pancreas')" style="cursor:pointer;transition:all .2s"/>
+
+            <!-- INTESTIN SUBTIRE (coiled) -->
+            <path d="M230,355 Q190,360 185,385 Q180,410 210,415 Q240,420 245,445 Q250,465 225,470 Q195,475 192,500 Q190,520 215,522 Q245,524 248,545 Q250,560 240,565" 
+              stroke="#10b981" stroke-width="8" fill="none" stroke-linecap="round" opacity="0.75"
+              class="svg-label" onclick="showOrganInfo('intestin-subtire')" style="cursor:pointer"/>
+            <path d="M280,355 Q310,362 318,385 Q325,410 300,418 Q270,425 267,445 Q265,465 285,472 Q312,478 315,500 Q316,520 295,524 Q268,526 265,545 Q263,560 270,565"
+              stroke="#10b981" stroke-width="8" fill="none" stroke-linecap="round" opacity="0.75"
+              onclick="showOrganInfo('intestin-subtire')" style="cursor:pointer"/>
+            <path d="M240,565 Q255,575 270,565" stroke="#10b981" stroke-width="8" fill="none" stroke-linecap="round" opacity="0.75"/>
+
+            <!-- COLON ASCENDENT -->
+            <path d="M335,570 Q345,540 342,510 Q340,480 335,450 Q330,420 333,390 Q336,365 330,355"
+              stroke="#3b82f6" stroke-width="9" fill="none" stroke-linecap="round" opacity="0.75"
+              class="svg-label" onclick="showOrganInfo('colon')" style="cursor:pointer"/>
+
+            <!-- COLON TRANSVERS -->
+            <path d="M185,355 Q210,348 260,350 Q300,352 330,355"
+              stroke="#3b82f6" stroke-width="9" fill="none" stroke-linecap="round" opacity="0.75"
+              onclick="showOrganInfo('colon')"/>
+
+            <!-- COLON DESCENDENT -->
+            <path d="M185,355 Q178,380 178,410 Q178,445 180,475 Q182,510 185,540 Q187,560 185,575"
+              stroke="#3b82f6" stroke-width="9" fill="none" stroke-linecap="round" opacity="0.75"
+              onclick="showOrganInfo('colon')"/>
+
+            <!-- COLON SIGMOID & RECT -->
+            <path d="M185,575 Q210,590 235,580 Q265,570 285,580 Q310,592 335,570"
+              stroke="#6366f1" stroke-width="9" fill="none" stroke-linecap="round" opacity="0.75"
+              class="svg-label" onclick="showOrganInfo('rect')" style="cursor:pointer"/>
+            <line x1="260" y1="588" x2="260" y2="615" stroke="#6366f1" stroke-width="8" stroke-linecap="round" opacity="0.8"
+              onclick="showOrganInfo('rect')"/>
+
+            <!-- CEL / APENDICE -->
+            <ellipse cx="335" cy="573" rx="10" ry="8" fill="#f87171" stroke="#ef4444" stroke-width="1.5"
+              class="svg-label" onclick="showOrganInfo('cec')" style="cursor:pointer"/>
+
+            <!-- LABELS -->
+            <!-- Cavitate Orala label -->
+            <g class="svg-label" onclick="showOrganInfo('cavitate-orala')" style="cursor:pointer">
+              <rect x="55" y="80" width="115" height="28" rx="8" fill="white" stroke="#16a34a" stroke-width="1.5" opacity="0.95"/>
+              <text x="112" y="99" text-anchor="middle" font-size="12" font-weight="700" fill="#166534">Cavitatea Orală</text>
+              <line x1="170" y1="94" x2="200" y2="110" stroke="#16a34a" stroke-width="1.2" stroke-dasharray="3,2"/>
+            </g>
+
+            <!-- Esofag label -->
+            <g class="svg-label" onclick="showOrganInfo('esofag')" style="cursor:pointer">
+              <rect x="300" y="208" width="85" height="26" rx="7" fill="white" stroke="#16a34a" stroke-width="1.5" opacity="0.95"/>
+              <text x="342" y="226" text-anchor="middle" font-size="12" font-weight="700" fill="#166534">Esofag</text>
+              <line x1="300" y1="221" x2="265" y2="225" stroke="#16a34a" stroke-width="1.2" stroke-dasharray="3,2"/>
+            </g>
+
+            <!-- Stomac label -->
+            <g class="svg-label" onclick="showOrganInfo('stomac')" style="cursor:pointer">
+              <rect x="60" y="275" width="80" height="26" rx="7" fill="white" stroke="#16a34a" stroke-width="1.5" opacity="0.95"/>
+              <text x="100" y="293" text-anchor="middle" font-size="12" font-weight="700" fill="#166534">Stomac</text>
+              <line x1="140" y1="288" x2="195" y2="288" stroke="#16a34a" stroke-width="1.2" stroke-dasharray="3,2"/>
+            </g>
+
+            <!-- Ficat label -->
+            <g class="svg-label" onclick="showOrganInfo('ficat')" style="cursor:pointer">
+              <rect x="345" y="255" width="65" height="26" rx="7" fill="white" stroke="#f59e0b" stroke-width="1.5" opacity="0.95"/>
+              <text x="377" y="273" text-anchor="middle" font-size="12" font-weight="700" fill="#92400e">Ficat</text>
+              <line x1="345" y1="268" x2="345" y2="268" stroke="#f59e0b" stroke-width="1.2" stroke-dasharray="3,2"/>
+            </g>
+
+            <!-- Pancreas label -->
+            <g class="svg-label" onclick="showOrganInfo('pancreas')" style="cursor:pointer">
+              <rect x="50" y="325" width="90" height="26" rx="7" fill="white" stroke="#6366f1" stroke-width="1.5" opacity="0.95"/>
+              <text x="95" y="343" text-anchor="middle" font-size="12" font-weight="700" fill="#4338ca">Pancreas</text>
+              <line x1="140" y1="338" x2="200" y2="330" stroke="#6366f1" stroke-width="1.2" stroke-dasharray="3,2"/>
+            </g>
+
+            <!-- Intestin subtire label -->
+            <g class="svg-label" onclick="showOrganInfo('intestin-subtire')" style="cursor:pointer">
+              <rect x="345" y="430" width="115" height="26" rx="7" fill="white" stroke="#10b981" stroke-width="1.5" opacity="0.95"/>
+              <text x="402" y="448" text-anchor="middle" font-size="12" font-weight="700" fill="#065f46">Intestin Subțire</text>
+              <line x1="345" y1="443" x2="315" y2="455" stroke="#10b981" stroke-width="1.2" stroke-dasharray="3,2"/>
+            </g>
+
+            <!-- Colon label -->
+            <g class="svg-label" onclick="showOrganInfo('colon')" style="cursor:pointer">
+              <rect x="345" y="360" width="110" height="26" rx="7" fill="white" stroke="#3b82f6" stroke-width="1.5" opacity="0.95"/>
+              <text x="400" y="378" text-anchor="middle" font-size="12" font-weight="700" fill="#1d4ed8">Intestin Gros</text>
+              <line x1="345" y1="373" x2="334" y2="373" stroke="#3b82f6" stroke-width="1.2" stroke-dasharray="3,2"/>
+            </g>
+
+            <!-- Rect label -->
+            <g class="svg-label" onclick="showOrganInfo('rect')" style="cursor:pointer">
+              <rect x="50" y="575" width="115" height="26" rx="7" fill="white" stroke="#6366f1" stroke-width="1.5" opacity="0.95"/>
+              <text x="107" y="593" text-anchor="middle" font-size="12" font-weight="700" fill="#4338ca">Rect & Anus</text>
+              <line x1="165" y1="588" x2="190" y2="595" stroke="#6366f1" stroke-width="1.2" stroke-dasharray="3,2"/>
+            </g>
+
+            <!-- Cec label -->
+            <g class="svg-label" onclick="showOrganInfo('cec')" style="cursor:pointer">
+              <rect x="340" y="568" width="85" height="26" rx="7" fill="white" stroke="#ef4444" stroke-width="1.5" opacity="0.95"/>
+              <text x="382" y="586" text-anchor="middle" font-size="12" font-weight="700" fill="#b91c1c">Cec/Apendice</text>
+              <line x1="340" y1="581" x2="345" y2="575" stroke="#ef4444" stroke-width="1.2" stroke-dasharray="3,2"/>
+            </g>
+
+            <!-- Title -->
+            <text x="260" y="660" text-anchor="middle" font-size="13" font-weight="600" fill="#6b7280">← Click pe orice organ pentru detalii</text>
+          </svg>
+        </div>
+      </div>
+
+      <!-- Info panel for clicked organ -->
+      <div class="gcard" id="organInfoPanel" style="display:none;">
+        <div class="gcard-title">
+          <div class="ct-icon" style="background:#d1fae5" id="organInfoIcon">🫁</div>
+          <span id="organInfoTitle">Organ</span>
+        </div>
+        <div id="organInfoContent"></div>
+      </div>
+
+      <!-- Overview cards -->
+      <div class="section-header" style="margin-top:16px;">
+        <div class="section-title">Organele Digestive — Funcții Principale</div>
+      </div>
+      <div class="g4">
+        <div class="organ-card" onclick="showOrganInfo('cavitate-orala')">
+          <span class="organ-icon">👄</span>
+          <div class="organ-name">Cavitatea Orală</div>
+          <div class="organ-desc">Ingestie, masticație, digestie mecanică, amilaza salivară</div>
+          <div class="organ-tag"><span class="tag t-green">Mecanică + Chimică</span></div>
+        </div>
+        <div class="organ-card" onclick="showOrganInfo('stomac')">
+          <span class="organ-icon">🫙</span>
+          <div class="organ-name">Stomacul</div>
+          <div class="organ-desc">HCl, pepsină, chim gastric, factor intrinsec</div>
+          <div class="organ-tag"><span class="tag t-red">pH acid</span></div>
+        </div>
+        <div class="organ-card" onclick="showOrganInfo('intestin-subtire')">
+          <span class="organ-icon">🌀</span>
+          <div class="organ-name">Intestinul Subțire</div>
+          <div class="organ-desc">Digestie completă + absorbție nutrienți. Duoden, jejun, ileon</div>
+          <div class="organ-tag"><span class="tag t-teal">Absorbție majoră</span></div>
+        </div>
+        <div class="organ-card" onclick="showOrganInfo('colon')">
+          <span class="organ-icon">🔄</span>
+          <div class="organ-name">Intestinul Gros</div>
+          <div class="organ-desc">Absorbție apă & ioni, formare fecale, vitamine bacteriene</div>
+          <div class="organ-tag"><span class="tag t-blue">Hidric</span></div>
+        </div>
+        <div class="organ-card" onclick="showOrganInfo('ficat')">
+          <span class="organ-icon">🟡</span>
+          <div class="organ-name">Ficatul</div>
+          <div class="organ-desc">Bilă, metabolism glucide/lipide/proteine, depozitare vitamine</div>
+          <div class="organ-tag"><span class="tag t-orange">Organ anexă</span></div>
+        </div>
+        <div class="organ-card" onclick="showOrganInfo('vezica')">
+          <span class="organ-icon">🫐</span>
+          <div class="organ-name">Vezica Biliară</div>
+          <div class="organ-desc">Depozitare și concentrare bilă. Eliberare controlată de CCK</div>
+          <div class="organ-tag"><span class="tag t-orange">Organ anexă</span></div>
+        </div>
+        <div class="organ-card" onclick="showOrganInfo('pancreas')">
+          <span class="organ-icon">🟣</span>
+          <div class="organ-name">Pancreasul</div>
+          <div class="organ-desc">Suc pancreatic (amilaza, lipaza, tripsina), bicarbonat, insulina</div>
+          <div class="organ-tag"><span class="tag t-violet">Exocrin + Endocrin</span></div>
+        </div>
+        <div class="organ-card" onclick="showOrganInfo('rect')">
+          <span class="organ-icon">⬇️</span>
+          <div class="organ-name">Rect & Anus</div>
+          <div class="organ-desc">Depozitare temporară fecale, defecație</div>
+          <div class="organ-tag"><span class="tag t-violet">Eliminare</span></div>
+        </div>
+      </div>
+    </div>
+
+    <!-- ════════ TAB 2: ANATOMIE ════════ -->
+    <div class="panel" id="tab-anatomie">
+      <div class="section-header">
+        <div class="section-title">Anatomia Sistemului Digestiv</div>
+        <div class="section-desc">Structura peretelui GI, organele tractului și detalii morfologice esențiale.</div>
+      </div>
+
+      <!-- Tunicile peretelui GI -->
+      <div class="gcard fu fu-1">
+        <div class="gcard-title"><div class="ct-icon" style="background:#d1fae5">🧱</div>Tunicile Peretelui Tractului GI — de la interior la exterior</div>
+        <div style="display:flex; gap:12px; align-items:stretch; flex-wrap:wrap;">
+          <div style="flex:1;min-width:200px;" class="peri-step">
+            <div class="peri-num" style="background:#fee2e2;color:#ef4444;">1</div>
+            <div class="peri-info">
+              <div class="peri-name">Mucoasa (internă)</div>
+              <div class="peri-desc">Epiteliu + țesut conjunctiv + mușchi neted. Conține glande care secretă enzime și mucus.</div>
+            </div>
+          </div>
+        </div>
+        <div style="text-align:center;color:#9ca3af;margin:4px 0;">↓</div>
+        <div class="peri-step">
+          <div class="peri-num" style="background:#e0f2fe;color:#0284c7;">2</div>
+          <div class="peri-info">
+            <div class="peri-name">Submucoasa</div>
+            <div class="peri-desc">Vase de sânge, vase limfatice și nervi. Controlul local al motilității.</div>
+          </div>
+        </div>
+        <div style="text-align:center;color:#9ca3af;margin:4px 0;">↓</div>
+        <div class="peri-step">
+          <div class="peri-num" style="background:#d1fae5;color:#059669;">3</div>
+          <div class="peri-info">
+            <div class="peri-name">Tunica Musculară (2 straturi)</div>
+            <div class="peri-desc"><b>Strat circular intern</b> — micșorează diametrul. <b>Strat longitudinal extern</b> — scurtează lungimea. <i>Stomacul are și strat oblic (al 3-lea)</i>.</div>
+          </div>
+        </div>
+        <div style="text-align:center;color:#9ca3af;margin:4px 0;">↓</div>
+        <div class="peri-step">
+          <div class="peri-num" style="background:#ede9fe;color:#7c3aed;">4</div>
+          <div class="peri-info">
+            <div class="peri-name">Seroasa (externă) = Peritoneul visceral</div>
+            <div class="peri-desc">Secretă lichid lubrifiant pentru alunecarea liberă a organelor.</div>
+          </div>
+        </div>
+        <div class="mnemonic">
+          <div class="mnemonic-title">🧠 Mnemonic — Tunicile GI</div>
+          <div class="mnemonic-text"><span class="em">M</span>ama <span class="em">S</span>crie <span class="em">M</span>ult <span class="em">S</span>erios → <span class="em">M</span>ucoasă, <span class="em">S</span>ubmucoasă, <span class="em">M</span>usculară, <span class="em">S</span>eroasă</div>
+        </div>
+      </div>
+
+      <div class="g2">
+        <!-- Cavitatea orala -->
+        <div class="gcard fu fu-2">
+          <div class="gcard-title"><div class="ct-icon" style="background:#fce7f3">👄</div>Cavitatea Orală & Glandele Salivare</div>
+          <div class="hbox hbox-green">
+            <strong>Funcții: </strong>Ingestie, masticație mecanică, lubrifiere cu salivă, gustație.
+          </div>
+          <p style="font-size:13px;color:var(--text2);line-height:1.65;margin-bottom:12px;">
+            <b>Limba</b> — mușchi striat, transformă alimentele în bol alimentar. Legată de planșeul oral prin <i>frâul limbii</i>.<br>
+            <b>Palatul</b> = palat dur (anterior) + palat moale (posterior) + uvulă.
+          </p>
+          <table class="mtable">
+            <thead><tr><th>Glandă</th><th>Localizare</th><th>Duct</th></tr></thead>
+            <tbody>
+              <tr><td class="hl">Parotidă</td><td>Sub ureche</td><td>Ductul parotidian (față internă obraz)</td></tr>
+              <tr><td class="hl">Submandibulară</td><td>Planșeu oral, lângă mandibulă</td><td>Ductul submandibular</td></tr>
+              <tr><td class="hl">Sublinguală</td><td>Sub limbă</td><td>Multiple ducte sublinguale</td></tr>
+            </tbody>
+          </table>
+          <div class="hbox hbox-orange" style="margin-top:12px;">
+            <strong>Amilaza salivară</strong> — digeră amidonul → maltoză (dizaharid). Celulele <i>seroase</i> secretă amilaza; celulele <i>mucoase</i> secretă mucus.
+          </div>
+        </div>
+
+        <!-- Dintii -->
+        <div class="gcard fu fu-2">
+          <div class="gcard-title"><div class="ct-icon" style="background:#fef3c7">🦷</div>Dentiția Umană</div>
+          <table class="mtable">
+            <thead><tr><th>Tip</th><th>Nr.</th><th>Funcție</th></tr></thead>
+            <tbody>
+              <tr><td class="hl">Incisivi</td><td>8</td><td>Tăierea alimentelor</td></tr>
+              <tr><td class="hl">Canini</td><td>4</td><td>Apucare & sfâșiere</td></tr>
+              <tr><td class="hl">Premolari</td><td>8</td><td>Mărunțire / măcinare</td></tr>
+              <tr><td class="hl">Molari</td><td>12</td><td>Măcinare (incl. molarii de minte)</td></tr>
+            </tbody>
+          </table>
+          <div class="hbox hbox-blue" style="margin-top:12px;">
+            <strong>Structura dintelui:</strong>
+            <b>Coroana</b> (smalț — cea mai dură substanță), <b>Gâtul (colet)</b>, <b>Rădăcina</b> (cement).<br>
+            Componentele: <i>Smalț > Dentină > Pulpă</i> (vase + nervi).
+          </div>
+          <div class="mnemonic">
+            <div class="mnemonic-title">🧠 De reținut</div>
+            <div class="mnemonic-text">Dinți temporari = <span class="em">20</span> | Dinți permanenți = <span class="em">32</span></div>
+          </div>
+        </div>
+      </div>
+
+      <!-- Stomacul -->
+      <div class="gcard fu">
+        <div class="gcard-title"><div class="ct-icon" style="background:#d1fae5">🫙</div>Stomacul — Anatomie Detaliată</div>
+        <div class="g2">
+          <div>
+            <div class="hbox hbox-green">
+              <strong>Regiunile stomacului:</strong>
+              <b>Cardia</b> (lângă cord) → <b>Fornix/Fundul</b> → <b>Corpul</b> → <b>Antrul piloric</b>
+            </div>
+            <div class="hbox hbox-blue">
+              <strong>Suprafețe:</strong>
+              <b>Marea curbură</b> (convexă, laterală) & <b>Mica curbură</b> (concavă, medială)
+            </div>
+            <div class="hbox hbox-orange">
+              <strong>Sfinctere:</strong>
+              <b>Sfincterul esofagian inferior</b> (cardial) — intrare în stomac<br>
+              <b>Sfincterul piloric</b> — ieșire spre duoden
+            </div>
+            <div class="hbox hbox-violet">
+              <strong>Rugae</strong> — pliuri ale mucoasei stomacale vizibile când stomacul este gol; dispar la umplere.
+            </div>
+          </div>
+          <div>
+            <div class="hbox hbox-cyan">
+              <strong>3 Straturi musculare (unic!):</strong>
+              Circular + Longitudinal + <b>Oblic</b> (intern, unic la stomac)
+            </div>
+            <p style="font-size:13px;color:var(--text2);line-height:1.7;margin-bottom:12px;">
+              Stomacul transformă bolul alimentar în <b>chim</b> (consistență de supă), prin contracțiile straturilor musculare.
+            </p>
+            <div class="hbox hbox-pink">
+              <strong>Epiploane:</strong>
+              <b>Micul epiplon</b> — ficat → mica curbură<br>
+              <b>Marele epiplon</b> — stomac → organe abdominale (șorț de grăsime)
+            </div>
+          </div>
+        </div>
+        <div class="gcard-title" style="margin-top:8px;font-size:14px;">Celulele stomacului și secreția lor</div>
+        <table class="mtable">
+          <thead><tr><th>Celulă</th><th>Secretă</th><th>Funcție</th></tr></thead>
+          <tbody>
+            <tr class="cell-row" onclick="toggleRow(this)">
+              <td class="hl">Celule parietale</td>
+              <td><span class="tag t-red">HCl</span> + <span class="tag t-blue">Factor intrinsec</span></td>
+              <td>HCl → activează pepsinogenul; Factor intrinsec → absorbție vit. B₁₂</td>
+            </tr>
+            <tr class="cell-row" onclick="toggleRow(this)">
+              <td class="hl">Celule principale</td>
+              <td><span class="tag t-orange">Pepsinogen</span></td>
+              <td>Precursor inactiv al pepsinei; activat de HCl → pepsină</td>
+            </tr>
+            <tr class="cell-row" onclick="toggleRow(this)">
+              <td class="hl">Celule mucoase</td>
+              <td><span class="tag t-green">Mucus</span></td>
+              <td>Strat alcalin protector al peretelui gastric (prevenție autodigestie)</td>
+            </tr>
+            <tr class="cell-row" onclick="toggleRow(this)">
+              <td class="hl">Celule enteroendocrine</td>
+              <td><span class="tag t-violet">Gastrină</span></td>
+              <td>Hormon → controlează secreția de HCl, pepsinogen și mucus</td>
+            </tr>
+          </tbody>
+        </table>
+        <div class="mnemonic">
+          <div class="mnemonic-title">🧠 Mnemonic celule gastrice</div>
+          <div class="mnemonic-text"><span class="em">P</span>arietale = <span class="em">H</span>Cl + <span class="em">F</span>actor | <span class="em">P</span>rincipale = <span class="em">P</span>epsinogen | <span class="em">M</span>ucoase = <span class="em">M</span>ucus | <span class="em">E</span>nteroendocrine = <span class="em">G</span>astrină</div>
+        </div>
+      </div>
+
+      <!-- Intestinul subtire -->
+      <div class="gcard fu">
+        <div class="gcard-title"><div class="ct-icon" style="background:#ccfbf1">🌀</div>Intestinul Subțire — Structură & Porțiuni</div>
+        <div class="g3">
+          <div style="background:linear-gradient(135deg,#d1fae5,#a7f3d0);border-radius:12px;padding:16px;text-align:center;">
+            <div style="font-size:22px;margin-bottom:8px;">1️⃣</div>
+            <div style="font-weight:800;font-size:14px;color:#065f46;">Duoden</div>
+            <div style="font-size:12px;color:#047857;margin-top:6px;">~25 cm<br>Primește chimul gastric, bila și sucul pancreatic. Neutralizare acid.</div>
+          </div>
+          <div style="background:linear-gradient(135deg,#a7f3d0,#6ee7b7);border-radius:12px;padding:16px;text-align:center;">
+            <div style="font-size:22px;margin-bottom:8px;">2️⃣</div>
+            <div style="font-weight:800;font-size:14px;color:#065f46;">Jejun</div>
+            <div style="font-size:12px;color:#047857;margin-top:6px;">~2,5 m<br>Digestie continuă + absorbție majoră a nutrienților</div>
+          </div>
+          <div style="background:linear-gradient(135deg,#6ee7b7,#34d399);border-radius:12px;padding:16px;text-align:center;">
+            <div style="font-size:22px;margin-bottom:8px;">3️⃣</div>
+            <div style="font-weight:800;font-size:14px;color:#065f46;">Ileon</div>
+            <div style="font-size:12px;color:#047857;margin-top:6px;">~3,5–4 m<br>Absorbție vit. B₁₂, săruri biliare. Plăci Peyer (imunitate).</div>
+          </div>
+        </div>
+        <div class="hbox hbox-cyan" style="margin-top:16px;">
+          <strong>Suprafața de absorbție (mărire ×600!):</strong>
+          Pliuri circulare → Vilozități (proiecții în formă de deget, conțin capilar + chilifere) → Microvilozități (marginea în perie). Total suprafață ≈ 200 m²!
+        </div>
+        <div class="hbox hbox-violet">
+          <strong>Absorbție diferențiată:</strong>
+          Capilare sanguine primesc: glucide, aminoacizi, acizi grași cu lanț scurt, apă, electroliți, vitamine.<br>
+          Chiliferul central (limfatic) primește: acizii grași cu lanț lung sub formă de <b>chilomicroni</b>.
+        </div>
+      </div>
+
+      <!-- Intestinul gros -->
+      <div class="gcard fu">
+        <div class="gcard-title"><div class="ct-icon" style="background:#dbeafe">🔄</div>Intestinul Gros — Structură & Funcții</div>
+        <p style="font-size:13px;color:var(--text2);line-height:1.7;margin-bottom:14px;">
+          Lungime ~1,5 m, diametru ~6 cm. Prezintă haustrații (dilataţii ca niște buzunare). <b>Nu are digestie chimică!</b>
+        </p>
+        <div class="g2">
+          <div>
+            <div class="hbox hbox-blue">
+              <strong>Segmentele (în ordine):</strong>
+              Cec (+ apendice vermiform) → Colon ascendent → Colon transvers → Colon descendent → Colon sigmoid → Rect → Canal anal → Anus
+            </div>
+            <div class="hbox hbox-orange">
+              <strong>Valva ileocecală</strong> — separă intestinul subțire de cel gros (sfincterul ileocecal).
+            </div>
+          </div>
+          <div>
+            <div class="hbox hbox-green">
+              <strong>Funcțiile principale:</strong>
+              ✓ Absorbție apă (300–400 ml/zi) și ioni Na⁺<br>
+              ✓ Absorbție vitamine produse de bacterii (K, B₁₂)<br>
+              ✓ Formare materii fecale (apă + săruri + bacterii + celule descuamate + alimente nedigerate)<br>
+              ✓ Defecație (act reflex)
+            </div>
+          </div>
+        </div>
+        <div class="mnemonic">
+          <div class="mnemonic-title">⚠️ De reținut pentru examen</div>
+          <div class="mnemonic-text">La nivelul intestinului gros <span class="em">NU</span> au loc procese de digestie chimică! Când absorbția apei este deficitară → <span class="em">diaree</span>.</div>
+        </div>
+      </div>
+    </div>
+
+    <!-- ════════ TAB 3: FIZIOLOGIE & ENZIME ════════ -->
+    <div class="panel" id="tab-fiziologie">
+      <div class="section-header">
+        <div class="section-title">Fiziologia Digestiei & Enzimele Digestive</div>
+        <div class="section-desc">Mecanismele chimice, hormonii și enzimele — esențial pentru admitere.</div>
+      </div>
+
+      <!-- Deglutiția și peristaltismul -->
+      <div class="gcard fu fu-1">
+        <div class="gcard-title"><div class="ct-icon" style="background:#d1fae5">⬇️</div>Deglutiția & Peristaltismul</div>
+        <div class="g2">
+          <div>
+            <div style="font-weight:700;font-size:14px;color:var(--text);margin-bottom:10px;">Etapele deglutiției:</div>
+            <div class="peri-step">
+              <div class="peri-num" style="background:#d1fae5;color:#16a34a;">1</div>
+              <div class="peri-info">
+                <div class="peri-name">Etapa voluntară (cavitate orală)</div>
+                <div class="peri-desc">Mastecație + imbibire cu salivă → bol alimentar → împins spre faringe de limbă</div>
+              </div>
+            </div>
+            <div class="peri-step">
+              <div class="peri-num" style="background:#fde68a;color:#92400e;">2</div>
+              <div class="peri-info">
+                <div class="peri-name">Etapa involuntară (faringe)</div>
+                <div class="peri-desc">Mușchii faringieni se contractă; epiglota acoperă laringele → bol în esofag</div>
+              </div>
+            </div>
+            <div class="peri-step">
+              <div class="peri-num" style="background:#dbeafe;color:#1d4ed8;">3</div>
+              <div class="peri-info">
+                <div class="peri-name">Peristaltism esofagian</div>
+                <div class="peri-desc">Unde de contracție: mai întâi longitudinali, apoi circulari → bol ajunge la sfincterul cardial</div>
+              </div>
+            </div>
+          </div>
+          <div>
+            <div class="hbox hbox-green">
+              <strong>Peristaltismul — definiție esențială</strong>
+              Contracțiile undulatorii ale mușchilor netezi care propulsează alimentele de-a lungul tractului GI și le mixează cu sucurile digestive. Controlat de SNV (parasimpatic).
+            </div>
+            <div class="hbox hbox-cyan">
+              <strong>Esofagul:</strong>
+              ~25 cm lungime. Treimea superioară = mușchi striați; treimea inferioară = mușchi netezi. Traversează diafragma prin hiatusul esofagian.
+            </div>
+          </div>
+        </div>
+      </div>
+
+      <!-- Sucul gastric -->
+      <div class="gcard fu fu-2">
+        <div class="gcard-title"><div class="ct-icon" style="background:#fee2e2">🧪</div>Sucul Gastric — Compoziție completă</div>
+        <table class="mtable">
+          <thead><tr><th>Componentă</th><th>Sursă</th><th>Funcție cheie</th><th>Notă examen</th></tr></thead>
+          <tbody>
+            <tr><td class="hl">Pepsinogen → Pepsină</td><td>Celule principale</td><td>Descompune proteine → peptide</td><td><span class="tag t-orange">Precursor inactiv</span></td></tr>
+            <tr><td class="hl">HCl (acid clorhidric)</td><td>Celule parietale</td><td>Activează pepsinogenul; mediu acid</td><td><span class="tag t-red">pH 1-2</span></td></tr>
+            <tr><td class="hl">Mucus</td><td>Celule mucoase</td><td>Protejează mucoasa de autodigestie</td><td><span class="tag t-green">Alcalin</span></td></tr>
+            <tr><td class="hl">Factor intrinsec</td><td>Celule parietale</td><td>Necesar absorbției vitaminei B₁₂</td><td><span class="tag t-blue">Ileon</span></td></tr>
+            <tr><td class="hl">Gastrină</td><td>Celule enteroendocrine</td><td>Stimulează secreția HCl, pepsinogen</td><td><span class="tag t-violet">Hormon</span></td></tr>
+            <tr><td class="hl">Labferment</td><td>Celule principale</td><td>Coagulează laptele (sugari)</td><td><span class="tag t-pink">Numai sugari</span></td></tr>
+          </tbody>
+        </table>
+        <div class="hbox hbox-orange" style="margin-top:12px;">
+          <strong>Absorbția la nivelul stomacului (limitată):</strong>
+          Apă, glucoză, ioni, alcool. Restul → trimis ca <b>chim</b> în intestinul subțire.
+        </div>
+      </div>
+
+      <!-- Enzimele digestive complete - cu filtru -->
+      <div class="gcard fu">
+        <div class="gcard-title"><div class="ct-icon" style="background:#ede9fe">⚗️</div>Toate Enzimele Digestive — Tabel Comparativ Interactiv</div>
+        <div class="filter-bar">
+          <button class="filter-btn active" onclick="filterEnzyme('all', this)">Toate</button>
+          <button class="filter-btn" onclick="filterEnzyme('glande-salivare', this)">Glande salivare</button>
+          <button class="filter-btn" onclick="filterEnzyme('stomac', this)">Stomac</button>
+          <button class="filter-btn" onclick="filterEnzyme('pancreas', this)">Pancreas</button>
+          <button class="filter-btn" onclick="filterEnzyme('intestin', this)">Intestin subțire</button>
+          <button class="filter-btn" onclick="filterEnzyme('ficat', this)">Ficat (bilă)</button>
+        </div>
+        <table class="mtable" id="enzymeTable">
+          <thead><tr><th>Sursă</th><th>Enzimă / Component</th><th>Substrat</th><th>Produs</th><th>Loc acțiune</th></tr></thead>
+          <tbody>
+            <tr class="enzyme-row" data-src="glande-salivare"><td><span class="tag t-blue">Gl. Salivare</span></td><td class="hl">Amilaza salivară</td><td>Amidon, glicogen</td><td>Maltoză</td><td>Cavitatea orală</td></tr>
+            <tr class="enzyme-row" data-src="stomac"><td><span class="tag t-red">Stomac</span></td><td class="hl">Pepsina</td><td>Proteine</td><td>Peptide</td><td>Stomac</td></tr>
+            <tr class="enzyme-row" data-src="stomac"><td><span class="tag t-red">Stomac</span></td><td class="hl">Labfermentul</td><td>Proteine din lapte</td><td>Proteina coagulantă</td><td>Stomac (sugari)</td></tr>
+            <tr class="enzyme-row" data-src="stomac"><td><span class="tag t-red">Stomac</span></td><td class="hl">HCl (non-enzimă)</td><td>Multiple alimente</td><td>Unități mai mici</td><td>Stomac</td></tr>
+            <tr class="enzyme-row" data-src="pancreas"><td><span class="tag t-violet">Pancreas</span></td><td class="hl">Amilaza pancreatică</td><td>Amidon</td><td>Maltoză</td><td>Intestin subțire</td></tr>
+            <tr class="enzyme-row" data-src="pancreas"><td><span class="tag t-violet">Pancreas</span></td><td class="hl">Lipaza pancreatică</td><td>Lipide (emulsionate)</td><td>Acizi grași + glicerol</td><td>Intestin subțire</td></tr>
+            <tr class="enzyme-row" data-src="pancreas"><td><span class="tag t-violet">Pancreas</span></td><td class="hl">Tripsina</td><td>Proteine</td><td>Peptide</td><td>Intestin subțire</td></tr>
+            <tr class="enzyme-row" data-src="pancreas"><td><span class="tag t-violet">Pancreas</span></td><td class="hl">Chimotripsina</td><td>Proteine</td><td>Peptide</td><td>Intestin subțire</td></tr>
+            <tr class="enzyme-row" data-src="pancreas"><td><span class="tag t-violet">Pancreas</span></td><td class="hl">Carboxipeptidaza</td><td>Proteine</td><td>Peptide</td><td>Intestin subțire</td></tr>
+            <tr class="enzyme-row" data-src="intestin"><td><span class="tag t-green">Intestin S.</span></td><td class="hl">Maltaza</td><td>Maltoză</td><td>Glucoză + Glucoză</td><td>Intestin subțire</td></tr>
+            <tr class="enzyme-row" data-src="intestin"><td><span class="tag t-green">Intestin S.</span></td><td class="hl">Lactaza</td><td>Lactoză</td><td>Glucoză + Galactoză</td><td>Intestin subțire</td></tr>
+            <tr class="enzyme-row" data-src="intestin"><td><span class="tag t-green">Intestin S.</span></td><td class="hl">Zaharaza (sucraza)</td><td>Zaharoză (sucroza)</td><td>Glucoză + Fructoză</td><td>Intestin subțire</td></tr>
+            <tr class="enzyme-row" data-src="intestin"><td><span class="tag t-green">Intestin S.</span></td><td class="hl">Aminopeptidaza</td><td>Peptide</td><td>Aminoacizi</td><td>Intestin subțire</td></tr>
+            <tr class="enzyme-row" data-src="intestin"><td><span class="tag t-green">Intestin S.</span></td><td class="hl">Dipeptidaza</td><td>Dipeptide</td><td>Aminoacizi</td><td>Intestin subțire</td></tr>
+            <tr class="enzyme-row" data-src="intestin"><td><span class="tag t-green">Intestin S.</span></td><td class="hl">Nucleaza</td><td>ADN și ARN</td><td>Nucleotide</td><td>Intestin subțire</td></tr>
+            <tr class="enzyme-row" data-src="ficat"><td><span class="tag t-orange">Ficat (bilă)</span></td><td class="hl">Săruri biliare (non-enzime)</td><td>Picături mari lipide</td><td>Emulsie (micelii)</td><td>Intestin subțire</td></tr>
+          </tbody>
+        </table>
+        <div class="hbox hbox-cyan" style="margin-top:12px;">
+          <strong>Nota importantă despre bilă:</strong> Bila NU conține enzime. Acționează mecanic prin <b>emulsionare</b> — descompune globulele mari de grăsimi în picături mici (micelii) pentru a crește suprafața de acțiune a lipazei. Conține și bicarbonat pentru neutralizarea acidului gastric.
+        </div>
+      </div>
+
+      <!-- Hormonii digestivi -->
+      <div class="gcard fu">
+        <div class="gcard-title"><div class="ct-icon" style="background:#fce7f3">🔬</div>Hormonii Digestivi — Reglare Endocrină</div>
+        <div class="g3">
+          <div style="background:linear-gradient(135deg,#fce7f3,#fbcfe8);border-radius:12px;padding:18px;">
+            <div style="font-weight:800;font-size:15px;color:#9d174d;margin-bottom:10px;">Gastrina</div>
+            <div style="font-size:12px;color:var(--text2);line-height:1.6;">
+              <b>Produsă de:</b> celule enteroendocrine (stomac)<br>
+              <b>Stimulează:</b> secreția de HCl, pepsinogen și mucus<br>
+              <b>Declanșator:</b> prezența proteinelor în stomac
+            </div>
+          </div>
+          <div style="background:linear-gradient(135deg,#e0f2fe,#bae6fd);border-radius:12px;padding:18px;">
+            <div style="font-weight:800;font-size:15px;color:#075985;margin-bottom:10px;">Secretina</div>
+            <div style="font-size:12px;color:var(--text2);line-height:1.6;">
+              <b>Produsă de:</b> celule intestin subțire<br>
+              <b>Stimulează:</b> secreția de bicarbonat (pancreas + bilă)<br>
+              <b>Efect:</b> neutralizează acidul gastric în duoden
+            </div>
+          </div>
+          <div style="background:linear-gradient(135deg,#d1fae5,#a7f3d0);border-radius:12px;padding:18px;">
+            <div style="font-weight:800;font-size:15px;color:#065f46;margin-bottom:10px;">Colecistochinina (CCK)</div>
+            <div style="font-size:12px;color:var(--text2);line-height:1.6;">
+              <b>Produsă de:</b> celule intestin subțire<br>
+              <b>Stimulează:</b> eliberarea bilei (vezică biliară) + enzime pancreatice<br>
+              <b>Efect:</b> digestia lipidelor și proteinelor
+            </div>
+          </div>
+        </div>
+      </div>
+
+      <!-- Absorbția macronutrienților -->
+      <div class="gcard fu">
+        <div class="gcard-title"><div class="ct-icon" style="background:#d1fae5">📊</div>Absorbția Macronutrienților — Comparativ</div>
+        <div class="g3">
+          <div class="hbox hbox-orange" style="border-radius:12px;">
+            <strong>🍞 Glucide</strong>
+            Polizaharide → <b>amilaza</b> → maltoză → <b>maltaza</b> → glucoză.<br>
+            Lactoză → <b>lactaza</b> → glucoză + galactoză.<br>
+            Zaharoză → <b>zaharaza</b> → glucoză + fructoză.<br>
+            <i>Absorbite în capilare sanguine (transport activ + Na⁺)</i>
+          </div>
+          <div class="hbox hbox-blue" style="border-radius:12px;">
+            <strong>🥩 Proteine</strong>
+            Proteine → <b>pepsina</b> (stomac) → peptide → <b>tripsina/chimotripsina</b> (duoden) → dipeptide → <b>dipeptidaza/aminopeptidaza</b> → aminoacizi liberi.<br>
+            <i>Absorbite în capilare sanguine</i>
+          </div>
+          <div class="hbox hbox-green" style="border-radius:12px;">
+            <strong>🧈 Lipide</strong>
+            Lipide → <b>emulsionare</b> (săruri biliare) → picături mici → <b>lipaza pancreatică</b> → acizi grași + glicerol.<br>
+            Acizi grași cu lanț lung → trigliceride → <b>chilomicroni</b> → chiliferul central (limfatic).<br>
+            Acizi grași cu lanț scurt → capilare sanguine.
+          </div>
+        </div>
+        <div style="margin-top:16px;">
+          <div style="font-weight:700;margin-bottom:10px;font-size:13px;color:var(--text);">Lungimea tractului digestiv față de suprafața de absorbție:</div>
+          <div class="pbar-row">
+            <div class="pbar-label">Intestin subțire</div>
+            <div class="pbar-track"><div class="pbar-fill" style="width:95%;background:linear-gradient(90deg,#16a34a,#0d9488)"></div></div>
+            <div class="pbar-val" style="color:#16a34a;">~200 m²</div>
+          </div>
+          <div class="pbar-row">
+            <div class="pbar-label">Intestin gros</div>
+            <div class="pbar-track"><div class="pbar-fill" style="width:25%;background:linear-gradient(90deg,#3b82f6,#0284c7)"></div></div>
+            <div class="pbar-val" style="color:#3b82f6;">~1,5 m</div>
+          </div>
+          <div class="pbar-row">
+            <div class="pbar-label">Stomac</div>
+            <div class="pbar-track"><div class="pbar-fill" style="width:12%;background:linear-gradient(90deg,#f59e0b,#d97706)"></div></div>
+            <div class="pbar-val" style="color:#f59e0b;">~0,3 m</div>
+          </div>
+        </div>
+      </div>
+    </div>
+
+    <!-- ════════ TAB 4: ORGANE ANEXE ════════ -->
+    <div class="panel" id="tab-organe-anexe">
+      <div class="section-header">
+        <div class="section-title">Organe Anexe — Ficatul & Pancreasul</div>
+        <div class="section-desc">Detalii complete despre ficatul și pancreasul — esențiale la examen.</div>
+      </div>
+
+      <!-- Selector interactiv -->
+      <div class="gcard fu fu-1">
+        <div class="gcard-title"><div class="ct-icon" style="background:#fef3c7">🔍</div>Explorare Interactivă Organe Anexe</div>
+        <div class="organ-selector">
+          <button class="organ-btn active" onclick="showAnexa('ficat', this)">🟡 Ficatul</button>
+          <button class="organ-btn" onclick="showAnexa('bila', this)">💛 Bila</button>
+          <button class="organ-btn" onclick="showAnexa('vezica-bil', this)">🫐 Vezica Biliară</button>
+          <button class="organ-btn" onclick="showAnexa('pancreas-detaliu', this)">🟣 Pancreasul</button>
+          <button class="organ-btn" onclick="showAnexa('suc-pancreatic', this)">💧 Sucul Pancreatic</button>
+        </div>
+        <div class="organ-info-box" id="anexaInfoBox">
+          <div id="anexaContent">
+            <div style="font-weight:800;font-size:16px;color:var(--text);margin-bottom:10px;">🟡 Ficatul — cea mai mare glandă din organism</div>
+            <div class="g2">
+              <div>
+                <div class="hbox hbox-orange">
+                  <strong>Anatomie:</strong>
+                  Sub diafragmă. 4 lobi: <b>drept, stâng, caudat, pătrat</b>. Lobii → lobuli → hepatocite + celule Kupffer (macrofage).
+                </div>
+                <div class="hbox hbox-blue">
+                  <strong>Circulație:</strong>
+                  Vena portă (nutrienți din intestin) + Artera hepatică (oxigen) → ficat → Vena hepatică → Vena cavă inferioară
+                </div>
+              </div>
+              <div>
+                <div class="hbox hbox-green">
+                  <strong>Funcțiile ficatului (10+ funcții!):</strong>
+                  ✓ Producere bilă<br>✓ Glicogenogeneză/glicogenoliză/gluconeogeneză<br>✓ Metabolismul lipidelor (acetil-CoA)<br>✓ Dezaminare (uree)<br>✓ Sinteza proteinelor plasmatice (albumina, globulina, protrombina, fibrinogen)<br>✓ Detoxifiere<br>✓ Depozitare vitamine A,B₁₂,D,E,K + Fe, Cu<br>✓ Fagocitoză (celule Kupffer)<br>✓ Activarea vitaminei D
+                </div>
+              </div>
+            </div>
+          </div>
+        </div>
+      </div>
+
+      <!-- Functiile ficatului complete -->
+      <div class="gcard fu fu-2">
+        <div class="gcard-title"><div class="ct-icon" style="background:#fef3c7">📋</div>Metabolismul Hepatic — Tabel Complet</div>
+        <table class="mtable">
+          <thead><tr><th>Tip metabolism</th><th>Proces</th><th>Substrat → Produs</th><th>Condiție</th></tr></thead>
+          <tbody>
+            <tr><td><span class="tag t-orange">Glucide</span></td><td class="hl">Glicogenogeneză</td><td>Glucoză → Glicogen</td><td>Glicemie crescută</td></tr>
+            <tr><td><span class="tag t-orange">Glucide</span></td><td class="hl">Glicogenoliză</td><td>Glicogen → Glucoză</td><td>Glicemie scăzută</td></tr>
+            <tr><td><span class="tag t-orange">Glucide</span></td><td class="hl">Gluconeogeneză</td><td>Aminoacizi → Glucoză</td><td>Glicemie scăzută</td></tr>
+            <tr><td><span class="tag t-blue">Lipide</span></td><td class="hl">β-oxidare</td><td>Acizi grași → Acetil-CoA</td><td>Necesar energetic</td></tr>
+            <tr><td><span class="tag t-green">Proteine</span></td><td class="hl">Dezaminare</td><td>Aminoacizi → Uree + cetoacizi</td><td>Exces aminoacizi</td></tr>
+            <tr><td><span class="tag t-green">Proteine</span></td><td class="hl">Sinteză proteine plasmatice</td><td>Aminoacizi → Albumina, protrombina</td><td>Continuu</td></tr>
+            <tr><td><span class="tag t-violet">Detoxifiere</span></td><td class="hl">Biotransformare</td><td>Toxine/medicamente → bile</td><td>Continuu</td></tr>
+            <tr><td><span class="tag t-cyan">Bilirubina</span></td><td class="hl">Degradare Hb</td><td>Hem → Bilirubina (pigment biliar)</td><td>Degradare eritrocite</td></tr>
+          </tbody>
+        </table>
+        <div class="mnemonic">
+          <div class="mnemonic-title">🧠 Mnemonic — Funcțiile Ficatului</div>
+          <div class="mnemonic-text"><span class="em">B</span>ilă <span class="em">G</span>luco <span class="em">L</span>ipo <span class="em">P</span>roteic <span class="em">D</span>etoxi <span class="em">V</span>itamine <span class="em">F</span>agocitoză → <span class="em">B</span>ig <span class="em">G</span>reen <span class="em">L</span>iver <span class="em">P</span>erforms <span class="em">D</span>aily <span class="em">V</span>ital <span class="em">F</span>unctions</div>
+        </div>
+      </div>
+
+      <!-- Bila detaliata -->
+      <div class="gcard fu">
+        <div class="gcard-title"><div class="ct-icon" style="background:#fde68a">💛</div>Bila — Compoziție & Traseul Biliar</div>
+        <div class="g2">
+          <div>
+            <div class="hbox hbox-orange">
+              <strong>Compoziția bilei:</strong>
+              Apă + săruri biliare + colesterol + lecitina (fosfolipid) + pigmenți biliari (<b>bilirubina</b> — din degradarea Hb) + ioni bicarbonat
+            </div>
+            <div class="hbox hbox-green">
+              <strong>Funcțiile bilei:</strong>
+              ✓ Emulsionarea lipidelor (→ micelii) — mărire suprafață pentru lipaze<br>
+              ✓ Creșterea absorbției lipidelor și vitaminelor liposolubile (A, D, K)<br>
+              ✓ Neutralizarea acidului gastric (bicarbonat)<br>
+              ✓ Eliminarea unor toxine & hormoni
+            </div>
+            <div class="hbox hbox-violet">
+              <strong>Bilirubina → Urobilinogen:</strong>
+              Digerată de bacterii → urobilinogen → colorează fecalele (maro). Parte reabsorbită → eliminată prin urină.
+            </div>
+          </div>
+          <div>
+            <div style="font-weight:700;font-size:14px;color:var(--text);margin-bottom:12px;">Traseul biliar:</div>
+            <div class="peri-step">
+              <div class="peri-num" style="background:#fde68a;color:#92400e;">1</div>
+              <div class="peri-info"><div class="peri-name">Hepatocite → Bile canaliculi</div><div class="peri-desc">Bila este secretată de celulele ficatului</div></div>
+            </div>
+            <div class="peri-step">
+              <div class="peri-num" style="background:#fde68a;color:#92400e;">2</div>
+              <div class="peri-info"><div class="peri-name">Ductele hepatice → Ductul hepatic comun</div><div class="peri-desc">Convergență ducte din lobii ficatului</div></div>
+            </div>
+            <div class="peri-step">
+              <div class="peri-num" style="background:#fde68a;color:#92400e;">3</div>
+              <div class="peri-info"><div class="peri-name">Ductul cistic → Vezica biliară</div><div class="peri-desc">Stocare și concentrare bilă</div></div>
+            </div>
+            <div class="peri-step">
+              <div class="peri-num" style="background:#fde68a;color:#92400e;">4</div>
+              <div class="peri-info"><div class="peri-name">Ductul biliar (coledoc) → Ampula hepatopancreatică → Duoden</div><div class="peri-desc">Eliberare controlată de CCK</div></div>
+            </div>
+          </div>
+        </div>
+      </div>
+
+      <!-- Pancreasul -->
+      <div class="gcard fu">
+        <div class="gcard-title"><div class="ct-icon" style="background:#ede9fe">🟣</div>Pancreasul — Glandă Mixtă (Exocrină + Endocrină)</div>
+        <div class="g2">
+          <div>
+            <div class="hbox hbox-violet">
+              <strong>Anatomie:</strong>
+              ~13 cm lungime, 2,5 cm grosime. Posterior față de stomac.<br>
+              <b>Capul</b> (dreapta, în duoden) + <b>Corpul</b> + <b>Coada</b>
+            </div>
+            <div class="hbox hbox-blue">
+              <strong>Ductele:</strong>
+              <b>Ductul pancreatic (Wirsung)</b> — principal, se uneste cu coledocul → ampula hepatopancreatică → duoden<br>
+              <b>Ductul accesoriu (Santorini)</b> — intră în duoden cu ~2,5 cm deasupra
+            </div>
+          </div>
+          <div>
+            <div class="hbox hbox-green">
+              <strong>Porțiunea exocrină (~99%):</strong>
+              Celulele acinare secretă <b>suc pancreatic</b>:<br>
+              ✓ Apă + săruri + <b>bicarbonat</b> (pH alcalin → neutralizare acid)<br>
+              ✓ Amilaza pancreatică (glucide)<br>
+              ✓ Lipaza (lipide)<br>
+              ✓ Tripsina + Chimotripsina (proteine)<br>
+              ✓ Carboxipeptidaza (proteine)<br>
+              Controlat de <b>secretina + CCK</b>
+            </div>
+            <div class="hbox hbox-orange">
+              <strong>Porțiunea endocrină (Insulele Langerhans):</strong>
+              <b>Celule β</b>: Insulina (scade glicemia)<br>
+              <b>Celule α</b>: Glucagon (crește glicemia)
+            </div>
+          </div>
+        </div>
+      </div>
+    </div>
+
+    <!-- ════════ TAB 5: SCHEME LOGICE ════════ -->
+    <div class="panel" id="tab-scheme">
+      <div class="section-header">
+        <div class="section-title">Scheme Logice — Flowcharts Interactive</div>
+        <div class="section-desc">Vizualizarea proceselor digestive esențiale pentru memorare rapidă.</div>
+      </div>
+
+      <!-- Traseul alimentului -->
+      <div class="gcard fu fu-1">
+        <div class="gcard-title"><div class="ct-icon" style="background:#d1fae5">🗺️</div>Traseul Complet al Alimentului</div>
+        <div style="overflow-x:auto;">
+          <div style="min-width:600px;">
+            <div class="fc-row">
+              <div class="fc-box" style="background:#d1fae5;border-color:#16a34a;color:#065f46;">
+                <div style="font-weight:800;">👄 Cavitatea Orală</div>
+                <div style="font-size:11px;margin-top:4px;">Masticație + Salivă (amilaza)<br>Formare bol alimentar</div>
+              </div>
+            </div>
+            <div class="fc-row"><span class="fc-arrow">↓ Deglutiție</span></div>
+            <div class="fc-row">
+              <div class="fc-box" style="background:#e0f2fe;border-color:#0284c7;color:#075985;">
+                <div style="font-weight:800;">🌊 Esofag</div>
+                <div style="font-size:11px;margin-top:4px;">Transport prin peristaltism<br>~25 cm, 8-10 sec</div>
+              </div>
+            </div>
+            <div class="fc-row"><span class="fc-arrow">↓ Sfincterul cardial</span></div>
+            <div class="fc-row">
+              <div class="fc-box" style="background:#fef3c7;border-color:#f59e0b;color:#92400e;">
+                <div style="font-weight:800;">🫙 Stomac</div>
+                <div style="font-size:11px;margin-top:4px;">HCl + Pepsina + mixare<br>Bol → Chim gastric (2-4 h)</div>
+              </div>
+            </div>
+            <div class="fc-row"><span class="fc-arrow">↓ Sfincterul piloric</span></div>
+            <div class="fc-row" style="gap:20px;align-items:flex-start;">
+              <div style="flex:1">
+                <div class="fc-box" style="background:#d1fae5;border-color:#10b981;color:#065f46;margin-bottom:8px;">
+                  <div style="font-weight:800;">🔵 Duoden</div>
+                  <div style="font-size:11px;margin-top:4px;">Bila + Suc pancreatic<br>Neutralizare acid, digestie</div>
+                </div>
+                <div class="fc-arrow">↓</div>
+                <div class="fc-box" style="background:#a7f3d0;border-color:#059669;color:#065f46;margin-top:8px;">
+                  <div style="font-weight:800;">🟢 Jejun + Ileon</div>
+                  <div style="font-size:11px;margin-top:4px;">Absorbție majoră nutrienți<br>Vilozități + microvilozități</div>
+                </div>
+              </div>
+              <div style="display:flex;flex-direction:column;align-items:center;gap:6px;padding-top:16px;">
+                <div class="fc-box" style="min-width:100px;background:#fde68a;border-color:#f59e0b;color:#92400e;font-size:11px;">
+                  <div style="font-weight:700;">🟡 Ficat</div>
+                  <div>Bile → Duoden</div>
+                </div>
+                <div class="fc-arrow">↗️+↙️</div>
+                <div class="fc-box" style="min-width:100px;background:#ede9fe;border-color:#7c3aed;color:#5b21b6;font-size:11px;">
+                  <div style="font-weight:700;">🟣 Pancreas</div>
+                  <div>Suc panc. → Duoden</div>
+                </div>
+              </div>
+            </div>
+            <div class="fc-row"><span class="fc-arrow">↓ Valva ileocecală</span></div>
+            <div class="fc-row">
+              <div class="fc-box" style="background:#dbeafe;border-color:#3b82f6;color:#1e40af;">
+                <div style="font-weight:800;">🔄 Intestin Gros (Colon)</div>
+                <div style="font-size:11px;margin-top:4px;">Absorbție apă & ioni Na⁺<br>Formare fecale, ~24-72h</div>
+              </div>
+            </div>
+            <div class="fc-row"><span class="fc-arrow">↓</span></div>
+            <div class="fc-row">
+              <div class="fc-box" style="background:#f3f4f6;border-color:#6b7280;color:#374151;">
+                <div style="font-weight:800;">⬇️ Rect → Anus</div>
+                <div style="font-size:11px;margin-top:4px;">Depozitare temporară → Defecație</div>
+              </div>
+            </div>
+          </div>
+        </div>
+      </div>
+
+      <!-- Schema digestiei proteinelor -->
+      <div class="g2">
+        <div class="gcard fu fu-2">
+          <div class="gcard-title"><div class="ct-icon" style="background:#dbeafe">🥩</div>Schema Digestiei Proteinelor</div>
+          <div style="display:flex;flex-direction:column;gap:6px;">
+            <div class="flow-node start"><div class="flow-title">Proteine (mari)</div></div>
+            <div class="flow-arrow">↓ Pepsina (stomac, pH acid)</div>
+            <div class="flow-node"><div class="flow-title">Peptide mari</div></div>
+            <div class="flow-arrow">↓ Tripsina + Chimotripsina (duoden)</div>
+            <div class="flow-node"><div class="flow-title">Peptide mici + Dipeptide</div></div>
+            <div class="flow-arrow">↓ Dipeptidaza + Aminopeptidaza (intestin s.)</div>
+            <div class="flow-node end"><div class="flow-title">Aminoacizi liberi → Capilare sanguine</div></div>
+          </div>
+        </div>
+
+        <div class="gcard fu fu-2">
+          <div class="gcard-title"><div class="ct-icon" style="background:#d1fae5">🧈</div>Schema Digestiei Lipidelor</div>
+          <div style="display:flex;flex-direction:column;gap:6px;">
+            <div class="flow-node start"><div class="flow-title">Lipide (globule mari)</div></div>
+            <div class="flow-arrow">↓ Săruri biliare (bile, ficat) — emulsionare</div>
+            <div class="flow-node decision"><div class="flow-title">Micelii (picături mici)</div></div>
+            <div class="flow-arrow">↓ Lipaza pancreatică</div>
+            <div class="flow-node"><div class="flow-title">Acizi grași + Glicerol</div></div>
+            <div class="flow-arrow">↓ Difuziune prin membrana celulelor intestinale</div>
+            <div class="flow-node"><div class="flow-title">Resintetizare → Trigliceride → Chilomicroni</div></div>
+            <div class="flow-arrow">↓</div>
+            <div class="flow-node end"><div class="flow-title">Chiliferul central (limfatic)</div></div>
+          </div>
+        </div>
+      </div>
+
+      <!-- Schema digestiei glucidelor -->
+      <div class="gcard fu">
+        <div class="gcard-title"><div class="ct-icon" style="background:#fef3c7">🍞</div>Schema Digestiei Glucidelor</div>
+        <div style="overflow-x:auto;">
+          <div style="display:flex;align-items:center;gap:16px;min-width:700px;padding:10px 0;">
+            <div class="flow-node start" style="min-width:130px;"><div class="flow-title">Amidon / Glicogen</div></div>
+            <div class="fc-arrow">→</div>
+            <div style="text-align:center;font-size:11px;color:var(--text3);">Amilaza salivară<br>(cavitate orală)</div>
+            <div class="fc-arrow">→</div>
+            <div class="flow-node" style="min-width:100px;"><div class="flow-title">Maltoză</div></div>
+            <div class="fc-arrow">→</div>
+            <div style="text-align:center;font-size:11px;color:var(--text3);">Amilaza pancreatică<br>(duoden)</div>
+            <div class="fc-arrow">→</div>
+            <div class="flow-node" style="min-width:100px;"><div class="flow-title">Maltoză</div></div>
+            <div class="fc-arrow">→</div>
+            <div style="text-align:center;font-size:11px;color:var(--text3);">Maltaza<br>(intestin s.)</div>
+            <div class="fc-arrow">→</div>
+            <div class="flow-node end" style="min-width:120px;"><div class="flow-title">Glucoză + Glucoză</div></div>
+          </div>
+          <div style="display:flex;align-items:center;gap:16px;min-width:700px;padding:10px 0;">
+            <div class="flow-node" style="min-width:130px;background:#fef9c3;border-color:#eab308;"><div class="flow-title">Lactoză</div></div>
+            <div class="fc-arrow">→→→→→→→→→→→</div>
+            <div style="text-align:center;font-size:11px;color:var(--text3);">Lactaza<br>(intestin s.)</div>
+            <div class="fc-arrow">→</div>
+            <div class="flow-node end" style="min-width:180px;"><div class="flow-title">Glucoză + Galactoză</div></div>
+          </div>
+          <div style="display:flex;align-items:center;gap:16px;min-width:700px;padding:10px 0;">
+            <div class="flow-node" style="min-width:130px;background:#fff7ed;border-color:#fb923c;"><div class="flow-title">Zaharoză</div></div>
+            <div class="fc-arrow">→→→→→→→→→→→</div>
+            <div style="text-align:center;font-size:11px;color:var(--text3);">Zaharaza<br>(intestin s.)</div>
+            <div class="fc-arrow">→</div>
+            <div class="flow-node end" style="min-width:180px;"><div class="flow-title">Glucoză + Fructoză</div></div>
+          </div>
+        </div>
+      </div>
+
+      <!-- Reglarea hormonala schema -->
+      <div class="gcard fu">
+        <div class="gcard-title"><div class="ct-icon" style="background:#fce7f3">🔄</div>Schema Reglării Hormonale a Digestiei</div>
+        <div class="g3">
+          <div style="border:1.5px solid rgba(22,163,74,0.2);border-radius:12px;padding:16px;">
+            <div style="font-weight:800;color:#166534;margin-bottom:8px;font-size:13px;">Stimul: Aliment în stomac</div>
+            <div class="flow-arrow" style="text-align:left;font-size:14px;">↓</div>
+            <div style="font-size:12px;color:var(--text2);line-height:1.6;background:#d1fae5;border-radius:8px;padding:8px;">Gastrină (stomac) → ↑ HCl + ↑ Pepsinogen</div>
+          </div>
+          <div style="border:1.5px solid rgba(59,130,246,0.2);border-radius:12px;padding:16px;">
+            <div style="font-weight:800;color:#1d4ed8;margin-bottom:8px;font-size:13px;">Stimul: Chim acid în duoden</div>
+            <div class="flow-arrow" style="text-align:left;font-size:14px;">↓</div>
+            <div style="font-size:12px;color:var(--text2);line-height:1.6;background:#dbeafe;border-radius:8px;padding:8px;">Secretina (intestin) → ↑ Bicarbonat pancreatic + ↑ Bilă (componenta apoasă)</div>
+          </div>
+          <div style="border:1.5px solid rgba(13,148,136,0.2);border-radius:12px;padding:16px;">
+            <div style="font-weight:800;color:#0f766e;margin-bottom:8px;font-size:13px;">Stimul: Lipide + proteine în duoden</div>
+            <div class="flow-arrow" style="text-align:left;font-size:14px;">↓</div>
+            <div style="font-size:12px;color:var(--text2);line-height:1.6;background:#ccfbf1;border-radius:8px;padding:8px;">CCK (intestin) → ↑ Enzime pancreatice + ↑ Eliberare bilă (contracție vezică biliară)</div>
+          </div>
+        </div>
+      </div>
+    </div>
+
+    <!-- ════════ TAB 6: QUIZ ════════ -->
+    <div class="panel" id="tab-quiz">
+      <div class="section-header">
+        <div class="section-title">Quiz — Pregătire Admitere Medicină</div>
+        <div class="section-desc">20 de întrebări tip grilă din sistemul digestiv, bazate pe subiecte frecvente la admitere.</div>
+      </div>
+
+      <div class="quiz-score">
+        <div>
+          <div class="quiz-score-label">Scor curent</div>
+          <div class="quiz-score-num" id="scoreDisplay">0 / 0</div>
+        </div>
+        <button class="quiz-reset" onclick="resetQuiz()">🔄 Resetează Quiz</button>
+      </div>
+
+      <!-- Q1 -->
+      <div class="qblock" id="q1">
+        <p><strong>1.</strong> Care celule ale stomacului secretă factorul intrinsec necesar absorbției vitaminei B₁₂?</p>
+        <div class="qopt" onclick="answerQ(this,'q1','wrong')"><span class="opt-l">A</span>Celulele principale</div>
+        <div class="qopt" onclick="answerQ(this,'q1','correct')"><span class="opt-l">B</span>Celulele parietale</div>
+        <div class="qopt" onclick="answerQ(this,'q1','wrong')"><span class="opt-l">C</span>Celulele mucoase</div>
+        <div class="qopt" onclick="answerQ(this,'q1','wrong')"><span class="opt-l">D</span>Celulele enteroendocrine</div>
+        <div class="qfb" id="fb-q1-correct">✅ Corect! Celulele <b>parietale</b> secretă atât HCl cât și factorul intrinsec.</div>
+        <div class="qfb" id="fb-q1-wrong">❌ Greșit. Celulele <b>parietale</b> secretă HCl și factorul intrinsec. Celulele principale secretă pepsinogenul.</div>
+      </div>
+
+      <!-- Q2 -->
+      <div class="qblock" id="q2">
+        <p><strong>2.</strong> Bila este produsă de ficat și stocată în:
+        </p>
+        <div class="qopt" onclick="answerQ(this,'q2','wrong')"><span class="opt-l">A</span>Duoden</div>
+        <div class="qopt" onclick="answerQ(this,'q2','wrong')"><span class="opt-l">B</span>Pancreas</div>
+        <div class="qopt" onclick="answerQ(this,'q2','correct')"><span class="opt-l">C</span>Vezica biliară</div>
+        <div class="qopt" onclick="answerQ(this,'q2','wrong')"><span class="opt-l">D</span>Jejun</div>
+        <div class="qfb" id="fb-q2-correct">✅ Corect! Bila este depozitată și concentrată în <b>vezica biliară</b>.</div>
+        <div class="qfb" id="fb-q2-wrong">❌ Greșit. Bila produsă de ficat este stocată în <b>vezica biliară</b>, de unde este eliberată în duoden sub influența CCK.</div>
+      </div>
+
+      <!-- Q3 -->
+      <div class="qblock" id="q3">
+        <p><strong>3.</strong> Care enzimă descompune lactoza în glucoză și galactoză?</p>
+        <div class="qopt" onclick="answerQ(this,'q3','wrong')"><span class="opt-l">A</span>Maltaza</div>
+        <div class="qopt" onclick="answerQ(this,'q3','wrong')"><span class="opt-l">B</span>Zaharaza</div>
+        <div class="qopt" onclick="answerQ(this,'q3','correct')"><span class="opt-l">C</span>Lactaza</div>
+        <div class="qopt" onclick="answerQ(this,'q3','wrong')"><span class="opt-l">D</span>Amilaza</div>
+        <div class="qfb" id="fb-q3-correct">✅ Corect! <b>Lactaza</b>: lactoză → glucoză + galactoză.</div>
+        <div class="qfb" id="fb-q3-wrong">❌ Greșit. <b>Lactaza</b> digeră lactoza. Maltaza digeră maltoza, zaharaza digeră zaharoza, amilaza digeră amidonul.</div>
+      </div>
+
+      <!-- Q4 -->
+      <div class="qblock" id="q4">
+        <p><strong>4.</strong> Care este ordinea corectă a porțiunilor intestinului subțire?</p>
+        <div class="qopt" onclick="answerQ(this,'q4','wrong')"><span class="opt-l">A</span>Jejun → Duoden → Ileon</div>
+        <div class="qopt" onclick="answerQ(this,'q4','correct')"><span class="opt-l">B</span>Duoden → Jejun → Ileon</div>
+        <div class="qopt" onclick="answerQ(this,'q4','wrong')"><span class="opt-l">C</span>Duoden → Ileon → Jejun</div>
+        <div class="qopt" onclick="answerQ(this,'q4','wrong')"><span class="opt-l">D</span>Ileon → Jejun → Duoden</div>
+        <div class="qfb" id="fb-q4-correct">✅ Corect! <b>Duoden</b> (25 cm) → <b>Jejun</b> (2,5 m) → <b>Ileon</b> (3,5–4 m).</div>
+        <div class="qfb" id="fb-q4-wrong">❌ Greșit. Ordinea corectă este: <b>Duoden → Jejun → Ileon</b>.</div>
+      </div>
+
+      <!-- Q5 -->
+      <div class="qblock" id="q5">
+        <p><strong>5.</strong> Peristaltismul reprezintă:</p>
+        <div class="qopt" onclick="answerQ(this,'q5','wrong')"><span class="opt-l">A</span>Secreția enzimelor pancreatice în duoden</div>
+        <div class="qopt" onclick="answerQ(this,'q5','wrong')"><span class="opt-l">B</span>Absorbția glucozei prin vilozități</div>
+        <div class="qopt" onclick="answerQ(this,'q5','correct')"><span class="opt-l">C</span>Contracțiile undulatorii ale mușchilor netezi care propulsează alimentele</div>
+        <div class="qopt" onclick="answerQ(this,'q5','wrong')"><span class="opt-l">D</span>Formarea bolului alimentar în cavitatea orală</div>
+        <div class="qfb" id="fb-q5-correct">✅ Corect! <b>Peristaltismul</b> = unde de contracție musculară pentru propulsarea conținutului digestiv.</div>
+        <div class="qfb" id="fb-q5-wrong">❌ Greșit. Peristaltismul sunt <b>contracțiile undulatorii ale mușchilor netezi</b> care propulsează alimentele de-a lungul tractului GI.</div>
+      </div>
+
+      <!-- Q6 -->
+      <div class="qblock" id="q6">
+        <p><strong>6.</strong> Hormonul care stimulează eliberarea bilei din vezica biliară este:</p>
+        <div class="qopt" onclick="answerQ(this,'q6','wrong')"><span class="opt-l">A</span>Gastrina</div>
+        <div class="qopt" onclick="answerQ(this,'q6','wrong')"><span class="opt-l">B</span>Secretina</div>
+        <div class="qopt" onclick="answerQ(this,'q6','correct')"><span class="opt-l">C</span>Colecistochinina (CCK)</div>
+        <div class="qopt" onclick="answerQ(this,'q6','wrong')"><span class="opt-l">D</span>Insulina</div>
+        <div class="qfb" id="fb-q6-correct">✅ Corect! <b>CCK (Colecistochinina)</b> controlează eliberarea bilei și stimulează secreția enzimelor pancreatice.</div>
+        <div class="qfb" id="fb-q6-wrong">❌ Greșit. <b>CCK</b> stimulează eliberarea bilei. Secretina stimulează secreția de bicarbonat. Gastrina controlează sucul gastric.</div>
+      </div>
+
+      <!-- Q7 -->
+      <div class="qblock" id="q7">
+        <p><strong>7.</strong> Pepsinogenul este activat în pepsină de către:</p>
+        <div class="qopt" onclick="answerQ(this,'q7','correct')"><span class="opt-l">A</span>HCl (acid clorhidric)</div>
+        <div class="qopt" onclick="answerQ(this,'q7','wrong')"><span class="opt-l">B</span>Bicarbonat de sodiu</div>
+        <div class="qopt" onclick="answerQ(this,'q7','wrong')"><span class="opt-l">C</span>Bila</div>
+        <div class="qopt" onclick="answerQ(this,'q7','wrong')"><span class="opt-l">D</span>Amilaza</div>
+        <div class="qfb" id="fb-q7-correct">✅ Corect! <b>HCl</b> din stomac (pH 1-2) activează pepsinogenul → pepsina.</div>
+        <div class="qfb" id="fb-q7-wrong">❌ Greșit. Pepsinogenul este activat de <b>HCl</b> (mediu acid), nu de bicarbonat care ar neutraliza acidul.</div>
+      </div>
+
+      <!-- Q8 -->
+      <div class="qblock" id="q8">
+        <p><strong>8.</strong> Bila conține enzime digestive?</p>
+        <div class="qopt" onclick="answerQ(this,'q8','wrong')"><span class="opt-l">A</span>Da, conține lipaza biliară</div>
+        <div class="qopt" onclick="answerQ(this,'q8','wrong')"><span class="opt-l">B</span>Da, conține amilaza biliară</div>
+        <div class="qopt" onclick="answerQ(this,'q8','correct')"><span class="opt-l">C</span>Nu, bila nu conține enzime</div>
+        <div class="qopt" onclick="answerQ(this,'q8','wrong')"><span class="opt-l">D</span>Da, conține protaze biliare</div>
+        <div class="qfb" id="fb-q8-correct">✅ Corect! <b>Bila NU conține enzime.</b> Acționează mecanic prin emulsionare. Lipaza este pancreatică, nu biliară.</div>
+        <div class="qfb" id="fb-q8-wrong">❌ Greșit. <b>Bila NU conține enzime!</b> Rolul ei este de emulsionare mecanică a lipidelor și conține săruri biliare, colesterol, pigmenți, bicarbonat.</div>
+      </div>
+
+      <!-- Q9 -->
+      <div class="qblock" id="q9">
+        <p><strong>9.</strong> Acizii grași cu lanț lung sunt absorbiți prin:</p>
+        <div class="qopt" onclick="answerQ(this,'q9','wrong')"><span class="opt-l">A</span>Capilare sanguine direct</div>
+        <div class="qopt" onclick="answerQ(this,'q9','correct')"><span class="opt-l">B</span>Chiliferul central (vas limfatic)</div>
+        <div class="qopt" onclick="answerQ(this,'q9','wrong')"><span class="opt-l">C</span>Vena portă hepatică</div>
+        <div class="qopt" onclick="answerQ(this,'q9','wrong')"><span class="opt-l">D</span>Glandele lui Brunner</div>
+        <div class="qfb" id="fb-q9-correct">✅ Corect! Acizii grași cu lanț lung → trigliceride → <b>chilomicroni</b> → <b>chiliferul central</b> (limfatic).</div>
+        <div class="qfb" id="fb-q9-wrong">❌ Greșit. Acizii grași cu lanț lung ajung în <b>chiliferul central</b> (vas limfatic) ca chilomicroni. Acizii grași scurți merg direct în capilare.</div>
+      </div>
+
+      <!-- Q10 -->
+      <div class="qblock" id="q10">
+        <p><strong>10.</strong> Care este funcția principală a intestinului gros?</p>
+        <div class="qopt" onclick="answerQ(this,'q10','wrong')"><span class="opt-l">A</span>Digestia chimică a proteinelor</div>
+        <div class="qopt" onclick="answerQ(this,'q10','correct')"><span class="opt-l">B</span>Absorbția apei și ionilor, formarea materiilor fecale</div>
+        <div class="qopt" onclick="answerQ(this,'q10','wrong')"><span class="opt-l">C</span>Producerea enzimelor digestive</div>
+        <div class="qopt" onclick="answerQ(this,'q10','wrong')"><span class="opt-l">D</span>Absorbția glucozei și aminoacizilor</div>
+        <div class="qfb" id="fb-q10-correct">✅ Corect! Intestinul gros <b>absoarbe apa</b> (300-400 ml/zi) și ionii Na⁺ și <b>formează fecalele</b>. NU are digestie chimică!</div>
+        <div class="qfb" id="fb-q10-wrong">❌ Greșit. Intestinul gros absoarbe <b>apă și ioni</b> și formează fecalele. Digestia chimică și absorbția majoră se fac în intestinul subțire.</div>
+      </div>
+
+      <!-- Q11 -->
+      <div class="qblock" id="q11">
+        <p><strong>11.</strong> Rugae sunt structuri prezente în:</p>
+        <div class="qopt" onclick="answerQ(this,'q11','wrong')"><span class="opt-l">A</span>Intestinul subțire</div>
+        <div class="qopt" onclick="answerQ(this,'q11','correct')"><span class="opt-l">B</span>Stomac</div>
+        <div class="qopt" onclick="answerQ(this,'q11','wrong')"><span class="opt-l">C</span>Intestinul gros</div>
+        <div class="qopt" onclick="answerQ(this,'q11','wrong')"><span class="opt-l">D</span>Esofag</div>
+        <div class="qfb" id="fb-q11-correct">✅ Corect! <b>Rugae</b> sunt pliurile mucoasei stomacale — vizibile când stomacul este gol, dispar când este plin.</div>
+        <div class="qfb" id="fb-q11-wrong">❌ Greșit. <b>Rugae</b> = pliuri ale mucoasei stomacului (nu intestin). Intestinul subțire are vilozități și pliuri circulare (valvule Kerckring).</div>
+      </div>
+
+      <!-- Q12 -->
+      <div class="qblock" id="q12">
+        <p><strong>12.</strong> Pancreasul este o glandă:</p>
+        <div class="qopt" onclick="answerQ(this,'q12','wrong')"><span class="opt-l">A</span>Exclusiv exocrină</div>
+        <div class="qopt" onclick="answerQ(this,'q12','wrong')"><span class="opt-l">B</span>Exclusiv endocrină</div>
+        <div class="qopt" onclick="answerQ(this,'q12','correct')"><span class="opt-l">C</span>Mixtă (exocrină + endocrină)</div>
+        <div class="qopt" onclick="answerQ(this,'q12','wrong')"><span class="opt-l">D</span>Glande mucoasă</div>
+        <div class="qfb" id="fb-q12-correct">✅ Corect! Pancreasul este <b>mixt</b>: exocrin (99% — acini → suc pancreatic) + endocrin (insulele Langerhans → insulina/glucagon).</div>
+        <div class="qfb" id="fb-q12-wrong">❌ Greșit. Pancreasul este <b>mixtă (exocrin + endocrin)</b>. Porțiunea exocrină (99%) → suc pancreatic. Porțiunea endocrină (insulele Langerhans) → insulina, glucagon.</div>
+      </div>
+
+      <!-- Q13 -->
+      <div class="qblock" id="q13">
+        <p><strong>13.</strong> Glanda salivară cea mai mare este:</p>
+        <div class="qopt" onclick="answerQ(this,'q13','correct')"><span class="opt-l">A</span>Glanda parotidă</div>
+        <div class="qopt" onclick="answerQ(this,'q13','wrong')"><span class="opt-l">B</span>Glanda submandibulară</div>
+        <div class="qopt" onclick="answerQ(this,'q13','wrong')"><span class="opt-l">C</span>Glanda sublinguală</div>
+        <div class="qopt" onclick="answerQ(this,'q13','wrong')"><span class="opt-l">D</span>Glanda paratiroidiană</div>
+        <div class="qfb" id="fb-q13-correct">✅ Corect! <b>Glanda parotidă</b> este cea mai mare glandă salivară, situată în vecinătatea urechilor.</div>
+        <div class="qfb" id="fb-q13-wrong">❌ Greșit. Cea mai mare glandă salivară este <b>glanda parotidă</b>, drenată de ductul parotidian pe fața internă a obrazului.</div>
+      </div>
+
+      <!-- Q14 -->
+      <div class="qblock" id="q14">
+        <p><strong>14.</strong> Stomacul are câte straturi musculare?</p>
+        <div class="qopt" onclick="answerQ(this,'q14','wrong')"><span class="opt-l">A</span>1 (doar circular)</div>
+        <div class="qopt" onclick="answerQ(this,'q14','wrong')"><span class="opt-l">B</span>2 (circular + longitudinal)</div>
+        <div class="qopt" onclick="answerQ(this,'q14','correct')"><span class="opt-l">C</span>3 (circular + longitudinal + oblic)</div>
+        <div class="qopt" onclick="answerQ(this,'q14','wrong')"><span class="opt-l">D</span>4 straturi</div>
+        <div class="qfb" id="fb-q14-correct">✅ Corect! Stomacul are <b>3 straturi musculare</b>: circular + longitudinal + <b>oblic</b> (specific stomacului!).</div>
+        <div class="qfb" id="fb-q14-wrong">❌ Greșit. Stomacul are <b>3 straturi musculare</b> (unic față de restul tractului GI care are 2): circular + longitudinal + <b>oblic</b>.</div>
+      </div>
+
+      <!-- Q15 -->
+      <div class="qblock" id="q15">
+        <p><strong>15.</strong> Principalul pigment biliar este:</p>
+        <div class="qopt" onclick="answerQ(this,'q15','wrong')"><span class="opt-l">A</span>Urobilinogenul</div>
+        <div class="qopt" onclick="answerQ(this,'q15','wrong')"><span class="opt-l">B</span>Colesterolul</div>
+        <div class="qopt" onclick="answerQ(this,'q15','correct')"><span class="opt-l">C</span>Bilirubina</div>
+        <div class="qopt" onclick="answerQ(this,'q15','wrong')"><span class="opt-l">D</span>Lecitina</div>
+        <div class="qfb" id="fb-q15-correct">✅ Corect! <b>Bilirubina</b> — derivă din fracțiunea hem a hemoglobinei din globulele roșii distruse.</div>
+        <div class="qfb" id="fb-q15-wrong">❌ Greșit. <b>Bilirubina</b> este principalul pigment biliar, format din degradarea hemoglobinei. Urobilinogenul este un derivat al bilirubinei.</div>
+      </div>
+
+      <!-- Q16 -->
+      <div class="qblock" id="q16">
+        <p><strong>16.</strong> Valva ileocecală leagă:</p>
+        <div class="qopt" onclick="answerQ(this,'q16','wrong')"><span class="opt-l">A</span>Stomacul de duoden</div>
+        <div class="qopt" onclick="answerQ(this,'q16','correct')"><span class="opt-l">B</span>Intestinul subțire de intestinul gros</div>
+        <div class="qopt" onclick="answerQ(this,'q16','wrong')"><span class="opt-l">C</span>Esofagul de stomac</div>
+        <div class="qopt" onclick="answerQ(this,'q16','wrong')"><span class="opt-l">D</span>Colonul sigmoid de rect</div>
+        <div class="qfb" id="fb-q16-correct">✅ Corect! <b>Valva ileocecală</b> (sfincterul ileocecal) leagă ileonul (intestin subțire) de cec (intestin gros).</div>
+        <div class="qfb" id="fb-q16-wrong">❌ Greșit. Valva ileocecală leagă <b>ileonul</b> (ultimul segment al intestinului subțire) de <b>cec</b> (primul segment al intestinului gros).</div>
+      </div>
+
+      <!-- Q17 -->
+      <div class="qblock" id="q17">
+        <p><strong>17.</strong> Procesul de transformare a glucozei în glicogen în ficat se numește:</p>
+        <div class="qopt" onclick="answerQ(this,'q17','correct')"><span class="opt-l">A</span>Glicogenogeneză</div>
+        <div class="qopt" onclick="answerQ(this,'q17','wrong')"><span class="opt-l">B</span>Glicogenoliză</div>
+        <div class="qopt" onclick="answerQ(this,'q17','wrong')"><span class="opt-l">C</span>Gluconeogeneză</div>
+        <div class="qopt" onclick="answerQ(this,'q17','wrong')"><span class="opt-l">D</span>Glicoliză</div>
+        <div class="qfb" id="fb-q17-correct">✅ Corect! <b>Glicogenogeneză</b> = glucoză → glicogen (când glicemia e crescută). Glicogenoliză = glicogen → glucoză (când glicemia scade).</div>
+        <div class="qfb" id="fb-q17-wrong">❌ Greșit. <b>Glicogenogeneză</b> = glucoză → glicogen. Glicogenoliză = glicogen → glucoză. Gluconeogeneză = aminoacizi → glucoză.</div>
+      </div>
+
+      <!-- Q18 -->
+      <div class="qblock" id="q18">
+        <p><strong>18.</strong> Amilaza salivară acționează asupra:</p>
+        <div class="qopt" onclick="answerQ(this,'q18','wrong')"><span class="opt-l">A</span>Proteinelor</div>
+        <div class="qopt" onclick="answerQ(this,'q18','wrong')"><span class="opt-l">B</span>Lipidelor</div>
+        <div class="qopt" onclick="answerQ(this,'q18','correct')"><span class="opt-l">C</span>Amidonului și glicogenului → maltoză</div>
+        <div class="qopt" onclick="answerQ(this,'q18','wrong')"><span class="opt-l">D</span>Lactozei</div>
+        <div class="qfb" id="fb-q18-correct">✅ Corect! <b>Amilaza salivară</b> digeră amidonul și glicogenul → <b>maltoză</b> (dizaharid).</div>
+        <div class="qfb" id="fb-q18-wrong">❌ Greșit. <b>Amilaza salivară</b> digeră glucidele (amidon, glicogen) → maltoză. Lactaza digeră lactoza.</div>
+      </div>
+
+      <!-- Q19 -->
+      <div class="qblock" id="q19">
+        <p><strong>19.</strong> Produsele finale ale digestiei lipidelor cu lanț lung care ajung în limfatice se numesc:</p>
+        <div class="qopt" onclick="answerQ(this,'q19','wrong')"><span class="opt-l">A</span>Micelii</div>
+        <div class="qopt" onclick="answerQ(this,'q19','correct')"><span class="opt-l">B</span>Chilomicroni</div>
+        <div class="qopt" onclick="answerQ(this,'q19','wrong')"><span class="opt-l">C</span>Trigliceride libere</div>
+        <div class="qopt" onclick="answerQ(this,'q19','wrong')"><span class="opt-l">D</span>HDL</div>
+        <div class="qfb" id="fb-q19-correct">✅ Corect! <b>Chilomicronii</b> = picături microscopice de lipide (trigliceride) care intră în chiliferul central. Miceliile sunt forma de transport spre celulele intestinale.</div>
+        <div class="qfb" id="fb-q19-wrong">❌ Greșit. <b>Chilomicronii</b> sunt particulele de lipide formate în celulele intestinale care intră în chiliferul central (vas limfatic). Miceliile sunt picăturile formate de sărurile biliare.</div>
+      </div>
+
+      <!-- Q20 -->
+      <div class="qblock" id="q20">
+        <p><strong>20.</strong> Sucul pancreatic are un pH:</p>
+        <div class="qopt" onclick="answerQ(this,'q20','wrong')"><span class="opt-l">A</span>Acid (pH 2-3)</div>
+        <div class="qopt" onclick="answerQ(this,'q20','wrong')"><span class="opt-l">B</span>Neutru (pH 7)</div>
+        <div class="qopt" onclick="answerQ(this,'q20','correct')"><span class="opt-l">C</span>Ușor alcalin (datorită ionilor de bicarbonat)</div>
+        <div class="qopt" onclick="answerQ(this,'q20','wrong')"><span class="opt-l">D</span>Puternic alcalin (pH 12-14)</div>
+        <div class="qfb" id="fb-q20-correct">✅ Corect! Sucul pancreatic este <b>ușor alcalin</b> datorită ionilor de <b>bicarbonat</b> — neutralizează acidul gastric în duoden.</div>
+        <div class="qfb" id="fb-q20-wrong">❌ Greșit. Sucul pancreatic este <b>ușor alcalin</b> (conține bicarbonat) pentru a neutraliza chimul acid din stomac în duoden.</div>
+      </div>
+
+    </div><!-- end quiz panel -->
+
+  </div><!-- end content -->
+</main>
+
+<script>
+// ─── Tab switching ───────────────────────────────────────────
+function showTab(tabId, btn) {
+  document.querySelectorAll('.panel').forEach(p => p.classList.remove('active'));
+  document.querySelectorAll('.tab-btn').forEach(b => b.classList.remove('active'));
+  document.getElementById('tab-' + tabId).classList.add('active');
+  btn.classList.add('active');
+}
+
+// ─── Expand rows ────────────────────────────────────────────
+function toggleRow(row) {
+  row.classList.toggle('selected');
+}
+document.querySelectorAll('.level-row').forEach(row => {
+  row.addEventListener('click', function() {
+    this.classList.toggle('open');
+  });
+});
+
+// ─── SVG Organ Info ─────────────────────────────────────────
+const organData = {
+  'cavitate-orala': {
+    icon: '👄', title: 'Cavitatea Orală',
+    html: `<div class="g2">
+      <div class="hbox hbox-green"><strong>Funcții:</strong> Ingestie, masticație, lubrifiere cu salivă, gustație (muguri gustativi pe papilele limbii)</div>
+      <div class="hbox hbox-orange"><strong>Glandele salivare:</strong> Parotidă (cea mai mare, ductul parotidian), Submandibulară, Sublinguală. Secretă amilaza salivară (amidon → maltoză) și mucus.</div>
+      <div class="hbox hbox-blue"><strong>Dinți:</strong> 20 temporari / 32 permanenți. Incisivi (tăiere), Canini (sfâșiere), Premolari + Molari (măcinare)</div>
+      <div class="hbox hbox-violet"><strong>Structuri:</strong> Limbă (mușchi striat + frâul limbii), Palat dur + moale + uvulă, Amigdale palatine/faringiene/linguale</div>
+    </div>`
+  },
+  'esofag': {
+    icon: '🌊', title: 'Esofagul',
+    html: `<div class="g2">
+      <div class="hbox hbox-blue"><strong>Anatomie:</strong> Tub muscular drept, distensibil, ~25 cm. Leagă faringele de stomac. Traversează diafragma → stomac.</div>
+      <div class="hbox hbox-green"><strong>Mușchi:</strong> 1/3 superioară = mușchi striați; 1/3 inferioară = mușchi netezi.</div>
+      <div class="hbox hbox-orange"><strong>Sfinctere:</strong> Sfincterul cricofaringian (sus) și sfincterul esofagian inferior / sfincterul cardial (jos → stomac)</div>
+      <div class="hbox hbox-cyan"><strong>Peristaltism:</strong> Unde de contracție: mai întâi longitudinali, apoi circulari → propulsează bolul spre stomac.</div>
+    </div>`
+  },
+  'stomac': {
+    icon: '🫙', title: 'Stomacul',
+    html: `<div class="g2">
+      <div class="hbox hbox-green"><strong>Regiuni:</strong> Cardia → Fornix (fundul) → Corp → Antrul piloric. Formă de litera J.</div>
+      <div class="hbox hbox-red"><strong>Sucul gastric:</strong> HCl (celule parietale), Pepsinogen→Pepsina (celule principale), Mucus (celule mucoase), Factor intrinsec (celule parietale), Gastrină (celule enteroendocrine)</div>
+      <div class="hbox hbox-orange"><strong>Structuri speciale:</strong> Rugae (pliuri mucoasă), 3 straturi musculare (circular+longitudinal+oblic), Cripte gastrice</div>
+      <div class="hbox hbox-violet"><strong>Produs:</strong> Transformă bolul alimentar în CHIM GASTRIC (consistența supei)</div>
+    </div>`
+  },
+  'ficat': {
+    icon: '🟡', title: 'Ficatul',
+    html: `<div class="g2">
+      <div class="hbox hbox-orange"><strong>Anatomie:</strong> Cea mai mare glandă. Sub diafragmă. 4 lobi: drept, stâng, caudat, pătrat. Lobuli → hepatocite + celule Kupffer.</div>
+      <div class="hbox hbox-green"><strong>Funcții digestive:</strong> Produce bila (galben-maroniu, pH 7,6-8,6). Stocată în vezica biliară. Conține săruri biliare, colesterol, bilirubina (pigment din Hb degradată), bicarbonat.</div>
+      <div class="hbox hbox-blue"><strong>Metabolism:</strong> Glicogenogeneză/liză, gluconeogeneză, β-oxidare acizi grași, dezaminare, sinteză proteine plasmatice.</div>
+      <div class="hbox hbox-violet"><strong>Circulație:</strong> Vena portă (nutrienți intestin) + Artera hepatică (O₂) → Vena hepatică → Vena cavă inferioară</div>
+    </div>`
+  },
+  'vezica': {
+    icon: '🫐', title: 'Vezica Biliară',
+    html: `<div class="g2">
+      <div class="hbox hbox-orange"><strong>Localizare:</strong> Pe suprafața viscerală a ficatului. Formă de pară.</div>
+      <div class="hbox hbox-green"><strong>Funcție:</strong> Depozitarea și concentrarea bilei până când este necesară digestiei.</div>
+      <div class="hbox hbox-blue"><strong>Traseul bilei:</strong> Ductul cistic → Ductul biliar (coledoc, format prin unirea cu ductul hepatic comun) → Ampula hepatopancreatică → Duoden</div>
+      <div class="hbox hbox-pink"><strong>Control:</strong> Eliberarea bilei este controlată de CCK (colecistochinina), secretată de intestinul subțire când detectează lipide.</div>
+    </div>`
+  },
+  'pancreas': {
+    icon: '🟣', title: 'Pancreasul',
+    html: `<div class="g2">
+      <div class="hbox hbox-violet"><strong>Anatomie:</strong> ~13 cm, posterior față de stomac. Cap + Corp + Coadă. Comunică cu duodenul prin ductul Wirsung și ductul Santorini (accesoriu).</div>
+      <div class="hbox hbox-green"><strong>Sucul pancreatic (exocrin, 99%):</strong> Amilaza (glucide), Lipaza (lipide), Tripsina/Chimotripsina/Carboxipeptidaza (proteine), Bicarbonat (neutralizare acid)</div>
+      <div class="hbox hbox-blue"><strong>Endocrin (Insulele Langerhans):</strong> Celule β → Insulina | Celule α → Glucagon</div>
+      <div class="hbox hbox-orange"><strong>Control:</strong> Secretina (bicarbonat) și CCK (enzime) controlează secreția pancreatică.</div>
+    </div>`
+  },
+  'intestin-subtire': {
+    icon: '🌀', title: 'Intestinul Subțire (~6 m)',
+    html: `<div class="g2">
+      <div class="hbox hbox-green"><strong>Porțiuni:</strong> Duoden (25 cm) → Jejun (2,5 m) → Ileon (3,5-4 m). De la sfincterul piloric până la sfincterul ileocecal.</div>
+      <div class="hbox hbox-cyan"><strong>Suprafața de absorbție:</strong> Pliuri circulare → Vilozități (deget, cu capilar + chiliferul central) → Microvilozități (marginea în perie). Total: ~200 m²!</div>
+      <div class="hbox hbox-blue"><strong>Duoden primește:</strong> Chim gastric (din stomac) + Bilă (ficat) + Suc pancreatic (pancreas) prin Ampula hepatopancreatică.</div>
+      <div class="hbox hbox-violet"><strong>Absorbție:</strong> Glucide, aminoacizi, acizi grași scurți → capilare. Acizi grași lungi → chilomicroni → chiliferul central (limfă).</div>
+    </div>`
+  },
+  'colon': {
+    icon: '🔄', title: 'Intestinul Gros (Colonul)',
+    html: `<div class="g2">
+      <div class="hbox hbox-blue"><strong>Segmente:</strong> Cec → Colon ascendent → Transvers → Descendent → Sigmoid → Rect → Canal anal → Anus. ~1,5 m, diametru ~6 cm. Are haustrații.</div>
+      <div class="hbox hbox-green"><strong>Funcții:</strong> Absorbție apă (300-400 ml/zi) și ioni Na⁺. Formare materii fecale. Absorbție vitamine bacteriene (K, B₁₂). NU are digestie chimică!</div>
+      <div class="hbox hbox-orange"><strong>Fecalele:</strong> Apă + săruri anorganice + bacterii + celule epiteliale descuamate + alimente nedigerate. Defecația = act reflex.</div>
+      <div class="hbox hbox-violet"><strong>Bacterii intestinale:</strong> Produc vitamine B și K; degradează bilirubina → urobilinogen (colorare fecale).</div>
+    </div>`
+  },
+  'rect': {
+    icon: '⬇️', title: 'Rectul & Anusul',
+    html: `<div class="g2">
+      <div class="hbox hbox-violet"><strong>Anatomie:</strong> Ultimii 18-20 cm ai tractului GI. Rectul → canalul anal → anus (orificiul extern).</div>
+      <div class="hbox hbox-green"><strong>Funcție:</strong> Depozitare temporară a materiilor fecale. Defecația = act reflex facilitat de contracții voluntare ale musculaturii perineale.</div>
+    </div>`
+  },
+  'cec': {
+    icon: '🔴', title: 'Cecul & Apendicele',
+    html: `<div class="g2">
+      <div class="hbox hbox-red"><strong>Cecul:</strong> Prima porțiune a intestinului gros, ~6-7 cm. Situat în cadranul inferior drept al abdomenului.</div>
+      <div class="hbox hbox-orange"><strong>Apendicele vermiform:</strong> Extensie vermiculară din cec. Organ vestigial. Se poate inflama → appendicită → apendicectomie chirurgicală.</div>
+    </div>`
+  }
+};
+
+function showOrganInfo(id) {
+  const data = organData[id];
+  if (!data) return;
+  const panel = document.getElementById('organInfoPanel');
+  document.getElementById('organInfoIcon').textContent = data.icon;
+  document.getElementById('organInfoTitle').textContent = data.title;
+  document.getElementById('organInfoContent').innerHTML = data.html;
+  panel.style.display = 'block';
+  panel.scrollIntoView({ behavior: 'smooth', block: 'nearest' });
+}
+
+// ─── Annexe Selector ─────────────────────────────────────────
+const anexaData = {
+  'ficat': `<div style="font-weight:800;font-size:16px;color:var(--text);margin-bottom:10px;">🟡 Ficatul — cea mai mare glandă din organism</div>
+    <div class="g2">
+      <div><div class="hbox hbox-orange"><strong>Anatomie:</strong> Sub diafragmă. 4 lobi: drept, stâng, caudat, pătrat. Lobuli → hepatocite + celule Kupffer (macrofage).</div>
+      <div class="hbox hbox-blue"><strong>Circulație:</strong> Vena portă (nutrienți din intestin) + Artera hepatică (oxigen) → ficat → Vena hepatică → Vena cavă inferioară</div></div>
+      <div><div class="hbox hbox-green"><strong>Funcțiile ficatului:</strong>
+        ✓ Producere bilă<br>✓ Glicogenogeneză/glicogenoliză/gluconeogeneză<br>✓ Metabolismul lipidelor (acetil-CoA)<br>✓ Dezaminare → uree<br>✓ Sinteza proteinelor plasmatice (albumina, protrombina, fibrinogen)<br>✓ Detoxifiere (medicamente, hormoni)<br>✓ Depozitare vitamine A,B₁₂,D,E,K + Fe, Cu<br>✓ Fagocitoză (celule Kupffer)<br>✓ Activarea vitaminei D</div></div>
+    </div>`,
+  'bila': `<div style="font-weight:800;font-size:16px;color:var(--text);margin-bottom:10px;">💛 Bila — fluid alcalin (pH 7,6-8,6)</div>
+    <div class="g2">
+      <div class="hbox hbox-orange"><strong>Compoziție:</strong> Apă + săruri biliare + colesterol + lecitina + bilirubina (principalul pigment, din Hb degradată) + bicarbonat + ioni</div>
+      <div class="hbox hbox-green"><strong>Funcții:</strong> ✓ Emulsionare lipide → micelii<br>✓ Neutralizare acid gastric (bicarbonat)<br>✓ Absorbție vitamine liposolubile A,D,K<br>✓ Eliminare toxine</div>
+      <div class="hbox hbox-blue"><strong>Bilirubina → Urobilinogen:</strong> Bacterii intestinale degradează bilirubina → urobilinogen (colorare maro fecale). Parte reabsorbită → urină.</div>
+      <div class="hbox hbox-violet"><strong>Bila NU conține enzime!</strong> Acționează mecanic prin emulsionare, nu chimic.</div>
+    </div>`,
+  'vezica-bil': `<div style="font-weight:800;font-size:16px;color:var(--text);margin-bottom:10px;">🫐 Vezica Biliară</div>
+    <div class="g2">
+      <div class="hbox hbox-orange"><strong>Localizare & formă:</strong> Suprafața viscerală a ficatului, formă de pară.</div>
+      <div class="hbox hbox-blue"><strong>Traseul bilei:</strong><br>Hepatocite → Ductele hepatice → Ductul hepatic comun<br>↕ (Ductul cistic → Vezica biliară, stocare)<br>Ductul biliar comun (coledoc) → Ampula hepatopancreatică → Duoden</div>
+      <div class="hbox hbox-green"><strong>Control eliberare:</strong> CCK (colecistochinina) stimulează contracția vezicii biliare → eliberare bilă în duoden. Se eliberează când detectează lipide în duoden.</div>
+    </div>`,
+  'pancreas-detaliu': `<div style="font-weight:800;font-size:16px;color:var(--text);margin-bottom:10px;">🟣 Pancreasul — glandă mixtă</div>
+    <div class="g2">
+      <div class="hbox hbox-violet"><strong>Anatomie:</strong> ~13 cm lungime, 2,5 cm grosime. Posterior față de stomac. Cap (în duoden) + Corp + Coadă. 2 ducte: Wirsung (principal) + Santorini (accesoriu)</div>
+      <div class="hbox hbox-green"><strong>Exocrin (99%, celule acinare):</strong> Suc pancreatic limpede, incolor. Conține: amilaza, lipaza, tripsina, chimotripsina, carboxipeptidaza + bicarbonat.</div>
+      <div class="hbox hbox-orange"><strong>Endocrin (insulele Langerhans ~1%):</strong> Celule α → Glucagon (crește glicemia). Celule β → Insulina (scade glicemia). Celule δ → Somatostatina.</div>
+      <div class="hbox hbox-blue"><strong>Control:</strong> Secretina → bicarbonat. CCK → enzime digestive. SNV parasimpatic → general stimulant.</div>
+    </div>`,
+  'suc-pancreatic': `<div style="font-weight:800;font-size:16px;color:var(--text);margin-bottom:10px;">💧 Sucul Pancreatic</div>
+    <div class="g2">
+      <div class="hbox hbox-cyan"><strong>Caracteristici:</strong> Lichid limpede, incolor. pH ușor alcalin (datorită ionilor de bicarbonat). Neutralizează chimul acid din stomac în duoden.</div>
+      <div><table class="mtable">
+        <thead><tr><th>Enzimă</th><th>Substrat → Produs</th></tr></thead>
+        <tbody>
+          <tr><td class="hl">Amilaza pancreatică</td><td>Amidon → Maltoză</td></tr>
+          <tr><td class="hl">Lipaza</td><td>Lipide → Ac. grași + Glicerol</td></tr>
+          <tr><td class="hl">Tripsina</td><td>Proteine → Peptide</td></tr>
+          <tr><td class="hl">Chimotripsina</td><td>Proteine → Peptide</td></tr>
+          <tr><td class="hl">Carboxipeptidaza</td><td>Proteine → Peptide</td></tr>
+        </tbody>
+      </table></div>
+    </div>`
+};
+
+function showAnexa(id, btn) {
+  document.querySelectorAll('.organ-btn').forEach(b => b.classList.remove('active'));
+  btn.classList.add('active');
+  document.getElementById('anexaContent').innerHTML = anexaData[id] || '';
+}
+
+// ─── Enzyme Filter ───────────────────────────────────────────
+function filterEnzyme(src, btn) {
+  document.querySelectorAll('.filter-btn').forEach(b => b.classList.remove('active'));
+  btn.classList.add('active');
+  document.querySelectorAll('.enzyme-row').forEach(row => {
+    if (src === 'all' || row.dataset.src === src) {
+      row.classList.remove('hidden');
+    } else {
+      row.classList.add('hidden');
+    }
+  });
+}
+
+// ─── Quiz Logic ──────────────────────────────────────────────
+let scores = { correct: 0, total: 0 };
+let answered = {};
+
+function answerQ(el, qId, result) {
+  if (answered[qId]) return;
+  answered[qId] = true;
+  const block = document.getElementById(qId);
+  block.querySelectorAll('.qopt').forEach(o => o.classList.add('disabled'));
+  if (result === 'correct') {
+    el.classList.add('correct');
+    document.getElementById('fb-' + qId + '-correct').style.display = 'block';
+    scores.correct++;
+  } else {
+    el.classList.add('wrong');
+    document.getElementById('fb-' + qId + '-wrong').style.display = 'block';
+    // highlight correct
+    block.querySelectorAll('.qopt').forEach(o => {
+      if (o.getAttribute('onclick') && o.getAttribute('onclick').includes("'correct'")) {
+        o.classList.add('correct');
+      }
+    });
+  }
+  scores.total++;
+  document.getElementById('scoreDisplay').textContent = scores.correct + ' / ' + scores.total;
+}
+
+function resetQuiz() {
+  scores = { correct: 0, total: 0 };
+  answered = {};
+  document.getElementById('scoreDisplay').textContent = '0 / 0';
+  document.querySelectorAll('.qopt').forEach(o => {
+    o.classList.remove('correct', 'wrong', 'disabled');
+  });
+  document.querySelectorAll('.qfb').forEach(f => f.style.display = 'none');
+}
+
+// ─── Animate progress bars on tab switch ────────────────────
+document.querySelectorAll('.pbar-fill').forEach(bar => {
+  const w = bar.style.width;
+  bar.style.width = '0';
+  setTimeout(() => { bar.style.width = w; }, 300);
+});
+
+document.addEventListener("DOMContentLoaded", function () {
+  // 1. Detectează automat numele fișierului curent (ex: cap1.html)
+  const currentFile = window.location.pathname.split("/").pop() || "cap1.html";
+  
+  const menuContainer = document.getElementById("chapters-menu");
+  const menuItems = menuContainer.querySelectorAll(".nav-item");
+  let currentChapterNumber = 1;
+  let activeItem = null;
+
+  // 2. Parcurge toate capitolele din meniu pentru a le aplica stilul corect
+  menuItems.forEach((item) => {
+    const fileHref = item.getAttribute("href");
+    
+    if (fileHref === currentFile) {
+      // Dacă este capitolul curent, îl face activ
+      item.classList.add("active");
+      activeItem = item; // Salvăm elementul activ pentru a-l folosi la scroll
+      currentChapterNumber = parseInt(item.querySelector(".nav-num").textContent);
+    }
+  });
+
+  // 3. 💡 AUTO-SCROLL LA CAPITOLUL CURENT (Soluția pentru problema ta)
+  if (activeItem && menuContainer) {
+    // Așteptăm un timp foarte scurt (50ms) ca browserul să randeze stilurile, apoi mutăm scroll-ul
+    setTimeout(() => {
+      activeItem.scrollIntoView({
+        behavior: "smooth", // Efect de derulare fină (schimbă cu "auto" dacă vrei să fie instant)
+        block: "nearest"    // Îl aduce la vedere doar dacă nu este vizibil în container
+      });
+    }, 50);
+  }
+
+  // 4. Actualizează automat bara de progres din footer-ul sidebar-ului
+  const totalChapters = menuItems.length; // Va număra automat 23
+  
+  const progTextContainer = document.querySelector(".prog-label");
+  if (progTextContainer) {
+    progTextContainer.innerHTML = `<span>Progres curs</span><span>${currentChapterNumber} / ${totalChapters}</span>`;
+  }
+  
+  const progFill = document.querySelector(".prog-fill");
+  if (progFill) {
+    const percentage = (currentChapterNumber / totalChapters) * 100;
+    progFill.style.width = `${percentage}%`;
+  }
+});
+</script>
+</body>
+</html>

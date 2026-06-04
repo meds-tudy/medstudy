@@ -1,0 +1,1574 @@
+<!DOCTYPE html>
+<html lang="ro">
+<head>
+<meta charset="UTF-8">
+
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>MedStudy — Capitol 13: Sistemul Endocrin</title>
+<link href="https://fonts.googleapis.com/css2?family=Outfit:wght@300;400;500;600;700;800;900&family=Lora:ital,wght@0,400;0,600;1,400&display=swap" rel="stylesheet">
+<style>
+:root {
+  --bg-main:#f0f4ff;--bg-sidebar:rgba(255,255,255,0.85);--surface:rgba(255,255,255,0.75);--surface2:rgba(255,255,255,0.92);
+  --border:rgba(180,160,220,0.25);--blue:#5b8dee;--blue-light:#e8eeff;--violet:#8b5cf6;--violet-light:#ede9fe;
+  --cyan:#06b6d4;--cyan-light:#e0f7fb;--pink:#ec4899;--pink-light:#fce7f3;--green:#10b981;--green-light:#d1fae5;
+  --orange:#f59e0b;--orange-light:#fef3c7;--rose:#f43f5e;--rose-light:#ffe4e6;--teal:#14b8a6;--teal-light:#ccfbf1;
+  --amber:#d97706;--amber-light:#fef3c7;--text:#1e1b4b;--text2:#6b7280;--text3:#9ca3af;--accent:#7c3aed;
+  --sidebar-w:268px;--radius:16px;--shadow:0 4px 24px rgba(100,80,200,0.10);--shadow2:0 8px 40px rgba(100,80,200,0.14);
+  /* Endocrin accent: warm teal-violet gradient */
+  --endo:#0d9488;--endo-light:#f0fdfa;
+}
+*{margin:0;padding:0;box-sizing:border-box;}
+body{font-family:'Outfit',sans-serif;background:var(--bg-main);color:var(--text);min-height:100vh;display:flex;overflow-x:hidden;}
+body::before{content:'';position:fixed;inset:0;background:
+  radial-gradient(ellipse 800px 600px at 20% 10%,rgba(180,200,255,0.55) 0%,transparent 70%),
+  radial-gradient(ellipse 600px 500px at 80% 5%,rgba(200,180,255,0.45) 0%,transparent 65%),
+  radial-gradient(ellipse 700px 400px at 60% 90%,rgba(180,240,230,0.4) 0%,transparent 70%),
+  radial-gradient(ellipse 500px 500px at 5% 80%,rgba(180,230,255,0.35) 0%,transparent 65%),#f0f4ff;z-index:-1;pointer-events:none;}
+
+/* ── SIDEBAR ── */
+#sidebar{width:var(--sidebar-w);min-height:100vh;background:var(--bg-sidebar);backdrop-filter:blur(24px);border-right:1px solid var(--border);position:fixed;top:0;left:0;z-index:100;display:flex;flex-direction:column;box-shadow:4px 0 30px rgba(100,80,200,0.07);}
+.sidebar-logo{padding:26px 22px 20px;border-bottom:1px solid var(--border);display:flex;align-items:center;gap:12px;}
+.logo-icon{width:42px;height:42px;background:linear-gradient(135deg,#7c3aed,#ec4899);border-radius:12px;display:flex;align-items:center;justify-content:center;font-size:20px;box-shadow:0 4px 14px rgba(124,58,237,0.35);}
+.logo-text{font-size:17px;font-weight:800;color:var(--text);line-height:1.2;}
+.logo-sub{font-size:10px;color:var(--text3);font-weight:400;letter-spacing:.08em;text-transform:uppercase;margin-top:2px;}
+.sidebar-section-label{padding:18px 20px 8px;font-size:9.5px;letter-spacing:.14em;text-transform:uppercase;color:var(--text3);font-weight:600;}
+.nav-scroll { 
+  flex: 1; 
+  overflow-y: auto; 
+  padding-bottom: 16px; 
+  max-height: calc(100vh - 140px);
+  
+  /* 💡 TRUCUL PENTRU MUTAREA BAREI PE STÂNGA: */
+  direction: rtl; /* Muta scrollbar-ul pe stânga (Right-to-Left) */
+  
+  scrollbar-width: thin;
+  scrollbar-color: rgba(124,58,237,0.3) transparent;
+}
+
+/* 💡 RECONVERTIREA TEXTULUI: Întoarcem textul la normal (Left-to-Right) ca să nu fie inversat */
+.nav-scroll > * {
+  direction: ltr;
+}
+
+/* Stil pentru browserele bazate pe Chromium (Chrome, Edge, Opera) */
+.nav-scroll::-webkit-scrollbar { 
+  width: 5px; 
+}
+.nav-scroll::-webkit-scrollbar-track {
+  background: transparent;
+}
+.nav-scroll::-webkit-scrollbar-thumb { 
+  background: rgba(124,58,237,0.3); 
+  border-radius: 4px; 
+}
+.nav-scroll::-webkit-scrollbar-thumb:hover {
+  background: rgba(124,58,237,0.5); 
+}
+
+.nav-item{display:flex;align-items:center;gap:10px;padding:9px 14px 9px 16px;margin:1px 10px;border-radius:10px;font-size:12.5px;font-weight:500;color:var(--text2);cursor:pointer;transition:all .2s;text-decoration:none;position:relative;}
+.nav-item:hover{background:rgba(124,58,237,0.07);color:var(--accent);}
+.nav-item.active{background:linear-gradient(90deg,rgba(124,58,237,0.12),rgba(236,72,153,0.07));color:var(--accent);font-weight:600;box-shadow:inset 2px 0 0 var(--accent);}
+.nav-item.done{color:var(--green);}
+.nav-item.done .nav-num{background:var(--green-light);color:var(--green);}
+.nav-num{min-width:22px;height:22px;background:rgba(124,58,237,0.08);border-radius:6px;display:flex;align-items:center;justify-content:center;font-size:10.5px;font-weight:700;color:var(--text3);}
+.nav-item.active .nav-num{background:rgba(124,58,237,0.18);color:var(--accent);}
+.nav-item.locked{opacity:0.45;pointer-events:none;}
+.sidebar-footer{padding:16px 20px;border-top:1px solid var(--border);}
+.prog-label{display:flex;justify-content:space-between;font-size:11.5px;color:var(--text2);margin-bottom:7px;font-weight:500;}
+.prog-label span:last-child{color:var(--accent);font-weight:700;}
+.prog-track{height:5px;background:rgba(124,58,237,0.1);border-radius:3px;overflow:hidden;}
+.prog-fill{height:100%;width:56.5%;background:linear-gradient(90deg,#7c3aed,#ec4899);border-radius:3px;}
+
+/* ── MAIN ── */
+#main{margin-left:var(--sidebar-w);flex:1;min-height:100vh;}
+.topbar{height:60px;background:rgba(255,255,255,0.7);backdrop-filter:blur(20px);border-bottom:1px solid var(--border);display:flex;align-items:center;justify-content:space-between;padding:0 40px;position:sticky;top:0;z-index:50;}
+.breadcrumb{display:flex;align-items:center;gap:8px;font-size:13px;font-weight:500;color:var(--text2);}
+.breadcrumb .current{color:var(--accent);}
+.bc-sep{color:var(--text3);}
+.badge-pill{padding:5px 14px;border-radius:30px;font-size:12px;font-weight:600;background:linear-gradient(90deg,rgba(124,58,237,0.1),rgba(236,72,153,0.08));color:var(--accent);border:1px solid rgba(124,58,237,0.2);}
+
+/* ── HERO ── */
+.hero{position:relative;overflow:hidden;padding:64px 56px 54px;border-bottom:1px solid rgba(200,180,255,.2);min-height:320px;display:flex;flex-direction:column;justify-content:center;}
+.hero::before{content:'';position:absolute;inset:0;background:
+  radial-gradient(ellipse 70% 80% at 10% 20%,rgba(180,240,230,.7) 0%,transparent 60%),
+  radial-gradient(ellipse 55% 65% at 85% 10%,rgba(200,180,255,.6) 0%,transparent 55%),
+  radial-gradient(ellipse 60% 70% at 70% 85%,rgba(180,230,255,.55) 0%,transparent 58%),
+  radial-gradient(ellipse 50% 60% at 30% 90%,rgba(255,210,230,.4) 0%,transparent 55%),#f0fdfa;z-index:0;}
+.hero::after{content:'';position:absolute;inset:0;opacity:.35;background-image:url("data:image/svg+xml,%3Csvg viewBox='0 0 256 256' xmlns='http://www.w3.org/2000/svg'%3E%3Cfilter id='noise'%3E%3CfeTurbulence type='fractalNoise' baseFrequency='0.9' numOctaves='4' stitchTiles='stitch'/%3E%3CfeColorMatrix type='saturate' values='0'/%3E%3C/filter%3E%3Crect width='100%25' height='100%25' filter='url(%23noise)' opacity='0.15'/%3E%3C/svg%3E");background-size:200px 200px;pointer-events:none;z-index:1;mix-blend-mode:overlay;}
+.hero>*{position:relative;z-index:2;}
+.hero-eyebrow{display:inline-flex;align-items:center;gap:7px;padding:6px 18px;border-radius:40px;background:rgba(255,255,255,.55);border:1px solid rgba(255,255,255,.85);font-size:11px;font-weight:600;color:rgba(13,148,136,.85);letter-spacing:.12em;text-transform:uppercase;margin-bottom:22px;backdrop-filter:blur(16px);box-shadow:0 2px 20px rgba(13,148,136,.12),inset 0 1px 0 rgba(255,255,255,.6);width:fit-content;font-family:'Lora',serif;font-style:italic;}
+.hero-eyebrow::before{content:'◆';font-size:7px;font-style:normal;}
+.hero h1{font-family:'Lora',serif;font-size:clamp(34px,4vw,56px);font-weight:400;font-style:italic;line-height:1.08;color:rgba(30,20,70,.82);margin-bottom:18px;letter-spacing:-0.01em;}
+.hero h1 span{font-weight:600;font-style:italic;color:transparent;background:linear-gradient(135deg,rgba(13,148,136,.9) 0%,rgba(100,80,220,.85) 50%,rgba(236,72,153,.8) 100%);-webkit-background-clip:text;-webkit-text-fill-color:transparent;background-clip:text;}
+.hero-sub{font-family:'Lora',serif;font-size:15.5px;font-style:italic;color:rgba(30,60,80,.6);max-width:580px;line-height:1.7;margin-bottom:34px;}
+.hero-chips{display:flex;flex-wrap:wrap;gap:10px;}
+.hero-chip{display:flex;align-items:center;gap:9px;background:rgba(255,255,255,.52);border:1px solid rgba(255,255,255,.8);border-radius:14px;padding:9px 18px;font-size:13px;font-weight:500;color:rgba(30,60,80,.75);backdrop-filter:blur(14px);box-shadow:0 2px 16px rgba(13,148,136,.1),inset 0 1px 0 rgba(255,255,255,.6);font-family:'Lora',serif;font-style:italic;transition:all .25s;}
+.hero-chip:hover{background:rgba(255,255,255,.72);transform:translateY(-1px);}
+.hero-chip strong{font-family:'Outfit',sans-serif;font-style:normal;font-weight:800;font-size:21px;background:linear-gradient(135deg,#0d9488,#7c3aed);-webkit-background-clip:text;-webkit-text-fill-color:transparent;background-clip:text;line-height:1;}
+
+/* ── TABS ── */
+.tab-bar{display:flex;gap:2px;padding:0 40px;background:rgba(255,255,255,0.6);backdrop-filter:blur(16px);border-bottom:1px solid var(--border);position:sticky;top:60px;z-index:40;overflow-x:auto;}
+.tab-btn{display:flex;align-items:center;gap:7px;padding:14px 18px;background:none;border:none;font-family:'Outfit',sans-serif;font-size:13px;font-weight:600;color:var(--text2);cursor:pointer;border-bottom:2.5px solid transparent;margin-bottom:-1px;transition:all .2s;white-space:nowrap;}
+.tab-btn:hover{color:var(--endo);}
+.tab-btn.active{color:var(--endo);border-bottom-color:var(--endo);}
+
+/* ── CONTENT ── */
+.content{padding:36px 40px 60px;max-width:1180px;}
+.panel{display:none;}
+.panel.active{display:block;}
+.section-title{font-size:22px;font-weight:800;color:var(--text);margin-bottom:6px;}
+.section-desc{font-size:13.5px;color:var(--text2);line-height:1.6;margin-bottom:24px;}
+
+/* ── GLASS CARD ── */
+.gcard{background:var(--surface2);backdrop-filter:blur(20px);border:1px solid var(--border);border-radius:var(--radius);padding:28px;margin-bottom:24px;box-shadow:var(--shadow);}
+.gcard:hover{box-shadow:var(--shadow2);}
+.gcard-title{font-size:16px;font-weight:800;color:var(--text);margin-bottom:20px;display:flex;align-items:center;gap:10px;}
+.ct-icon{width:32px;height:32px;border-radius:9px;display:flex;align-items:center;justify-content:center;font-size:16px;}
+
+/* ── GRIDS ── */
+.g2{display:grid;grid-template-columns:1fr 1fr;gap:20px;}
+.g3{display:grid;grid-template-columns:repeat(3,1fr);gap:16px;}
+.g4{display:grid;grid-template-columns:repeat(4,1fr);gap:14px;}
+
+/* ── HIGHLIGHT BOX ── */
+.hbox{border-radius:12px;padding:16px 20px;margin-bottom:16px;font-size:13px;line-height:1.65;border-left:4px solid;}
+.hbox-blue{background:var(--blue-light);border-color:var(--blue);}
+.hbox-violet{background:var(--violet-light);border-color:var(--violet);}
+.hbox-green{background:var(--green-light);border-color:var(--green);}
+.hbox-pink{background:var(--pink-light);border-color:var(--pink);}
+.hbox-orange{background:var(--orange-light);border-color:var(--orange);}
+.hbox-cyan{background:var(--cyan-light);border-color:var(--cyan);}
+.hbox-rose{background:var(--rose-light);border-color:var(--rose);}
+.hbox-teal{background:var(--teal-light);border-color:var(--teal);}
+.hbox strong{font-weight:700;display:block;margin-bottom:4px;}
+.hbox-blue strong{color:var(--blue);}
+.hbox-violet strong{color:var(--violet);}
+.hbox-green strong{color:var(--green);}
+.hbox-pink strong{color:var(--pink);}
+.hbox-orange strong{color:var(--orange);}
+.hbox-cyan strong{color:var(--cyan);}
+.hbox-rose strong{color:var(--rose);}
+.hbox-teal strong{color:var(--teal);}
+
+/* ── MNEMONIC ── */
+.mnemonic{background:linear-gradient(135deg,#ccfbf1,#ede9fe);border:1px solid rgba(13,148,136,0.2);border-radius:14px;padding:18px 22px;margin:16px 0;}
+.mnemonic-title{font-size:12px;font-weight:700;color:var(--endo);letter-spacing:.06em;text-transform:uppercase;margin-bottom:8px;display:flex;align-items:center;gap:6px;}
+.mnemonic-text{font-size:13.5px;color:var(--text);line-height:1.7;}
+.mnemonic-text .em{color:var(--endo);font-weight:800;}
+
+/* ── TABLE ── */
+.mtable{width:100%;border-collapse:collapse;font-size:13px;}
+.mtable thead tr{background:linear-gradient(90deg,rgba(13,148,136,0.08),rgba(124,58,237,0.05));}
+.mtable th{padding:11px 14px;text-align:left;font-size:11px;font-weight:700;letter-spacing:.06em;text-transform:uppercase;color:var(--endo);border-bottom:2px solid rgba(13,148,136,0.15);}
+.mtable td{padding:10px 14px;border-bottom:1px solid rgba(13,148,136,0.07);color:var(--text2);vertical-align:top;line-height:1.5;}
+.mtable tr:last-child td{border-bottom:none;}
+.mtable tr:hover td{background:rgba(13,148,136,0.03);}
+.mtable .hl{color:var(--text);font-weight:600;}
+
+/* ── TAGS ── */
+.tag{display:inline-block;padding:3px 10px;border-radius:20px;font-size:11px;font-weight:700;}
+.t-blue{background:var(--blue-light);color:var(--blue);}
+.t-violet{background:var(--violet-light);color:var(--violet);}
+.t-green{background:var(--green-light);color:var(--green);}
+.t-pink{background:var(--pink-light);color:var(--pink);}
+.t-orange{background:var(--orange-light);color:var(--orange);}
+.t-cyan{background:var(--cyan-light);color:var(--cyan);}
+.t-rose{background:var(--rose-light);color:var(--rose);}
+.t-teal{background:var(--teal-light);color:var(--teal);}
+
+/* ── ACCORDION ── */
+.acc-item{border:1px solid var(--border);border-radius:12px;margin-bottom:10px;overflow:hidden;}
+.acc-head{display:flex;align-items:center;justify-content:space-between;padding:14px 20px;cursor:pointer;background:var(--surface2);transition:background .2s;}
+.acc-head:hover{background:rgba(13,148,136,0.04);}
+.acc-title{font-size:14px;font-weight:700;color:var(--text);display:flex;align-items:center;gap:10px;}
+.acc-body{max-height:0;overflow:hidden;transition:max-height .4s ease;background:#fff;}
+.acc-body.open{max-height:900px;}
+.acc-inner{padding:20px 22px;font-size:13px;color:var(--text2);line-height:1.7;}
+.acc-chevron{font-size:14px;color:var(--text3);transition:transform .3s;}
+.acc-item.open .acc-chevron{transform:rotate(90deg);}
+
+/* ── GLAND INTERACTIVE CARDS ── */
+.gland-card{background:var(--surface2);border:2px solid var(--border);border-radius:16px;padding:20px;transition:all .25s;cursor:pointer;text-align:center;}
+.gland-card:hover{transform:translateY(-4px);box-shadow:var(--shadow2);}
+.gland-card.selected{border-color:var(--endo);box-shadow:0 0 0 3px rgba(13,148,136,0.15);}
+.gc-icon{font-size:32px;margin-bottom:10px;display:block;}
+.gc-name{font-size:13.5px;font-weight:800;color:var(--text);margin-bottom:6px;}
+.gc-desc{font-size:11.5px;color:var(--text2);line-height:1.5;}
+.gland-detail{background:linear-gradient(135deg,var(--endo-light),#ede9fe);border:1px solid rgba(13,148,136,0.2);border-radius:16px;padding:24px;min-height:200px;transition:all .3s;}
+
+/* ── QUIZ ── */
+.quiz-score{display:flex;justify-content:space-between;align-items:center;background:linear-gradient(90deg,rgba(13,148,136,0.06),rgba(124,58,237,0.04));border:1px solid rgba(13,148,136,0.15);border-radius:12px;padding:14px 20px;margin-bottom:24px;}
+.quiz-score-label{font-size:13px;color:var(--text2);font-weight:600;}
+.quiz-score-val{font-size:22px;font-weight:800;color:var(--endo);}
+.quiz-q{background:var(--surface2);border:1px solid var(--border);border-radius:14px;padding:22px;margin-bottom:16px;}
+.quiz-qtext{font-size:14px;font-weight:700;color:var(--text);margin-bottom:14px;line-height:1.5;}
+.quiz-opts{display:grid;grid-template-columns:1fr 1fr;gap:8px;}
+.quiz-opt{padding:11px 16px;border:1.5px solid var(--border);border-radius:10px;font-size:13px;font-weight:500;color:var(--text2);cursor:pointer;background:var(--surface);transition:all .2s;text-align:left;}
+.quiz-opt:hover:not(.disabled){border-color:var(--endo);color:var(--endo);background:var(--teal-light);}
+.quiz-opt.correct{border-color:var(--green)!important;background:var(--green-light)!important;color:var(--green)!important;font-weight:700;}
+.quiz-opt.wrong{border-color:var(--rose)!important;background:var(--rose-light)!important;color:var(--rose)!important;}
+.quiz-opt.disabled{cursor:default;pointer-events:none;}
+.quiz-explain{margin-top:12px;padding:12px 16px;background:var(--green-light);border-radius:10px;font-size:12.5px;color:#065f46;font-weight:600;display:none;}
+.quiz-explain.show{display:block;}
+.quiz-next-btn{margin-top:16px;padding:10px 24px;background:linear-gradient(135deg,var(--endo),var(--accent));color:#fff;border:none;border-radius:10px;font-family:'Outfit',sans-serif;font-size:13px;font-weight:700;cursor:pointer;display:none;}
+.quiz-next-btn.show{display:inline-block;}
+
+/* ── HORMONE FLOW DIAGRAM ── */
+.flow-node{background:var(--surface2);border:1.5px solid var(--border);border-radius:10px;padding:10px 16px;font-size:12.5px;font-weight:600;color:var(--text);text-align:center;transition:all .25s;}
+.flow-node:hover{border-color:var(--endo);color:var(--endo);}
+.flow-arrow{text-align:center;color:var(--text3);font-size:18px;padding:3px 0;}
+.flow-node.node-hypo{background:linear-gradient(135deg,#ede9fe,#ddd6fe);border-color:rgba(124,58,237,0.3);}
+.flow-node.node-pitu{background:linear-gradient(135deg,#ccfbf1,#a7f3d0);border-color:rgba(13,148,136,0.3);}
+.flow-node.node-gland{background:linear-gradient(135deg,#e0f7fb,#bae6fd);border-color:rgba(6,182,212,0.3);}
+.flow-node.node-effect{background:linear-gradient(135deg,#fce7f3,#fbcfe8);border-color:rgba(236,72,153,0.3);}
+
+/* ── DISEASE TABLE ── */
+.disease-row{display:grid;grid-template-columns:160px 1fr 1fr;gap:12px;padding:12px 16px;border-radius:10px;margin-bottom:8px;align-items:start;font-size:12.5px;}
+.disease-row:nth-child(odd){background:rgba(13,148,136,0.04);}
+.disease-row:hover{background:rgba(13,148,136,0.08);}
+.dr-gland{font-weight:700;color:var(--text);}
+.dr-hypo{color:var(--blue);font-weight:500;}
+.dr-hyper{color:var(--rose);font-weight:500;}
+.disease-header{display:grid;grid-template-columns:160px 1fr 1fr;gap:12px;padding:10px 16px;font-size:11px;font-weight:700;text-transform:uppercase;letter-spacing:.06em;color:var(--endo);border-bottom:2px solid rgba(13,148,136,0.15);margin-bottom:8px;}
+
+/* ── SVG BODY MAP ── */
+.body-map-wrap{display:flex;gap:28px;align-items:flex-start;flex-wrap:wrap;}
+.body-svg-side{flex-shrink:0;}
+.body-info-side{flex:1;min-width:260px;}
+.body-gland-detail{background:linear-gradient(135deg,var(--endo-light),#ede9fe);border:1px solid rgba(13,148,136,0.2);border-radius:14px;padding:20px;min-height:150px;transition:all .3s;}
+.body-gland-detail h3{font-size:16px;font-weight:800;color:var(--text);margin-bottom:8px;}
+.body-gland-detail p{font-size:13px;color:var(--text2);line-height:1.65;}
+.body-gland-detail .hormone-list{margin-top:10px;display:flex;flex-wrap:wrap;gap:6px;}
+
+/* Mobile */
+.mob-menu-btn{display:none;position:fixed;bottom:20px;right:20px;z-index:200;background:var(--endo);color:#fff;border:none;width:52px;height:52px;border-radius:50%;font-size:22px;cursor:pointer;box-shadow:0 4px 20px rgba(13,148,136,0.4);}
+@media(max-width:860px){
+  #sidebar{transform:translateX(-100%);transition:transform .3s;}
+  #sidebar.open{transform:translateX(0);}
+  #main{margin-left:0;}
+  .mob-menu-btn{display:flex;align-items:center;justify-content:center;}
+  .hero{padding:40px 24px 36px;}
+  .content{padding:24px 16px 50px;}
+  .g2,.g3,.g4{grid-template-columns:1fr;}
+  .quiz-opts{grid-template-columns:1fr;}
+  .body-map-wrap{flex-direction:column;}
+  .disease-row,.disease-header{grid-template-columns:1fr;}
+  .tab-bar{padding:0 16px;}
+  .topbar{padding:0 20px;}
+}
+
+/* ──────── ANIMATIONS (STIL PREMIUM CAP 9) ──────── */
+@keyframes fadeUp { 
+  from { opacity: 0; transform: translateY(6px); } 
+  to { opacity: 1; transform: translateY(0); } 
+}
+.fu { animation: fadeUp 0.5s ease both; }
+.fu-1 { animation-delay: .08s; }
+.fu-2 { animation-delay: .16s; }
+.fu-3 { animation-delay: .24s; }
+.fu-4 { animation-delay: .32s; }
+
+/* TOOLTIP (panourile noi) */
+.svgtip{position:fixed;background:rgba(255,255,255,.97);border:1px solid rgba(124,58,237,.2);border-radius:10px;padding:10px 14px;font-size:12px;color:var(--text);max-width:250px;box-shadow:0 4px 20px rgba(124,58,237,.15);pointer-events:none;z-index:9999;display:none;line-height:1.5;}
+.svgtip strong{color:var(--accent);display:block;margin-bottom:4px;font-size:13px;}
+
+/* HORMONE CARD (panoul Hipofiza) */
+.hcard{border-radius:14px;padding:16px 18px;border:1.5px solid;cursor:pointer;transition:all .25s;position:relative;}
+.hcard:hover{transform:translateY(-3px);box-shadow:var(--shadow2);}
+.hcard-name{font-size:13px;font-weight:800;margin-bottom:3px;}
+.hcard-abbr{font-size:10px;font-weight:700;letter-spacing:.06em;text-transform:uppercase;opacity:.7;margin-bottom:8px;}
+.hcard-target{font-size:11.5px;color:var(--text2);}
+</style>
+</head>
+<body>
+
+<!-- SIDEBAR -->
+<nav id="sidebar">
+  <div class="sidebar-logo">
+    <img src="medStudy.png" alt="Logo MedStudy" style="width: 42px; height: 42px; object-fit: contain; filter: drop-shadow(0 4px 14px rgba(124,58,237,0.35));">
+    <div><div class="logo-text">MedStudy</div><div class="logo-sub">Anatomy Made Easy</div></div>
+  </div>
+ 
+ <div class="nav-scroll" id="chapters-menu">
+  <div class="sidebar-section-label">Capitole</div>
+
+  <a class="nav-item" href="cap1.html"><span class="nav-num">1</span>Introducere în A&B</a>
+  <a class="nav-item" href="cap2.html"><span class="nav-num">2</span>Bazele Chimice</a>
+  <a class="nav-item" href="cap3.html"><span class="nav-num">3</span>Fiziologia celulară</a>
+  <a class="nav-item" href="cap4.html"><span class="nav-num">4</span>Țesuturile</a>
+  <a class="nav-item" href="cap5.html"><span class="nav-num">5</span>Sistemul Tegumentar</a>
+  <a class="nav-item" href="cap6.html"><span class="nav-num">6</span>Oasele și Articulațiile</a>
+  <a class="nav-item" href="cap7.html"><span class="nav-num">7</span>Sistemul Osos</a>
+  <a class="nav-item" href="cap8.html"><span class="nav-num">8</span>Țesutul Muscular</a>
+  <a class="nav-item" href="cap9.html"><span class="nav-num">9</span>Sistemul Muscular</a>
+  <a class="nav-item" href="cap10.html"><span class="nav-num">10</span>Țesutul Nervos</a>
+  <a class="nav-item" href="cap11.html"><span class="nav-num">11</span>Organizarea Sistemului Nervos</a>
+  <a class="nav-item" href="cap12.html"><span class="nav-num">12</span>Organele de Simț</a>
+  <a class="nav-item" href="cap13.html"><span class="nav-num">13</span>Sistemul Endocrin</a>
+  <a class="nav-item" href="cap14.html"><span class="nav-num">14</span>Sângele</a>
+  <a class="nav-item" href="cap15.html"><span class="nav-num">15</span>Sistemul Cardiovascular</a>
+  <a class="nav-item" href="cap16.html"><span class="nav-num">16</span>Sistemul Limfatic</a>
+  <a class="nav-item" href="cap17.html"><span class="nav-num">17</span>Sistemul Respirator</a>
+  <a class="nav-item" href="cap18.html"><span class="nav-num">18</span>Sistemul Digestiv</a>
+  <a class="nav-item" href="cap19.html"><span class="nav-num">19</span>Metabolism & Nutriție</a>
+  <a class="nav-item" href="cap20.html"><span class="nav-num">20</span>Sistemul Urinar</a>
+  <a class="nav-item" href="cap21.html"><span class="nav-num">21</span>Echilibrul Hidro-Electrolitic</a>
+  <a class="nav-item" href="cap22.html"><span class="nav-num">22</span>Sistemul Reproducător Masculin</a>
+  <a class="nav-item" href="cap23.html"><span class="nav-num">23</span>Sistemul Reproducător Feminin</a>
+</div>
+ 
+  <div class="sidebar-footer">
+    <div class="prog-label"><span>Progres total</span><span>13/23</span></div>
+    <div class="prog-track"><div class="prog-fill"></div></div>
+  </div>
+</nav>
+
+<button class="mob-menu-btn" onclick="document.getElementById('sidebar').classList.toggle('open')">☰</button>
+
+<!-- MAIN -->
+<div id="main">
+<div class="svgtip" id="svgtip"></div>
+  <div class="topbar">
+    <div class="breadcrumb">
+      <span>A&F Umană</span><span class="bc-sep">›</span>
+      <span>Capitol 13</span><span class="bc-sep">›</span>
+      <span class="current">Sistemul Endocrin</span>
+    </div>
+    <div class="badge-pill">🎓 Pregătire Admitere Medicină</div>
+  </div>
+
+  <!-- HERO -->
+  <div class="hero">
+    <div class="hero-eyebrow fu fu-1">Capitol 13 · Reglare hormonală</div>
+    <h1 class="fu fu-2">Sistemul<span> Endocrin</span></h1>
+    <p class="hero-sub fu fu-3">Rețeaua de glande și hormoni care reglează creșterea, metabolismul, reproducerea și homeostazia întregului organism prin mesageri chimici transportați de sânge.</p>
+    <div class="hero-chips fu fu-4">
+      <div class="hero-chip"><strong>9+</strong>glande endocrine</div>
+      <div class="hero-chip"><strong>2</strong>tipuri de hormoni</div>
+      <div class="hero-chip"><strong>7</strong>hormoni hipofizari</div>
+      <div class="hero-chip"><strong>∞</strong>feedback negativ</div>
+    </div>
+  </div>
+
+  <!-- TABS -->
+  <div class="tab-bar">
+    <button class="tab-btn active" onclick="switchTab('infografice',this)">🗺 Infografice</button>
+    <button class="tab-btn" onclick="switchTab('hormoni',this)">🔬 Tipuri de hormoni</button>
+    <button class="tab-btn" onclick="switchTab('hipofiza',this)">🧠 Hipofiza</button>
+    <button class="tab-btn" onclick="switchTab('altegLande',this)">⚗️ Alte glande</button>
+    <button class="tab-btn" onclick="switchTab('boli',this)">🏥 Boli endocrine</button>
+    <button class="tab-btn" onclick="switchTab('tabele',this)">📊 Tabele</button>
+    <button class="tab-btn" onclick="switchTab('quiz',this)">🎯 Quiz</button>
+  </div>
+
+  <div class="content">
+
+    <!-- ═══ TAB: INFOGRAFICE ═══ -->
+    <div class="panel active" id="tab-infografice">
+      <div class="section-title">Infografice — Sistemul Endocrin</div>
+      <p class="section-desc">Hartă interactivă a corpului uman cu toate glandele endocrine. Click pe o glandă pentru detalii complete.</p>
+
+      <!-- INTERACTIVE BODY MAP -->
+      <div class="gcard">
+        <div class="gcard-title"><div class="ct-icon" style="background:#ccfbf1">🫁</div>Harta Glandelor Endocrine — Click pentru detalii</div>
+        <div class="body-map-wrap">
+          <div class="body-svg-side">
+            <svg width="220" height="500" viewBox="0 0 220 500" xmlns="http://www.w3.org/2000/svg" style="cursor:pointer">
+              <!-- Body silhouette -->
+              <ellipse cx="110" cy="38" rx="30" ry="35" fill="#e0e7ff" stroke="#c7d2fe" stroke-width="1.5"/>
+              <!-- Neck -->
+              <rect x="99" y="68" width="22" height="20" rx="4" fill="#e0e7ff" stroke="#c7d2fe" stroke-width="1"/>
+              <!-- Torso -->
+              <path d="M65 88 Q55 100 52 150 L52 270 Q55 285 110 290 Q165 285 168 270 L168 150 Q165 100 155 88 Z" fill="#e0e7ff" stroke="#c7d2fe" stroke-width="1.5"/>
+              <!-- Arms -->
+              <path d="M52 100 Q30 130 28 200 Q27 220 35 225" stroke="#c7d2fe" stroke-width="10" fill="none" stroke-linecap="round"/>
+              <path d="M168 100 Q190 130 192 200 Q193 220 185 225" stroke="#c7d2fe" stroke-width="10" fill="none" stroke-linecap="round"/>
+              <!-- Legs -->
+              <path d="M80 290 Q75 350 72 420 Q71 450 78 460" stroke="#c7d2fe" stroke-width="14" fill="none" stroke-linecap="round"/>
+              <path d="M140 290 Q145 350 148 420 Q149 450 142 460" stroke="#c7d2fe" stroke-width="14" fill="none" stroke-linecap="round"/>
+
+              <!-- GLANDS as clickable dots -->
+              <!-- Epifiza (Pineal) -->
+              <g onclick="showGland('epifiza')" style="cursor:pointer">
+                <circle cx="116" cy="28" r="7" fill="#7c3aed" opacity="0.85"/>
+                <text x="128" y="32" font-size="9" fill="#7c3aed" font-weight="700">Epi-</text>
+                <text x="128" y="41" font-size="9" fill="#7c3aed" font-weight="700">fiză</text>
+                <circle cx="116" cy="28" r="7" fill="none" stroke="#7c3aed" stroke-width="2">
+                  <animate attributeName="r" from="7" to="12" dur="1.5s" repeatCount="indefinite"/>
+                  <animate attributeName="opacity" from="0.8" to="0" dur="1.5s" repeatCount="indefinite"/>
+                </circle>
+              </g>
+              <!-- Hipofiza -->
+              <g onclick="showGland('hipofiza')" style="cursor:pointer">
+                <circle cx="110" cy="50" r="7" fill="#0d9488" opacity="0.85"/>
+                <text x="62" y="58" font-size="9" fill="#0d9488" font-weight="700">Hipofiză</text>
+                <line x1="98" y1="50" x2="86" y2="55" stroke="#0d9488" stroke-width="1" stroke-dasharray="2,2"/>
+                <circle cx="110" cy="50" r="7" fill="none" stroke="#0d9488" stroke-width="2">
+                  <animate attributeName="r" from="7" to="12" dur="1.8s" repeatCount="indefinite"/>
+                  <animate attributeName="opacity" from="0.7" to="0" dur="1.8s" repeatCount="indefinite"/>
+                </circle>
+              </g>
+              <!-- Tiroida -->
+              <g onclick="showGland('tiroida')" style="cursor:pointer">
+                <ellipse cx="110" cy="84" rx="9" ry="6" fill="#ec4899" opacity="0.85"/>
+                <text x="130" y="88" font-size="9" fill="#ec4899" font-weight="700">Tiroidă</text>
+                <circle cx="110" cy="84" r="7" fill="none" stroke="#ec4899" stroke-width="2">
+                  <animate attributeName="r" from="7" to="13" dur="2s" repeatCount="indefinite"/>
+                  <animate attributeName="opacity" from="0.7" to="0" dur="2s" repeatCount="indefinite"/>
+                </circle>
+              </g>
+              <!-- Timus -->
+              <g onclick="showGland('timus')" style="cursor:pointer">
+                <ellipse cx="110" cy="115" rx="11" ry="8" fill="#06b6d4" opacity="0.75"/>
+                <text x="128" y="118" font-size="9" fill="#06b6d4" font-weight="700">Timus</text>
+                <circle cx="110" cy="115" r="8" fill="none" stroke="#06b6d4" stroke-width="1.5">
+                  <animate attributeName="r" from="8" to="14" dur="2.2s" repeatCount="indefinite"/>
+                  <animate attributeName="opacity" from="0.6" to="0" dur="2.2s" repeatCount="indefinite"/>
+                </circle>
+              </g>
+              <!-- Pancreas -->
+              <g onclick="showGland('pancreas')" style="cursor:pointer">
+                <ellipse cx="115" cy="185" rx="20" ry="7" fill="#f59e0b" opacity="0.85"/>
+                <text x="143" y="189" font-size="9" fill="#f59e0b" font-weight="700">Pancreas</text>
+                <circle cx="115" cy="185" r="8" fill="none" stroke="#f59e0b" stroke-width="2">
+                  <animate attributeName="r" from="8" to="14" dur="2s" repeatCount="indefinite"/>
+                  <animate attributeName="opacity" from="0.7" to="0" dur="2s" repeatCount="indefinite"/>
+                </circle>
+              </g>
+              <!-- Suprarenale -->
+              <g onclick="showGland('suprarenale')" style="cursor:pointer">
+                <ellipse cx="90" cy="215" rx="8" ry="5" fill="#10b981" opacity="0.85"/>
+                <ellipse cx="130" cy="215" rx="8" ry="5" fill="#10b981" opacity="0.85"/>
+                <text x="30" y="220" font-size="9" fill="#10b981" font-weight="700">Supra-</text>
+                <text x="30" y="230" font-size="9" fill="#10b981" font-weight="700">renale</text>
+                <line x1="56" y1="222" x2="82" y2="215" stroke="#10b981" stroke-width="1" stroke-dasharray="2,2"/>
+              </g>
+              <!-- Rinichi -->
+              <g onclick="showGland('rinichi')">
+                <ellipse cx="88" cy="235" rx="10" ry="16" fill="#e0e7ff" stroke="#a5b4fc" stroke-width="1.5" opacity="0.8"/>
+                <ellipse cx="132" cy="235" rx="10" ry="16" fill="#e0e7ff" stroke="#a5b4fc" stroke-width="1.5" opacity="0.8"/>
+              </g>
+              <!-- Ovare/Testicule -->
+              <g onclick="showGland('gonade')" style="cursor:pointer">
+                <ellipse cx="100" cy="290" rx="8" ry="6" fill="#f43f5e" opacity="0.8"/>
+                <ellipse cx="120" cy="290" rx="8" ry="6" fill="#f43f5e" opacity="0.8"/>
+                <text x="50" y="295" font-size="9" fill="#f43f5e" font-weight="700">Gonade</text>
+                <line x1="80" y1="292" x2="92" y2="290" stroke="#f43f5e" stroke-width="1" stroke-dasharray="2,2"/>
+              </g>
+
+              <!-- Legend dots -->
+              <circle cx="20" cy="340" r="4" fill="#7c3aed"/>
+              <text x="28" y="344" font-size="8.5" fill="#6b7280">Epifiză</text>
+              <circle cx="20" cy="355" r="4" fill="#0d9488"/>
+              <text x="28" y="359" font-size="8.5" fill="#6b7280">Hipofiză</text>
+              <circle cx="20" cy="370" r="4" fill="#ec4899"/>
+              <text x="28" y="374" font-size="8.5" fill="#6b7280">Tiroidă</text>
+              <circle cx="20" cy="385" r="4" fill="#06b6d4"/>
+              <text x="28" y="389" font-size="8.5" fill="#6b7280">Timus</text>
+              <circle cx="20" cy="400" r="4" fill="#f59e0b"/>
+              <text x="28" y="404" font-size="8.5" fill="#6b7280">Pancreas</text>
+              <circle cx="20" cy="415" r="4" fill="#10b981"/>
+              <text x="28" y="419" font-size="8.5" fill="#6b7280">Suprarenale</text>
+              <circle cx="20" cy="430" r="4" fill="#f43f5e"/>
+              <text x="28" y="434" font-size="8.5" fill="#6b7280">Gonade</text>
+            </svg>
+          </div>
+          <div class="body-info-side">
+            <div class="body-gland-detail" id="gland-detail">
+              <h3>👆 Click pe o glandă</h3>
+              <p>Selectează o glandă endocrină din diagrama corpului uman pentru a vedea hormonii produși, organele țintă și patologiile asociate.</p>
+            </div>
+            <div style="margin-top:16px" class="hbox hbox-teal">
+              <strong>💡 Sfat admitere</strong>
+              Sistemul endocrin funcționează prin feedback negativ: nivelul crescut al hormonului efector inhibă secreția hormonului hipofizar corespunzător.
+            </div>
+          </div>
+        </div>
+      </div>
+
+    <!-- PITUITARY detailed SVG -->
+    <div class="gcard fu fu-2">
+      <div class="gcard-title">
+        <div class="ct-icon" style="background:var(--orange-light)">🧠</div>
+        Hipofiza — Adenohipofiză vs. Neurohipofiză (interactiv)
+      </div>
+      <div class="g2" style="align-items:center;gap:24px">
+        <svg viewBox="0 0 380 280" style="width:100%;height:auto;border-radius:14px;background:linear-gradient(135deg,#fef9f0,#f5f0ff)">
+          <!-- Hipotalamus -->
+          <path d="M80 30 Q110 20 190 20 Q270 20 300 30 L290 80 Q260 90 190 90 Q120 90 90 80 Z" fill="#ddd6fe" stroke="#7c3aed" stroke-width="2" style="cursor:pointer"
+            onmouseenter="showTip(event,'Hipotalamusul','Produce neurohormoni (ADH, Oxitocina → stocate în neurohipofiză). Produce hormoni stimulatori/inhibitori → controlează adenohipofiza prin sistemul port. TRH(→TSH), GnRH(→FSH/LH), CRH(→ACTH), GHRH/GHIH(→STH), PRH/PIH(→PRL).')" onmouseleave="hideTip()"/>
+          <text x="190" y="58" text-anchor="middle" font-size="12" fill="#3b0764" font-weight="800" font-family="Outfit">HIPOTALAMUSUL</text>
+
+          <!-- Infundibulum -->
+          <path d="M175 90 L172 115 L168 135 L185 140 L202 135 L208 115 L205 90 Z" fill="#e9d5ff" stroke="#7c3aed" stroke-width="1.5"/>
+          <text x="190" y="120" text-anchor="middle" font-size="9" fill="#4c1d95" font-weight="700" font-family="Outfit">Infundibul</text>
+
+          <!-- Sella turcica -->
+          <path d="M140 135 Q140 110 190 108 Q240 108 240 135 L242 195 Q242 215 190 215 Q138 215 138 195 Z" fill="#fff7ed" stroke="#d97706" stroke-width="2"/>
+
+          <!-- Adenohipofiza (anterior) -->
+          <path d="M145 138 Q145 118 190 116 Q235 116 235 138 L235 178 Q235 198 190 198 L155 195 L145 178 Z" fill="#fbbf24" stroke="#f59e0b" stroke-width="2" style="cursor:pointer"
+            onmouseenter="showTip(event,'ADENOHIPOFIZA (Lobul anterior)','Glandă endocrină adevărată. Controlată de hipotalamus prin sistemul port hipotalamo-hipofizar. Produce: STH, TSH, ACTH, PRL, FSH, LH, MSH. Toți hormoni TROPI controlează alte glande endocrine (cu excepția STH și PRL).')" onmouseleave="hideTip()"/>
+          <text x="175" y="155" text-anchor="middle" font-size="10" fill="#78350f" font-weight="800" font-family="Outfit">ADENO-</text>
+          <text x="175" y="168" text-anchor="middle" font-size="10" fill="#78350f" font-weight="800" font-family="Outfit">HIPOFIZĂ</text>
+          <text x="175" y="180" text-anchor="middle" font-size="8" fill="#92400e" font-family="Outfit">(lob anterior)</text>
+
+          <!-- Neurohipofiza (posterior) -->
+          <path d="M202 138 L235 138 L235 178 Q235 198 202 198 Z" fill="#93c5fd" stroke="#3b82f6" stroke-width="2" style="cursor:pointer"
+            onmouseenter="showTip(event,'NEUROHIPOFIZA (Lobul posterior)','NU e glandă endocrină! Este rezervor pentru hormonii produși de HIPOTALAMUS. Stochează și eliberează: ADH (vasopresina) → reabsorbție apă la rinichi; Oxitocina → contracții uterine + ejecție lapte. Eliberare declanșată de stimuli din neuronii hipotalamici.')" onmouseleave="hideTip()"/>
+          <text x="218" y="162" text-anchor="middle" font-size="9" fill="#1e40af" font-weight="800" font-family="Outfit">NEURO-</text>
+          <text x="218" y="174" text-anchor="middle" font-size="9" fill="#1e40af" font-weight="800" font-family="Outfit">HIPOF.</text>
+          <text x="218" y="186" text-anchor="middle" font-size="7.5" fill="#1d4ed8" font-family="Outfit">(lob post.)</text>
+
+          <!-- Arrows from adeno -->
+          <text x="60" y="235" font-size="9" fill="#78350f" font-weight="700" font-family="Outfit">STH → Creștere</text>
+          <text x="60" y="248" font-size="9" fill="#78350f" font-weight="700" font-family="Outfit">TSH → Tiroidă</text>
+          <text x="60" y="261" font-size="9" fill="#78350f" font-weight="700" font-family="Outfit">ACTH → Suprarenală</text>
+          <line x1="155" y1="200" x2="120" y2="228" stroke="#f59e0b" stroke-width="1.5" stroke-dasharray="3,2"/>
+          <text x="290" y="235" font-size="9" fill="#1e40af" font-weight="700" font-family="Outfit">ADH → Rinichi</text>
+          <text x="290" y="248" font-size="9" fill="#1e40af" font-weight="700" font-family="Outfit">Oxitocina → Uter</text>
+          <line x1="235" y1="170" x2="288" y2="230" stroke="#3b82f6" stroke-width="1.5" stroke-dasharray="3,2"/>
+
+          <!-- Sella label -->
+          <text x="190" y="210" text-anchor="middle" font-size="8.5" fill="#6b7280" font-family="Outfit">Sella turcica (os sfenoid)</text>
+
+          <!-- Sistem port arrows -->
+          <line x1="190" y1="92" x2="190" y2="112" stroke="#7c3aed" stroke-width="2"/>
+          <polygon points="186,110 194,110 190,116" fill="#7c3aed"/>
+          <text x="210" y="100" font-size="8" fill="#4c1d95" font-weight="700" font-family="Outfit">Sist. port</text>
+        </svg>
+
+        <div>
+          <!-- Interactive hormone cards -->
+          <div style="font-size:13px;font-weight:800;color:var(--text);margin-bottom:12px">Hormoni adenohipofiză — click pentru detalii</div>
+          <div id="hormone-cards" style="display:grid;grid-template-columns:1fr 1fr;gap:8px;margin-bottom:12px"></div>
+          <div id="hormone-detail" style="display:none;border-radius:12px;padding:14px 18px;background:var(--orange-light);border:1.5px solid var(--orange);font-size:13px;line-height:1.6">
+            <div id="hd-title" style="font-weight:800;color:#78350f;font-size:15px;margin-bottom:6px"></div>
+            <div id="hd-body" style="color:#92400e"></div>
+          </div>
+          <div class="mnemonic" style="margin-top:10px">
+            <div class="mnemonic-title">💡 Neurohipofiza ≠ glandă endocrină</div>
+            <div class="mnemonic-text"><span class="em">ADH + Oxitocina = produse în hipotalamus, STOCATE în neurohipofiză</span><br>
+            <span style="font-size:12px;color:var(--text2)">Neurohipofiza e doar un depozit! Hipotalamusul e cel care le produce prin celulele neurosecretoare.</span></div>
+          </div>
+        </div>
+      </div>
+    </div>
+
+    <!-- GLUCOSE REGULATION SVG -->
+    <div class="gcard fu fu-3">
+      <div class="gcard-title">
+        <div class="ct-icon" style="background:var(--violet-light)">🩸</div>
+        Reglarea glicemiei — Insulina vs. Glucagon (animat)
+      </div>
+      <div class="g2" style="gap:24px;align-items:center">
+        <svg viewBox="0 0 340 300" style="width:100%;height:auto;border-radius:14px;background:linear-gradient(135deg,#f0fdf4,#eff6ff)">
+          <!-- Central circle BLOOD GLUCOSE -->
+          <circle cx="170" cy="150" r="55" fill="white" stroke="#8b5cf6" stroke-width="2.5"/>
+          <text x="170" y="143" text-anchor="middle" font-size="11" fill="#3b0764" font-weight="800" font-family="Outfit">Glicemia</text>
+          <text x="170" y="158" text-anchor="middle" font-size="10" fill="#6b7280" font-family="Outfit">sangvina</text>
+          <text x="170" y="172" text-anchor="middle" font-size="13" fill="#8b5cf6" font-weight="900" font-family="Outfit">⇅</text>
+
+          <!-- HIGH glucose path -->
+          <path d="M225 130 Q280 80 290 40" fill="none" stroke="#10b981" stroke-width="2.5" stroke-dasharray="5,3"/>
+          <polygon points="286,46 294,38 292,50" fill="#10b981"/>
+          <rect x="240" y="15" width="92" height="36" rx="8" fill="#d1fae5" stroke="#10b981" stroke-width="1.5"/>
+          <text x="286" y="30" text-anchor="middle" font-size="9.5" fill="#064e3b" font-weight="800" font-family="Outfit">↑ Glicemie</text>
+          <text x="286" y="43" text-anchor="middle" font-size="9" fill="#065f46" font-family="Outfit">stimulează</text>
+          <!-- INSULINA box -->
+          <rect x="260" y="60" width="75" height="42" rx="10" fill="#10b981" stroke="#065f46" stroke-width="1.5"/>
+          <text x="297" y="77" text-anchor="middle" font-size="11" fill="white" font-weight="900" font-family="Outfit">INSULINA</text>
+          <text x="297" y="90" text-anchor="middle" font-size="8.5" fill="#d1fae5" font-family="Outfit">celule β</text>
+          <!-- Insulin effect -->
+          <path d="M260 95 Q215 120 220 145" fill="none" stroke="#10b981" stroke-width="2.5"/>
+          <polygon points="216,141 224,141 220,149" fill="#10b981"/>
+          <text x="235" y="115" font-size="8.5" fill="#064e3b" font-weight="700" font-family="Outfit">↓ glicemie</text>
+          <text x="235" y="126" font-size="8" fill="#065f46" font-family="Outfit">glucoza → celule</text>
+
+          <!-- LOW glucose path -->
+          <path d="M115 170 Q60 200 48 240" fill="none" stroke="#f59e0b" stroke-width="2.5" stroke-dasharray="5,3"/>
+          <polygon points="44,235 52,238 46,245" fill="#f59e0b"/>
+          <rect x="10" y="248" width="92" height="36" rx="8" fill="#fef3c7" stroke="#f59e0b" stroke-width="1.5"/>
+          <text x="56" y="263" text-anchor="middle" font-size="9.5" fill="#78350f" font-weight="800" font-family="Outfit">↓ Glicemie</text>
+          <text x="56" y="276" text-anchor="middle" font-size="9" fill="#92400e" font-family="Outfit">stimulează</text>
+          <!-- GLUCAGON box -->
+          <rect x="8" y="195" width="78" height="42" rx="10" fill="#f59e0b" stroke="#d97706" stroke-width="1.5"/>
+          <text x="47" y="212" text-anchor="middle" font-size="10.5" fill="white" font-weight="900" font-family="Outfit">GLUCAGON</text>
+          <text x="47" y="226" text-anchor="middle" font-size="8.5" fill="#fef3c7" font-family="Outfit">celule α</text>
+          <!-- Glucagon effect -->
+          <path d="M86 205 Q130 195 130 170" fill="none" stroke="#f59e0b" stroke-width="2.5"/>
+          <polygon points="126,174 134,172 130,180" fill="#f59e0b"/>
+          <text x="95" y="188" font-size="8.5" fill="#78350f" font-weight="700" font-family="Outfit">↑ glicemie</text>
+          <text x="90" y="200" font-size="8" fill="#92400e" font-family="Outfit">glicogenoliză</text>
+
+          <!-- FICAT -->
+          <ellipse cx="170" cy="260" rx="55" ry="25" fill="#fde68a" stroke="#d97706" stroke-width="1.5" style="cursor:pointer"
+            onmouseenter="showTip(event,'Ficatul — organ țintă central','Insulina → stimulează sinteza glicogenului în ficat (glicogenogeneză). Glucagon → stimulează degradarea glicogenului (glicogenoliza) + gluconeogeneza (glucoză din aminoacizi și lipide).')" onmouseleave="hideTip()"/>
+          <text x="170" y="264" text-anchor="middle" font-size="11" fill="#78350f" font-weight="800" font-family="Outfit">FICAT</text>
+
+          <!-- Label PANCREAS -->
+          <text x="170" y="295" text-anchor="middle" font-size="9" fill="#6b7280" font-weight="700" font-family="Outfit">Insulele Langerhans (Pancreas)</text>
+        </svg>
+
+        <div>
+          <div class="hbox hbox-green">
+            <strong>💉 Insulina (celule β) — detalii admitere</strong>
+            Hormon proteic, 51 aminoacizi, 2 lanțuri. Secretat POSTPRANDIAL (după mese). Efecte: ↓ glicemie, ↑ uptake glucoză celular (mai ales ficat), stimulează glicogenogeneza, inhibă gluconeogeneza. Deficiența → Diabet ZAHARAT tip 1 (celule β distruse) sau tip 2 (rezistență la insulină).
+          </div>
+          <div class="hbox hbox-orange">
+            <strong>⚡ Glucagon (celule α) — detalii admitere</strong>
+            Secretat în ÎNFOMETARE (glicemie scăzută). Efecte: ↑ glicemie prin glicogenoliza (glicogen → glucoză) la nivelul ficatului + gluconeogeneza (aminoacizi + lipide → glucoză). Îndepărtează aminoacizi din sânge.
+          </div>
+          <div class="hbox hbox-violet">
+            <strong>🔁 Feedback negativ în sistemul endocrin</strong>
+            Exemplu clasic: ↑ cortizol → inhibă secreția ACTH din adenohipofiză → inhibă secreția CRH din hipotalamus → cortizolul revine la normal. Același mecanism pentru T3/T4 (inhibă TSH) și hormoni gonadali (inhibă FSH/LH).
+          </div>
+          <div class="mnemonic">
+            <div class="mnemonic-title">💡 Mnemonic — Diabet</div>
+            <div class="mnemonic-text"><span class="em">Tip 1 = lipsă Insulina; Tip 2 = rezistență la Insulina</span><br>
+            <span style="font-size:12px;color:var(--text2)">Simptome comune: poliurie + polidipsie (glucoza în urină atrage apa → urinare frecventă → sete). ADH deficient → diabet INSIPID (nu zaharat!) — poliurie fără hiperglicemie.</span></div>
+          </div>
+        </div>
+      </div>
+    </div>
+
+      <!-- HORMONE MECHANISM FLOWCHART SVG -->
+      <div class="gcard">
+        <div class="gcard-title"><div class="ct-icon" style="background:#ede9fe">⚙️</div>Mecanismele de acțiune ale hormonilor</div>
+        <div class="g2">
+          <!-- Steroizi -->
+          <div style="background:rgba(124,58,237,0.04);border:1px solid rgba(124,58,237,0.15);border-radius:14px;padding:20px">
+            <div style="font-size:14px;font-weight:800;color:var(--violet);margin-bottom:16px;text-align:center">🔵 Hormoni Steroizi</div>
+            <div style="display:flex;flex-direction:column;gap:4px">
+              <div class="flow-node" style="background:linear-gradient(135deg,#ede9fe,#ddd6fe)">Colesterol → Sinteză steroid</div>
+              <div class="flow-arrow">↓</div>
+              <div class="flow-node">Trece prin membrana celulară<br><small style="color:var(--text3)">(liposolubil)</small></div>
+              <div class="flow-arrow">↓</div>
+              <div class="flow-node">Receptor intracelular (citoplasmatic)</div>
+              <div class="flow-arrow">↓</div>
+              <div class="flow-node" style="background:linear-gradient(135deg,#ede9fe,#e0e7ff)">Complex hormon-receptor → nucleu</div>
+              <div class="flow-arrow">↓</div>
+              <div class="flow-node">Activare gene → ARNm</div>
+              <div class="flow-arrow">↓</div>
+              <div class="flow-node" style="background:linear-gradient(135deg,#d1fae5,#a7f3d0);border-color:rgba(16,185,129,0.3)">🧬 Sinteză proteică → efect celular</div>
+            </div>
+            <div class="mnemonic" style="margin-top:12px">
+              <div class="mnemonic-title">📌 Exemple steroizi</div>
+              <div class="mnemonic-text">Cortizol, Estrogen, Progesteron, Testosteron, Aldosteron</div>
+            </div>
+          </div>
+          <!-- Non-Steroizi -->
+          <div style="background:rgba(13,148,136,0.04);border:1px solid rgba(13,148,136,0.15);border-radius:14px;padding:20px">
+            <div style="font-size:14px;font-weight:800;color:var(--endo);margin-bottom:16px;text-align:center">🟢 Hormoni Non-Steroizi</div>
+            <div style="display:flex;flex-direction:column;gap:4px">
+              <div class="flow-node" style="background:linear-gradient(135deg,#ccfbf1,#a7f3d0)">Proteine / Peptide / Amine</div>
+              <div class="flow-arrow">↓</div>
+              <div class="flow-node">NU trece membrana<br><small style="color:var(--text3)">(hidrosolubil)</small></div>
+              <div class="flow-arrow">↓</div>
+              <div class="flow-node">Receptor pe membrana celulară</div>
+              <div class="flow-arrow">↓</div>
+              <div class="flow-node" style="background:linear-gradient(135deg,#ccfbf1,#e0f7fb)">Activare adenilat-ciclază</div>
+              <div class="flow-arrow">↓</div>
+              <div class="flow-node">ATP → cAMP (mesager secundar)</div>
+              <div class="flow-arrow">↓</div>
+              <div class="flow-node" style="background:linear-gradient(135deg,#fce7f3,#fbcfe8);border-color:rgba(236,72,153,0.3)">🔬 Activare enzime → efect celular</div>
+            </div>
+            <div class="mnemonic" style="margin-top:12px">
+              <div class="mnemonic-title">📌 Exemple non-steroizi</div>
+              <div class="mnemonic-text">Insulină, ADH, Oxitocină, FSH, LH, TSH, ACTH, GH</div>
+            </div>
+          </div>
+        </div>
+      </div>
+
+      <!-- FEEDBACK NEGATIV FLOWCHART -->
+      <div class="gcard">
+        <div class="gcard-title"><div class="ct-icon" style="background:#fce7f3">🔄</div>Feedbackul Negativ — Axa Hipotalamo-Hipofizară</div>
+        <svg width="100%" height="260" viewBox="0 0 700 260" xmlns="http://www.w3.org/2000/svg" style="max-width:700px;display:block;margin:0 auto">
+          <!-- Boxes -->
+          <rect x="260" y="10" width="180" height="50" rx="12" fill="#ede9fe" stroke="#8b5cf6" stroke-width="2"/>
+          <text x="350" y="32" text-anchor="middle" font-family="Outfit" font-size="13" font-weight="700" fill="#7c3aed">HIPOTALAMUS</text>
+          <text x="350" y="48" text-anchor="middle" font-family="Outfit" font-size="10" fill="#8b5cf6">Secretă hormoni de eliberare (RH)</text>
+
+          <rect x="260" y="100" width="180" height="50" rx="12" fill="#ccfbf1" stroke="#0d9488" stroke-width="2"/>
+          <text x="350" y="122" text-anchor="middle" font-family="Outfit" font-size="13" font-weight="700" fill="#0d9488">HIPOFIZA</text>
+          <text x="350" y="138" text-anchor="middle" font-family="Outfit" font-size="10" fill="#0d9488">Secretă hormoni tropi (TSH, ACTH…)</text>
+
+          <rect x="260" y="190" width="180" height="50" rx="12" fill="#e0f7fb" stroke="#06b6d4" stroke-width="2"/>
+          <text x="350" y="212" text-anchor="middle" font-family="Outfit" font-size="13" font-weight="700" fill="#0891b2">GLANDA PERIFERICĂ</text>
+          <text x="350" y="228" text-anchor="middle" font-family="Outfit" font-size="10" fill="#06b6d4">Tiroidă, Suprarenale, Gonade…</text>
+
+          <!-- Down arrows -->
+          <line x1="350" y1="60" x2="350" y2="98" stroke="#6b7280" stroke-width="2" marker-end="url(#arr)"/>
+          <line x1="350" y1="150" x2="350" y2="188" stroke="#6b7280" stroke-width="2" marker-end="url(#arr)"/>
+
+          <!-- Feedback arrow (curved) -->
+          <path d="M 250 215 Q 60 215 60 60 Q 60 10 258 28" fill="none" stroke="#f43f5e" stroke-width="2.5" stroke-dasharray="6,3" marker-end="url(#arrR)"/>
+          <text x="30" y="135" font-family="Outfit" font-size="11" font-weight="700" fill="#f43f5e" transform="rotate(-90,30,135)">Feedback ⊖</text>
+
+          <!-- Effect label -->
+          <rect x="520" y="190" width="150" height="50" rx="10" fill="#fce7f3" stroke="#ec4899" stroke-width="1.5"/>
+          <text x="595" y="212" text-anchor="middle" font-family="Outfit" font-size="11" font-weight="700" fill="#ec4899">EFECT ASUPRA</text>
+          <text x="595" y="228" text-anchor="middle" font-family="Outfit" font-size="10" fill="#ec4899">Organului țintă</text>
+          <line x1="440" y1="215" x2="520" y2="215" stroke="#ec4899" stroke-width="1.5" stroke-dasharray="4,2" marker-end="url(#arrP)"/>
+
+          <defs>
+            <marker id="arr" viewBox="0 0 10 10" refX="9" refY="5" markerWidth="6" markerHeight="6" orient="auto">
+              <path d="M 0 0 L 10 5 L 0 10 z" fill="#6b7280"/>
+            </marker>
+            <marker id="arrR" viewBox="0 0 10 10" refX="9" refY="5" markerWidth="6" markerHeight="6" orient="auto">
+              <path d="M 0 0 L 10 5 L 0 10 z" fill="#f43f5e"/>
+            </marker>
+            <marker id="arrP" viewBox="0 0 10 10" refX="9" refY="5" markerWidth="6" markerHeight="6" orient="auto">
+              <path d="M 0 0 L 10 5 L 0 10 z" fill="#ec4899"/>
+            </marker>
+          </defs>
+        </svg>
+        <div class="hbox hbox-rose" style="margin-top:16px">
+          <strong>⚠️ Important pentru admitere</strong>
+          Feedback negativ = nivelul crescut al hormonului efector (ex: T4) inhibă eliberarea hormonului hipofizar (TSH) și a celui hipotalamic (TRH). Acesta este principiul fundamental al reglării endocrine!
+        </div>
+      </div>
+    </div>
+
+    <!-- ═══ TAB: TIPURI HORMONI ═══ -->
+    <div class="panel" id="tab-hormoni">
+      <div class="section-title">Tipuri de hormoni și mecanisme</div>
+      <p class="section-desc">Clasificare, structură chimică și mecanisme de acțiune celulară.</p>
+
+      <div class="gcard">
+        <div class="gcard-title"><div class="ct-icon" style="background:#ede9fe">🧪</div>Clasificarea hormonilor</div>
+        <table class="mtable">
+          <thead><tr>
+            <th>Categorie</th><th>Structură</th><th>Solubilitate</th><th>Receptor</th><th>Mesager</th><th>Exemple</th>
+          </tr></thead>
+          <tbody>
+            <tr>
+              <td><span class="tag t-violet">Steroizi</span></td>
+              <td class="hl">Derivați din colesterol, structură inelară C+H</td>
+              <td><span class="tag t-orange">Liposolubili</span></td>
+              <td>Intracelular (citoplasmatic)</td>
+              <td>ARNm → sinteză proteică</td>
+              <td>Cortizol, Estrogen, Progesteron, Testosteron, Aldosteron</td>
+            </tr>
+            <tr>
+              <td><span class="tag t-teal">Amine</span></td>
+              <td class="hl">Derivați din aminoacizi</td>
+              <td><span class="tag t-cyan">Hidrosolubili</span></td>
+              <td>Membranar</td>
+              <td>cAMP (adenilat-ciclază)</td>
+              <td>Adrenalină, Noradrenalină, Tiroxină</td>
+            </tr>
+            <tr>
+              <td><span class="tag t-blue">Peptide</span></td>
+              <td class="hl">Lanțuri scurte de aminoacizi</td>
+              <td><span class="tag t-cyan">Hidrosolubili</span></td>
+              <td>Membranar</td>
+              <td>cAMP</td>
+              <td>ADH (vasopresină), Oxitocină</td>
+            </tr>
+            <tr>
+              <td><span class="tag t-pink">Proteine</span></td>
+              <td class="hl">Lanțuri lungi de aminoacizi legate peptidic</td>
+              <td><span class="tag t-cyan">Hidrosolubili</span></td>
+              <td>Membranar</td>
+              <td>cAMP</td>
+              <td>Insulină (51 aa), STH (191 aa), Prolactină, Calcitonină</td>
+            </tr>
+            <tr>
+              <td><span class="tag t-green">Glicoproteine</span></td>
+              <td class="hl">Proteine + componenta glucidică</td>
+              <td><span class="tag t-cyan">Hidrosolubili</span></td>
+              <td>Membranar</td>
+              <td>cAMP</td>
+              <td>FSH, LH, TSH</td>
+            </tr>
+          </tbody>
+        </table>
+      </div>
+
+      <div class="g2">
+        <div class="gcard">
+          <div class="gcard-title"><div class="ct-icon" style="background:#ccfbf1">🔗</div>Mecanisme speciale</div>
+          <div class="acc-item" onclick="toggleAcc(this)">
+            <div class="acc-head">
+              <div class="acc-title">🔄 Mecanism autocrin</div>
+              <span class="acc-chevron">›</span>
+            </div>
+            <div class="acc-body">
+              <div class="acc-inner">Hormonul acționează asupra <strong>propriei celule</strong> care l-a secretat. Exemplu: factori de creștere care stimulează proliferarea celulei producătoare.</div>
+            </div>
+          </div>
+          <div class="acc-item" onclick="toggleAcc(this)">
+            <div class="acc-head">
+              <div class="acc-title">👥 Mecanism paracrin</div>
+              <span class="acc-chevron">›</span>
+            </div>
+            <div class="acc-body">
+              <div class="acc-inner">Hormonul acționează asupra <strong>celulelor din vecinătate</strong>, fără a intra în circulație. Exemplu: somatostatina din pancreas inhibă local secreția de insulină și glucagon.</div>
+            </div>
+          </div>
+          <div class="acc-item" onclick="toggleAcc(this)">
+            <div class="acc-head">
+              <div class="acc-title">🌊 Mecanism endocrin clasic</div>
+              <span class="acc-chevron">›</span>
+            </div>
+            <div class="acc-body">
+              <div class="acc-inner">Hormonul este eliberat în <strong>sânge</strong> și transportat la organe țintă aflate la distanță. Acesta este mecanismul principal al sistemului endocrin.</div>
+            </div>
+          </div>
+        </div>
+        <div class="gcard">
+          <div class="gcard-title"><div class="ct-icon" style="background:#fce7f3">⚡</div>cAMP — Mesagerul secundar</div>
+          <svg width="100%" height="200" viewBox="0 0 300 200" xmlns="http://www.w3.org/2000/svg">
+            <!-- Membrane -->
+            <rect x="0" y="80" width="300" height="12" fill="#ddd6fe" rx="2"/>
+            <text x="150" y="76" text-anchor="middle" font-family="Outfit" font-size="9" fill="#8b5cf6">Membrana celulară</text>
+            <!-- Hormone -->
+            <circle cx="60" cy="60" r="18" fill="#ccfbf1" stroke="#0d9488" stroke-width="2"/>
+            <text x="60" y="57" text-anchor="middle" font-family="Outfit" font-size="8" fill="#0d9488" font-weight="700">Hormon</text>
+            <text x="60" y="67" text-anchor="middle" font-family="Outfit" font-size="7" fill="#0d9488">(mesager 1)</text>
+            <!-- Receptor -->
+            <path d="M 100 80 L 115 95 L 115 105 L 100 92" fill="#a78bfa" opacity="0.8"/>
+            <text x="118" y="100" font-family="Outfit" font-size="8" fill="#7c3aed" font-weight="700">Receptor</text>
+            <!-- Adenilat ciclaza -->
+            <ellipse cx="180" cy="96" rx="22" ry="10" fill="#fce7f3" stroke="#ec4899" stroke-width="1.5"/>
+            <text x="180" y="98" text-anchor="middle" font-family="Outfit" font-size="8" fill="#ec4899" font-weight="700">Adenilat</text>
+            <text x="180" y="106" text-anchor="middle" font-family="Outfit" font-size="7" fill="#ec4899">ciclază</text>
+            <!-- ATP -> cAMP -->
+            <circle cx="170" cy="150" r="16" fill="#fef3c7" stroke="#f59e0b" stroke-width="1.5"/>
+            <text x="170" y="147" text-anchor="middle" font-family="Outfit" font-size="9" font-weight="700" fill="#d97706">ATP</text>
+            <circle cx="230" cy="150" r="16" fill="#d1fae5" stroke="#10b981" stroke-width="1.5"/>
+            <text x="230" y="147" text-anchor="middle" font-family="Outfit" font-size="9" font-weight="700" fill="#059669">cAMP</text>
+            <text x="230" y="158" text-anchor="middle" font-family="Outfit" font-size="7" fill="#059669">mesager 2</text>
+            <!-- Arrows -->
+            <line x1="76" y1="72" x2="98" y2="82" stroke="#0d9488" stroke-width="1.5" marker-end="url(#a1)"/>
+            <line x1="130" y1="93" x2="156" y2="93" stroke="#ec4899" stroke-width="1.5" marker-end="url(#a2)"/>
+            <line x1="180" y1="106" x2="178" y2="134" stroke="#f59e0b" stroke-width="1.5" marker-end="url(#a3)"/>
+            <line x1="188" y1="150" x2="212" y2="150" stroke="#10b981" stroke-width="1.5" marker-end="url(#a4)"/>
+            <defs>
+              <marker id="a1" viewBox="0 0 10 10" refX="9" refY="5" markerWidth="5" markerHeight="5" orient="auto"><path d="M0 0 L10 5 L0 10z" fill="#0d9488"/></marker>
+              <marker id="a2" viewBox="0 0 10 10" refX="9" refY="5" markerWidth="5" markerHeight="5" orient="auto"><path d="M0 0 L10 5 L0 10z" fill="#ec4899"/></marker>
+              <marker id="a3" viewBox="0 0 10 10" refX="9" refY="5" markerWidth="5" markerHeight="5" orient="auto"><path d="M0 0 L10 5 L0 10z" fill="#f59e0b"/></marker>
+              <marker id="a4" viewBox="0 0 10 10" refX="9" refY="5" markerWidth="5" markerHeight="5" orient="auto"><path d="M0 0 L10 5 L0 10z" fill="#10b981"/></marker>
+            </defs>
+          </svg>
+        </div>
+      </div>
+    </div>
+
+    <!-- ═══ TAB: HIPOFIZA ═══ -->
+    <div class="panel" id="tab-hipofiza">
+      <div class="section-title">Hipofiza (Glanda Pituitară)</div>
+      <p class="section-desc">Glanda „dirijor" a sistemului endocrin — controlează toate celelalte glande endocrine prin hormonii tropi.</p>
+
+      <div class="g2">
+        <div class="hbox hbox-teal">
+          <strong>📍 Localizare</strong>
+          Sella turcica a osului sfenoid, imediat înapoia chiasmei optice, legată de hipotalamus prin infundibul.
+        </div>
+        <div class="hbox hbox-violet">
+          <strong>🔑 Definiție hormon trop</strong>
+          Hormon care controlează altă glandă endocrină: TSH, ACTH, FSH, LH sunt hormoni tropi.
+        </div>
+      </div>
+
+      <!-- Interactive lob selector -->
+      <div class="gcard">
+        <div class="gcard-title"><div class="ct-icon" style="background:#ccfbf1">🧠</div>Lobii hipofizei — Click pentru detalii</div>
+        <div style="display:flex;gap:12px;margin-bottom:20px;flex-wrap:wrap">
+          <button onclick="showLob('anterior')" id="btn-anterior" style="flex:1;min-width:150px;padding:14px;border:2px solid var(--endo);border-radius:12px;background:linear-gradient(135deg,#ccfbf1,#a7f3d0);font-family:Outfit;font-size:13px;font-weight:700;color:#0d9488;cursor:pointer">
+            🟢 Adenohipofiză<br><small style="font-weight:400;color:#6b7280">Lobul anterior</small>
+          </button>
+          <button onclick="showLob('posterior')" id="btn-posterior" style="flex:1;min-width:150px;padding:14px;border:2px solid var(--violet);border-radius:12px;background:linear-gradient(135deg,#ede9fe,#ddd6fe);font-family:Outfit;font-size:13px;font-weight:700;color:#7c3aed;cursor:pointer">
+            🔵 Neurohipofiză<br><small style="font-weight:400;color:#6b7280">Lobul posterior</small>
+          </button>
+        </div>
+        <div id="lob-detail">
+          <table class="mtable">
+            <thead><tr><th>Hormon</th><th>Abreviere</th><th>Organ țintă</th><th>Efect principal</th><th>Trop?</th></tr></thead>
+            <tbody id="lob-table-body">
+              <tr><td class="hl">Hormonul de creștere (Somatotrop)</td><td><span class="tag t-green">STH/GH</span></td><td>Toate țesuturile</td><td>Stimulează creșterea; anabolism proteic; mobilizare grăsimi</td><td>Nu</td></tr>
+              <tr><td class="hl">Hormonul stimulator tiroidian</td><td><span class="tag t-cyan">TSH</span></td><td>Glanda tiroidă</td><td>Stimulează producția de tiroxină; captarea iodului</td><td><span class="tag t-teal">Da ✓</span></td></tr>
+              <tr><td class="hl">Hormonul adrenocorticotrop</td><td><span class="tag t-orange">ACTH</span></td><td>Corticala suprarenalei</td><td>Stimulează glucocorticoizii; creștere tisulară</td><td><span class="tag t-teal">Da ✓</span></td></tr>
+              <tr><td class="hl">Prolactina</td><td><span class="tag t-pink">PRL</span></td><td>Glanda mamară</td><td>Producerea laptelui după naștere</td><td>Nu</td></tr>
+              <tr><td class="hl">Hormonul foliculostimulant</td><td><span class="tag t-blue">FSH</span></td><td>Ovar / Testicul</td><td>♀ foliculi ovarieni; ♂ spermatogeneză</td><td><span class="tag t-teal">Da ✓</span></td></tr>
+              <tr><td class="hl">Hormonul luteinizant</td><td><span class="tag t-violet">LH</span></td><td>Corp galben / Celule Leydig</td><td>♀ ovulație, progesteron; ♂ testosteron</td><td><span class="tag t-teal">Da ✓</span></td></tr>
+              <tr><td class="hl">Hormonul melanocitostimulator</td><td><span class="tag t-rose">MSH</span></td><td>Melanocite cutanate</td><td>Controlează pigmentarea pielii</td><td>Nu</td></tr>
+            </tbody>
+          </table>
+        </div>
+      </div>
+
+      <!-- STH pathologies -->
+      <div class="gcard">
+        <div class="gcard-title"><div class="ct-icon" style="background:#fef3c7">📏</div>Patologii STH (Hormonul de creștere)</div>
+        <div class="g3">
+          <div style="background:linear-gradient(135deg,#ffe4e6,#fecdd3);border-radius:14px;padding:18px;text-align:center">
+            <div style="font-size:28px;margin-bottom:8px">👶</div>
+            <div style="font-weight:800;color:#be123c;margin-bottom:6px">Nanism hipofizar</div>
+            <div style="font-size:12px;color:#e11d48">Deficit de STH în copilărie → talie mică, proporții normale</div>
+          </div>
+          <div style="background:linear-gradient(135deg,#d1fae5,#a7f3d0);border-radius:14px;padding:18px;text-align:center">
+            <div style="font-size:28px;margin-bottom:8px">🦒</div>
+            <div style="font-weight:800;color:#065f46;margin-bottom:6px">Gigantism</div>
+            <div style="font-size:12px;color:#10b981">Exces de STH în copilărie → talie foarte mare, proporții normale</div>
+          </div>
+          <div style="background:linear-gradient(135deg,#fef3c7,#fde68a);border-radius:14px;padding:18px;text-align:center">
+            <div style="font-size:28px;margin-bottom:8px">🤚</div>
+            <div style="font-weight:800;color:#92400e;margin-bottom:6px">Acromegalie</div>
+            <div style="font-size:12px;color:#d97706">Exces de STH la adult → îngroșare oase față, mâini, picioare</div>
+          </div>
+        </div>
+      </div>
+
+      <!-- Neurohipofiza -->
+      <div class="gcard">
+        <div class="gcard-title"><div class="ct-icon" style="background:#ede9fe">🧬</div>Neurohipofiza — Particularitate importantă!</div>
+        <div class="hbox hbox-violet">
+          <strong>⚠️ Atenție la admitere</strong>
+          Neurohipofiza NU produce hormoni proprii! Este un <strong>rezervor</strong> pentru hormonii produși de hipotalamus (ADH și Oxitocină) și transportați prin infundibul.
+        </div>
+        <div class="g2">
+          <div style="background:rgba(124,58,237,0.05);border:1px solid rgba(124,58,237,0.15);border-radius:12px;padding:16px">
+            <div style="font-weight:800;color:var(--violet);margin-bottom:8px">💧 ADH (Vasopresina)</div>
+            <div style="font-size:13px;color:var(--text2);line-height:1.6"><b>Organ țintă:</b> Tubi renali<br><b>Efect:</b> Reabsorbție apă → ↑ volum sanguin, ↑ TA<br><b>Hiposecreție:</b> Diabet insipid (poliurie, polidipsie)<br><b>Stimul:</b> Deshidratare, ↑ osmolaritate sanguină</div>
+          </div>
+          <div style="background:rgba(236,72,153,0.05);border:1px solid rgba(236,72,153,0.15);border-radius:12px;padding:16px">
+            <div style="font-weight:800;color:var(--pink);margin-bottom:8px">🤱 Oxitocina</div>
+            <div style="font-size:13px;color:var(--text2);line-height:1.6"><b>Organ țintă:</b> Uter și glande mamare<br><b>Efect:</b> Contracții uterine (naștere) + ejecție lapte<br><b>Reglare:</b> Actul suptului → ↑ oxitocină (feedback pozitiv!)<br><b>Notă:</b> Singurul feedback <em>pozitiv</em> din endocrinologie!</div>
+          </div>
+        </div>
+      </div>
+    </div>
+
+    <!-- ═══ TAB: ALTE GLANDE ═══ -->
+    <div class="panel" id="tab-altegLande">
+      <div class="section-title">Alte Glande Endocrine</div>
+      <p class="section-desc">Tiroidă, Paratiroide, Pancreas, Suprarenale, Gonade, Epifiză și Timus.</p>
+
+      <!-- Gland selector -->
+      <div class="g4" style="margin-bottom:24px">
+        <div class="gland-card selected" onclick="selectGland('tiroida',this)" id="gc-tiroida">
+          <span class="gc-icon">🦋</span>
+          <div class="gc-name">Tiroida</div>
+          <div class="gc-desc">Față inferioară laringe</div>
+        </div>
+        <div class="gland-card" onclick="selectGland('paratiroida',this)" id="gc-paratiroida">
+          <span class="gc-icon">🫘</span>
+          <div class="gc-name">Paratiroidele</div>
+          <div class="gc-desc">Față posterioară tiroidă</div>
+        </div>
+        <div class="gland-card" onclick="selectGland('pancreas2',this)" id="gc-pancreas2">
+          <span class="gc-icon">🍃</span>
+          <div class="gc-name">Pancreasul</div>
+          <div class="gc-desc">Cavity abd., post. stomac</div>
+        </div>
+        <div class="gland-card" onclick="selectGland('suprarenala2',this)" id="gc-suprarenala2">
+          <span class="gc-icon">🪨</span>
+          <div class="gc-name">Suprarenalele</div>
+          <div class="gc-desc">Pol superior rinichi</div>
+        </div>
+        <div class="gland-card" onclick="selectGland('gonade2',this)" id="gc-gonade2">
+          <span class="gc-icon">⚡</span>
+          <div class="gc-name">Gonadele</div>
+          <div class="gc-desc">Ovare / Testicule</div>
+        </div>
+        <div class="gland-card" onclick="selectGland('epifiza2',this)" id="gc-epifiza2">
+          <span class="gc-icon">🌙</span>
+          <div class="gc-name">Epifiza</div>
+          <div class="gc-desc">Mezencefal, ventricul III</div>
+        </div>
+        <div class="gland-card" onclick="selectGland('timus2',this)" id="gc-timus2">
+          <span class="gc-icon">🛡️</span>
+          <div class="gc-name">Timusul</div>
+          <div class="gc-desc">Mediastin superior</div>
+        </div>
+        <div class="gland-card" onclick="selectGland('alte',this)" id="gc-alte">
+          <span class="gc-icon">🔬</span>
+          <div class="gc-name">Alte celule</div>
+          <div class="gc-desc">Prostag., Eritrop.</div>
+        </div>
+      </div>
+
+      <div class="gland-detail" id="gland-detail-panel">
+        <!-- Tiroida default -->
+        <div id="gd-tiroida">
+          <h3 style="font-size:18px;font-weight:800;color:var(--text);margin-bottom:12px">🦋 Glanda Tiroidă</h3>
+          <div class="g2">
+            <div>
+              <div style="font-weight:700;color:var(--endo);margin-bottom:8px">Hormonii produși:</div>
+              <div class="hbox hbox-teal"><strong>T4 — Tiroxina (tetraiodotironina)</strong>Accelerează metabolismul bazal. Reglează creșterea la tineri. Stimulează activitatea enzimelor metabolismului glucozei. Necesită iod alimentar.</div>
+              <div class="hbox hbox-cyan"><strong>T3 — Triiodotironina</strong>Mai activă decât T4. Același mecanism. T4 se convertește la T3 în țesuturi periferice.</div>
+              <div class="hbox hbox-blue"><strong>Calcitonina</strong>Scade calciul sanguin → crește depunerea Ca în oase. Antagonist al PTH.</div>
+            </div>
+            <div>
+              <div style="font-weight:700;color:var(--rose);margin-bottom:8px">Patologii tiroidiene:</div>
+              <div style="background:#fff;border-radius:12px;overflow:hidden;border:1px solid var(--border)">
+                <div style="padding:10px 14px;background:rgba(6,182,212,0.08);font-size:11px;font-weight:700;color:var(--cyan)">HIPOSECREȚIE (↓ T3/T4)</div>
+                <div style="padding:10px 14px;font-size:12.5px;color:var(--text2);border-bottom:1px solid var(--border)"><b>Copii:</b> Cretinism — retard mental, creștere deficitară, trăsături grosolane</div>
+                <div style="padding:10px 14px;font-size:12.5px;color:var(--text2);border-bottom:1px solid var(--border)"><b>Adulți:</b> Mixedem — obezitate, bradicardie, rată metabolică redusă, astenie</div>
+                <div style="padding:10px 14px;font-size:12.5px;color:var(--text2)"><b>Gușă:</b> Lipsă iod → tiroidă crescută în dimensiuni</div>
+                <div style="padding:10px 14px;background:rgba(244,63,94,0.06);font-size:11px;font-weight:700;color:var(--rose)">HIPERSECREȚIE (↑ T3/T4)</div>
+                <div style="padding:10px 14px;font-size:12.5px;color:var(--text2)"><b>Boala Graves:</b> Gușă exoftalmică — pierdere ponderală, tahicardie, exoftalmie, hipermetabolism</div>
+              </div>
+            </div>
+          </div>
+        </div>
+        <div id="gd-paratiroida" style="display:none">
+          <h3 style="font-size:18px;font-weight:800;color:var(--text);margin-bottom:12px">🫘 Glandele Paratiroide</h3>
+          <div class="hbox hbox-orange"><strong>Structură:</strong> 4 mici glande (~bob mazăre) pe fața posterioară a tiroidei</div>
+          <div class="g2">
+            <div class="hbox hbox-orange"><strong>PTH — Parathormonul</strong>↑ Calciul sanguin prin:<br>• Activare osteoclaste → reabsorbție Ca din oase<br>• ↑ Reabsorbție Ca tubular renal<br>• Activare vitamina D → ↑ absorbție Ca intestinal<br><br><b>Antagonist:</b> Calcitonina (tiroidă)</div>
+            <div>
+              <div class="hbox hbox-rose"><strong>Hiperparatiroidism</strong>Tumori paratiroidiene → PTH ↑ → deformări osoase, ↓ densitate osoasă, hipercalcemie</div>
+              <div class="mnemonic"><div class="mnemonic-title">🧠 Mnemonic Calciu</div><div class="mnemonic-text"><span class="em">PTH ↑ Ca</span> (Parathyroid → Puts calcium in blood)<br><span class="em">Calcitonina ↓ Ca</span> (Calcitonin → Cuts calcium in blood)</div></div>
+            </div>
+          </div>
+        </div>
+        <div id="gd-pancreas2" style="display:none">
+          <h3 style="font-size:18px;font-weight:800;color:var(--text);margin-bottom:12px">🍃 Pancreasul Endocrin</h3>
+          <div class="hbox hbox-blue"><strong>Insulele Langerhans</strong> — „insule" de celule endocrine în „marea" de celule exocrine pancreatice</div>
+          <div class="g2">
+            <div>
+              <div class="hbox hbox-teal"><strong>🟢 Celule Beta → Insulina (51 aa)</strong>Eliberată postprandial (după masă)<br>↓ Glicemia prin ↑ captarea glucozei de celule<br>↑ Glicogenogeneză hepatică<br>Efect: ANABOLIC</div>
+              <div class="hbox hbox-orange"><strong>🔴 Celule Alfa → Glucagonul</strong>Eliberat în condiții de înfometare<br>↑ Glicogenoliză hepatică → ↑ Glicemie<br>↑ Gluconeogeneză (din aminoacizi + lipide)<br>Efect: CATABOLIC</div>
+            </div>
+            <div>
+              <div style="font-weight:700;color:var(--rose);margin-bottom:10px">Diabet zaharat:</div>
+              <div style="background:#fff;border-radius:12px;overflow:hidden;border:1px solid var(--border)">
+                <div style="padding:12px;border-bottom:1px solid var(--border)">
+                  <div style="font-weight:700;color:var(--text);font-size:13px">Tip 1 (insulinodependent)</div>
+                  <div style="font-size:12px;color:var(--text2);margin-top:4px">Celule beta inactive → 0 insulină → glucoza nu intră în celule → poliurie, polidipsie, astenie</div>
+                </div>
+                <div style="padding:12px">
+                  <div style="font-weight:700;color:var(--text);font-size:13px">Tip 2 (non-insulinodependent)</div>
+                  <div style="font-size:12px;color:var(--text2);margin-top:4px">Receptori insulinici insuficienți → rezistență la insulină → hiperglicemie</div>
+                </div>
+              </div>
+            </div>
+          </div>
+        </div>
+        <div id="gd-suprarenala2" style="display:none">
+          <h3 style="font-size:18px;font-weight:800;color:var(--text);margin-bottom:12px">🪨 Glandele Suprarenale</h3>
+          <div class="g2">
+            <div>
+              <div style="font-weight:700;color:var(--endo);margin-bottom:8px">🔵 Zona Corticală (periferică):</div>
+              <div class="hbox hbox-green"><strong>Glucocorticoizi (Cortizol)</strong>↑ Metabolismul glucidelor, proteinelor, lipidelor<br>Antiinflamator · Vasoconstricție<br>Controlat de ACTH (feedback negativ)</div>
+              <div class="hbox hbox-teal"><strong>Mineralocorticoizi (Aldosteron)</strong>↑ Reabsorbție Na+ și apă · ↑ TA<br>Controlat de concentrația electrolițiilor</div>
+              <div class="hbox hbox-pink"><strong>Hormoni sexuali steroizi</strong>Suplimentează hormonii gonadelor</div>
+            </div>
+            <div>
+              <div style="font-weight:700;color:var(--rose);margin-bottom:8px">🔴 Zona Medulară (centrală — origine nervoasă):</div>
+              <div class="hbox hbox-rose"><strong>Catecolamine (Adrenalină + Noradrenalină)</strong>Reacție "Fight or Flight"<br>↑ Frecvență cardiacă · ↑ TA<br>↑ Glicemie · Bronhodilatație<br>Acționează împreună cu SNS</div>
+              <div style="margin-top:16px;font-weight:700;color:var(--text);margin-bottom:8px">Patologii:</div>
+              <div style="font-size:12.5px;color:var(--text2)"><b>Boala Addison:</b> ↓ Glucocorticoizi + Mineralocorticoizi → dezechilibru sodiu/potasiu, hipotensiune, astenie<br><br><b>Sindromul Cushing:</b> ↑ Glucocorticoizi → față „în lună plină", HTA, slăbiciune musculară</div>
+            </div>
+          </div>
+        </div>
+        <div id="gd-gonade2" style="display:none">
+          <h3 style="font-size:18px;font-weight:800;color:var(--text);margin-bottom:12px">⚡ Gonadele</h3>
+          <div class="g2">
+            <div class="hbox hbox-pink"><strong>🔴 Ovare → Estrogeni + Progesteron</strong>Hormoni feminini steroizi<br>Estrogeni: caractere sexuale secundare ♀, ciclul menstrual<br>Progesteron: menținerea sarcinii<br>Produși de celulele foliculare și corpul galben</div>
+            <div class="hbox hbox-blue"><strong>🔵 Testicule → Testosteron + Androgeni</strong>Hormoni masculini steroizi<br>Caractere sexuale secundare ♂<br>Spermatogeneză<br>Stimulat de LH (celule Leydig)</div>
+          </div>
+        </div>
+        <div id="gd-epifiza2" style="display:none">
+          <h3 style="font-size:18px;font-weight:800;color:var(--text);margin-bottom:12px">🌙 Epifiza (Glanda Pineală)</h3>
+          <div class="hbox hbox-violet"><strong>Localizare:</strong> Mezencefal, peretele superior al ventriculului III, legată de talamus</div>
+          <div class="hbox hbox-blue"><strong>Melatonina</strong>Reglează ritmul circadian (noapte-zi)<br>Influențează secreția hormonilor reproducători (ovarele)<br>Produsă în întuneric → induce somnul</div>
+        </div>
+        <div id="gd-timus2" style="display:none">
+          <h3 style="font-size:18px;font-weight:800;color:var(--text);margin-bottom:12px">🛡️ Timusul</h3>
+          <div class="hbox hbox-teal"><strong>Localizare:</strong> Mediastin superior, înapoia sternului</div>
+          <div class="hbox hbox-green"><strong>Timozine</strong>Hormoni implicați în maturarea limfocitelor T<br>Funcție imunitară crucială<br>Bine dezvoltat la făt și nou-născut → involuează cu vârsta</div>
+        </div>
+        <div id="gd-alte" style="display:none">
+          <h3 style="font-size:18px;font-weight:800;color:var(--text);margin-bottom:12px">🔬 Alte celule endocrine</h3>
+          <div class="g2">
+            <div class="hbox hbox-orange"><strong>Prostaglandine</strong>Hormoni non-steroizi produși în ficat, rinichi, inimă, plămâni<br>Contracția mușchiului neted<br>Cantități extrem de mici</div>
+            <div class="hbox hbox-rose"><strong>Eritropoetina (EPO)</strong>Produsă de rinichi<br>Stimulează sinteza eritrocitelor în măduva osoasă roșie<br>Creșteri la altitudine (↓ O2)</div>
+          </div>
+          <div class="hbox hbox-cyan"><strong>Celule endocrine digestive (mucoasa GI)</strong>Gastrină, Secretină și alți hormoni implicați în digestie (tratat la Capitolul 18)</div>
+        </div>
+      </div>
+    </div>
+
+    <!-- ═══ TAB: BOLI ═══ -->
+    <div class="panel" id="tab-boli">
+      <div class="section-title">Boli Endocrine — Tabel Comparativ</div>
+      <p class="section-desc">Toate afecțiunile asociate cu dezechilibre hormonale — esențiale pentru admitere!</p>
+
+      <div class="gcard">
+        <div class="disease-header">
+          <div>Glandă / Hormon</div>
+          <div>🔵 Hiposecreție (deficit)</div>
+          <div>🔴 Hipersecreție (exces)</div>
+        </div>
+        <div class="disease-row">
+          <div class="dr-gland">🧠 STH (Adenohipofiză)</div>
+          <div class="dr-hypo"><b>Nanism hipofizar</b><br>Talie mică, proporții normale</div>
+          <div class="dr-hyper"><b>Gigantism</b> (copii): talie foarte mare<br><b>Acromegalie</b> (adulți): îngroșare față, mâini, picioare</div>
+        </div>
+        <div class="disease-row">
+          <div class="dr-gland">🧠 ADH (Neurohipofiză)</div>
+          <div class="dr-hypo"><b>Diabet insipid</b><br>Poliurie masivă + polidipsie</div>
+          <div class="dr-hyper">Retenție de apă, hiponatremie (SIADH)</div>
+        </div>
+        <div class="disease-row">
+          <div class="dr-gland">🦋 T3/T4 (Tiroidă)</div>
+          <div class="dr-hypo"><b>Cretinism</b> (copii): retard mental, nanism<br><b>Mixedem</b> (adulți): bradilcardie, astenie, obezitate<br><b>Gușă</b>: lipsă iod</div>
+          <div class="dr-hyper"><b>Boala Graves</b> (gușă exoftalmică): tahicardie, scădere ponderală, exoftalmie</div>
+        </div>
+        <div class="disease-row">
+          <div class="dr-gland">🫘 PTH (Paratiroide)</div>
+          <div class="dr-hypo"><b>Hipocalcemie</b>, tetanie (spasme musculare)</div>
+          <div class="dr-hyper"><b>Hiperparatiroidism</b>: deformări osoase, hipercalcemie, litiază renală</div>
+        </div>
+        <div class="disease-row">
+          <div class="dr-gland">🍃 Insulina (Pancreas β)</div>
+          <div class="dr-hypo"><b>Diabet zaharat Tip 1</b>: celule β inactive → hiperglicemie, poliurie, polidipsie</div>
+          <div class="dr-hyper"><b>Hipoglicemie</b>: tremor, confuzie, pierdere conștiință</div>
+        </div>
+        <div class="disease-row">
+          <div class="dr-gland">🪨 Glucocorticoizi (Corticală)</div>
+          <div class="dr-hypo"><b>Boala Addison</b>: dezechilibru Na/K, hipotensiune, astenie, hiperpigmentare</div>
+          <div class="dr-hyper"><b>Sindromul Cushing</b>: față "în lună plină", HTA, slăbiciune musculară, hiperglicemie</div>
+        </div>
+        <div class="disease-row">
+          <div class="dr-gland">🪨 Mineralocorticoizi (Corticală)</div>
+          <div class="dr-hypo">Hiponatremie, hiperpotasemie, hipotensiune</div>
+          <div class="dr-hyper"><b>Hiperaldosteronism</b>: HTA, hipokalemie</div>
+        </div>
+      </div>
+
+      <div class="mnemonic">
+        <div class="mnemonic-title">🧠 Mnemonic — Diabet Insipid vs. Zaharat</div>
+        <div class="mnemonic-text">
+          <span class="em">Insipid</span> = lipsa ADH → urină multă și INSIPIDĂ (fără glucoză, densitate mică)<br>
+          <span class="em">Zaharat</span> = lipsa insulinei → urină cu ZAHĂR (glucozurie, densitate mare)
+        </div>
+      </div>
+    </div>
+
+    <!-- ═══ TAB: TABELE ═══ -->
+    <div class="panel" id="tab-tabele">
+      <div class="section-title">Tabele Sintetice Complete</div>
+      <p class="section-desc">Toate glandele, hormonii, organele țintă și efectele principale — condensat pentru studiu rapid.</p>
+
+      <div class="gcard">
+        <div class="gcard-title"><div class="ct-icon" style="background:#ccfbf1">📊</div>Tabelul Complet al Hormonilor Sistemului Endocrin</div>
+        <table class="mtable">
+          <thead><tr>
+            <th>Glandă</th><th>Hormon</th><th>Tip chimic</th><th>Organ țintă</th><th>Efect principal</th>
+          </tr></thead>
+          <tbody>
+            <tr><td rowspan="7" class="hl" style="border-right:3px solid var(--endo);background:rgba(13,148,136,0.04)">Adenohipofiză</td>
+              <td>STH / GH</td><td><span class="tag t-pink">Proteină (191 aa)</span></td><td>Toate țesuturile</td><td>Stimulează creșterea, anabolism proteic</td></tr>
+            <tr><td>TSH</td><td><span class="tag t-green">Glicoproteină</span></td><td>Tiroidă</td><td>↑ Tiroxină, captare iod</td></tr>
+            <tr><td>ACTH</td><td><span class="tag t-pink">Peptid</span></td><td>Corticala suprarenalei</td><td>↑ Glucocorticoizi, creștere tisulară</td></tr>
+            <tr><td>PRL (Prolactina)</td><td><span class="tag t-pink">Proteină</span></td><td>Gl. mamară</td><td>Lactație după naștere</td></tr>
+            <tr><td>FSH</td><td><span class="tag t-green">Glicoproteină</span></td><td>Ovar / Testicul</td><td>Foliculogeneză / Spermatogeneză</td></tr>
+            <tr><td>LH</td><td><span class="tag t-green">Glicoproteină</span></td><td>Corp galben / Leydig</td><td>Ovulație, Testosteron</td></tr>
+            <tr><td>MSH</td><td><span class="tag t-pink">Peptid</span></td><td>Melanocite</td><td>Pigmentare cutanată</td></tr>
+            <tr><td rowspan="2" class="hl" style="border-right:3px solid var(--violet);background:rgba(124,58,237,0.04)">Neurohipofiză*</td>
+              <td>ADH (Vasopresina)</td><td><span class="tag t-blue">Peptid (9 aa)</span></td><td>Tubii renali, arteriole</td><td>↑ Reabsorbție apă, vasoconstricție</td></tr>
+            <tr><td>Oxitocina</td><td><span class="tag t-blue">Peptid (9 aa)</span></td><td>Uter, gl. mamară</td><td>Contracții uterine, ejecție lapte</td></tr>
+            <tr><td rowspan="3" class="hl" style="border-right:3px solid var(--pink);background:rgba(236,72,153,0.04)">Tiroidă</td>
+              <td>Tiroxina (T4)</td><td><span class="tag t-orange">Amina</span></td><td>Toate celulele</td><td>↑ Metabolism bazal, creștere, maturare SN</td></tr>
+            <tr><td>T3 (Triiodotironina)</td><td><span class="tag t-orange">Amina</span></td><td>Toate celulele</td><td>Mai activă decât T4</td></tr>
+            <tr><td>Calcitonina</td><td><span class="tag t-pink">Proteină</span></td><td>Os</td><td>↓ Calcemie, ↑ depunere Ca în oase</td></tr>
+            <tr><td class="hl" style="border-right:3px solid var(--orange);background:rgba(245,158,11,0.04)">Paratiroide</td>
+              <td>PTH (Parathormon)</td><td><span class="tag t-pink">Proteină</span></td><td>Os, rinichi, intestin</td><td>↑ Calcemie, activare osteoclaste, vit. D</td></tr>
+            <tr><td rowspan="2" class="hl" style="border-right:3px solid var(--blue);background:rgba(91,141,238,0.04)">Pancreas</td>
+              <td>Insulina (β)</td><td><span class="tag t-pink">Proteină (51 aa)</span></td><td>Ficat, mușchi, adipos</td><td>↓ Glicemie, ↑ glicogenogeneză</td></tr>
+            <tr><td>Glucagonul (α)</td><td><span class="tag t-pink">Proteină</span></td><td>Ficat</td><td>↑ Glicemie, glicogenoliză</td></tr>
+            <tr><td rowspan="4" class="hl" style="border-right:3px solid var(--green);background:rgba(16,185,129,0.04)">Suprarenale</td>
+              <td>Adrenalina (Epi)</td><td><span class="tag t-orange">Amina</span></td><td>Inimă, mușchi, vasele sg.</td><td>"Fight or flight" → ↑ FC, ↑ TA, ↑ glicemie</td></tr>
+            <tr><td>Noradrenalina</td><td><span class="tag t-orange">Amina</span></td><td>Vasele sanguine</td><td>Vasoconstricție, ↑ TA</td></tr>
+            <tr><td>Glucocorticoizi (Cortizol)</td><td><span class="tag t-violet">Steroid</span></td><td>Ficat, mușchi</td><td>↑ Glicemie, antiinflamator, vasoconstricție</td></tr>
+            <tr><td>Mineralocorticoizi (Aldosteron)</td><td><span class="tag t-violet">Steroid</span></td><td>Tubii renali</td><td>↑ Reabsorbție Na+, K+ eliminare</td></tr>
+            <tr><td rowspan="2" class="hl" style="border-right:3px solid var(--pink);background:rgba(236,72,153,0.04)">Gonade</td>
+              <td>Estrogen + Progesteron</td><td><span class="tag t-violet">Steroid</span></td><td>Organe reproductive, gl. mamare</td><td>Caractere sexuale ♀, ciclu menstrual</td></tr>
+            <tr><td>Testosteron</td><td><span class="tag t-violet">Steroid</span></td><td>Mușchi, organe reproductive</td><td>Caractere sexuale ♂, spermatogeneză</td></tr>
+            <tr><td class="hl" style="border-right:3px solid var(--violet);background:rgba(124,58,237,0.04)">Epifiză</td>
+              <td>Melatonina</td><td><span class="tag t-orange">Amina</span></td><td>Ovar, creier</td><td>Ritm circadian, influențează reproducerea</td></tr>
+            <tr><td class="hl" style="border-right:3px solid var(--cyan);background:rgba(6,182,212,0.04)">Timus</td>
+              <td>Timozine</td><td><span class="tag t-pink">Peptide</span></td><td>Limfocite T</td><td>Maturarea imunității celulare</td></tr>
+          </tbody>
+        </table>
+        <div style="margin-top:12px;font-size:11px;color:var(--text3)">* Produși de hipotalamus, stocați și eliberați de neurohipofiză</div>
+      </div>
+
+      <!-- Calcium regulation table -->
+      <div class="gcard">
+        <div class="gcard-title"><div class="ct-icon" style="background:#fef3c7">🦴</div>Reglarea calcemiei — Antagonism PTH vs. Calcitonina</div>
+        <table class="mtable">
+          <thead><tr><th>Parametru</th><th>PTH (Parathormon)</th><th>Calcitonina</th></tr></thead>
+          <tbody>
+            <tr><td>Glanda secretoare</td><td class="hl">Paratiroidele</td><td class="hl">Tiroida (celule C)</td></tr>
+            <tr><td>Efect pe calcemie</td><td style="color:var(--rose);font-weight:700">↑ Crește</td><td style="color:var(--blue);font-weight:700">↓ Scade</td></tr>
+            <tr><td>Efect pe os</td><td>Activează osteoclastele → resorbție Ca</td><td>Stimulează depunerea Ca în oase</td></tr>
+            <tr><td>Efect renal</td><td>↑ Reabsorbție Ca, ↓ Fosfat</td><td>↓ Reabsorbție Ca</td></tr>
+            <tr><td>Vitamina D</td><td>Activează vitamina D renală</td><td>—</td></tr>
+            <tr><td>Stimul secreție</td><td>↓ Calcemie</td><td>↑ Calcemie</td></tr>
+          </tbody>
+        </table>
+      </div>
+    </div>
+
+    <!-- ═══ TAB: QUIZ ═══ -->
+    <div class="panel" id="tab-quiz">
+      <div class="section-title">Quiz — Sistemul Endocrin</div>
+      <p class="section-desc">Testează-ți cunoștințele cu întrebări tip admitere!</p>
+
+      <div class="quiz-score">
+        <span class="quiz-score-label">Scor curent:</span>
+        <span class="quiz-score-val" id="score-display">0 / 0</span>
+      </div>
+
+      <div id="quiz-container">
+        <!-- Q1 -->
+        <div class="quiz-q" id="q1">
+          <div class="quiz-qtext">1. Neurohipofiza este considerată un rezervor, NU o glandă endocrină propriu-zisă, deoarece:</div>
+          <div class="quiz-opts">
+            <button class="quiz-opt" onclick="answer(this,'q1',false)">A. Nu are vascularizație proprie</button>
+            <button class="quiz-opt" onclick="answer(this,'q1',false)">B. Produce hormoni inactivi</button>
+            <button class="quiz-opt" onclick="answer(this,'q1',true)">C. Stochează hormoni produși de hipotalamus (ADH și oxitocină)</button>
+            <button class="quiz-opt" onclick="answer(this,'q1',false)">D. Este controlată de adenohipofiză</button>
+          </div>
+          <div class="quiz-explain" id="exp-q1">✅ Corect! ADH și oxitocina sunt sintetizate de neuronii secretori din hipotalamus, transportate prin infundibul și stocate temporar în neurohipofiză, de unde sunt eliberate la nevoie.</div>
+          <button class="quiz-next-btn" id="next-q1" onclick="nextQ('q1','q2')">Următoarea →</button>
+        </div>
+
+        <div class="quiz-q" id="q2" style="display:none">
+          <div class="quiz-qtext">2. Care hormon hipofizar stimulează producerea de testosteron în testicule?</div>
+          <div class="quiz-opts">
+            <button class="quiz-opt" onclick="answer(this,'q2',false)">A. FSH</button>
+            <button class="quiz-opt" onclick="answer(this,'q2',true)">B. LH</button>
+            <button class="quiz-opt" onclick="answer(this,'q2',false)">C. ACTH</button>
+            <button class="quiz-opt" onclick="answer(this,'q2',false)">D. Prolactina</button>
+          </div>
+          <div class="quiz-explain" id="exp-q2">✅ LH (hormonul luteinizant) stimulează celulele Leydig din testicule să producă testosteron. FSH stimulează spermatogeneza în tubii seminiferi.</div>
+          <button class="quiz-next-btn" id="next-q2" onclick="nextQ('q2','q3')">Următoarea →</button>
+        </div>
+
+        <div class="quiz-q" id="q3" style="display:none">
+          <div class="quiz-qtext">3. Un pacient prezintă: față „în lună plină", hipertensiune arterială și slăbiciune musculară generalizată. Ce boală endocrină suspectezi?</div>
+          <div class="quiz-opts">
+            <button class="quiz-opt" onclick="answer(this,'q3',false)">A. Boala Addison</button>
+            <button class="quiz-opt" onclick="answer(this,'q3',true)">B. Sindromul Cushing</button>
+            <button class="quiz-opt" onclick="answer(this,'q3',false)">C. Mixedem</button>
+            <button class="quiz-opt" onclick="answer(this,'q3',false)">D. Acromegalie</button>
+          </div>
+          <div class="quiz-explain" id="exp-q3">✅ Sindromul Cushing rezultă din hipersecreția de glucocorticoizi (cortizol), caracterizat prin: față "în lună plină", HTA, hiperglicemie, slăbiciune musculară. Boala Addison = HIPOsecreție de corticosteroizi.</div>
+          <button class="quiz-next-btn" id="next-q3" onclick="nextQ('q3','q4')">Următoarea →</button>
+        </div>
+
+        <div class="quiz-q" id="q4" style="display:none">
+          <div class="quiz-qtext">4. Ce se întâmplă cu nivelul sanguin de calciu când paratiroidele secretă PTH în exces?</div>
+          <div class="quiz-opts">
+            <button class="quiz-opt" onclick="answer(this,'q4',false)">A. Scade — osteoclastele sunt inhibate</button>
+            <button class="quiz-opt" onclick="answer(this,'q4',true)">B. Crește — osteoclastele sunt activate, reabsorbind calciu din oase</button>
+            <button class="quiz-opt" onclick="answer(this,'q4',false)">C. Rămâne constant — calcitonina compensează</button>
+            <button class="quiz-opt" onclick="answer(this,'q4',false)">D. Crește doar în intestin, nu în sânge</button>
+          </div>
+          <div class="quiz-explain" id="exp-q4">✅ PTH crește calcemia prin 3 mecanisme: 1) Activează osteoclastele → reabsorbție Ca din oase, 2) ↑ Reabsorbție renală Ca, 3) Activează vitamina D → ↑ absorbție intestinală Ca.</div>
+          <button class="quiz-next-btn" id="next-q4" onclick="nextQ('q4','q5')">Următoarea →</button>
+        </div>
+
+        <div class="quiz-q" id="q5" style="display:none">
+          <div class="quiz-qtext">5. Glucagonul este secretat de celulele alfa ale insulelor Langerhans și are efect:</div>
+          <div class="quiz-opts">
+            <button class="quiz-opt" onclick="answer(this,'q5',false)">A. Hipoglicemiant — stimulează captarea glucozei de celule</button>
+            <button class="quiz-opt" onclick="answer(this,'q5',false)">B. Hipoglicemiant — stimulează glicogenogeneza</button>
+            <button class="quiz-opt" onclick="answer(this,'q5',true)">C. Hiperglicemiant — stimulează glicogenoliza hepatică</button>
+            <button class="quiz-opt" onclick="answer(this,'q5',false)">D. Hiperglicemiant — inhibă secreția de insulină direct</button>
+          </div>
+          <div class="quiz-explain" id="exp-q5">✅ Glucagonul = hormon al înfometării → ↑ glicemia prin glicogenoliza hepatică (glicogen→glucoză) și gluconeogeneză. Insulina (celule β) = hormon postprandial → ↓ glicemia.</div>
+          <button class="quiz-next-btn" id="next-q5" onclick="nextQ('q5','q6')">Următoarea →</button>
+        </div>
+
+        <div class="quiz-q" id="q6" style="display:none">
+          <div class="quiz-qtext">6. Cum acționează hormonii steroizi diferit față de cei non-steroizi?</div>
+          <div class="quiz-opts">
+            <button class="quiz-opt" onclick="answer(this,'q6',false)">A. Se leagă de receptori membranari și activează adenilat-ciclaza</button>
+            <button class="quiz-opt" onclick="answer(this,'q6',true)">B. Traversează membrana celulară și activează gene în nucleu</button>
+            <button class="quiz-opt" onclick="answer(this,'q6',false)">C. Activează cAMP ca mesager secundar</button>
+            <button class="quiz-opt" onclick="answer(this,'q6',false)">D. Nu pot traversa membrana deoarece sunt liposolubili</button>
+          </div>
+          <div class="quiz-explain" id="exp-q6">✅ Hormonii steroizi sunt liposolubili → traversează ușor membrana lipidică → receptor intracelular → complex receptor-hormon → activare gene → ARNm → sinteză proteică (efect lent dar durabil).</div>
+          <button class="quiz-next-btn" id="next-q6" onclick="showFinal()">📊 Vezi scorul final</button>
+        </div>
+
+        <div class="quiz-q" id="q-final" style="display:none">
+          <div style="text-align:center;padding:20px">
+            <div style="font-size:48px;margin-bottom:16px">🎉</div>
+            <div style="font-size:24px;font-weight:800;color:var(--text);margin-bottom:8px">Quiz completat!</div>
+            <div style="font-size:16px;color:var(--text2);margin-bottom:24px">Scor final: <span id="final-score" style="font-weight:800;color:var(--endo)"></span></div>
+            <button onclick="resetQuiz()" style="padding:12px 32px;background:linear-gradient(135deg,var(--endo),var(--accent));color:#fff;border:none;border-radius:12px;font-family:Outfit;font-size:14px;font-weight:700;cursor:pointer">🔄 Reia quiz-ul</button>
+          </div>
+        </div>
+      </div>
+    </div>
+
+  </div><!-- /content -->
+</div><!-- /main -->
+
+<script>
+// ── TAB SWITCH ──
+function switchTab(id, btn) {
+  document.querySelectorAll('.panel').forEach(p => p.classList.remove('active'));
+  document.querySelectorAll('.tab-btn').forEach(b => b.classList.remove('active'));
+  document.getElementById('tab-' + id).classList.add('active');
+  btn.classList.add('active');
+}
+
+// ── ACCORDION ──
+function toggleAcc(item) {
+  const body = item.querySelector('.acc-body');
+  const isOpen = item.classList.contains('open');
+  item.classList.toggle('open');
+  body.classList.toggle('open');
+}
+
+// ── GLAND BODY MAP ──
+const glandData = {
+  epifiza: {
+    name: '🌙 Epifiza (Glanda Pineală)',
+    desc: '<b>Localizare:</b> Mezencefal, peretele superior al ventriculului III, legată de talamus.<br><br><b>Hormon:</b> Melatonina (amina)<br><b>Efect:</b> Reglarea ritmului circadian (zi-noapte). Influențează secreția hormonilor reproductori (mai ales ovarele).<br><b>Stimul:</b> Produsă mai ales în întuneric.',
+    hormones: ['<span class="tag t-violet">Melatonina</span>']
+  },
+  hipofiza: {
+    name: '🧠 Hipofiza (Glanda Pituitară)',
+    desc: '<b>Localizare:</b> Sella turcica a osului sfenoid, imediat înapoia chiasmei optice.<br><br><b>Numită "glanda dirijor"</b> — controlează toate celelalte glande endocrine prin hormonii tropi.<br><b>Lobi:</b> Adenohipofiza (anterior) + Neurohipofiza (posterior).<br><b>Hormoni tropi:</b> TSH, ACTH, FSH, LH',
+    hormones: ['<span class="tag t-teal">STH</span>', '<span class="tag t-cyan">TSH</span>', '<span class="tag t-orange">ACTH</span>', '<span class="tag t-pink">PRL</span>', '<span class="tag t-blue">FSH</span>', '<span class="tag t-violet">LH</span>', '<span class="tag t-green">ADH</span>', '<span class="tag t-rose">Oxitocina</span>']
+  },
+  tiroida: {
+    name: '🦋 Glanda Tiroidă',
+    desc: '<b>Localizare:</b> Față inferioară a laringelui, 2 lobi uniți prin istm.<br><br><b>T4 (Tiroxina) + T3:</b> ↑ Metabolism bazal, reglare creștere, maturare SN. Necesită IOD alimentar!<br><b>Calcitonina:</b> ↓ Calcemie, ↑ depunere Ca în oase.<br><b>Control:</b> TSH din adenohipofiză (feedback negativ)',
+    hormones: ['<span class="tag t-pink">T4 — Tiroxina</span>', '<span class="tag t-cyan">T3 — Triiodotironina</span>', '<span class="tag t-blue">Calcitonina</span>']
+  },
+  timus: {
+    name: '🛡️ Timusul',
+    desc: '<b>Localizare:</b> Mediastin superior, înapoia sternului.<br><br><b>Timozine:</b> Hormoni implicați în maturarea limfocitelor T (imunitate celulară).<br><b>Notă:</b> Bine dezvoltat la nou-născut → involuează cu vârsta (abia vizibil la adulți).',
+    hormones: ['<span class="tag t-green">Timozine</span>']
+  },
+  pancreas: {
+    name: '🍃 Pancreasul (Insulele Langerhans)',
+    desc: '<b>Localizare:</b> Cavitate abdominală, posterior de stomac și peritoneu.<br><br><b>Insulina (β):</b> Postprandial → ↓ Glicemia. Tip 1 DZ = celule β inactive.<br><b>Glucagonul (α):</b> Înfometare → ↑ Glicemia prin glicogenoliza hepatică.<br><b>Notă:</b> Insulina și glucagonul sunt antagoniști!',
+    hormones: ['<span class="tag t-teal">Insulina (β)</span>', '<span class="tag t-orange">Glucagonul (α)</span>']
+  },
+  suprarenale: {
+    name: '🪨 Glandele Suprarenale',
+    desc: '<b>Localizare:</b> Polul superior al rinichilor (2 glande pereche).<br><br><b>Corticala:</b> Glucocorticoizi (cortizol), Mineralocorticoizi (aldosteron), Hormoni sexuali<br><b>Medulara:</b> Adrenalină + Noradrenalină (catecolamine) → "Fight or flight"<br><b>Cushing:</b> ↑ Glucocorticoizi | <b>Addison:</b> ↓ Glucocorticoizi',
+    hormones: ['<span class="tag t-violet">Cortizol</span>', '<span class="tag t-violet">Aldosteron</span>', '<span class="tag t-orange">Adrenalina</span>', '<span class="tag t-orange">Noradrenalina</span>']
+  },
+  gonade: {
+    name: '⚡ Gonadele (Ovare / Testicule)',
+    desc: '<b>Ovare:</b> Estrogeni + Progesteron → caractere sexuale ♀, ciclu menstrual<br><b>Testicule:</b> Testosteron → caractere sexuale ♂, spermatogeneză<br><b>Control:</b> FSH + LH din adenohipofiză (feedback negativ)<br><b>Tip:</b> Hormoni steroizi (derivați din colesterol)',
+    hormones: ['<span class="tag t-pink">Estrogen</span>', '<span class="tag t-rose">Progesteron</span>', '<span class="tag t-blue">Testosteron</span>']
+  },
+  rinichi: {
+    name: '🫘 Rinichii (celule endocrine)',
+    desc: '<b>Eritropoetina (EPO):</b> Stimulează sinteza hematiilor în măduva osoasă roșie. Crescută la altitudine (hipoxie).<br><b>Vitamina D activă:</b> Rinichii activează vitamina D sub influența PTH.',
+    hormones: ['<span class="tag t-teal">Eritropoetina</span>']
+  }
+};
+
+function showGland(id) {
+  const d = glandData[id];
+  if (!d) return;
+  document.getElementById('gland-detail').innerHTML = `
+    <h3 style="font-size:17px;font-weight:800;color:var(--text);margin-bottom:10px">${d.name}</h3>
+    <p style="font-size:13px;color:var(--text2);line-height:1.7;margin-bottom:12px">${d.desc}</p>
+    <div class="hormone-list">${d.hormones.join('')}</div>
+  `;
+}
+
+// ── LOB SELECTOR ──
+const lobData = {
+  anterior: {
+    rows: [
+      ['Hormonul de creștere (Somatotrop)','<span class="tag t-green">STH/GH</span>','Toate țesuturile','Stimulează creșterea, anabolism proteic, mobilizare grăsimi','Nu'],
+      ['Hormonul stimulator tiroidian','<span class="tag t-cyan">TSH</span>','Glanda tiroidă','Stimulează producția de tiroxină; captarea iodului','<span class="tag t-teal">Da ✓</span>'],
+      ['Hormonul adrenocorticotrop','<span class="tag t-orange">ACTH</span>','Corticala suprarenalei','Stimulează glucocorticoizii; creștere tisulară','<span class="tag t-teal">Da ✓</span>'],
+      ['Prolactina','<span class="tag t-pink">PRL</span>','Glanda mamară','Producerea laptelui după naștere','Nu'],
+      ['Hormonul foliculostimulant','<span class="tag t-blue">FSH</span>','Ovar / Testicul','♀ Foliculogeneză, ♂ Spermatogeneză','<span class="tag t-teal">Da ✓</span>'],
+      ['Hormonul luteinizant','<span class="tag t-violet">LH</span>','Corp galben / Leydig','♀ Ovulație, progesteron; ♂ Testosteron','<span class="tag t-teal">Da ✓</span>'],
+      ['Hormonul melanocitostimulator','<span class="tag t-rose">MSH</span>','Melanocite cutanate','Controlează pigmentarea pielii','Nu'],
+    ]
+  },
+  posterior: {
+    rows: [
+      ['ADH (Vasopresina)','<span class="tag t-violet">Peptid 9aa</span>','Tubii renali, arteriole','↑ Reabsorbție apă → ↑ Volum sanguin, ↑ TA<br><small>Hiposecreție → Diabet insipid</small>','Nu*'],
+      ['Oxitocina','<span class="tag t-pink">Peptid 9aa</span>','Uter, glande mamare','Contracții uterine la naștere + ejecție lapte<br><small>Reglată de actul suptului (feedback pozitiv!)</small>','Nu*'],
+    ]
+  }
+};
+
+function showLob(lob) {
+  const rows = lobData[lob].rows.map(r => `<tr><td class="hl">${r[0]}</td><td>${r[1]}</td><td>${r[2]}</td><td>${r[3]}</td><td>${r[4]}</td></tr>`).join('');
+  document.getElementById('lob-table-body').innerHTML = rows;
+  document.getElementById('btn-anterior').style.borderWidth = lob==='anterior'?'3px':'2px';
+  document.getElementById('btn-posterior').style.borderWidth = lob==='posterior'?'3px':'2px';
+}
+
+// ── GLAND DETAIL SELECTOR (alte glande tab) ──
+const glandPanels = ['tiroida','paratiroida','pancreas2','suprarenala2','gonade2','epifiza2','timus2','alte'];
+
+function selectGland(id, card) {
+  document.querySelectorAll('.gland-card').forEach(c => c.classList.remove('selected'));
+  card.classList.add('selected');
+  glandPanels.forEach(p => {
+    const el = document.getElementById('gd-' + p);
+    if (el) el.style.display = (p === id) ? 'block' : 'none';
+  });
+}
+
+// ── QUIZ ──
+let correct = 0, total = 0;
+
+function answer(btn, qId, isCorrect) {
+  const opts = btn.parentElement.querySelectorAll('.quiz-opt');
+  opts.forEach(o => o.classList.add('disabled'));
+  if (isCorrect) {
+    btn.classList.add('correct');
+    correct++;
+  } else {
+    btn.classList.add('wrong');
+    opts.forEach(o => { if (o.onclick.toString().includes('true')) o.classList.add('correct'); });
+  }
+  total++;
+  document.getElementById('score-display').textContent = correct + ' / ' + total;
+  document.getElementById('exp-' + qId).classList.add('show');
+  document.getElementById('next-' + qId).classList.add('show');
+}
+
+function nextQ(current, next) {
+  document.getElementById(current).style.display = 'none';
+  document.getElementById(next).style.display = 'block';
+}
+
+function showFinal() {
+  document.getElementById('q6').style.display = 'none';
+  document.getElementById('q-final').style.display = 'block';
+  document.getElementById('final-score').textContent = correct + ' / 6 (' + Math.round(correct/6*100) + '%)';
+}
+
+function resetQuiz() {
+  correct = 0; total = 0;
+  document.getElementById('score-display').textContent = '0 / 0';
+  document.querySelectorAll('.quiz-opt').forEach(o => { o.classList.remove('correct','wrong','disabled'); });
+  document.querySelectorAll('.quiz-explain').forEach(e => e.classList.remove('show'));
+  document.querySelectorAll('.quiz-next-btn').forEach(b => b.classList.remove('show'));
+  ['q2','q3','q4','q5','q6','q-final'].forEach(id => document.getElementById(id).style.display = 'none');
+  document.getElementById('q1').style.display = 'block';
+  document.getElementById('q-final').style.display = 'none';
+}
+
+// ── TOOLTIP (pentru panourile Hipofiza & Reglarea glicemiei) ──
+function showTip(evt, title, desc) {
+  const t = document.getElementById('svgtip');
+  t.innerHTML = '<strong>' + title + '</strong>' + desc;
+  t.style.display = 'block';
+  moveTip(evt);
+}
+function moveTip(evt) {
+  const t = document.getElementById('svgtip');
+  t.style.left = Math.min(evt.clientX + 16, window.innerWidth - 270) + 'px';
+  t.style.top = Math.max(evt.clientY - 10, 10) + 'px';
+}
+function hideTip() { document.getElementById('svgtip').style.display = 'none'; }
+document.addEventListener('mousemove', function(e) {
+  const t = document.getElementById('svgtip');
+  if (t && t.style.display === 'block') moveTip(e);
+});
+
+// ── HORMONE CARDS (panoul Hipofiza interactiv) ──
+const hormoneData = [
+  {name:"STH / HGH", full:"Hormon de Creștere Somatotrop", color:"#f59e0b", bg:"#fef3c7", target:"Toate țesuturile", effect:"↑ Creștere corp, ↑ sinteza proteică, mobilizare grăsimi. 191 aminoacizi.", disease:"Deficit→Nanism | Exces copii→Gigantism | Exces adulți→Acromegalie"},
+  {name:"TSH", full:"Hormon Stimulator Tiroidian", color:"#06b6d4", bg:"#e0f7fb", target:"Glanda Tiroidă", effect:"↑ Captarea iodului; ↑ Sinteza T3 și T4. Hormon TROP.", disease:"Exces TSH → Guşă"},
+  {name:"ACTH", full:"Hormon Adrenocorticotrop", color:"#ef4444", bg:"#fff1f2", target:"Cortex suprarenal", effect:"↑ Glucocorticoizi (cortizol). Hormon TROP. Reglat prin feedback negativ.", disease:"Exces → Cushing | Deficit → Addison"},
+  {name:"PRL", full:"Prolactina", color:"#ec4899", bg:"#fce7f3", target:"Glanda mamară", effect:"Sinteza laptelui după naștere. Prolactina ≠ Oxitocina! (ejecție lapte).", disease:"Hiperprolactinemie → amenoree"},
+  {name:"FSH", full:"Hormon Foliculostimulant", color:"#8b5cf6", bg:"#ede9fe", target:"Foliculi ovarieni / Tubi seminiferi", effect:"Femei: ↑ foliculi+ovule. Bărbați: ↑ spermatogeneză. Hormon TROP.", disease:"Deficit → Infertilitate"},
+  {name:"LH", full:"Hormon Luteinizant", color:"#8b5cf6", bg:"#ede9fe", target:"Corp galben / Testicule", effect:"Femei: ovulație+↑ progesteron. Bărbați: ↑ testosteron (celule Leydig).", disease:"Deficit → Anovulație"}
+];
+
+window.addEventListener('DOMContentLoaded', function() {
+  const container = document.getElementById('hormone-cards');
+  if (!container) return;
+  hormoneData.forEach(function(h) {
+    const d = document.createElement('div');
+    d.className = 'hcard';
+    d.style.background = h.bg;
+    d.style.borderColor = h.color;
+    d.innerHTML = '<div class="hcard-name" style="color:' + h.color + '">' + h.name + '</div>'
+      + '<div class="hcard-abbr" style="color:' + h.color + '">' + h.full.substring(0, 22) + '...</div>'
+      + '<div class="hcard-target" style="font-size:11px">→ ' + h.target + '</div>';
+    d.addEventListener('click', function() {
+      const det = document.getElementById('hormone-detail');
+      det.style.display = 'block';
+      det.style.borderColor = h.color;
+      det.style.background = h.bg;
+      document.getElementById('hd-title').textContent = h.name + ' — ' + h.full;
+      document.getElementById('hd-title').style.color = h.color;
+      document.getElementById('hd-body').innerHTML = '<p><strong>Organ țintă:</strong> ' + h.target + '</p>'
+        + '<p style="margin-top:6px"><strong>Efect:</strong> ' + h.effect + '</p>'
+        + '<p style="margin-top:6px"><strong>Boli:</strong> ' + h.disease + '</p>';
+      document.getElementById('hd-body').style.color = 'rgba(30,20,70,0.75)';
+    });
+    container.appendChild(d);
+  });
+});
+
+document.addEventListener("DOMContentLoaded", function () {
+  // 1. Detectează automat numele fișierului curent (ex: cap1.html)
+  const currentFile = window.location.pathname.split("/").pop() || "cap1.html";
+  
+  const menuContainer = document.getElementById("chapters-menu");
+  const menuItems = menuContainer.querySelectorAll(".nav-item");
+  let currentChapterNumber = 1;
+  let activeItem = null;
+
+  // 2. Parcurge toate capitolele din meniu pentru a le aplica stilul corect
+  menuItems.forEach((item) => {
+    const fileHref = item.getAttribute("href");
+    
+    if (fileHref === currentFile) {
+      // Dacă este capitolul curent, îl face activ
+      item.classList.add("active");
+      activeItem = item; // Salvăm elementul activ pentru a-l folosi la scroll
+      currentChapterNumber = parseInt(item.querySelector(".nav-num").textContent);
+    }
+  });
+
+  // 3. 💡 AUTO-SCROLL LA CAPITOLUL CURENT (Soluția pentru problema ta)
+  if (activeItem && menuContainer) {
+    // Așteptăm un timp foarte scurt (50ms) ca browserul să randeze stilurile, apoi mutăm scroll-ul
+    setTimeout(() => {
+      activeItem.scrollIntoView({
+        behavior: "smooth", // Efect de derulare fină (schimbă cu "auto" dacă vrei să fie instant)
+        block: "nearest"    // Îl aduce la vedere doar dacă nu este vizibil în container
+      });
+    }, 50);
+  }
+
+  // 4. Actualizează automat bara de progres din footer-ul sidebar-ului
+  const totalChapters = menuItems.length; // Va număra automat 23
+  
+  const progTextContainer = document.querySelector(".prog-label");
+  if (progTextContainer) {
+    progTextContainer.innerHTML = `<span>Progres curs</span><span>${currentChapterNumber} / ${totalChapters}</span>`;
+  }
+  
+  const progFill = document.querySelector(".prog-fill");
+  if (progFill) {
+    const percentage = (currentChapterNumber / totalChapters) * 100;
+    progFill.style.width = `${percentage}%`;
+  }
+});
+</script>
+
+</body>
+</html>
